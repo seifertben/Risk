@@ -1,10 +1,17 @@
 # cs0320 Term Project
 
-**Team Members:** _Fill this in!_
+**Team Members:**
+Justin Huang
+Benjamin Seifert
+Benjamin Gabinet
+Sarah Gilmore
 
-**Project Idea:** _Fill this in!_
+**Project Idea:** 
+Risk, the board game, but as an online game.
 
-**Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
+**Mentor TA:**
+Ansel Vahle
+ansel_vahle@brown.edu
 
 ## Project Requirements
 Below are the basic roles that are essential to risk. Players must be able to:
