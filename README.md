@@ -1,9 +1,9 @@
 # cs0320 Term Project
 
 **Team Members:**
-Justin Huang
-Benjamin Seifert
-Benjamin Gabinet
+Justin Huang,
+Benjamin Seifert,
+Benjamin Gabinet,
 Sarah Gilmore
 
 **Project Idea:** 
