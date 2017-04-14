@@ -30,7 +30,16 @@
       color: white;
       padding: 15px;
     }
-    
+    .well[id=player1]{
+        color: blue;
+    }
+    .well[id=player2]{
+		background-color: rgb(22, 105, 173);
+		color: white;
+	}
+	.well[id=player3]{
+	    color: green;
+	}
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
@@ -52,8 +61,8 @@
       <hr>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
-<script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
-<div id="mapdiv" style="width: 1200px; height: 300px;"><script>AmCharts.makeChart( "mapdiv", {
+<script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
+<div id="mapdiv" style="width: 1000px; height: 300px;"><script>AmCharts.makeChart( "mapdiv", {
   /**
    * this tells amCharts it's a map
    */
@@ -68,8 +77,33 @@
    * provider will be treated as unlisted.
    */
   "dataProvider": {
-    "map": "worldLow",
-    "getAreasFromMap": true
+    "map": "continentsLow",
+    "areas": [
+      {
+        "id": "europe",
+        "color": "#18b238"
+      },
+      {
+        "id": "asia",
+        "color": "#cccc1c"
+      },
+      {
+        "id": "africa",
+        "color": "#18b238"
+      },
+      {
+        "id": "south_america",
+        "color": "#1b2ad1"
+      },
+      {
+        "id": "north_america",
+        "color": "#1b2ad1"
+      },
+      {
+        "id": "australia",
+        "color": "#cccc1c"
+      }
+    ]
   },
 
   /**
@@ -79,9 +113,10 @@
    */
   "areasSettings": {
     "autoZoom": true,
-	
     "selectedColor": "#CC0000"
+    
   },
+  
 
   /**
    * let's say we want a small map to be displayed, so let's create it
@@ -89,9 +124,14 @@
   "smallMap": {}
 } );</script></div></div>
     <div class="col-sm-2 sidenav">
-      <div class="well">
+      <div class="well" id="player1">
+      Player One
       </div>
-      <div class="well">
+      <div class="well" id="player2">
+      Player Two
+      </div>
+      <div class="well" id="player3">
+      Player Three
       </div>
     </div>
   </div>
