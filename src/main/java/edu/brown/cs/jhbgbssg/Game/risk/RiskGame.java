@@ -25,6 +25,8 @@ public class RiskGame {
 
   private HashMap<UUID, RiskPlayer> idToPlayer;
 
+  private Referee referee;
+
   /**
    * Initializes the game state.
    *
@@ -36,6 +38,7 @@ public class RiskGame {
   public RiskGame(int numPlayers, Set<UUID> ids) {
     gameBoard = new RiskBoard();
     turnState = new Turn();
+    referee = new Referee();
     // Create the RiskPlayers.
     for (UUID i : ids) {
       RiskPlayer player = new RiskPlayer(i);
@@ -53,10 +56,12 @@ public class RiskGame {
    * At the beginning of the game, players choose countries.
    */
   public void selectTerritory(UUID playerId, TerritoryEnum territory) {
-    RiskPlayer player = idToPlayer.get(playerId);
-    player.conqueredTerritory(territory);
     Territory territoryObject = gameBoard.getTerritory(territory);
-    territoryObject.changePlayer(playerId, 1);
+    RiskPlayer player = idToPlayer.get(playerId);
+    if (referee.checkValidPlace(playerId, turnState, territoryObject)) {
+      player.conqueredTerritory(territory);
+      territoryObject.changePlayer(playerId, 1);
+    }
   }
 
   public void attack(UUID playerId, TerritoryEnum attackFrom,

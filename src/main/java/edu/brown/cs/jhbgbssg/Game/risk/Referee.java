@@ -28,8 +28,10 @@ public class Referee {
    */
   public boolean checkValidPlace(UUID playerId, Turn turn,
       Territory territory) {
-    if (turn.getBeginning() && turn.getPlayerId() == playerId &&)
-      return false;
-
+    if (turn.getBeginning() && turn.getPlayerId() == playerId
+        && !territory.occuppied()) {
+      return true;
+    }
+    return false;
   }
 }
