@@ -80,6 +80,7 @@ public final class Main {
     FreeMarkerEngine freeMarker = createEngine();
 
     // Setup Spark Routes
+    Spark.webSocket("/matches", Matches.class);
     Spark.get("/risk", new FrontHandler(), freeMarker);
     // Spark.post("/connect", new ConnectHandler());
   }
