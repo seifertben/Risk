@@ -11,17 +11,25 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.ImmutableGraph;
 import com.google.common.graph.MutableGraph;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.Continent;
+import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.Africa;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.Asia;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.Australia;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.Europe;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.NorthAmerica;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.SouthAmerica;
 
 public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
-  private Map<TerritoryEnum, Continent> ContinentMap;
+  private Map<ContinentEnum, ContinentInterface> continentMap;
 
   public RiskBoard() {
     this.buildBoard();
+    this.setUpContinents();
     this.setUpTerritories();
   }
 
@@ -111,9 +119,31 @@ public class RiskBoard {
   private void setUpTerritories() {
     territoryMap = new HashMap<>();
     for (TerritoryEnum id : TerritoryEnum.values()) {
-      Territory territory = new Territory(id);
-      territoryMap.put(id, territory);
+      for (ContinentInterface cont : continentMap.values()) {
+        if (cont.containsTerritory(id)) {
+          Territory territory = new Territory(id, cont.getContinentId());
+          territoryMap.put(id, territory);
+          break;
+        }
+      }
     }
+  }
+
+  private void setUpContinents() {
+    ContinentInterface australia = new Australia();
+    ContinentInterface southAmerica = new SouthAmerica();
+    ContinentInterface northAmerica = new NorthAmerica();
+    ContinentInterface africa = new Africa();
+    ContinentInterface asia = new Asia();
+    ContinentInterface europe = new Europe();
+    continentMap = new HashMap<>();
+    continentMap.put(ContinentEnum.AFRICA, africa);
+    continentMap.put(ContinentEnum.ASIA, asia);
+    continentMap.put(ContinentEnum.AUSTRALIA, australia);
+    continentMap.put(ContinentEnum.EUROPE, europe);
+    continentMap.put(ContinentEnum.NORTH_AMERICA, northAmerica);
+    continentMap.put(ContinentEnum.SOUTH_AMERICA, southAmerica);
+
   }
 
   public boolean isNeighbor(TerritoryEnum terr1, TerritoryEnum terr2) {
