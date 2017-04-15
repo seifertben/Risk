@@ -2,18 +2,18 @@ package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentInterface;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class Africa implements ContinentInterface {
   private static final int BONUS_VALUE = 3;
-  private int playerId;
+  private UUID playerId;
   private Set<TerritoryEnum> territories;
 
   public Africa() {
-    playerId = -1;
+    playerId = null;
     territories = new HashSet<>();
     territories.add(TerritoryEnum.CENTRAL_AFRICA);
     territories.add(TerritoryEnum.NORTH_AFRICA);
@@ -34,13 +34,13 @@ public class Africa implements ContinentInterface {
   }
 
   @Override
-  public void setOwner(int id) {
+  public void setOwner(UUID id) {
     playerId = id;
 
   }
 
   @Override
-  public int getOwner() {
+  public UUID getOwner() {
     return playerId;
   }
 

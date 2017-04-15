@@ -8,28 +8,31 @@ import java.util.UUID;
 import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
-public class NorthAmerica implements ContinentInterface {
-  private static final int BONUS_VALUE = 5;
+public class Asia implements ContinentInterface {
+  private static final int BONUS_VALUE = 11;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
-  public NorthAmerica() {
+  public Asia() {
     playerId = null;
     territories = new HashSet<>();
-    territories.add(TerritoryEnum.ALASKA);
-    territories.add(TerritoryEnum.ALBERTA);
-    territories.add(TerritoryEnum.NORTHWEST_TERRITORY);
-    territories.add(TerritoryEnum.QUEBEC);
-    territories.add(TerritoryEnum.ONTARIO);
-    territories.add(TerritoryEnum.WESTERN_US);
-    territories.add(TerritoryEnum.EASTERN_US);
-    territories.add(TerritoryEnum.GREENLAND);
-    territories.add(TerritoryEnum.CENTRAL_AMERICA);
+    territories.add(TerritoryEnum.AFGHANISTAN);
+    territories.add(TerritoryEnum.CHINA);
+    territories.add(TerritoryEnum.INDIA);
+    territories.add(TerritoryEnum.IRKUTSK);
+    territories.add(TerritoryEnum.JAPAN);
+    territories.add(TerritoryEnum.KAMACHATKA);
+    territories.add(TerritoryEnum.MIDDLE_EAST);
+    territories.add(TerritoryEnum.MONGOLIA);
+    territories.add(TerritoryEnum.SIAM);
+    territories.add(TerritoryEnum.SIBERIA);
+    territories.add(TerritoryEnum.URAL);
+    territories.add(TerritoryEnum.YAKUTSK);
   }
 
   @Override
   public ContinentEnum getContinentId() {
-    return ContinentEnum.NORTH_AMERICA;
+    return ContinentEnum.ASIA;
   }
 
   @Override
@@ -40,6 +43,7 @@ public class NorthAmerica implements ContinentInterface {
   @Override
   public void setOwner(UUID id) {
     playerId = id;
+
   }
 
   @Override

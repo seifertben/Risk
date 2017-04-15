@@ -1,16 +1,20 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+
+import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class SouthAmerica implements ContinentInterface {
   private static final int BONUS_VALUE = 2;
-  private int playerId;
+  private UUID playerId;
   private Set<TerritoryEnum> territories;
 
   public SouthAmerica() {
-    playerId = -1;
+    playerId = null;
     territories = new HashSet<>();
     territories.add(TerritoryEnum.PERU);
     territories.add(TerritoryEnum.VENEZUAELA);
@@ -29,13 +33,13 @@ public class SouthAmerica implements ContinentInterface {
   }
 
   @Override
-  public void setOwner(int id) {
+  public void setOwner(UUID id) {
     playerId = id;
 
   }
 
   @Override
-  public int getOwner() {
+  public UUID getOwner() {
     return playerId;
   }
 

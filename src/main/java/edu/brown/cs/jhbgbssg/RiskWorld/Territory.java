@@ -10,6 +10,7 @@ public class Territory {
   private TerritoryEnum id;
   private int numberTroops;
   private int playerId = -1;
+  private ContinentEnum contId;
 
   /**
    * Constructs a territory and assigns it an id.
@@ -17,11 +18,13 @@ public class Territory {
    * @param id - id of territory
    * @throws IllegalArgumentException thrown if id is null
    */
-  public Territory(TerritoryEnum id) throws IllegalArgumentException {
-    if (id == null) {
+  public Territory(TerritoryEnum id, ContinentEnum contId)
+      throws IllegalArgumentException {
+    if (id == null || contId == null) {
       throw new IllegalArgumentException("ERROR: null id");
     }
     this.id = id;
+    this.contId = contId;
     this.numberTroops = 0;
   }
 
@@ -98,5 +101,9 @@ public class Territory {
     }
     numberTroops = numberTroops - troopsToRemove;
     return false;
+  }
+
+  public ContinentEnum getContinent() {
+    return this.contId;
   }
 }

@@ -8,28 +8,26 @@ import java.util.UUID;
 import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
-public class NorthAmerica implements ContinentInterface {
+public class Europe implements ContinentInterface {
   private static final int BONUS_VALUE = 5;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
-  public NorthAmerica() {
+  public Europe() {
     playerId = null;
     territories = new HashSet<>();
-    territories.add(TerritoryEnum.ALASKA);
-    territories.add(TerritoryEnum.ALBERTA);
-    territories.add(TerritoryEnum.NORTHWEST_TERRITORY);
-    territories.add(TerritoryEnum.QUEBEC);
-    territories.add(TerritoryEnum.ONTARIO);
-    territories.add(TerritoryEnum.WESTERN_US);
-    territories.add(TerritoryEnum.EASTERN_US);
-    territories.add(TerritoryEnum.GREENLAND);
-    territories.add(TerritoryEnum.CENTRAL_AMERICA);
+    territories.add(TerritoryEnum.ICELAND);
+    territories.add(TerritoryEnum.GREAT_BRITIAN);
+    territories.add(TerritoryEnum.NORTHERN_EUROPE);
+    territories.add(TerritoryEnum.SCANDINAVIA);
+    territories.add(TerritoryEnum.SOUTHERN_EUROPE);
+    territories.add(TerritoryEnum.WESTERN_EUROPE);
+    territories.add(TerritoryEnum.RUSSIA);
   }
 
   @Override
   public ContinentEnum getContinentId() {
-    return ContinentEnum.NORTH_AMERICA;
+    return ContinentEnum.EUROPE;
   }
 
   @Override
@@ -40,6 +38,7 @@ public class NorthAmerica implements ContinentInterface {
   @Override
   public void setOwner(UUID id) {
     playerId = id;
+
   }
 
   @Override
