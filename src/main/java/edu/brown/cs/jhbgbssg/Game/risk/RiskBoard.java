@@ -1,11 +1,14 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.ImmutableGraph;
@@ -173,5 +176,39 @@ public class RiskBoard {
 
   public ContinentInterface getContinent(ContinentEnum contId) {
     return continentMap.get(contId);
+  }
+
+  public Set<TerritoryEnum> getAttackableTerritories(
+      Set<TerritoryEnum> territories) {
+    Set<TerritoryEnum> attackableTerritories = new HashSet<>();
+    for (TerritoryEnum terrId : territories) {
+      Territory terr = territoryMap.get(terrId);
+      if (terr.getNumberTroops() > 1) {
+        attackableTerritories.add(terrId);
+      }
+    }
+    return attackableTerritories;
+  }
+
+  public Multimap<TerritoryEnum, TerritoryEnum> getPlayerAttackMap(
+      RiskPlayer player) {
+    Set<TerritoryEnum> territories = player.getTerritories();
+    Multimap<TerritoryEnum, TerritoryEnum> attackMap = HashMultimap.create();
+    for (TerritoryEnum terrId : territories) {
+      Territory terr = territoryMap.get(terrId);
+      if (terr.getNumberTroops() > 1) {
+        Set<TerritoryEnum> otherIds = board.adjacentNodes(terrId);
+        for (TerritoryEnum otherId : otherIds) {
+          if (!territories.contains(otherId)) {
+            attackMap.put(terrId, otherId);
+          }
+        }
+      }
+    }
+    return attackMap;
+  }
+
+  public Set<TerritoryEnum> getTerritoryIds() {
+    return Collections.unmodifiableSet(territoryMap.keySet());
   }
 }
