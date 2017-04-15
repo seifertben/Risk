@@ -77,11 +77,11 @@ public class Territory {
     if (troopsToRemove <= 0) {
       throw new IllegalArgumentException("ERROR: invalid troop number");
     }
-    if (numberTroops <= numberTroops) {
+    if (numberTroops <= troopsToRemove) {
       numberTroops = 0;
       return true;
     }
-    numberTroops -= troopsToRemove;
+    numberTroops = numberTroops - troopsToRemove;
     return false;
   }
 }

@@ -11,13 +11,14 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.ImmutableGraph;
 import com.google.common.graph.MutableGraph;
 
+import edu.brown.cs.jhbgbssg.RiskWorld.Continent;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
-  private Map<TerritoryEnum, Territory> ContinentMap;
+  private Map<TerritoryEnum, Continent> ContinentMap;
 
   public RiskBoard() {
     this.buildBoard();
