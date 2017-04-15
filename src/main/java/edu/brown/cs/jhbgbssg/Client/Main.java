@@ -1,28 +1,21 @@
 package edu.brown.cs.jhbgbssg.Client;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Map;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
 import freemarker.template.Configuration;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Map;
-
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import spark.ExceptionHandler;
 import spark.ModelAndView;
-import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.Spark;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -36,11 +29,12 @@ public final class Main {
 
   private static final int DEFAULT_PORT = 4567;
   private static final Gson GSON = new Gson();
-  
+
   /**
    * The initial method called when execution begins.
    *
-   * @param args An array of command line arguments.
+   * @param args
+   *          An array of command line arguments.
    */
   public static void main(String[] args) {
     new Main(args).run();
@@ -57,11 +51,11 @@ public final class Main {
     OptionParser parser = new OptionParser();
     parser.accepts("gui");
     parser.accepts("port").withRequiredArg().ofType(Integer.class)
-    .defaultsTo(DEFAULT_PORT);
+        .defaultsTo(DEFAULT_PORT);
     OptionSet options = parser.parse(args);
     if (options.has("gui")) {
       runSparkServer((int) options.valueOf("port"));
-    } 
+    }
 
   }
 
@@ -87,7 +81,7 @@ public final class Main {
 
     // Setup Spark Routes
     Spark.get("/risk", new FrontHandler(), freeMarker);
-    //Spark.post("/connect", new ConnectHandler());
+    // Spark.post("/connect", new ConnectHandler());
   }
 
   /**
@@ -100,24 +94,24 @@ public final class Main {
     @Override
     public ModelAndView handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of("title",
-            "Maps", "message", "No Updates to Show.");
+          "Maps", "message", "No Updates to Show.");
       return new ModelAndView(variables, "risk.ftl");
     }
   }
 
-//  /**
-//   * Handle requests to find shortest paths.
-//   * @author bgabinet
-//   */
-//  private class ConnectHandler implements Route {
-//    @Override
-//    public String handle(Request req, Response res) {
-//      QueryParamsMap qm = req.queryMap();
-//      Map<String, Object> variables =
-//          ImmutableMap.of();
-//      return GSON.toJson(variables);
-//    }
-//  }
+  // /**
+  // * Handle requests to find shortest paths.
+  // * @author bgabinet
+  // */
+  // private class ConnectHandler implements Route {
+  // @Override
+  // public String handle(Request req, Response res) {
+  // QueryParamsMap qm = req.queryMap();
+  // Map<String, Object> variables =
+  // ImmutableMap.of();
+  // return GSON.toJson(variables);
+  // }
+  // }
 
   /**
    * Display an error page when an exception occurs in the server.
