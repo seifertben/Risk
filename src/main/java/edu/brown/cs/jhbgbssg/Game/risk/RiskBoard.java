@@ -166,4 +166,12 @@ public class RiskBoard {
   public Collection<Territory> getTerritories() {
     return territoryMap.values();
   }
+
+  public Collection<ContinentInterface> getContinents() {
+    return continentMap.values();
+  }
+
+  public ContinentInterface getContinent(ContinentEnum contId) {
+    return continentMap.get(contId);
+  }
 }
