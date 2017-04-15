@@ -1,10 +1,11 @@
-package edu.brown.cs.jhbgbssg.Game;
+package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Multiset;
 
+import edu.brown.cs.jhbgbssg.Game.Player;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class RiskPlayer implements Player {

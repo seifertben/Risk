@@ -1,6 +1,10 @@
-package edu.brown.cs.jhbgbssg.Game;
+package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
@@ -104,6 +108,7 @@ public class RiskBoard {
   }
 
   private void setUpTerritories() {
+    territoryMap = new HashMap<>();
     for (TerritoryEnum id : TerritoryEnum.values()) {
       Territory territory = new Territory(id);
       territoryMap.put(id, territory);
@@ -116,5 +121,18 @@ public class RiskBoard {
 
   public Territory getTerritory(TerritoryEnum terrId) {
     return territoryMap.get(terrId);
+  }
+
+  public Set<Territory> getNeighbors(TerritoryEnum terr) {
+    Set<Territory> neighbors = new HashSet<>();
+    Set<TerritoryEnum> ids = board.adjacentNodes(terr);
+    for (TerritoryEnum id : ids) {
+      neighbors.add(territoryMap.get(id));
+    }
+    return neighbors;
+  }
+
+  public Collection<Territory> getTerritories() {
+    return territoryMap.values();
   }
 }
