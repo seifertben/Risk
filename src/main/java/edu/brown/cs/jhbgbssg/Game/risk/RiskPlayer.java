@@ -2,6 +2,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Multiset;
 
@@ -9,17 +10,17 @@ import edu.brown.cs.jhbgbssg.Game.Player;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class RiskPlayer implements Player {
-  private int playerId;
+  private UUID playerId;
   private Set<TerritoryEnum> territories;
   private Multiset<Integer> cards;
 
-  public RiskPlayer(int playerId) {
+  public RiskPlayer(UUID playerId) {
     this.playerId = playerId;
     territories = new HashSet<>();
   }
 
   @Override
-  public int getPlayerId() {
+  public UUID getPlayerId() {
     return playerId;
   }
 

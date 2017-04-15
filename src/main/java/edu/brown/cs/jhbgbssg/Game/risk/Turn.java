@@ -1,5 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.UUID;
+
 /**
  * Models a RiskPlayer turn.
  *
@@ -16,7 +18,7 @@ public class Turn {
 
   private boolean beginningPhase;
 
-  private int playerId;
+  private UUID playerId;
 
   /**
    * Indicates the phase of the turn.
@@ -53,7 +55,7 @@ public class Turn {
     attackingPhase = false;
   }
 
-  public void setTurnId(int id) {
+  public void setTurnId(UUID id) {
     playerId = id;
   }
 
@@ -69,7 +71,7 @@ public class Turn {
     return movementPhase;
   }
 
-  public int getPlayerId() {
+  public UUID getPlayerId() {
     return playerId;
   }
 
