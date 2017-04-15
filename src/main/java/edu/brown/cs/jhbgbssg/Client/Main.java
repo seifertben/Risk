@@ -86,8 +86,8 @@ public final class Main {
     FreeMarkerEngine freeMarker = createEngine();
 
     // Setup Spark Routes
+    Spark.webSocket("/matches", Matches.class);
     Spark.get("/risk", new FrontHandler(), freeMarker);
-    //Spark.post("/connect", new ConnectHandler());
   }
 
   /**
@@ -104,20 +104,6 @@ public final class Main {
       return new ModelAndView(variables, "risk.ftl");
     }
   }
-
-//  /**
-//   * Handle requests to find shortest paths.
-//   * @author bgabinet
-//   */
-//  private class ConnectHandler implements Route {
-//    @Override
-//    public String handle(Request req, Response res) {
-//      QueryParamsMap qm = req.queryMap();
-//      Map<String, Object> variables =
-//          ImmutableMap.of();
-//      return GSON.toJson(variables);
-//    }
-//  }
 
   /**
    * Display an error page when an exception occurs in the server.
