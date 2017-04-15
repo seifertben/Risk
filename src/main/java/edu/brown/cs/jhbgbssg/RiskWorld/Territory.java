@@ -9,6 +9,7 @@ package edu.brown.cs.jhbgbssg.RiskWorld;
 public class Territory {
   private TerritoryEnum id;
   private int numberTroops;
+  private int playerId = -1;
 
   /**
    * Constructs a territory and assigns it an id.
@@ -55,6 +56,20 @@ public class Territory {
     numberTroops += troopsToAdd;
   }
 
+  public void changePlayer(int newPlayerId, int numTroops) {
+    if (playerId != -1 && numberTroops != 0) {
+      throw new IllegalArgumentException(
+          "ERROR: cannot change playeres if number of troops is not zero");
+    } else {
+      playerId = newPlayerId;
+      numberTroops = numTroops;
+    }
+  }
+
+  public int getTerritoryOwner() {
+    return playerId;
+  }
+
   /**
    * Returns the territory id.
    *
@@ -77,11 +92,11 @@ public class Territory {
     if (troopsToRemove <= 0) {
       throw new IllegalArgumentException("ERROR: invalid troop number");
     }
-    if (numberTroops <= numberTroops) {
+    if (numberTroops <= troopsToRemove) {
       numberTroops = 0;
       return true;
     }
-    numberTroops -= troopsToRemove;
+    numberTroops = numberTroops - troopsToRemove;
     return false;
   }
 }
