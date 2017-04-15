@@ -9,11 +9,38 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .drop{
+      position: relative;
+      float: left;  
+      padding-right: 10px;  
+      padding-left: 0; 
+      text-decoration: none;
+      /*background-color: blue;*/
+    }
+    .card {
+      position: relative;
+      float: left;  
+      padding-right: 10px;  
+      padding-left: 0; 
+      text-decoration: none;
+    }
+    .w3-card-4 {
+      background-color: blue;
+    }
+    .w3-container-w3-blue {
+      background-color: blue;
+    }
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
     }
-    
+    ul {
+      list-style-type: none;
+    }
+    /*.star {
+      font-size: x-large;
+    }
+    */
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height: 450px}
     
@@ -30,15 +57,21 @@
       color: white;
       padding: 15px;
     }
-    .well[id=player1]{
+    .well-sm[id=player1]{
+      float: left;
         color: blue;
+        width: 30%;
     }
-    .well[id=player2]{
+    .well-sm[id=player2]{
+      float: left;
 		background-color: rgb(22, 105, 173);
 		color: white;
+    width: 30%;
 	}
-	.well[id=player3]{
+	.well-sm[id=player3]{
+    float: left;
 	    color: green;
+      width: 30%;
 	}
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
@@ -124,20 +157,124 @@
   "smallMap": {}
 } );</script></div></div>
     <div class="col-sm-2 sidenav">
-      <div class="well" id="player1">
+      <div class="well well-sm" id="player1">
       Player One
       </div>
-      <div class="well" id="player2">
+      <div class="well well-sm" id="player2">
       Player Two
       </div>
-      <div class="well" id="player3">
+      <div class="well well-sm" id="player3">
       Player Three
       </div>
-    </div>
+        <p>You are attacking Player 2!</p>
+        <p>You have 5 soldiers in Russia</p>
+     <div class="btn-group">
+  <button type="button" class="btn btn-primary">Select the amount of dice to roll</button>
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li class= "drop"><a href="#">1</a></li>
+    <li class = "drop"><a href="#">2</a></li>
+      <li class = "drop"><a href="#">3</a></li>
+  </ul>
+</div><br>
+      <button type="button" class="btn btn-danger">Attack</button>
+<p>Attacker's role</p>
+    <ul id = "blackRole">
+      <li><img src="file:./black4.png"></li>
+      <li><img src="./black3.png"></li>
+       <li><img src="./black3.png"></li>
+       </ul>
+       <p>Defender's role</p>
+       <ul id = "blackRole">
+      <li><img src="./red6.png"></li>
+      <li><img src="./red4.png"></li>
+       </ul>
+       <br><p>You lost 1 soldier</p>
+       <p>Player 2 lost 1 soldier</p>
   </div>
 </div>
 
 <footer class="container-fluid text-center">
+
+<ul id= "cards">
+  <li class = "card"><div class="w3-card-4">
+
+<header class="w3-container-w3-blue">
+  <h1>Card 1</h1>
+</header>
+
+<div class="w3-container">
+  <p id = "star">*</p>
+</div>
+
+<footer class="w3-container-w3-blue">
+  <h5>Turn in this card for renforcements!</h5>
+</footer>
+
+</div></li>
+<li class = "card"><div class="w3-card-4">
+
+<header class="w3-container-w3-blue">
+  <h1>Card 2</h1>
+</header>
+
+<div class="w3-container">
+  <p id = "star">**</p>
+</div>
+
+<footer class="w3-container-w3-blue">
+  <h5>Turn in this card for reinforcements!</h5>
+</footer>
+
+</div></li>
+<li class = "card"><div class="w3-card-4">
+
+<header class="w3-container-w3-blue">
+  <h1>Card 3</h1>
+</header>
+
+<div class="w3-container">
+  <p id = "star">**</p>
+</div>
+
+<footer class="w3-container-w3-blue">
+  <h5>Turn in this card for reinforcements!</h5>
+</footer>
+
+</div></li>
+<li class = "card"><div class="w3-card-4">
+
+<header class="w3-container-w3-blue">
+  <h1>Card 4</h1>
+</header>
+
+<div class="w3-container">
+  <p id = "star">*</p>
+</div>
+
+<footer class="w3-container-w3-blue">
+  <h5>Turn in this card for reinforcements!</h5>
+</footer>
+
+</div></li>
+<li class = "card"><div class="w3-card-4">
+
+<header class="w3-container-w3-blue">
+  <h1>Card 5</h1>
+</header>
+
+<div class="w3-container">
+  <p id = "star">**</p>
+</div>
+
+<footer class="w3-container-w3-blue">
+  <h5>Turn in this card for reinforcements!</h5>
+</footer>
+
+</div></li>
+</ul>
 </footer>
 </body>
 </html>
