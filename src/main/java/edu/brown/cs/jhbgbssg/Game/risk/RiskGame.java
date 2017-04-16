@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -65,8 +66,39 @@ public class RiskGame {
   }
 
   public void attack(UUID playerId, TerritoryEnum attackFrom,
-      Territory attackTo) {
-    RiskPlayer attacker = idToPlayer.get(playerId);
-  }
+      TerritoryEnum attackTo, int numAttackDice, int numDefendDice) {
+    // Create a die for the attack/defense.
+    Die die = new Die();
+    if (referee.checkValidAttack(playerId, turnState)) {
+      Territory terrFrom = gameBoard.getTerritory(attackFrom);
+      Territory terrTo = gameBoard.getTerritory(attackTo);
+      RiskPlayer attacker = idToPlayer.get(playerId);
+      RiskPlayer defender = idToPlayer.get(terrTo.getTerritoryOwner());
 
+      ArrayList<Integer> attackerRolls = new ArrayList<>();
+      ArrayList<Integer> defenderRolls = new ArrayList<>();
+
+      // Execute the dice rolls.
+      for (int i = 0; i < numAttackDice; i++) {
+        attackerRolls.add(die.roll());
+      }
+
+      for (int i = 0; i < numDefendDice; i++) {
+        defenderRolls.add(die.roll());
+      }
+
+      // Compare the rolls.
+      int attackerLoss = 0;
+      int defenderLoss = 0;
+      for (int i = 0; i < Math.min(numAttackDice, numDefendDice); i++) {
+        if (attackerRolls.get(i) > defenderRolls.get(i)) {
+          defenderLoss++;
+        } else if (attackerRolls.get(i) == defenderRolls.get(i)) {
+          attackerLoss++;
+        } else if (defenderRolls.get(i) > attackerRolls.get(i)) {
+          attackerLoss++;
+        }
+      }
+    }
+  }
 }
