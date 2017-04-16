@@ -99,6 +99,21 @@ public class RiskGame {
           attackerLoss++;
         }
       }
+
+      // If the defender loses all troops, change territory ownership.
+      if (terrTo.getNumberTroops() - defenderLoss == 0) {
+        terrFrom.removeTroops(attackerLoss);
+        terrTo.removeTroops(defenderLoss);
+        // Number of troops the winner moves to the new territory.
+        terrTo.changePlayer(playerId, 0);
+        attacker.conqueredTerritory(attackTo);
+        defender.lostTerritory(attackTo);
+
+        // If not, tally troops.
+      } else {
+        terrFrom.removeTroops(attackerLoss);
+        terrTo.removeTroops(defenderLoss);
+      }
     }
   }
 }
