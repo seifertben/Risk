@@ -39,7 +39,6 @@ public class RiskGame {
   public RiskGame(int numPlayers, Set<UUID> ids) {
     gameBoard = new RiskBoard();
     turnState = new Turn();
-    referee = new Referee();
     // Create the RiskPlayers.
     for (UUID i : ids) {
       RiskPlayer player = new RiskPlayer(i);
@@ -50,7 +49,6 @@ public class RiskGame {
     Collections.shuffle(players);
     // Assign the turnState to the first player.
     turnState.setTurnId(players.get(0).getPlayerId());
-    turnState.setBeginning();
   }
 
   /**
@@ -59,61 +57,73 @@ public class RiskGame {
   public void selectTerritory(UUID playerId, TerritoryEnum territory) {
     Territory territoryObject = gameBoard.getTerritory(territory);
     RiskPlayer player = idToPlayer.get(playerId);
-    if (referee.checkValidPlace(playerId, turnState, territoryObject)) {
-      player.conqueredTerritory(territory);
-      territoryObject.changePlayer(playerId, 1);
-    }
+    player.conqueredTerritory(territory);
+    territoryObject.changePlayer(playerId, 1);
   }
 
   public void attack(UUID playerId, TerritoryEnum attackFrom,
       TerritoryEnum attackTo, int numAttackDice, int numDefendDice) {
     // Create a die for the attack/defense.
     Die die = new Die();
-    if (referee.checkValidAttack(playerId, turnState)) {
-      Territory terrFrom = gameBoard.getTerritory(attackFrom);
-      Territory terrTo = gameBoard.getTerritory(attackTo);
-      RiskPlayer attacker = idToPlayer.get(playerId);
-      RiskPlayer defender = idToPlayer.get(terrTo.getTerritoryOwner());
+    Territory terrFrom = gameBoard.getTerritory(attackFrom);
+    Territory terrTo = gameBoard.getTerritory(attackTo);
+    RiskPlayer attacker = idToPlayer.get(playerId);
+    RiskPlayer defender = idToPlayer.get(terrTo.getTerritoryOwner());
 
-      ArrayList<Integer> attackerRolls = new ArrayList<>();
-      ArrayList<Integer> defenderRolls = new ArrayList<>();
+    ArrayList<Integer> attackerRolls = new ArrayList<>();
+    ArrayList<Integer> defenderRolls = new ArrayList<>();
 
-      // Execute the dice rolls.
-      for (int i = 0; i < numAttackDice; i++) {
-        attackerRolls.add(die.roll());
-      }
+    // Execute the dice rolls.
+    for (int i = 0; i < numAttackDice; i++) {
+      attackerRolls.add(die.roll());
+    }
 
-      for (int i = 0; i < numDefendDice; i++) {
-        defenderRolls.add(die.roll());
-      }
+    for (int i = 0; i < numDefendDice; i++) {
+      defenderRolls.add(die.roll());
+    }
 
-      // Compare the rolls.
-      int attackerLoss = 0;
-      int defenderLoss = 0;
-      for (int i = 0; i < Math.min(numAttackDice, numDefendDice); i++) {
-        if (attackerRolls.get(i) > defenderRolls.get(i)) {
-          defenderLoss++;
-        } else if (attackerRolls.get(i) == defenderRolls.get(i)) {
-          attackerLoss++;
-        } else if (defenderRolls.get(i) > attackerRolls.get(i)) {
-          attackerLoss++;
-        }
-      }
-
-      // If the defender loses all troops, change territory ownership.
-      if (terrTo.getNumberTroops() - defenderLoss == 0) {
-        terrFrom.removeTroops(attackerLoss);
-        terrTo.removeTroops(defenderLoss);
-        // Number of troops the winner moves to the new territory.
-        terrTo.changePlayer(playerId, 0);
-        attacker.conqueredTerritory(attackTo);
-        defender.lostTerritory(attackTo);
-
-        // If not, tally troops.
-      } else {
-        terrFrom.removeTroops(attackerLoss);
-        terrTo.removeTroops(defenderLoss);
+    // Compare the rolls.
+    int attackerLoss = 0;
+    int defenderLoss = 0;
+    for (int i = 0; i < Math.min(numAttackDice, numDefendDice); i++) {
+      if (attackerRolls.get(i) > defenderRolls.get(i)) {
+        defenderLoss++;
+      } else if (attackerRolls.get(i) == defenderRolls.get(i)) {
+        attackerLoss++;
+      } else if (defenderRolls.get(i) > attackerRolls.get(i)) {
+        attackerLoss++;
       }
     }
+
+    // If the defender loses all troops, change territory ownership.
+    if (terrTo.getNumberTroops() - defenderLoss == 0) {
+      terrFrom.removeTroops(attackerLoss);
+      terrTo.removeTroops(defenderLoss);
+      // Number of troops the winner moves to the new territory.
+      terrTo.changePlayer(playerId, 0);
+      attacker.conqueredTerritory(attackTo);
+      defender.lostTerritory(attackTo);
+
+      // If not, tally troops.
+    } else {
+      terrFrom.removeTroops(attackerLoss);
+      terrTo.removeTroops(defenderLoss);
+    }
+  }
+
+  public void moveTroops(UUID playerId, TerritoryEnum moveFrom,
+      TerritoryEnum moveTo, int toMove) {
+    Territory from = gameBoard.getTerritory(moveFrom);
+    Territory to = gameBoard.getTerritory(moveTo);
+    from.removeTroops(toMove);
+    to.addTroops(toMove);
+  }
+
+  public void getCard(UUID playerId) {
+
+  }
+
+  public void useCard(UUID playerId) {
+
   }
 }
