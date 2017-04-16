@@ -1,5 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -15,6 +17,23 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class Referee {
+  private Turn turn;
+
+  private UUID playerId;
+  private boolean canAttack = false;
+  private boolean canReinforce = false;
+  private boolean canTurnInCard = false;
+  private boolean canMove = false;
+  private boolean canClaim = true;
+  private int reinforceNumber = 0;
+  private Map<TerritoryEnum, Integer> canAttackFrom = null;
+  private Multimap<TerritoryEnum, TerritoryEnum> canAttackTo = null;
+  private Set<Integer> cardsToTurnIn = null;
+  private Set<TerritoryEnum> reinforceTerritories = null;
+  private TerritoryEnum terrToDefend = null;
+  private int canDefendWith = 0;
+  private Multimap<TerritoryEnum, TerritoryEnum> movement = null;
+  private Map<TerritoryEnum, Integer> numberTroopsCanMove = null;
 
   /**
    * Initializes the referee.

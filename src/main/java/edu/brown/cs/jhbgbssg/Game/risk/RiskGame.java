@@ -31,10 +31,8 @@ public class RiskGame {
   /**
    * Initializes the game state.
    *
-   * @param numPlayers
-   *          the number of players.
-   * @param ids
-   *          the player ids.
+   * @param numPlayers the number of players.
+   * @param ids the player ids.
    */
   public RiskGame(int numPlayers, Set<UUID> ids) {
     gameBoard = new RiskBoard();
