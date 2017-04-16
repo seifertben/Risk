@@ -25,7 +25,7 @@ public class Referee {
 
   /**
    * Checks that the Turn's player is this player.
-   * 
+   *
    * @param turn - turn
    * @param playerID - id of player
    * @return true if this player is the turn player.
@@ -36,7 +36,7 @@ public class Referee {
 
   /**
    * Checks that the current phase of the turn is attacking
-   * 
+   *
    * @param turn - current turn
    * @return true if the it is the attacking phase; false otherwise
    */
@@ -46,7 +46,7 @@ public class Referee {
 
   /**
    * Checks that the current phase of the turn is reinforcement.
-   * 
+   *
    * @param turn - current turn
    * @return true if it is the reinforcement phase; false otherwise
    */
@@ -57,7 +57,7 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is movement of troops to a
    * conquered territory
-   * 
+   *
    * @param turn - current turn
    * @return true if it is the movement phase; false otherwise
    */
@@ -67,7 +67,7 @@ public class Referee {
 
   /**
    * Checks that the current phase of the turn is beginning.
-   * 
+   *
    * @param turn - current turn
    * @return true if it is the beginning phase; false otherwise
    */
@@ -77,7 +77,7 @@ public class Referee {
 
   /**
    * Checks that the two territories are adjacent.
-   * 
+   *
    * @param board - current board of the game
    * @param terr1 - id of territory 1
    * @param terr2 - id of territory 2
@@ -90,7 +90,7 @@ public class Referee {
 
   /**
    * Checks the player owns the territory.
-   * 
+   *
    * @param player - player
    * @param terr - id of territory
    * @return true if the player owns the territory; false otherwise
@@ -102,7 +102,7 @@ public class Referee {
 
   /**
    * checks the territory has more than 1 troop.
-   * 
+   *
    * @param terr - territory
    * @return true if the territory has more than one troop; false otherwise
    */
@@ -111,8 +111,8 @@ public class Referee {
   }
 
   /**
-   * Checks that the chosen number of Die is less than the number of troops
-   * 
+   * Checks that the chosen number of Die is less than the number of troops.
+   *
    * @param terr - territory
    * @param numberDie - number of die to roll
    * @return true if number of die to roll is less than the number of troops in
@@ -125,7 +125,7 @@ public class Referee {
   /**
    * Checks that the chosen number of die to defend with is equal to or less
    * than the number of troops.
-   * 
+   *
    * @param terr - territory
    * @param numberDie - chosen number of die
    * @return true if check is true; false otherwise
@@ -148,7 +148,7 @@ public class Referee {
 
   /**
    * Checks if the territory has been lost.
-   * 
+   *
    * @param terr - territory
    * @return
    */
@@ -158,7 +158,7 @@ public class Referee {
 
   /**
    * Checks if the Player lost the game.
-   * 
+   *
    * @param player
    * @return
    */
@@ -179,7 +179,7 @@ public class Referee {
 
   /**
    * Checks that the territory can be claimed.
-   * 
+   *
    * @param terr - territory trying to be claimed
    * @return
    */
@@ -189,7 +189,7 @@ public class Referee {
 
   /**
    * Checks if the player has won the game.
-   * 
+   *
    * @param player - player
    * @param board - risk board
    * @return true if hte player won the game; false otherwise
