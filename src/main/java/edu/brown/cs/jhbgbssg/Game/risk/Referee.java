@@ -42,6 +42,26 @@ public class Referee {
 
   }
 
+  public void setRestrictions() {
+    switch (turn.getPhase()) {
+    case BEGIN:
+      break;
+    case HANDIN_CARDS:
+      break;
+    case PUT_REINFORCEMENTS:
+      break;
+    case ATTACK_FROM:
+      break;
+    case ATTACK_TO:
+      break;
+    case ROLL_DIE:
+      break;
+    case CLAIM_TERRITORY:
+      break;
+
+    }
+  }
+
   /**
    * Checks that the Turn's player is this player.
    *
