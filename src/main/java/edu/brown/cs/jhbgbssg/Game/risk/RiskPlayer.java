@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.Player;
@@ -56,9 +55,5 @@ public class RiskPlayer implements Player {
 
   public boolean hasTerritories() {
     return territories.size() != 0;
-  }
-
-  public boolean canAttack(Multimap<TerritoryEnum, TerritoryEnum> attackMap) {
-    return attackMap.size() != 0;
   }
 }
