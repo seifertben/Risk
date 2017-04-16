@@ -1,5 +1,7 @@
 package edu.brown.cs.jhbgbssg.RiskWorld;
 
+import java.util.UUID;
+
 /**
  * Represents a Territory.
  *
@@ -9,7 +11,7 @@ package edu.brown.cs.jhbgbssg.RiskWorld;
 public class Territory {
   private TerritoryEnum id;
   private int numberTroops;
-  private int playerId = -1;
+  private UUID playerId = null;
   private ContinentEnum contId;
 
   /**
@@ -59,8 +61,8 @@ public class Territory {
     numberTroops += troopsToAdd;
   }
 
-  public void changePlayer(int newPlayerId, int numTroops) {
-    if (playerId != -1 && numberTroops != 0) {
+  public void changePlayer(UUID newPlayerId, int numTroops) {
+    if (playerId != null && numberTroops != 0) {
       throw new IllegalArgumentException(
           "ERROR: cannot change playeres if number of troops is not zero");
     } else {
@@ -69,7 +71,7 @@ public class Territory {
     }
   }
 
-  public int getTerritoryOwner() {
+  public UUID getTerritoryOwner() {
     return playerId;
   }
 
