@@ -38,15 +38,37 @@ public class Referee {
   /**
    * Initializes the referee.
    */
-  public Referee() {
+  public Referee(Turn turn, RiskBoard board) {
 
+  }
+
+  public void setRestrictions() {
+    switch (turn.getPhase()) {
+    case BEGIN:
+      break;
+    case HANDIN_CARDS:
+      break;
+    case PUT_REINFORCEMENTS:
+      break;
+    case ATTACK_FROM:
+      break;
+    case ATTACK_TO:
+      break;
+    case ROLL_DIE:
+      break;
+    case CLAIM_TERRITORY:
+      break;
+
+    }
   }
 
   /**
    * Checks that the Turn's player is this player.
    *
-   * @param turn - turn
-   * @param playerID - id of player
+   * @param turn
+   *          - turn
+   * @param playerID
+   *          - id of player
    * @return true if this player is the turn player.
    */
   public static boolean checkPlayerTurn(Turn turn, UUID playerID) {
@@ -56,7 +78,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is attacking
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if the it is the attacking phase; false otherwise
    */
   public static boolean checkAttackPhase(Turn turn) {
@@ -66,7 +89,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is reinforcement.
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the reinforcement phase; false otherwise
    */
   public static boolean checkReinforcementPhase(Turn turn) {
@@ -74,10 +98,10 @@ public class Referee {
   }
 
   /**
-   * Checks that the current phase of the turn is movement of troops to a
-   * conquered territory
+   * Checks that the current phase of the turn is movement of troops to a conquered territory
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the movement phase; false otherwise
    */
   public static boolean checkMovementPhase(Turn turn) {
@@ -87,7 +111,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is beginning.
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the beginning phase; false otherwise
    */
   public static boolean checkBeginningPhase(Turn turn) {
@@ -97,9 +122,12 @@ public class Referee {
   /**
    * Checks that the two territories are adjacent.
    *
-   * @param board - current board of the game
-   * @param terr1 - id of territory 1
-   * @param terr2 - id of territory 2
+   * @param board
+   *          - current board of the game
+   * @param terr1
+   *          - id of territory 1
+   * @param terr2
+   *          - id of territory 2
    * @return true if the territories are adjacent; false otherwise.
    */
   public static boolean checkAdjacentTerritory(RiskBoard board,
@@ -110,8 +138,10 @@ public class Referee {
   /**
    * Checks the player owns the territory.
    *
-   * @param player - player
-   * @param terr - id of territory
+   * @param player
+   *          - player
+   * @param terr
+   *          - id of territory
    * @return true if the player owns the territory; false otherwise
    */
   public static boolean checkTerritoryOwner(RiskPlayer player,
@@ -122,7 +152,8 @@ public class Referee {
   /**
    * checks the territory has more than 1 troop.
    *
-   * @param terr - territory
+   * @param terr
+   *          - territory
    * @return true if the territory has more than one troop; false otherwise
    */
   public static boolean checkTerritoryAttack(Territory terr) {
@@ -130,23 +161,27 @@ public class Referee {
   }
 
   /**
-   * Checks that the chosen number of Die is less than the number of troops.
+   * Checks that the chosen number of Die is less than the number of troops
    *
-   * @param terr - territory
-   * @param numberDie - number of die to roll
-   * @return true if number of die to roll is less than the number of troops in
-   *         the territory; false otherwise
+   * @param terr
+   *          - territory
+   * @param numberDie
+   *          - number of die to roll
+   * @return true if number of die to roll is less than the number of troops in the territory; false
+   *         otherwise
    */
   public static boolean checkNumberDieAttack(Territory terr, int numberDie) {
     return terr.getNumberTroops() > numberDie;
   }
 
   /**
-   * Checks that the chosen number of die to defend with is equal to or less
-   * than the number of troops.
+   * Checks that the chosen number of die to defend with is equal to or less than the number of
+   * troops.
    *
-   * @param terr - territory
-   * @param numberDie - chosen number of die
+   * @param terr
+   *          - territory
+   * @param numberDie
+   *          - chosen number of die
    * @return true if check is true; false otherwise
    */
   public static boolean checkNumberDieDefend(Territory terr, int numberDie) {
@@ -154,8 +189,8 @@ public class Referee {
   }
 
   /**
-   * Checks the number of troops chosen to move is less than the total number of
-   * troops in the territory.
+   * Checks the number of troops chosen to move is less than the total number of troops in the
+   * territory.
    *
    * @param terr
    * @param numberMove
@@ -170,7 +205,8 @@ public class Referee {
   /**
    * Checks if the territory has been lost.
    *
-   * @param terr - territory
+   * @param terr
+   *          - territory
    * @return
    */
   public static boolean checkTerritoryLoss(Territory terr) {
@@ -201,7 +237,8 @@ public class Referee {
   /**
    * Checks that the territory can be claimed.
    *
-   * @param terr - territory trying to be claimed
+   * @param terr
+   *          - territory trying to be claimed
    * @return
    */
   public static boolean checkClaimTerritory(Territory terr) {
@@ -211,8 +248,10 @@ public class Referee {
   /**
    * Checks if the player has won the game.
    *
-   * @param player - player
-   * @param board - risk board
+   * @param player
+   *          - player
+   * @param board
+   *          - risk board
    * @return true if hte player won the game; false otherwise
    */
   public static boolean checkWonGame(RiskPlayer player, RiskBoard board) {
@@ -222,8 +261,10 @@ public class Referee {
   /**
    * Checks that the player has the card.
    *
-   * @param player - player
-   * @param card - card value
+   * @param player
+   *          - player
+   * @param card
+   *          - card value
    * @return
    */
   public static boolean checkPlayerHasCard(RiskPlayer player, int card) {
@@ -233,40 +274,11 @@ public class Referee {
   /**
    * Checks if the caredPool is empty.
    *
-   * @param cardPool - cared pool
+   * @param cardPool
+   *          - cared pool
    * @return
    */
   public static boolean checkCardPool(CardPool cardPool) {
     return cardPool.isEmpty();
-  }
-
-  /**
-   * Validates if a player may choose a territory at the beginning.
-   *
-   * @param turn
-   * @param territory
-   * @return
-   */
-  public boolean checkValidPlace(UUID playerId, Turn turn,
-      Territory territory) {
-    if (checkPlayerTurn(turn, playerId) && !territory.occuppied()) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Validates if a player may choose a territory at the beginning.
-   *
-   * @param turn
-   * @param territory
-   * @return
-   */
-  public boolean checkValidAttack(UUID playerId, Turn turn) {
-    if (checkPlayerTurn(turn, playerId)) {
-      if (checkAttackPhase(turn)) {
-        return false;
-      }
-    }
   }
 }
