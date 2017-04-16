@@ -5,54 +5,125 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.Player;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents a RiskPlayer.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class RiskPlayer implements Player {
   private UUID playerId;
   private Set<TerritoryEnum> territories;
   private Multiset<Integer> cards;
 
+  /**
+   * Constructor for a RiskPlayer. Takes in the player's unique player id
+   *
+   * @param playerId - player Id.
+   */
   public RiskPlayer(UUID playerId) {
     this.playerId = playerId;
     territories = new HashSet<>();
+    cards = HashMultiset.create();
   }
 
+  /**
+   * Returns the player's unique id.
+   */
   @Override
   public UUID getPlayerId() {
     return playerId;
   }
 
+  /**
+   * Determines if the player owns the given card.
+   *
+   * @param cardValue - card value
+   * @return boolean indcating if the player owns the card
+   */
   public boolean hasCard(int cardValue) {
     return cards.contains(cardValue);
   }
 
+  /**
+   * Removes a card from the player's card set.
+   *
+   * @param cardValue - card value to remove
+   * @return boolean indicating if the card was removed.
+   */
   public boolean removeCard(int cardValue) {
     return cards.remove(cardValue);
   }
 
+  /**
+   * Adds card to player set.
+   *
+   * @param cardValue - value of the card
+   * @return indicating the card was added
+   */
   public boolean addCard(int cardValue) {
     return cards.add(cardValue);
   }
 
+  /**
+   * Determines if the player owns this territory.
+   *
+   * @param territory - territory id
+   * @return boolean indicating if the player owns it
+   */
   public boolean hasTerritory(TerritoryEnum territory) {
     return territories.contains(territory);
   }
 
+  /**
+   * Adds territory to the owned territory set.
+   *
+   * @param conqueredTerritory - territory to add
+   * @return boolean indicating if the territory was added and not a duplicate
+   */
   public boolean conqueredTerritory(TerritoryEnum conqueredTerritory) {
     return territories.add(conqueredTerritory);
   }
 
+  /**
+   * Removes a territory from the players owned territory set.
+   *
+   * @param lostTerritory - territory lost
+   * @return boolean indicating if the territory was removed.s
+   */
   public boolean lostTerritory(TerritoryEnum lostTerritory) {
     return territories.remove(lostTerritory);
   }
 
+  /**
+   * Returns an unmodifiable set of the territories owned by the player.
+   *
+   * @return set of territories
+   */
   public Set<TerritoryEnum> getTerritories() {
     return Collections.unmodifiableSet(territories);
   }
 
+  /**
+   * Returns the number of territories owned by the player.
+   *
+   * @return number of owned territories
+   */
+  public int getNumberTerritories() {
+    return territories.size();
+  }
+
+  /**
+   * Determines if the risk player owns any territories.
+   *
+   * @return boolean indicating if player owns territories
+   */
   public boolean hasTerritories() {
     return territories.size() != 0;
   }
