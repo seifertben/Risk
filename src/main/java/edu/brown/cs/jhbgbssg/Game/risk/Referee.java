@@ -146,6 +146,8 @@ public class Referee {
     return terr.getNumberTroops() > numberMove;
   }
 
+  // Bundle the checks for actions.
+
   /**
    * Checks if the territory has been lost.
    *
@@ -228,10 +230,24 @@ public class Referee {
    */
   public boolean checkValidPlace(UUID playerId, Turn turn,
       Territory territory) {
-    if (turn.getBeginning() && turn.getPlayerId() == playerId
-        && !territory.occuppied()) {
+    if (checkPlayerTurn(turn, playerId) && !territory.occuppied()) {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Validates if a player may choose a territory at the beginning.
+   *
+   * @param turn
+   * @param territory
+   * @return
+   */
+  public boolean checkValidAttack(UUID playerId, Turn turn) {
+    if (checkPlayerTurn(turn, playerId)) {
+      if (checkAttackPhase(turn)) {
+        return false;
+      }
+    }
   }
 }
