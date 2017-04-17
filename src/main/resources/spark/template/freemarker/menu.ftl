@@ -1,4 +1,7 @@
 <#assign content>
+<form method="GET" action="/risk">
+<button onclick="submit">Redirect</button>
+</form>
 <form>
 <input id="name" type="text"></input>
 </form>

@@ -51,6 +51,6 @@ public class RiskGuiRestriction {
     canAttackFrom = territories;
   }
 
-  public void set
+ // public void set
 
 }
