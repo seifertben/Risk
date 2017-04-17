@@ -42,6 +42,7 @@ public class RiskBoard {
     builder.putEdge(TerritoryEnum.ALASKA, TerritoryEnum.NORTHWEST_TERRITORY);
     builder.putEdge(TerritoryEnum.ALBERTA, TerritoryEnum.WESTERN_US);
     builder.putEdge(TerritoryEnum.ALBERTA, TerritoryEnum.NORTHWEST_TERRITORY);
+    builder.putEdge(TerritoryEnum.ALBERTA, TerritoryEnum.ONTARIO);
     builder.putEdge(TerritoryEnum.NORTHWEST_TERRITORY, TerritoryEnum.ONTARIO);
     builder.putEdge(TerritoryEnum.NORTHWEST_TERRITORY, TerritoryEnum.GREENLAND);
     builder.putEdge(TerritoryEnum.WESTERN_US, TerritoryEnum.ONTARIO);
@@ -51,9 +52,11 @@ public class RiskBoard {
     builder.putEdge(TerritoryEnum.ONTARIO, TerritoryEnum.QUEBEC);
     builder.putEdge(TerritoryEnum.ONTARIO, TerritoryEnum.GREENLAND);
     builder.putEdge(TerritoryEnum.QUEBEC, TerritoryEnum.GREENLAND);
-    builder.putEdge(TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.VENEZUAELA);
-    builder.putEdge(TerritoryEnum.VENEZUAELA, TerritoryEnum.PERU);
-    builder.putEdge(TerritoryEnum.VENEZUAELA, TerritoryEnum.BRAZIL);
+    builder.putEdge(TerritoryEnum.QUEBEC, TerritoryEnum.EASTERN_US);
+    builder.putEdge(TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.VENEZUELA);
+    builder.putEdge(TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.EASTERN_US);
+    builder.putEdge(TerritoryEnum.VENEZUELA, TerritoryEnum.PERU);
+    builder.putEdge(TerritoryEnum.VENEZUELA, TerritoryEnum.BRAZIL);
     builder.putEdge(TerritoryEnum.PERU, TerritoryEnum.BRAZIL);
     builder.putEdge(TerritoryEnum.PERU, TerritoryEnum.ARGENTINIA);
     builder.putEdge(TerritoryEnum.BRAZIL, TerritoryEnum.NORTH_AFRICA);
@@ -211,4 +214,5 @@ public class RiskBoard {
   public Set<TerritoryEnum> getTerritoryIds() {
     return Collections.unmodifiableSet(territoryMap.keySet());
   }
+
 }

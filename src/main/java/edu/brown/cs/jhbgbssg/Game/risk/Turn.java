@@ -13,6 +13,7 @@ public class Turn {
   private TurnPhase phase = TurnPhase.BEGIN;
 
   private UUID playerId;
+  private RiskPlayer player;
 
   /**
    * Indicates the phase of the turn.
@@ -37,6 +38,10 @@ public class Turn {
 
   public UUID getPlayerId() {
     return playerId;
+  }
+
+  public RiskPlayer getPlayer() {
+    return player;
   }
 
 }

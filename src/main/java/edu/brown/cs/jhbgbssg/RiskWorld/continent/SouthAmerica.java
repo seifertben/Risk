@@ -17,7 +17,7 @@ public class SouthAmerica implements ContinentInterface {
     playerId = null;
     territories = new HashSet<>();
     territories.add(TerritoryEnum.PERU);
-    territories.add(TerritoryEnum.VENEZUAELA);
+    territories.add(TerritoryEnum.VENEZUELA);
     territories.add(TerritoryEnum.BRAZIL);
     territories.add(TerritoryEnum.ARGENTINIA);
   }
@@ -52,5 +52,4 @@ public class SouthAmerica implements ContinentInterface {
   public Set<TerritoryEnum> getTerritories() {
     return Collections.unmodifiableSet(territories);
   }
-
 }
