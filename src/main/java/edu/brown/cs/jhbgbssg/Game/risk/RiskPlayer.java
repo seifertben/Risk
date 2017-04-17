@@ -26,8 +26,12 @@ public class RiskPlayer implements Player {
    * Constructor for a RiskPlayer. Takes in the player's unique player id
    *
    * @param playerId - player Id.
+   * @throws IllegalArgumentException - thrown if the id is null
    */
-  public RiskPlayer(UUID playerId) {
+  public RiskPlayer(UUID playerId) throws IllegalArgumentException {
+    if (playerId == null) {
+      throw new IllegalArgumentException("ERROR: cannot have null id");
+    }
     this.playerId = playerId;
     territories = new HashSet<>();
     cards = HashMultiset.create();
@@ -39,6 +43,15 @@ public class RiskPlayer implements Player {
   @Override
   public UUID getPlayerId() {
     return playerId;
+  }
+
+  /**
+   * Returns the cards the RiskPlayer owns.
+   *
+   * @return multiset of integers representing cards
+   */
+  public Multiset<Integer> getCards() {
+    return cards;
   }
 
   /**
@@ -86,8 +99,13 @@ public class RiskPlayer implements Player {
    *
    * @param conqueredTerritory - territory to add
    * @return boolean indicating if the territory was added and not a duplicate
+   * @throws IllegalArgumentException - thrown if the territory is null
    */
-  public boolean conqueredTerritory(TerritoryEnum conqueredTerritory) {
+  public boolean conqueredTerritory(TerritoryEnum conqueredTerritory)
+      throws IllegalArgumentException {
+    if (conqueredTerritory == null) {
+      throw new IllegalArgumentException("ERROR: null territory");
+    }
     return territories.add(conqueredTerritory);
   }
 
@@ -95,9 +113,14 @@ public class RiskPlayer implements Player {
    * Removes a territory from the players owned territory set.
    *
    * @param lostTerritory - territory lost
-   * @return boolean indicating if the territory was removed.s
+   * @return boolean indicating if the territory was removed
+   * @throws IllegalArgumentException - thrown if the territory is null
    */
-  public boolean lostTerritory(TerritoryEnum lostTerritory) {
+  public boolean lostTerritory(TerritoryEnum lostTerritory)
+      throws IllegalArgumentException {
+    if (lostTerritory == null) {
+      throw new IllegalArgumentException("ERROR: null territory");
+    }
     return territories.remove(lostTerritory);
   }
 
@@ -127,4 +150,5 @@ public class RiskPlayer implements Player {
   public boolean hasTerritories() {
     return territories.size() != 0;
   }
+
 }

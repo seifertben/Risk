@@ -1,14 +1,19 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.CardPool;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.Move;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  * Controls the rules of the game.
@@ -30,13 +35,16 @@ public class Referee {
   private int reinforceNumber = 0;
   private Map<TerritoryEnum, Integer> canAttackFrom = null;
   private Multimap<TerritoryEnum, TerritoryEnum> canAttackTo = null;
-  private Set<Integer> cardsToTurnIn = null;
+  private Multiset<Integer> cardsToTurnIn = null;
   private Set<TerritoryEnum> reinforceTerritories = null;
   private TerritoryEnum terrToDefend = null;
   private int canDefendWith = 0;
   private int canAttackWith = 0;
   private Multimap<TerritoryEnum, TerritoryEnum> movement = null;
   private Map<TerritoryEnum, Integer> numberTroopsCanMove = null;
+
+  private Move lastMove;
+  private boolean lastMoveValidity = true;
 
   /**
    * Initializes the referee.
@@ -51,8 +59,10 @@ public class Referee {
     case BEGIN:
       break;
     case HANDIN_CARDS:
+      this.setUpHandInCardsPhase();
       break;
     case PUT_REINFORCEMENTS:
+      this.setUpReinforcementPhase();
       break;
     case ATTACK_FROM:
       break;
@@ -72,8 +82,83 @@ public class Referee {
       canTurnInCard = false;
       canClaim = true;
       break;
-
     }
+  }
+
+  public Move getNextMove() {
+    if (lastMoveValidity) {
+      // depending on move type of last
+      return null;
+    } else {
+      return lastMove;
+    }
+  }
+
+  public boolean checkLastMove() {
+    // depending on ENUM value check move
+    return false;
+  }
+
+  public RiskPlayer nextPlayer() {
+    return null;
+  }
+
+  private void BeginPhase() {
+
+  }
+
+  private void setUpHandInCardsPhase() {
+    RiskPlayer player = turn.getPlayer();
+    cardsToTurnIn = player.getCards();
+    if (cardsToTurnIn.size() != 0) {
+      canTurnInCard = true;
+    }
+  }
+
+  private void setUpReinforcementPhase() {
+    RiskPlayer player = turn.getPlayer();
+    int reinforce = player.getNumberTerritories() / 3;
+    Set<TerritoryEnum> territories = player.getTerritories();
+    Collection<ContinentInterface> conts = board.getContinents();
+    for (ContinentInterface cont : conts) {
+      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
+      if (territories.containsAll(territoriesInCont)) {
+        reinforce += cont.getBonusValue();
+      }
+    }
+    reinforceNumber = reinforce;
+  }
+
+  public boolean checkHandInCards(Multiset<Integer> cardsHandedIn,
+      Map<TerritoryEnum, Integer> addedTroops) {
+    RiskPlayer player = turn.getPlayer();
+    int added = 0;
+    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
+      if (!player.hasTerritory(entry.getKey())) {
+        return false;
+      }
+      added += entry.getValue();
+    }
+    int allowed = 0;
+    for (int card : cardsToTurnIn) {
+      allowed = allowed + card;
+    }
+    return allowed >= added;
+  }
+
+  public boolean checkReinforceTroops(Map<TerritoryEnum, Integer> addedTroops) {
+    RiskPlayer player = turn.getPlayer();
+    int number = 0;
+    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
+      if (!player.hasTerritory(entry.getKey())) {
+        return false;
+      }
+      number += entry.getValue();
+    }
+    if (number != reinforceNumber) {
+      return false;
+    }
+    return true;
   }
 
   /**
