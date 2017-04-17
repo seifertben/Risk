@@ -17,9 +17,11 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class Referee {
+  private RiskBoard board;
   private Turn turn;
 
   private UUID playerId;
+  private RiskPlayer player;
   private boolean canAttack = false;
   private boolean canReinforce = false;
   private boolean canTurnInCard = false;
@@ -32,6 +34,7 @@ public class Referee {
   private Set<TerritoryEnum> reinforceTerritories = null;
   private TerritoryEnum terrToDefend = null;
   private int canDefendWith = 0;
+  private int canAttackWith = 0;
   private Multimap<TerritoryEnum, TerritoryEnum> movement = null;
   private Map<TerritoryEnum, Integer> numberTroopsCanMove = null;
 
@@ -39,7 +42,8 @@ public class Referee {
    * Initializes the referee.
    */
   public Referee(Turn turn, RiskBoard board) {
-
+    this.board = board;
+    this.turn = turn;
   }
 
   public void setRestrictions() {
@@ -53,10 +57,20 @@ public class Referee {
     case ATTACK_FROM:
       break;
     case ATTACK_TO:
+      canAttackTo = board.getPlayerAttackMap(player);
       break;
     case ROLL_DIE:
+      canAttack = false;
+      canMove = false;
+      canReinforce = false;
+      canTurnInCard = false;
+      canDefendWith = 0;
+      canAttackWith = 0;
       break;
     case CLAIM_TERRITORY:
+      canAttack = false;
+      canTurnInCard = false;
+      canClaim = true;
       break;
 
     }
