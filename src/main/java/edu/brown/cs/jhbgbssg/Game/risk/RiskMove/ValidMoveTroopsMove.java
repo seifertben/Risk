@@ -11,12 +11,12 @@ import com.google.common.collect.Multimap;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
-public class MoveTroops implements Move {
+public class ValidMoveTroopsMove implements Move {
   private UUID playerId;
   private Multimap<TerritoryEnum, Territory> whereToReach;
   private Map<TerritoryEnum, Integer> maxTroopsToMove;
 
-  public MoveTroops(UUID playerId,
+  public ValidMoveTroopsMove(UUID playerId,
       Multimap<TerritoryEnum, Territory> whereToReach,
       Map<TerritoryEnum, Integer> maxTroopsToMove) {
     this.playerId = playerId;

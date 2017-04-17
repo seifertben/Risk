@@ -2,11 +2,11 @@ package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
 
 import java.util.UUID;
 
-public class ChooseDieDefend implements Move {
+public class ValidDieDefendMove implements Move {
   private UUID playerId;
   private int maxNumberDie;
 
-  public ChooseDieDefend(UUID playerId, int maxNumberDie) {
+  public ValidDieDefendMove(UUID playerId, int maxNumberDie) {
     this.playerId = playerId;
     this.maxNumberDie = maxNumberDie;
   }

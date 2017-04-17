@@ -165,4 +165,19 @@ public class BoardTest {
     assertTrue(board.isNeighbor(TerritoryEnum.VENEZUELA, TerritoryEnum.PERU));
     assertTrue(board.isNeighbor(TerritoryEnum.VENEZUELA, TerritoryEnum.BRAZIL));
   }
+
+  public void testPeruNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.PERU, TerritoryEnum.VENEZUELA));
+    assertTrue(board.isNeighbor(TerritoryEnum.PERU, TerritoryEnum.BRAZIL));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.VENEZUELA, TerritoryEnum.ARGENTINIA));
+  }
+
+  public void testArgentiniaNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.ARGENTINIA, TerritoryEnum.PERU));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.ARGENTINIA, TerritoryEnum.BRAZIL));
+  }
 }

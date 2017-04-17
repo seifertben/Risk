@@ -1,20 +1,17 @@
 package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
 
-import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class ReinforceMove implements Move {
   private UUID playerId;
-  private Set<TerritoryEnum> territories;
-  private int numberReinforce;
+  private Map<TerritoryEnum, Integer> reinforcedTerritories;
 
-  public ReinforceMove(UUID playerId, Set<TerritoryEnum> territories,
-      int numberReinforce) {
-    this.playerId = playerId;
-    this.territories = territories;
-    this.numberReinforce = numberReinforce;
+  public ReinforceMove(UUID playerId,
+      Map<TerritoryEnum, Integer> reinforcedTerritories) {
+
   }
 
   @Override
@@ -27,11 +24,7 @@ public class ReinforceMove implements Move {
     return playerId;
   }
 
-  public Set<TerritoryEnum> getTerritories() {
-    return this.territories;
-  }
-
-  public int getNumberToReinforce() {
-    return numberReinforce;
+  public Map<TerritoryEnum, Integer> getReinforcedTerritories() {
+    return reinforcedTerritories;
   }
 }

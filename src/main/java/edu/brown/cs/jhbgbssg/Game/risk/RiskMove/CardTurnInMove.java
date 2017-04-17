@@ -1,16 +1,20 @@
 package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
 
+import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Multiset;
+import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class CardTurnInMove implements Move {
   private UUID playerId;
-  private Multiset<Integer> cards;
+  private Integer card;
+  private Map<TerritoryEnum, Integer> terr;
 
-  public CardTurnInMove(UUID playerId, Multiset<Integer> cards) {
+  public CardTurnInMove(UUID playerId, Integer card,
+      Map<TerritoryEnum, Integer> terr) {
     this.playerId = playerId;
-    this.cards = cards;
+    this.card = card;
+    this.terr = terr;
   }
 
   @Override
@@ -18,13 +22,16 @@ public class CardTurnInMove implements Move {
     return MoveType.TURN_IN_CARD;
   }
 
-  public Multiset<Integer> getCards() {
-    return cards;
-  }
-
   @Override
   public UUID getMovePlayer() {
     return playerId;
   }
 
+  public int getCard() {
+    return card;
+  }
+
+  public Map<TerritoryEnum, Integer> getTerritoriesReinforced() {
+    return terr;
+  }
 }

@@ -9,12 +9,12 @@ import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
-public class ChooseAttackMove implements Move {
+public class ValidAttackMove implements Move {
   private UUID playerId;
   private Map<TerritoryEnum, Integer> chooseDie;
   private Multimap<TerritoryEnum, TerritoryEnum> whoToAttack;
 
-  public ChooseAttackMove(UUID playerId, Map<TerritoryEnum, Integer> chooseDie,
+  public ValidAttackMove(UUID playerId, Map<TerritoryEnum, Integer> chooseDie,
       Multimap<TerritoryEnum, TerritoryEnum> whoToAttack) {
     this.playerId = playerId;
     this.chooseDie = chooseDie;
