@@ -24,4 +24,16 @@ public class ValidDieDefendMove implements Move {
   public int getMaxNumberDie() {
     return maxNumberDie;
   }
+
+  public boolean validateDefendMove(DefendMove move) {
+    UUID currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(playerId)) {
+      return false;
+    }
+    int die = move.getDieRolled();
+    if (1 > die || die > maxNumberDie) {
+      return false;
+    }
+    return true;
+  }
 }

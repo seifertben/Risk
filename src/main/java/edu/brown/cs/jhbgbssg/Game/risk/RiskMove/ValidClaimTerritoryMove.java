@@ -39,4 +39,22 @@ public class ValidClaimTerritoryMove implements Move {
   public int getMaxNumberTroops() {
     return maxNumberTroops;
   }
+
+  public boolean validClaimTerritory(ClaimTerritoryMove move) {
+    UUID currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(playerId)) {
+      return false;
+    }
+    if (move.getTerritoryClaimed() != territoryToClaim) {
+      return false;
+    }
+    if (move.getTerritoryFrom() != fromTerritory) {
+      return false;
+    }
+    int troops = move.getNumberTroops();
+    if (troops < 1 || troops > maxNumberTroops) {
+      return false;
+    }
+    return true;
+  }
 }

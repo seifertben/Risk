@@ -38,4 +38,24 @@ public class ValidAttackMove implements Move {
   public Collection<Entry<TerritoryEnum, TerritoryEnum>> whoToAttack() {
     return whoToAttack.entries();
   }
+
+  public boolean validAttackMove(AttackMove move) {
+    UUID currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(playerId)) {
+      return false;
+    }
+    TerritoryEnum attackFrom = move.getAttackFrom();
+    TerritoryEnum attackTo = move.getAttackTo();
+    int die = move.getDieRolled();
+    if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
+      return false;
+    }
+    assert (chooseDie.containsKey(attackFrom));
+    int allowedDie = chooseDie.get(attackFrom);
+    if (die > 1 || die > allowedDie) {
+      return false;
+    }
+    return true;
+  }
+
 }

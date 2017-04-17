@@ -7,12 +7,15 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class ClaimTerritoryMove implements Move {
   private UUID playerId;
   private TerritoryEnum terr;
+  private TerritoryEnum from;
   private int troops;
 
-  public ClaimTerritoryMove(UUID playerId, TerritoryEnum terr, int troops) {
+  public ClaimTerritoryMove(UUID playerId, TerritoryEnum from,
+      TerritoryEnum terr, int troops) {
     this.playerId = playerId;
     this.terr = terr;
     this.troops = troops;
+    this.from = from;
   }
 
   @Override
@@ -27,6 +30,10 @@ public class ClaimTerritoryMove implements Move {
 
   public TerritoryEnum getTerritoryClaimed() {
     return terr;
+  }
+
+  public TerritoryEnum getTerritoryFrom() {
+    return from;
   }
 
   public int getNumberTroops() {

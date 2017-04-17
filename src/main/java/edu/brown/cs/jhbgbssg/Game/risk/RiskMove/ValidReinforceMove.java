@@ -1,5 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,5 +35,26 @@ public class ValidReinforceMove implements Move {
 
   public int getNumberToReinforce() {
     return numberReinforce;
+  }
+
+  public boolean validReinforceMove(ReinforceMove move) {
+    UUID currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(playerId)) {
+      return false;
+    }
+    Map<TerritoryEnum, Integer> reinforced = move.getReinforcedTerritories();
+    Set<TerritoryEnum> terrs = reinforced.keySet();
+    if (!territories.containsAll(terrs)) {
+      return false;
+    }
+    int added = 0;
+    Collection<Integer> values = reinforced.values();
+    for (int val : values) {
+      if (val <= 0) {
+        return false;
+      }
+      added += val;
+    }
+    return added == numberReinforce;
   }
 }
