@@ -81,7 +81,8 @@ public final class Main {
 
     // Setup Spark Routes
     Spark.webSocket("/matches", Matches.class);
-    Spark.get("/risk", new FrontHandler(), freeMarker);
+    Spark.get("/menu", new FrontHandler(), freeMarker);
+    Spark.get("/risk", new GameHandler(), freeMarker);
     // Spark.post("/connect", new ConnectHandler());
   }
 
@@ -94,25 +95,24 @@ public final class Main {
 
     @Override
     public ModelAndView handle(Request req, Response res) {
-      Map<String, Object> variables = ImmutableMap.of("title",
-          "Maps", "message", "No Updates to Show.");
-      return new ModelAndView(variables, "risk.ftl");
+      Map<String, Object> variables = ImmutableMap.of();
+      return new ModelAndView(variables, "menu.ftl");
     }
   }
 
-  // /**
-  // * Handle requests to find shortest paths.
-  // * @author bgabinet
-  // */
-  // private class ConnectHandler implements Route {
-  // @Override
-  // public String handle(Request req, Response res) {
-  // QueryParamsMap qm = req.queryMap();
-  // Map<String, Object> variables =
-  // ImmutableMap.of();
-  // return GSON.toJson(variables);
-  // }
-  // }
+  /**
+   * Handle requests to the front page of our Maps website.
+  *
+  * @author bgabinet
+  */
+ private static class GameHandler implements TemplateViewRoute {
+
+   @Override
+   public ModelAndView handle(Request req, Response res) {
+     Map<String, Object> variables = ImmutableMap.of();
+     return new ModelAndView(variables, "risk.ftl");
+   }
+ }
 
   /**
    * Display an error page when an exception occurs in the server.

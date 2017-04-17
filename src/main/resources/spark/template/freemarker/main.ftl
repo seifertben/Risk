@@ -25,11 +25,6 @@
 	 <script src="js/chat.js"></script>
      <script src="js/matches.js"></script>
      <script src="js/map.js"></script>
-     <script>
-$(document).ready(function() {
-  setup_matches();
-});
-</script>
 
   </body>
   <!-- See http://html5boilerplate.com/ for a good place to start
