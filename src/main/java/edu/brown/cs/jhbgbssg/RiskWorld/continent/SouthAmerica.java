@@ -18,7 +18,7 @@ public class SouthAmerica implements ContinentInterface {
     territories.add(TerritoryEnum.PERU);
     territories.add(TerritoryEnum.VENEZUELA);
     territories.add(TerritoryEnum.BRAZIL);
-    territories.add(TerritoryEnum.ARGENTINIA);
+    territories.add(TerritoryEnum.ARGENTINA);
   }
 
   @Override
