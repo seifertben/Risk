@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class Australia implements ContinentInterface {

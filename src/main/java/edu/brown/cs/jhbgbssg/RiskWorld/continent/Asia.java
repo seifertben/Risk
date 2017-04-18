@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class Asia implements ContinentInterface {
@@ -24,7 +23,7 @@ public class Asia implements ContinentInterface {
     territories.add(TerritoryEnum.KAMACHATKA);
     territories.add(TerritoryEnum.MIDDLE_EAST);
     territories.add(TerritoryEnum.MONGOLIA);
-    territories.add(TerritoryEnum.SIAM);
+    territories.add(TerritoryEnum.SOUTHEAST_ASIA);
     territories.add(TerritoryEnum.SIBERIA);
     territories.add(TerritoryEnum.URAL);
     territories.add(TerritoryEnum.YAKUTSK);

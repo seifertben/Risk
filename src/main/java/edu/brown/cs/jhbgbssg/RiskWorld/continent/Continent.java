@@ -1,8 +1,10 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  *

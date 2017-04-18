@@ -180,4 +180,125 @@ public class BoardTest {
     assertTrue(
         board.isNeighbor(TerritoryEnum.ARGENTINIA, TerritoryEnum.BRAZIL));
   }
+
+  public void testBrazilNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.BRAZIL, TerritoryEnum.VENEZUELA));
+    assertTrue(board.isNeighbor(TerritoryEnum.BRAZIL, TerritoryEnum.PERU));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.BRAZIL, TerritoryEnum.ARGENTINIA));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.BRAZIL, TerritoryEnum.NORTH_AFRICA));
+  }
+
+  public void testNorthAfricaNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.NORTH_AFRICA, TerritoryEnum.EGYPT));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTH_AFRICA,
+        TerritoryEnum.CENTRAL_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTH_AFRICA,
+        TerritoryEnum.EAST_AFRICA));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.NORTH_AFRICA, TerritoryEnum.BRAZIL));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTH_AFRICA,
+        TerritoryEnum.WESTERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTH_AFRICA,
+        TerritoryEnum.SOUTHERN_EUROPE));
+  }
+
+  public void testEgyptNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EGYPT, TerritoryEnum.NORTH_AFRICA));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EGYPT, TerritoryEnum.SOUTHERN_EUROPE));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EGYPT, TerritoryEnum.MIDDLE_EAST));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EGYPT, TerritoryEnum.EAST_AFRICA));
+  }
+
+  public void testEastAfricaNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EAST_AFRICA, TerritoryEnum.EGYPT));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EAST_AFRICA, TerritoryEnum.MIDDLE_EAST));
+    assertTrue(board.isNeighbor(TerritoryEnum.EAST_AFRICA,
+        TerritoryEnum.NORTH_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.EAST_AFRICA,
+        TerritoryEnum.CENTRAL_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.EAST_AFRICA,
+        TerritoryEnum.SOUTH_AFRICA));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.EAST_AFRICA, TerritoryEnum.MADAGASCAR));
+  }
+
+  public void testCentalAfricaNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.CENTRAL_AFRICA,
+        TerritoryEnum.EAST_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.CENTRAL_AFRICA,
+        TerritoryEnum.NORTH_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.CENTRAL_AFRICA,
+        TerritoryEnum.SOUTH_AFRICA));
+  }
+
+  public void testSouthAfricaNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.SOUTH_AFRICA,
+        TerritoryEnum.EAST_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.SOUTH_AFRICA,
+        TerritoryEnum.CENTRAL_AFRICA));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.SOUTH_AFRICA, TerritoryEnum.MADAGASCAR));
+  }
+
+  public void testGreenlandNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.QUEBEC));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ONTARIO));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+  }
+
+  public void testIcelandNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.ICELAND, TerritoryEnum.GREAT_BRITIAN));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.ICELAND, TerritoryEnum.SCANDINAVIA));
+  }
+
+  public void testGreatBritianNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.GREAT_BRITIAN, TerritoryEnum.ICELAND));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREAT_BRITIAN,
+        TerritoryEnum.NORTHERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREAT_BRITIAN,
+        TerritoryEnum.WESTERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREAT_BRITIAN,
+        TerritoryEnum.SCANDINAVIA));
+  }
+
+  public void testWesternEuropeNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
+        TerritoryEnum.NORTHERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
+        TerritoryEnum.SOUTHERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
+        TerritoryEnum.NORTH_AFRICA));
+  }
+
+  public void testSouthernEuropeNeighbors() {
+
+  }
 }

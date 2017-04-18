@@ -14,12 +14,12 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.ImmutableGraph;
 import com.google.common.graph.MutableGraph;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.Africa;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.Asia;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.Australia;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.Europe;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.NorthAmerica;
@@ -104,7 +104,7 @@ public class RiskBoard {
     builder.putEdge(TerritoryEnum.SIBERIA, TerritoryEnum.MONGOLIA);
     builder.putEdge(TerritoryEnum.SIBERIA, TerritoryEnum.CHINA);
     builder.putEdge(TerritoryEnum.CHINA, TerritoryEnum.INDIA);
-    builder.putEdge(TerritoryEnum.CHINA, TerritoryEnum.SIAM);
+    builder.putEdge(TerritoryEnum.CHINA, TerritoryEnum.SOUTHEAST_ASIA);
     builder.putEdge(TerritoryEnum.CHINA, TerritoryEnum.MONGOLIA);
     builder.putEdge(TerritoryEnum.MONGOLIA, TerritoryEnum.IRKUTSK);
     builder.putEdge(TerritoryEnum.MONGOLIA, TerritoryEnum.KAMACHATKA);
@@ -112,8 +112,8 @@ public class RiskBoard {
     builder.putEdge(TerritoryEnum.IRKUTSK, TerritoryEnum.YAKUTSK);
     builder.putEdge(TerritoryEnum.IRKUTSK, TerritoryEnum.KAMACHATKA);
     builder.putEdge(TerritoryEnum.KAMACHATKA, TerritoryEnum.ALASKA);
-    builder.putEdge(TerritoryEnum.SIAM, TerritoryEnum.INDIA);
-    builder.putEdge(TerritoryEnum.SIAM, TerritoryEnum.INDONESIA);
+    builder.putEdge(TerritoryEnum.SOUTHEAST_ASIA, TerritoryEnum.INDIA);
+    builder.putEdge(TerritoryEnum.SOUTHEAST_ASIA, TerritoryEnum.INDONESIA);
     builder.putEdge(TerritoryEnum.INDONESIA, TerritoryEnum.NEW_GUINEA);
     builder.putEdge(TerritoryEnum.NEW_GUINEA, TerritoryEnum.WESTERN_AUSTRALIA);
     builder.putEdge(TerritoryEnum.NEW_GUINEA, TerritoryEnum.EASTERN_AUSTRALIA);
