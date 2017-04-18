@@ -8,7 +8,8 @@ const MESSAGE_TYPE = {
   ADD: 4,
   CREATE: 5,
   CHECK: 6,
-  CHANGE: 7
+  CHANGE: 7,
+  DESTROY: 8
 };
 
 let conn;
@@ -35,14 +36,21 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.CHANGE:
-        console.log("HI");
-        console.log(matches[data.oldGameId].length);
-        let index = matches[data.oldGameId].indexOf(data.playerId);
-        matches[data.oldGameId].splice(index, 1);
-        console.log(matches[data.oldGameId].length);
+        let Cindex = matches[data.oldGameId].indexOf(data.playerId);
+    	if (matches[data.oldGameId].length == 1) {
+      	  matches[data.oldGameId] = [];
+      	} else {
+      	  matches[data.oldGameId].splice(Cindex, 1);
+      	}
         break;
 
       case MESSAGE_TYPE.REMOVE:
+    	let Rindex = matches[data.gameId].indexOf(data.playerId);
+    	if (matches[data.gameId].length == 1) {
+    	  matches[data.gameId] = [];
+    	} else {
+    	  matches[data.gameId].splice(Rindex, 1);
+    	}
 		break;
 
       case MESSAGE_TYPE.ADD:
@@ -54,10 +62,10 @@ const setup_matches = () => {
       case MESSAGE_TYPE.CREATE:
    		let game = document.createElement("BUTTON");
    		game.id = data.gameId;
-
-   		document.getElementById("matches").appendChild(game);  
-   		document.getElementById(game.id).innerHTML = "New Game";
-   		document.getElementById(game.id).value = document.getElementById("playerNum").value;
+   		game.name = data.matchName;
+   		document.getElementById("matches").appendChild(game);
+   		document.getElementById(game.id).innerHTML = data.matchName + "'s Game: " + data.playerNum + "/" + data.lobbySize;
+   		document.getElementById(game.id).value = data.lobbySize;
 
    		if (matches[game.id] == null) {
    			matches[game.id] = [];
@@ -93,13 +101,18 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.CHECK:
         if (matches[data.gameId].length == document.getElementById(data.gameId).value) {
-            let mess = {"type" : "2", "gameId" : data.gameId};
-        	conn.send(JSON.stringify(mess));
+          let mess = {"type" : MESSAGE_TYPE.START, "gameId" : data.gameId};
+          conn.send(JSON.stringify(mess));
         }
         break;
 
       case MESSAGE_TYPE.START:
         document.getElementById("game").submit();
+        break;
+
+      case MESSAGE_TYPE.DESTROY:
+        $("#" + data.gameId).remove();
+        matches[data.gameId] = null;
         break;
     }
   };
@@ -117,14 +130,14 @@ function guid() {
 
 const create_match = event => {
 	event.preventDefault();
-	let mess = {"type" : "5", "gameId" : guid()}
+	let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(), "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
 	conn.send(JSON.stringify(mess));
 }
 
 const join_match = event => {
 	event.preventDefault();
 	let game = event.target;
-	let mess = {"type" : "3", "playerId" : myId, "gameId" : game.id};
+	let mess = {"type" : MESSAGE_TYPE.JOIN, "playerId" : myId, "gameId" : game.id};
 	conn.send(JSON.stringify(mess));
 }
 
