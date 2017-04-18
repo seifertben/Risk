@@ -2,6 +2,8 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveType;
+
 /**
  * Models a RiskPlayer turn.
  *
@@ -10,7 +12,7 @@ import java.util.UUID;
  */
 public class Turn {
 
-  private TurnPhase phase = TurnPhase.BEGIN;
+  private MoveType phase = MoveType.REINFORCE;
 
   private UUID playerId;
   private RiskPlayer player;
@@ -22,18 +24,18 @@ public class Turn {
 
   }
 
-  public void changePhase(TurnPhase newPhase) {
+  public void changePhase(MoveType newPhase) {
     phase = newPhase;
     // call referee
   }
 
-  public TurnPhase getPhase() {
+  public MoveType getPhase() {
     return phase;
   }
 
   public void setTurnId(UUID id) {
     playerId = id;
-    changePhase(TurnPhase.BEGIN);
+    changePhase(MoveType.REINFORCE);
   }
 
   public UUID getPlayerId() {
