@@ -9,6 +9,7 @@ public class Match {
 
   private final UUID id;
   private List<UUID> players;
+  private boolean started = false;
 
   public Match(UUID uid) {
     players = Collections.synchronizedList(new ArrayList<>());
@@ -25,12 +26,26 @@ public class Match {
     }
   }
 
+  public void removePlayer(UUID playerId) {
+    if (players.contains(playerId)) {
+      players.remove(playerId);
+    }
+  }
+
   public int playerNum() {
     return players.size();
   }
 
   public List<UUID> getPlayers() {
     return new ArrayList<UUID>(players);
+  }
+
+  public boolean started() {
+    return started;
+  }
+
+  public void start() {
+    started = true;
   }
 
   @Override
