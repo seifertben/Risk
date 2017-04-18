@@ -1,7 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -43,7 +42,6 @@ public class Referee {
   private Move lastMove;
   private Map<UUID, RiskPlayer> players;
   private boolean validLastMove = true;
-  private Map<UUID, Move> validMoves;
 
   private ValidReinforceMove validReinforce = null;
   private ValidCardMove validCard = null;
@@ -62,38 +60,40 @@ public class Referee {
 
   public GameUpdate setRestrictions() {
     GameUpdate toSend = new GameUpdate();
-    Map<UUID, Move> availableMoves = new HashMap<>();
+    Move availableMoves;
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
       case REINFORCE:
         // call a method to fill in valid Reinforce Move
-        availableMoves.put(playerId, new ReinforceMove(playerId, null));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = //
+            toSend.setValidMoves(availableMoves);
         break;
       case TURN_IN_CARD:
-        availableMoves.put(playerId, new CardTurnInMove(playerId, null, null));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = //
+            toSend.setValidMoves(availableMoves);
         break;
       case CHOOSE_ATTACK_DIE:
-        availableMoves.put(playerId, new ReinforceMove(playerId, null));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = // .put(playerId, new ReinforceMove(playerId, null));
+            toSend.setValidMoves(availableMoves);
         break;
       case CHOOSE_DEFEND_DIE:
-        availableMoves.put(playerId, new DefendMove(playerId, null, 3));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = //
+            toSend.setValidMoves(availableMoves);
         break;
       case CLAIM_TERRITORY:
-        availableMoves.put(playerId,
-            new ClaimTerritoryMove(playerId, null, null, 0));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = //
+            toSend.setValidMoves(availableMoves);
         break;
       case MOVE_TROOPS:
-        availableMoves.put(playerId,
-            new MoveTroopsMove(playerId, null, null, 0));
-        toSend.setValidMoves(availableMoves);
+        availableMoves = //
+            toSend.setValidMoves(availableMoves);
         break;
     }
     return toSend;
+  }
+
+  private ReinforceMove getReinforceMove() {
+    // TODO : calculate valid move
   }
 
   public GameUpdate getNextGameUpdate(Move currMove) {
