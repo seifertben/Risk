@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 
 public enum ContinentEnum {
 

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class SouthAmerica implements ContinentInterface {
@@ -19,7 +18,7 @@ public class SouthAmerica implements ContinentInterface {
     territories.add(TerritoryEnum.PERU);
     territories.add(TerritoryEnum.VENEZUELA);
     territories.add(TerritoryEnum.BRAZIL);
-    territories.add(TerritoryEnum.ARGENTINIA);
+    territories.add(TerritoryEnum.ARGENTINA);
   }
 
   @Override

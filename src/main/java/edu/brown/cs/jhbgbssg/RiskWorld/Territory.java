@@ -2,6 +2,8 @@ package edu.brown.cs.jhbgbssg.RiskWorld;
 
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
+
 /**
  * Represents a Territory.
  *

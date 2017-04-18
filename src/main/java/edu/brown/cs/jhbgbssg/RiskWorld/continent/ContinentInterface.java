@@ -3,7 +3,6 @@ package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public interface ContinentInterface {
