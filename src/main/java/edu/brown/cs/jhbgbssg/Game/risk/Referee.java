@@ -3,7 +3,6 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -221,50 +220,6 @@ public class Referee {
 
   public RiskPlayer nextPlayer() {
     return null;
-  }
-
-  private void setUpHandInCardsPhase() {
-    RiskPlayer player = turn.getPlayer();
-    cardsToTurnIn = player.getCards();
-    if (cardsToTurnIn.size() != 0) {
-      canTurnInCard = true;
-    }
-  }
-
-  private void setUpReinforcementPhase() {
-
-  }
-
-  public boolean checkHandInCards(Multiset<Integer> cardsHandedIn,
-      Map<TerritoryEnum, Integer> addedTroops) {
-    RiskPlayer player = turn.getPlayer();
-    int added = 0;
-    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
-      if (!player.hasTerritory(entry.getKey())) {
-        return false;
-      }
-      added += entry.getValue();
-    }
-    int allowed = 0;
-    for (int card : cardsToTurnIn) {
-      allowed = allowed + card;
-    }
-    return allowed >= added;
-  }
-
-  public boolean checkReinforceTroops(Map<TerritoryEnum, Integer> addedTroops) {
-    RiskPlayer player = turn.getPlayer();
-    int number = 0;
-    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
-      if (!player.hasTerritory(entry.getKey())) {
-        return false;
-      }
-      number += entry.getValue();
-    }
-    if (number != reinforceNumber) {
-      return false;
-    }
-    return true;
   }
 
   /**
