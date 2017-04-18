@@ -62,29 +62,29 @@ public class Referee {
     Move availableMoves;
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
-      case REINFORCE:
-        availableMoves = this.getValidReinforceMove();
-        toSend.setValidMoves(availableMoves);
-        break;
-      case TURN_IN_CARD:
-        availableMoves = this.getValidCardMove();
-        toSend.setValidMoves(availableMoves);
-        break;
-      case CHOOSE_ATTACK_DIE:
-        availableMoves = toSend.setValidMoves(availableMoves);
-        break;
-      case CHOOSE_DEFEND_DIE:
-        availableMoves = //
-            toSend.setValidMoves(availableMoves);
-        break;
-      case CLAIM_TERRITORY:
-        availableMoves = //
-            toSend.setValidMoves(availableMoves);
-        break;
-      case MOVE_TROOPS:
-        availableMoves = this.getValidMoveTroopsMove();
-        toSend.setValidMoves(availableMoves);
-        break;
+    case REINFORCE:
+      availableMoves = this.getValidReinforceMove();
+      toSend.setValidMoves(availableMoves);
+      break;
+    case TURN_IN_CARD:
+      availableMoves = this.getValidCardMove();
+      toSend.setValidMoves(availableMoves);
+      break;
+    case CHOOSE_ATTACK_DIE:
+      availableMoves = toSend.setValidMoves(availableMoves);
+      break;
+    case CHOOSE_DEFEND_DIE:
+      availableMoves = //
+          toSend.setValidMoves(availableMoves);
+      break;
+    case CLAIM_TERRITORY:
+      availableMoves = //
+          toSend.setValidMoves(availableMoves);
+      break;
+    case MOVE_TROOPS:
+      availableMoves = this.getValidMoveTroopsMove();
+      toSend.setValidMoves(availableMoves);
+      break;
     }
     return toSend;
   }
@@ -128,6 +128,53 @@ public class Referee {
     return new ValidMoveTroopsMove(player.getPlayerId(), canReach, maxMove);
   }
 
+  private ValidAttackMove getValidAttackMove() {
+    UUID playerId = turn.getPlayerId();
+    RiskPlayer player = turn.getPlayer();
+
+    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
+    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
+        .getPlayerAttackMap(player);
+
+    Collection<Territory> territories = board.getTerritories();
+
+    for (Territory terr : territories) {
+      int numTroops = terr.getNumberTroops();
+      int maxDice = Math.min(3, numTroops - 1);
+      chooseDie.put(terr.getTerritoryId(), maxDice);
+    }
+    ValidAttackMove move = new ValidAttackMove(playerId,
+        chooseDie, whoToAttack);
+    return move;
+  }
+
+  private ValidDieDefendMove getValidDieDefendMove() {
+    UUID playerId = turn.getPlayerId();
+    Territory terr = board
+        .getTerritory(((AttackMove) lastMove).getAttackTo());
+    int troops = terr.getNumberTroops();
+    int maxNumDefendDice = 0;
+    if (troops >= 2) {
+      maxNumDefendDice = 2;
+    } else {
+      maxNumDefendDice = 1;
+    }
+    ValidDieDefendMove move = new ValidDieDefendMove(playerId,
+        ((AttackMove) lastMove).getAttackTo(), maxNumDefendDice);
+    return move;
+  }
+
+  private ValidClaimTerritoryMove getValidClaimTerritoryMove() {
+    UUID playerId = turn.getPlayerId();
+    Territory attacking = board
+        .getTerritory(((DefendMove) lastMove).getAttackingTerritory());
+    int maxTroopMove = attacking.getNumberTroops() - 1;
+    ValidClaimTerritoryMove move = new ValidClaimTerritoryMove(playerId,
+        ((DefendMove) lastMove).getAttackingTerritory(),
+        ((DefendMove) lastMove).getDefendedTerritory(), maxTroopMove);
+    return move;
+  }
+
   public GameUpdate getNextGameUpdate(Move currMove) {
     if (validLastMove) {
       // updateNextAvailableMoves based on currMove
@@ -142,27 +189,27 @@ public class Referee {
   public boolean validateMove(Move currMove) {
     MoveType type = currMove.getMoveType();
     switch (type) {
-      case REINFORCE:
-        validLastMove = this.validateReinforce((ReinforceMove) currMove);
-        break;
-      case TURN_IN_CARD:
-        validLastMove = this.validateCardTurnIn((CardTurnInMove) currMove);
-      case CHOOSE_ATTACK_DIE:
-        validLastMove = this.validateAttackMove((AttackMove) currMove);
-        break;
-      case CHOOSE_DEFEND_DIE:
-        validLastMove = this.validateDefendMove((DefendMove) currMove);
-        break;
-      case CLAIM_TERRITORY:
-        validLastMove = this
-            .validateClaimTerritory((ClaimTerritoryMove) currMove);
-        break;
-      case MOVE_TROOPS:
-        validLastMove = this.validateMoveTroopsMove((MoveTroopsMove) currMove);
-        break;
-      default:
-        validLastMove = this.validateEndMove((EndMove) currMove);
-        break;
+    case REINFORCE:
+      validLastMove = this.validateReinforce((ReinforceMove) currMove);
+      break;
+    case TURN_IN_CARD:
+      validLastMove = this.validateCardTurnIn((CardTurnInMove) currMove);
+    case CHOOSE_ATTACK_DIE:
+      validLastMove = this.validateAttackMove((AttackMove) currMove);
+      break;
+    case CHOOSE_DEFEND_DIE:
+      validLastMove = this.validateDefendMove((DefendMove) currMove);
+      break;
+    case CLAIM_TERRITORY:
+      validLastMove = this
+          .validateClaimTerritory((ClaimTerritoryMove) currMove);
+      break;
+    case MOVE_TROOPS:
+      validLastMove = this.validateMoveTroopsMove((MoveTroopsMove) currMove);
+      break;
+    default:
+      validLastMove = this.validateEndMove((EndMove) currMove);
+      break;
     }
     return validLastMove;
   }
@@ -225,8 +272,10 @@ public class Referee {
   /**
    * Checks that the Turn's player is this player.
    *
-   * @param turn - turn
-   * @param playerID - id of player
+   * @param turn
+   *          - turn
+   * @param playerID
+   *          - id of player
    * @return true if this player is the turn player.
    */
   public static boolean checkPlayerTurn(Turn turn, UUID playerID) {
@@ -236,7 +285,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is attacking
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if the it is the attacking phase; false otherwise
    */
   public static boolean checkAttackPhase(Turn turn) {
@@ -246,7 +296,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is reinforcement.
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the reinforcement phase; false otherwise
    */
   public static boolean checkReinforcementPhase(Turn turn) {
@@ -254,10 +305,10 @@ public class Referee {
   }
 
   /**
-   * Checks that the current phase of the turn is movement of troops to a
-   * conquered territory
+   * Checks that the current phase of the turn is movement of troops to a conquered territory
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the movement phase; false otherwise
    */
   public static boolean checkMovementPhase(Turn turn) {
@@ -267,7 +318,8 @@ public class Referee {
   /**
    * Checks that the current phase of the turn is beginning.
    *
-   * @param turn - current turn
+   * @param turn
+   *          - current turn
    * @return true if it is the beginning phase; false otherwise
    */
   public static boolean checkBeginningPhase(Turn turn) {
@@ -277,9 +329,12 @@ public class Referee {
   /**
    * Checks that the two territories are adjacent.
    *
-   * @param board - current board of the game
-   * @param terr1 - id of territory 1
-   * @param terr2 - id of territory 2
+   * @param board
+   *          - current board of the game
+   * @param terr1
+   *          - id of territory 1
+   * @param terr2
+   *          - id of territory 2
    * @return true if the territories are adjacent; false otherwise.
    */
   public static boolean checkAdjacentTerritory(RiskBoard board,
@@ -290,8 +345,10 @@ public class Referee {
   /**
    * Checks the player owns the territory.
    *
-   * @param player - player
-   * @param terr - id of territory
+   * @param player
+   *          - player
+   * @param terr
+   *          - id of territory
    * @return true if the player owns the territory; false otherwise
    */
   public static boolean checkTerritoryOwner(RiskPlayer player,
@@ -302,7 +359,8 @@ public class Referee {
   /**
    * checks the territory has more than 1 troop.
    *
-   * @param terr - territory
+   * @param terr
+   *          - territory
    * @return true if the territory has more than one troop; false otherwise
    */
   public static boolean checkTerritoryAttack(Territory terr) {
@@ -312,21 +370,25 @@ public class Referee {
   /**
    * Checks that the chosen number of Die is less than the number of troops
    *
-   * @param terr - territory
-   * @param numberDie - number of die to roll
-   * @return true if number of die to roll is less than the number of troops in
-   *         the territory; false otherwise
+   * @param terr
+   *          - territory
+   * @param numberDie
+   *          - number of die to roll
+   * @return true if number of die to roll is less than the number of troops in the territory; false
+   *         otherwise
    */
   public static boolean checkNumberDieAttack(Territory terr, int numberDie) {
     return terr.getNumberTroops() > numberDie;
   }
 
   /**
-   * Checks that the chosen number of die to defend with is equal to or less
-   * than the number of troops.
+   * Checks that the chosen number of die to defend with is equal to or less than the number of
+   * troops.
    *
-   * @param terr - territory
-   * @param numberDie - chosen number of die
+   * @param terr
+   *          - territory
+   * @param numberDie
+   *          - chosen number of die
    * @return true if check is true; false otherwise
    */
   public static boolean checkNumberDieDefend(Territory terr, int numberDie) {
@@ -334,8 +396,8 @@ public class Referee {
   }
 
   /**
-   * Checks the number of troops chosen to move is less than the total number of
-   * troops in the territory.
+   * Checks the number of troops chosen to move is less than the total number of troops in the
+   * territory.
    *
    * @param terr
    * @param numberMove
@@ -350,7 +412,8 @@ public class Referee {
   /**
    * Checks if the territory has been lost.
    *
-   * @param terr - territory
+   * @param terr
+   *          - territory
    * @return
    */
   public static boolean checkTerritoryLoss(Territory terr) {
@@ -381,7 +444,8 @@ public class Referee {
   /**
    * Checks that the territory can be claimed.
    *
-   * @param terr - territory trying to be claimed
+   * @param terr
+   *          - territory trying to be claimed
    * @return
    */
   public static boolean checkClaimTerritory(Territory terr) {
@@ -391,8 +455,10 @@ public class Referee {
   /**
    * Checks if the player has won the game.
    *
-   * @param player - player
-   * @param board - risk board
+   * @param player
+   *          - player
+   * @param board
+   *          - risk board
    * @return true if hte player won the game; false otherwise
    */
   public static boolean checkWonGame(RiskPlayer player, RiskBoard board) {
@@ -402,7 +468,8 @@ public class Referee {
   /**
    * Checks if the caredPool is empty.
    *
-   * @param cardPool - cared pool
+   * @param cardPool
+   *          - cared pool
    * @return
    */
   public static boolean checkCardPool(CardPool cardPool) {
