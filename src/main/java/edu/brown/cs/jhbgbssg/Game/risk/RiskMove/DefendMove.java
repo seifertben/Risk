@@ -7,11 +7,14 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class DefendMove implements Move {
   private UUID playerId;
   private TerritoryEnum defended;
+  private TerritoryEnum attacking;
   private int defendDie;
 
-  public DefendMove(UUID playerId, TerritoryEnum defended, int defendDie) {
+  public DefendMove(UUID playerId, TerritoryEnum attacking,
+      TerritoryEnum defended, int defendDie) {
     this.playerId = playerId;
     this.defended = defended;
+    this.attacking = attacking;
     this.defendDie = defendDie;
   }
 
@@ -31,5 +34,9 @@ public class DefendMove implements Move {
 
   public TerritoryEnum getDefendedTerritory() {
     return defended;
+  }
+
+  public TerritoryEnum getAttackingTerritory() {
+    return attacking;
   }
 }
