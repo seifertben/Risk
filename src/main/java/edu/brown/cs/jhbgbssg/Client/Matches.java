@@ -35,13 +35,14 @@ public class Matches {
 
   private static enum MESSAGE_TYPE {
     CONNECT,
-    UPDATE,
+    REMOVE,
     START,
     JOIN,
     ADD,
     CREATE,
     CHECK,
-    CHANGE
+    CHANGE,
+    DESTROY
   }
 
   /**
@@ -61,28 +62,29 @@ public class Matches {
     session.getRemote().sendString(jj.toString());
 
     for (Match game : matches) {
+      if (!game.started()) {
+        JsonObject update = new JsonObject();
+        update.addProperty("type", MESSAGE_TYPE.CREATE.ordinal());
+        update.addProperty("gameId", game.getId());
+        update.addProperty("playerNum", game.playerNum());
 
-      JsonObject update = new JsonObject();
-      update.addProperty("type", MESSAGE_TYPE.CREATE.ordinal());
-      update.addProperty("gameId", game.getId());
-      update.addProperty("playerNum", game.playerNum());
+        JsonObject players = new JsonObject();
+        List<UUID> playerIds = game.getPlayers();
+        for (int index = 0; index < game.playerNum(); index++) {
+          String prop = "player" + index;
+          String id = playerIds.get(index).toString();
+          players.addProperty(prop, id);
+        }
 
-      JsonObject players = new JsonObject();
-      List<UUID> playerIds = game.getPlayers();
-      for (int index = 0; index < game.playerNum(); index++) {
-        String prop = "player" + index;
-        String id = playerIds.get(index).toString();
-        players.addProperty(prop, id);
+        update.add("playerList", players);
+        session.getRemote().sendString(update.toString());
       }
-
-      update.add("playerList", players);
-      session.getRemote().sendString(update.toString());
     }
   }
 
   @OnWebSocketClose
-  public void closed(Session session, int statusCode, String reason) {
-    // REMOVE PLAYER FROM ALL CACHING, UPDATE BACK END
+  public void closed(Session session, int statusCode, String reason) throws IOException {
+    remove_player(session);
     sessions.remove(session);
   }
 
@@ -123,7 +125,6 @@ public class Matches {
     update.addProperty("gameId", received.get("gameId").getAsString());
     update.addProperty("playerNum", toAdd.playerNum());
 
-
     UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
     // Make sure this player is listed in their requested
     // lobby, and is not present in two lobbies at once
@@ -131,20 +132,20 @@ public class Matches {
       playerToGame.put(UUID.fromString(received.get("playerId").getAsString()),
           UUID.fromString(received.get("gameId").getAsString()));
     } else {
-      if (!playerToGame.get(playerUUID).toString().equals(gameUUID.toString())) {
-        System.out.println("HI");
         JsonObject change = new JsonObject();
+        Match toChange = matchIdToClass.get(playerToGame.get(playerUUID));
+        toChange.removePlayer(playerUUID);
         change.addProperty("type", MESSAGE_TYPE.CHANGE.ordinal());
         change.addProperty("playerId", received.get("playerId").getAsString());
         change.addProperty("oldGameId", playerToGame.get(playerUUID).toString());
         for (Session player : sessions) {
-          System.out.println("looping");
           if (!inGame.contains(sessionToPlayer.get(player))) {
-            System.out.println("IMIN");
             player.getRemote().sendString(change.toString());
           }
         }
-      }
+
+      playerToGame.put(UUID.fromString(received.get("playerId").getAsString()),
+              UUID.fromString(received.get("gameId").getAsString()));
     }
 
     // Update all players of this lobby change
@@ -177,6 +178,17 @@ public class Matches {
       inGame.add(players.get(index));
       playerToSession.get(players.get(index)).getRemote().sendString(update.toString());
     }
+
+    update = new JsonObject();
+    update.addProperty("type", MESSAGE_TYPE.DESTROY.ordinal());
+    update.addProperty("gameId", received.get("gameId").getAsString());
+    for (Session player : sessions) {
+      if (!inGame.contains(sessionToPlayer.get(player))) {
+        player.getRemote().sendString(update.toString());
+      }
+    }
+
+    toStart.start();
   }
 
   private void create_lobby(Session session, String message) throws IOException {
@@ -192,11 +204,28 @@ public class Matches {
     update.addProperty("type", MESSAGE_TYPE.CREATE.ordinal());   
     update.addProperty("gameId", received.get("gameId").getAsString());
     update.addProperty("playerNum", game.playerNum());
+    update.addProperty("lobbySize", received.get("lobbySize").getAsString());
+    update.addProperty("matchName", received.get("matchName").getAsString());
     JsonObject players = new JsonObject();
     update.add("playerList", players);
     for (Session player : sessions) {
       if (!inGame.contains(sessionToPlayer.get(player))) {
         player.getRemote().sendString(update.toString());
+      }
+    }
+  }
+
+  private void remove_player(Session session) throws IOException {
+    UUID playerId = sessionToPlayer.get(session);
+    Match game = matchIdToClass.get(playerToGame.get(playerId));
+    game.removePlayer(playerId);
+    JsonObject remove = new JsonObject();
+    remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());
+    remove.addProperty("playerId", playerId.toString());
+    remove.addProperty("gameId", playerToGame.get(playerId).toString());
+    for (Session player : sessions) {
+      if (player != session && !inGame.contains(sessionToPlayer.get(player))) {
+        player.getRemote().sendString(remove.toString());
       }
     }
   }
