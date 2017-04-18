@@ -35,9 +35,11 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.CHANGE:
-        match[data.oldGameId].filter(function(i) {
-        	return i != data.playerId;
-        });
+        console.log("HI");
+        console.log(matches[data.oldGameId].length);
+        let index = matches[data.oldGameId].indexOf(data.playerId);
+        matches[data.oldGameId].splice(index, 1);
+        console.log(matches[data.oldGameId].length);
         break;
 
       case MESSAGE_TYPE.REMOVE:

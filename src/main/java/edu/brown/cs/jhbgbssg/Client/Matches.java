@@ -112,8 +112,8 @@ public class Matches {
     JsonObject received = GSON.fromJson(message, JsonObject.class);
 
     // Update match
-    UUID idAsUUID = UUID.fromString(received.get("gameId").getAsString());
-    Match toAdd = matchIdToClass.get(idAsUUID);
+    UUID gameUUID = UUID.fromString(received.get("gameId").getAsString());
+    Match toAdd = matchIdToClass.get(gameUUID);
     toAdd.addPlayer(UUID.fromString(received.get("playerId").getAsString()));
 
     // Setup response message
@@ -123,19 +123,24 @@ public class Matches {
     update.addProperty("gameId", received.get("gameId").getAsString());
     update.addProperty("playerNum", toAdd.playerNum());
 
+
+    UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
     // Make sure this player is listed in their requested
     // lobby, and is not present in two lobbies at once
-    if (playerToGame.get(received.get("playerId").getAsString()) == null) {
+    if (playerToGame.get(playerUUID) == null) {
       playerToGame.put(UUID.fromString(received.get("playerId").getAsString()),
           UUID.fromString(received.get("gameId").getAsString()));
     } else {
-      if (!playerToGame.get(received.get("playerId").getAsString()).toString().equals(received.get("gameId").getAsString())) {
+      if (!playerToGame.get(playerUUID).toString().equals(gameUUID.toString())) {
+        System.out.println("HI");
         JsonObject change = new JsonObject();
         change.addProperty("type", MESSAGE_TYPE.CHANGE.ordinal());
         change.addProperty("playerId", received.get("playerId").getAsString());
-        change.addProperty("oldGameId", playerToGame.get(received.get("playerId").getAsString()).toString());
+        change.addProperty("oldGameId", playerToGame.get(playerUUID).toString());
         for (Session player : sessions) {
+          System.out.println("looping");
           if (!inGame.contains(sessionToPlayer.get(player))) {
+            System.out.println("IMIN");
             player.getRemote().sendString(change.toString());
           }
         }
@@ -151,7 +156,7 @@ public class Matches {
 
     JsonObject checkStart = new JsonObject();
     checkStart.addProperty("type", MESSAGE_TYPE.CHECK.ordinal());
-    checkStart.addProperty("gameId", idAsUUID.toString());
+    checkStart.addProperty("gameId", gameUUID.toString());
     session.getRemote().sendString(checkStart.toString());
   }
 
