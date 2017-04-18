@@ -60,6 +60,7 @@ public class Referee {
 
   public GameUpdate setRestrictions() {
     GameUpdate toSend = new GameUpdate();
+<<<<<<< HEAD
     Move availableMoves;
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
