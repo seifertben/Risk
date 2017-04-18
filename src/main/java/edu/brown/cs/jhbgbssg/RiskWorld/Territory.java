@@ -110,4 +110,8 @@ public class Territory {
   public ContinentEnum getContinent() {
     return this.contId;
   }
+
+  public UUID getOwner() {
+    return playerId;
+  }
 }

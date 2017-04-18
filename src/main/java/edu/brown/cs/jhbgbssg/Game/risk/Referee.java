@@ -3,7 +3,6 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,7 +42,6 @@ public class Referee {
   private Move lastMove;
   private Map<UUID, RiskPlayer> players;
   private boolean validLastMove = true;
-
   private ValidReinforceMove validReinforce = null;
   private ValidCardMove validCard = null;
   private ValidAttackMove validAttack = null;
@@ -65,17 +63,15 @@ public class Referee {
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
     case REINFORCE:
-      // call a method to fill in valid Reinforce Move
-      availableMoves = //
-          toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidReinforceMove();
+      toSend.setValidMoves(availableMoves);
       break;
     case TURN_IN_CARD:
-      availableMoves = //
-          toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidCardMove();
+      toSend.setValidMoves(availableMoves);
       break;
     case CHOOSE_ATTACK_DIE:
-      availableMoves = // .put(playerId, new ReinforceMove(playerId, null));
-          toSend.setValidMoves(availableMoves);
+      availableMoves = toSend.setValidMoves(availableMoves);
       break;
     case CHOOSE_DEFEND_DIE:
       availableMoves = //
@@ -86,15 +82,97 @@ public class Referee {
           toSend.setValidMoves(availableMoves);
       break;
     case MOVE_TROOPS:
-      availableMoves = //
-          toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidMoveTroopsMove();
+      toSend.setValidMoves(availableMoves);
       break;
     }
     return toSend;
   }
 
-  private ReinforceMove getReinforceMove() {
-    // TODO : calculate valid move
+  /**
+   * Sets the valid moves for reinforce.
+   *
+   * @return ValidReinforceMove
+   */
+  private ValidReinforceMove getValidReinforceMove() {
+    RiskPlayer player = turn.getPlayer();
+    int reinforce = player.getNumberTerritories() / 3;
+    Set<TerritoryEnum> territories = player.getTerritories();
+    Collection<ContinentInterface> conts = board.getContinents();
+    for (ContinentInterface cont : conts) {
+      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
+      if (territories.containsAll(territoriesInCont)) {
+        reinforce += cont.getBonusValue();
+      }
+    }
+    ValidReinforceMove valid = new ValidReinforceMove(player.getPlayerId(),
+        player.getTerritories(), reinforce);
+    return valid;
+  }
+
+  private ValidCardMove getValidCardMove() {
+    RiskPlayer player = turn.getPlayer();
+    Multiset<Integer> cards = player.getCards();
+    Set<TerritoryEnum> territories = player.getTerritories();
+    return new ValidCardMove(player.getPlayerId(), cards, territories);
+  }
+
+  private ValidMoveTroopsMove getValidMoveTroopsMove() {
+    RiskPlayer player = turn.getPlayer();
+    Multimap<TerritoryEnum, TerritoryEnum> canReach = board
+        .getMoveableTroops(player);
+    Map<TerritoryEnum, Integer> maxMove = new HashMap<>();
+    for (TerritoryEnum id : canReach.keySet()) {
+      maxMove.put(id, board.getTerritory(id).getNumberTroops() - 1);
+    }
+    return new ValidMoveTroopsMove(player.getPlayerId(), canReach, maxMove);
+  }
+
+  private ValidAttackMove getValidAttackMove() {
+    UUID playerId = turn.getPlayerId();
+    RiskPlayer player = turn.getPlayer();
+
+    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
+    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
+        .getPlayerAttackMap(player);
+
+    Collection<Territory> territories = board.getTerritories();
+
+    for (Territory terr : territories) {
+      int numTroops = terr.getNumberTroops();
+      int maxDice = Math.min(3, numTroops - 1);
+      chooseDie.put(terr.getTerritoryId(), maxDice);
+    }
+    ValidAttackMove move = new ValidAttackMove(playerId,
+        chooseDie, whoToAttack);
+    return move;
+  }
+
+  private ValidDieDefendMove getValidDieDefendMove() {
+    UUID playerId = turn.getPlayerId();
+    Territory terr = board
+        .getTerritory(((AttackMove) lastMove).getAttackTo());
+    int troops = terr.getNumberTroops();
+    int maxNumDefendDice = 0;
+    if (troops >= 2) {
+      maxNumDefendDice = 2;
+    } else {
+      maxNumDefendDice = 1;
+    }
+    ValidDieDefendMove move = new ValidDieDefendMove(playerId,
+        ((AttackMove) lastMove).getAttackTo(), maxNumDefendDice);
+    return move;
+  }
+
+  private ValidClaimTerritoryMove getValidClaimTerritoryMove() {
+    UUID playerId = turn.getPlayerId();
+    Territory attacking = board
+        .getTerritory(((DefendMove) lastMove).getAttackingTerritory());
+    int maxTroopMove = attacking.getNumberTroops() - 1;
+    ValidClaimTerritoryMove move = new ValidClaimTerritoryMove(playerId,
+        ((DefendMove) lastMove).getAttackingTerritory(),
+        ((DefendMove) lastMove).getDefendedTerritory(), maxTroopMove);
+    return move;
   }
 
   public GameUpdate getNextGameUpdate(Move currMove) {
@@ -189,107 +267,6 @@ public class Referee {
 
   public RiskPlayer nextPlayer() {
     return null;
-  }
-
-  private void setUpHandInCardsPhase() {
-    RiskPlayer player = turn.getPlayer();
-    cardsToTurnIn = player.getCards();
-    if (cardsToTurnIn.size() != 0) {
-      canTurnInCard = true;
-    }
-  }
-
-  private void setUpReinforcementPhase() {
-    RiskPlayer player = turn.getPlayer();
-    int reinforce = player.getNumberTerritories() / 3;
-    Set<TerritoryEnum> territories = player.getTerritories();
-    Collection<ContinentInterface> conts = board.getContinents();
-    for (ContinentInterface cont : conts) {
-      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
-      if (territories.containsAll(territoriesInCont)) {
-        reinforce += cont.getBonusValue();
-      }
-    }
-    reinforceNumber = reinforce;
-  }
-
-  public boolean checkHandInCards(Multiset<Integer> cardsHandedIn,
-      Map<TerritoryEnum, Integer> addedTroops) {
-    RiskPlayer player = turn.getPlayer();
-    int added = 0;
-    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
-      if (!player.hasTerritory(entry.getKey())) {
-        return false;
-      }
-      added += entry.getValue();
-    }
-    int allowed = 0;
-    for (int card : cardsToTurnIn) {
-      allowed = allowed + card;
-    }
-    return allowed >= added;
-  }
-
-  public boolean checkReinforceTroops(Map<TerritoryEnum, Integer> addedTroops) {
-    RiskPlayer player = turn.getPlayer();
-    int number = 0;
-    for (Entry<TerritoryEnum, Integer> entry : addedTroops.entrySet()) {
-      if (!player.hasTerritory(entry.getKey())) {
-        return false;
-      }
-      number += entry.getValue();
-    }
-    if (number != reinforceNumber) {
-      return false;
-    }
-    return true;
-  }
-
-  private ValidAttackMove getValidAttackMove() {
-    UUID playerId = turn.getPlayerId();
-    RiskPlayer player = turn.getPlayer();
-
-    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
-    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
-        .getPlayerAttackMap(player);
-
-    Collection<Territory> territories = board.getTerritories();
-
-    for (Territory terr : territories) {
-      int numTroops = terr.getNumberTroops();
-      int maxDice = Math.min(3, numTroops - 1);
-      chooseDie.put(terr.getTerritoryId(), maxDice);
-    }
-    ValidAttackMove move = new ValidAttackMove(playerId,
-        chooseDie, whoToAttack);
-    return move;
-  }
-
-  private ValidDieDefendMove getValidDieDefendMove() {
-    UUID playerId = turn.getPlayerId();
-    Territory terr = board
-        .getTerritory(((AttackMove) lastMove).getAttackTo());
-    int troops = terr.getNumberTroops();
-    int maxNumDefendDice = 0;
-    if (troops >= 2) {
-      maxNumDefendDice = 2;
-    } else {
-      maxNumDefendDice = 1;
-    }
-    ValidDieDefendMove move = new ValidDieDefendMove(playerId,
-        ((AttackMove) lastMove).getAttackTo(), maxNumDefendDice);
-    return move;
-  }
-
-  private ValidClaimTerritoryMove getValidClaimTerritoryMove() {
-    UUID playerId = turn.getPlayerId();
-    Territory attacking = board
-        .getTerritory(((DefendMove) lastMove).getAttackingTerritory());
-    int maxTroopMove = attacking.getNumberTroops() - 1;
-    ValidClaimTerritoryMove move = new ValidClaimTerritoryMove(playerId,
-        ((DefendMove) lastMove).getAttackingTerritory(),
-        ((DefendMove) lastMove).getDefendedTerritory(), maxTroopMove);
-    return move;
   }
 
   /**

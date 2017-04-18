@@ -1,11 +1,14 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -187,34 +190,26 @@ public class RiskBoard {
     return continentMap.get(contId);
   }
 
-  public Set<TerritoryEnum> getAttackableTerritories(
-      Set<TerritoryEnum> territories) {
-    Set<TerritoryEnum> attackableTerritories = new HashSet<>();
-    for (TerritoryEnum terrId : territories) {
-      Territory terr = territoryMap.get(terrId);
-      if (terr.getNumberTroops() > 1) {
-        attackableTerritories.add(terrId);
-      }
-    }
-    return attackableTerritories;
-  }
-
-  public Multimap<TerritoryEnum, TerritoryEnum> getPlayerAttackMap(
+  public Multimap<TerritoryEnum, TerritoryEnum> getMoveableTroops(
       RiskPlayer player) {
-    Set<TerritoryEnum> territories = player.getTerritories();
-    Multimap<TerritoryEnum, TerritoryEnum> attackMap = HashMultimap.create();
-    for (TerritoryEnum terrId : territories) {
-      Territory terr = territoryMap.get(terrId);
-      if (terr.getNumberTroops() > 1) {
-        Set<TerritoryEnum> otherIds = board.adjacentNodes(terrId);
-        for (TerritoryEnum otherId : otherIds) {
-          if (!territories.contains(otherId)) {
-            attackMap.put(terrId, otherId);
+    Set<TerritoryEnum> terrs = player.getTerritories();
+    UUID playerId = player.getPlayerId();
+    Multimap<TerritoryEnum, TerritoryEnum> canReach = HashMultimap.create();
+    for (TerritoryEnum id : terrs) {
+      Territory terr = territoryMap.get(id);
+      if (terr != null && terr.getNumberTroops() > 1) {
+        Deque<TerritoryEnum> visit = new ArrayDeque<>(board.adjacentNodes(id));
+        while (!visit.isEmpty()) {
+          TerritoryEnum pop = visit.pop();
+          Territory neighbor = territoryMap.get(pop);
+          if (neighbor.getOwner().equals(playerId)) {
+            visit.addAll(board.adjacentNodes(pop));
+            canReach.put(id, pop);
           }
         }
       }
     }
-    return attackMap;
+    return canReach;
   }
 
   public Set<TerritoryEnum> getTerritoryIds() {
