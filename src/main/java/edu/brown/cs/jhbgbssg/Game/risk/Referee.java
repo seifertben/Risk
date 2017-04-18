@@ -1,6 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -42,7 +43,6 @@ public class Referee {
   private Move lastMove;
   private Map<UUID, RiskPlayer> players;
   private boolean validLastMove = true;
-
   private ValidReinforceMove validReinforce = null;
   private ValidCardMove validCard = null;
   private ValidAttackMove validAttack = null;
@@ -60,22 +60,19 @@ public class Referee {
 
   public GameUpdate setRestrictions() {
     GameUpdate toSend = new GameUpdate();
-<<<<<<< HEAD
     Move availableMoves;
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
       case REINFORCE:
-        // call a method to fill in valid Reinforce Move
-        availableMoves = //
-            toSend.setValidMoves(availableMoves);
+        availableMoves = this.getValidReinforceMove();
+        toSend.setValidMoves(availableMoves);
         break;
       case TURN_IN_CARD:
-        availableMoves = //
-            toSend.setValidMoves(availableMoves);
+        availableMoves = this.getValidCardMove();
+        toSend.setValidMoves(availableMoves);
         break;
       case CHOOSE_ATTACK_DIE:
-        availableMoves = // .put(playerId, new ReinforceMove(playerId, null));
-            toSend.setValidMoves(availableMoves);
+        availableMoves = toSend.setValidMoves(availableMoves);
         break;
       case CHOOSE_DEFEND_DIE:
         availableMoves = //
@@ -86,15 +83,50 @@ public class Referee {
             toSend.setValidMoves(availableMoves);
         break;
       case MOVE_TROOPS:
-        availableMoves = //
-            toSend.setValidMoves(availableMoves);
+        availableMoves = this.getValidMoveTroopsMove();
+        toSend.setValidMoves(availableMoves);
         break;
     }
     return toSend;
   }
 
-  private ReinforceMove getReinforceMove() {
-    // TODO : calculate valid move
+  /**
+   * Sets the valid moves for reinforce.
+   *
+   * @return ValidReinforceMove
+   */
+  private ValidReinforceMove getValidReinforceMove() {
+    RiskPlayer player = turn.getPlayer();
+    int reinforce = player.getNumberTerritories() / 3;
+    Set<TerritoryEnum> territories = player.getTerritories();
+    Collection<ContinentInterface> conts = board.getContinents();
+    for (ContinentInterface cont : conts) {
+      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
+      if (territories.containsAll(territoriesInCont)) {
+        reinforce += cont.getBonusValue();
+      }
+    }
+    ValidReinforceMove valid = new ValidReinforceMove(player.getPlayerId(),
+        player.getTerritories(), reinforce);
+    return valid;
+  }
+
+  private ValidCardMove getValidCardMove() {
+    RiskPlayer player = turn.getPlayer();
+    Multiset<Integer> cards = player.getCards();
+    Set<TerritoryEnum> territories = player.getTerritories();
+    return new ValidCardMove(player.getPlayerId(), cards, territories);
+  }
+
+  private ValidMoveTroopsMove getValidMoveTroopsMove() {
+    RiskPlayer player = turn.getPlayer();
+    Multimap<TerritoryEnum, TerritoryEnum> canReach = board
+        .getMoveableTroops(player);
+    Map<TerritoryEnum, Integer> maxMove = new HashMap<>();
+    for (TerritoryEnum id : canReach.keySet()) {
+      maxMove.put(id, board.getTerritory(id).getNumberTroops() - 1);
+    }
+    return new ValidMoveTroopsMove(player.getPlayerId(), canReach, maxMove);
   }
 
   public GameUpdate getNextGameUpdate(Move currMove) {
@@ -200,17 +232,7 @@ public class Referee {
   }
 
   private void setUpReinforcementPhase() {
-    RiskPlayer player = turn.getPlayer();
-    int reinforce = player.getNumberTerritories() / 3;
-    Set<TerritoryEnum> territories = player.getTerritories();
-    Collection<ContinentInterface> conts = board.getContinents();
-    for (ContinentInterface cont : conts) {
-      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
-      if (territories.containsAll(territoriesInCont)) {
-        reinforce += cont.getBonusValue();
-      }
-    }
-    reinforceNumber = reinforce;
+
   }
 
   public boolean checkHandInCards(Multiset<Integer> cardsHandedIn,
