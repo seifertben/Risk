@@ -71,15 +71,16 @@ public class Referee {
       toSend.setValidMoves(availableMoves);
       break;
     case CHOOSE_ATTACK_DIE:
-      availableMoves = toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidAttackMove();
+      toSend.setValidMoves(availableMoves);
       break;
     case CHOOSE_DEFEND_DIE:
-      availableMoves = //
-          toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidDieDefendMove();
+      toSend.setValidMoves(availableMoves);
       break;
     case CLAIM_TERRITORY:
-      availableMoves = //
-          toSend.setValidMoves(availableMoves);
+      availableMoves = this.getValidClaimTerritoryMove();
+      toSend.setValidMoves(availableMoves);
       break;
     case MOVE_TROOPS:
       availableMoves = this.getValidMoveTroopsMove();
