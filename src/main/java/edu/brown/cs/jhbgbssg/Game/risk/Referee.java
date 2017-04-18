@@ -62,11 +62,11 @@ public class Referee {
 
   public GameUpdate setRestrictions() {
     GameUpdate toSend = new GameUpdate();
-    HashMap availableMoves = new HashMap();
+    HashMap<UUID, Move> availableMoves = new HashMap<>();
     UUID playerId = turn.getPlayerId();
     switch (turn.getPhase()) {
     case REINFORCE:
-      availableMoves.put(playerId, new ReinforceMove(playerId, null));
+      availableMoves.put(playerId, new ValidReinforceMove(playerId, null, 0));
       toSend.setValidMoves(availableMoves);
       break;
     case TURN_IN_CARD:
