@@ -8,36 +8,51 @@ import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 public class TerritoryTest {
 
   @Test
   public void territoryConstructorTest() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA,
+        ContinentEnum.NORTH_AMERICA);
     assertNotNull(territory);
   }
 
   @Test(expected = IllegalArgumentException.class)
+  public void territoryConstructorNullTerr() {
+    new Territory(null, ContinentEnum.NORTH_AMERICA);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void territoryConstructorNullCont() {
+    new Territory(TerritoryEnum.ALASKA, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void territoryConstructorNullInput() {
-    new Territory(null);
+    new Territory(null, null);
   }
 
   @Test
   public void testInitialUnitSize() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA,
+        ContinentEnum.NORTH_AMERICA);
     assertTrue(territory.getNumberTroops() == 0);
   }
 
   @Test
   public void testAddTroops() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA,
+        ContinentEnum.NORTH_AMERICA);
     territory.addTroops(3);
     assertTrue(territory.getNumberTroops() == 3);
   }
 
   @Test
   public void testRemoveTroops() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA,
+        ContinentEnum.NORTH_AMERICA);
     territory.addTroops(3);
     assertTrue(territory.getNumberTroops() == 3);
     assertFalse(territory.removeTroops(2));
@@ -46,12 +61,12 @@ public class TerritoryTest {
 
   @Test
   public void testRemoveAllTroops() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA,
+        ContinentEnum.NORTH_AMERICA);
     territory.addTroops(3);
     assertTrue(territory.getNumberTroops() == 3);
     assertFalse(territory.removeTroops(2));
     assertTrue(territory.getNumberTroops() == 1);
-
   }
 
 }

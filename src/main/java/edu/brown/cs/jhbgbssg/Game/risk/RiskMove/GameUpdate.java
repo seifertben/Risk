@@ -1,22 +1,22 @@
 package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 public class GameUpdate {
-  private Move currMove;
+  private UUID playerId;
   private Set<UUID> newLoss;
   private Set<UUID> lostGame;
   private UUID wonGame;
-  private Map<UUID, Move> availableMoves;
+  private Move currMove;
+  private Move availableMoves;
   private Map<UUID, Integer> errors;
 
   public GameUpdate() {
     lostGame = new HashSet<>();
-    availableMoves = new HashMap<>();
+    availableMoves = null;
   }
 
   public void setCurrMove(Move currMove) {
@@ -27,11 +27,12 @@ public class GameUpdate {
     return this.currMove;
   }
 
-  public void setValidMoves(Map<UUID, Move> availableMoves) {
+  public void setValidMoves(Move availableMoves) {
+    this.playerId = availableMoves.getMovePlayer();
     this.availableMoves = availableMoves;
   }
 
-  public Map<UUID, Move> getValidMoves() {
+  public Move getValidMoves() {
     return this.availableMoves;
   }
 
@@ -64,5 +65,9 @@ public class GameUpdate {
 
   public Map<UUID, Integer> getErrors() {
     return this.errors;
+  }
+
+  public UUID getCurrentPlayer() {
+    return this.playerId;
   }
 }
