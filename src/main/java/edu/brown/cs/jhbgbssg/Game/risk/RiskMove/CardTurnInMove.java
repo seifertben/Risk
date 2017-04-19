@@ -10,7 +10,7 @@ public class CardTurnInMove implements Move {
   private Integer card;
   private Map<TerritoryEnum, Integer> terr;
 
-  public CardTurnInMove(UUID playerId, Integer card,
+  public CardTurnInMove(UUID playerId, int card,
       Map<TerritoryEnum, Integer> terr) {
     this.playerId = playerId;
     this.card = card;

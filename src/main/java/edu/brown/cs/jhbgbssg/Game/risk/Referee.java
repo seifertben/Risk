@@ -16,7 +16,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.DefendMove;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.Move;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ReinforceMove;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidAttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidCardMove;
@@ -37,7 +36,6 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 public class Referee {
   private RiskBoard board;
   private Turn turn;
-
   private Move lastMove;
   private boolean validLastMove = true;
   private ValidReinforceMove validReinforce = null;
@@ -184,35 +182,7 @@ public class Referee {
 
   }
 
-  public boolean validateMove(Move currMove) {
-    MoveType type = currMove.getMoveType();
-    switch (type) {
-      case REINFORCE:
-        validLastMove = this.validateReinforce((ReinforceMove) currMove);
-        break;
-      case TURN_IN_CARD:
-        validLastMove = this.validateCardTurnIn((CardTurnInMove) currMove);
-      case CHOOSE_ATTACK_DIE:
-        validLastMove = this.validateAttackMove((AttackMove) currMove);
-        break;
-      case CHOOSE_DEFEND_DIE:
-        validLastMove = this.validateDefendMove((DefendMove) currMove);
-        break;
-      case CLAIM_TERRITORY:
-        validLastMove = this
-            .validateClaimTerritory((ClaimTerritoryMove) currMove);
-        break;
-      case MOVE_TROOPS:
-        validLastMove = this.validateMoveTroopsMove((MoveTroopsMove) currMove);
-        break;
-      default:
-        validLastMove = this.validateEndMove((EndMove) currMove);
-        break;
-    }
-    return validLastMove;
-  }
-
-  private boolean validateReinforce(ReinforceMove move) {
+  public boolean validateReinforce(ReinforceMove move) {
     // check can do so
     if (validReinforce == null) {
       return false;
@@ -220,33 +190,33 @@ public class Referee {
     return validReinforce.validReinforceMove(move);
   }
 
-  private boolean validateCardTurnIn(CardTurnInMove move) {
+  public boolean validateCardTurnIn(CardTurnInMove move) {
     if (validCard == null) {
       return false;
     }
     return validCard.validateCardMove(move);
   }
 
-  private boolean validateAttackMove(AttackMove move) {
+  public boolean validateAttackMove(AttackMove move) {
     if (validAttack == null) {
       return false;
     }
     return validAttack.validAttackMove(move);
   }
 
-  private boolean validateDefendMove(DefendMove move) {
+  public boolean validateDefendMove(DefendMove move) {
     // TODO : Fill in
     return false;
   }
 
-  private boolean validateClaimTerritory(ClaimTerritoryMove move) {
+  public boolean validateClaimTerritory(ClaimTerritoryMove move) {
     if (validClaim == null) {
       return false;
     }
     return validClaim.validClaimTerritory(move);
   }
 
-  private boolean validateMoveTroopsMove(MoveTroopsMove move) {
+  public boolean validateMoveTroopsMove(MoveTroopsMove move) {
     if (validMove == null) {
       return false;
     }
@@ -255,11 +225,6 @@ public class Referee {
 
   private boolean validateEndMove(EndMove move) {
     // TODO : fill in
-    return false;
-  }
-
-  public boolean checkLastMove() {
-    // depending on ENUM value check move
     return false;
   }
 
