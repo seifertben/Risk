@@ -1,11 +1,11 @@
 $( document ).ready(function() {
 	setUp();
 	activateDropDown(5);
-	addcard();
-	addcard();
-	addcard();
-	addcard();
-	addcard();
+	// addcard();
+	// addcard();
+	// addcard();
+	// addcard();
+	// addcard();
 
 
 });
@@ -15,7 +15,7 @@ function setUp () {
 	createDropdown();
 	$sideNav = $('#n');
 	$sideNav.append("<br>")
-	$sideNav.append("<button type='button' class='btn btn-danger'>Attack</button>");
+	$sideNav.append("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>");
 	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 	$sideNav.append($( "<ul id = 'blackRoll'>"));
 	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
@@ -24,9 +24,26 @@ function setUp () {
 	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $bottom = $('#bottom');
-
+	   hideAll();
 
 }
+ function hideAll() {
+ 	$("#attack").hide();
+ 	$("#attackerRollText").hide();
+ 		$("#defenderRollText").hide();
+ 	$("#blackRoll").hide();
+ 	$("#redRoll").hide();
+ 	$("#attackLoss").hide();
+ 	$("#defendLoss").hide();
+ 	$("#attackingWho").hide();
+ 	$("#defenderStatus").hide();
+ 	$("#attackerStatus").hide();
+ 	$("#dropdownbutton").hide();
+ 	$("#soldierOptions").hide();
+
+
+ }
+
 function addcard() {
 	$('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
 }
@@ -50,15 +67,19 @@ function createPlayer(number) {
 }
 function attackStatus() {
 	const $div = $("#n");
-	let $attack = $("<br><br><br><p></p>");
+	let $br = $("<br><br><br>");
+	$div.append($br);
+	let $attack = $("<p></p>");
 	$attack.attr("id", "attackingWho");
 	$attack.html("You are attacking Player 2 in China!");
 	$div.append($attack);
 	let $attackerStatus = $("<p></p>");
 	$attackerStatus.html("You have 5 soldiers in Russia");
+		$attackerStatus.attr("id", "attackerStatus");
 	$div.append($attackerStatus);
 	let $defenderStatus = $("<p></p>");
 	$defenderStatus.html("Player 2 has 3 soldiers in China");
+	$defenderStatus.attr("id", "defenderStatus");
 	$div.append($defenderStatus);
 }
 function createDropdown() {
