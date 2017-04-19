@@ -40,11 +40,15 @@ const IRKUSTK = [58.664724, 127.776577];
 const SIBERIA = [67.160839,103.342985];
 const URAL = [66.666218,67.958187];
 const AFGHANISTAN = [37.768380, 66.896086];
+// var planeSVG = d="M 1072.8956,639.08362 L 1561.5008,639.08362";
+var planeSVG = "m2,106h28l24,30h72l-44,-133h35l80,132h98c21,0 21,34 0,34l-98,0 -80,134h-35l43,-133h-71l-24,30h-28l15,-47";
+
+var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
 let EUSDATA = {
       "latitude": EUS[0], 
       "longitude": EUS[1],
       // "svgPath": icon,
-      "type": "circle",
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "E. US",
@@ -52,12 +56,12 @@ let EUSDATA = {
       "zoomLevel": 5,
       "title": "Eastern United States",
         "id": "Eastern United States",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let WUSDATA = {
       "latitude": WUS[0],
       "longitude":  WUS[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "W. US",
@@ -65,12 +69,12 @@ let WUSDATA = {
       "zoomLevel": 5,
       "title": "Western United States",
         "id": "Western United States",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let QUEBECDATA =  {
       "latitude": QUEBEC[0],
       "longitude":   QUEBEC[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Quebec",
@@ -78,12 +82,12 @@ let QUEBECDATA =  {
       "zoomLevel": 5,
       "title": "Quebec",
         "id": "Quebec",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let ONTARIODATA =  {
       "latitude": ONTARIO[0], 
       "longitude":   ONTARIO[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Ontario",
@@ -91,12 +95,12 @@ let ONTARIODATA =  {
       "zoomLevel": 5,
       "title": "Ontario",
       "id": "Northwest Territories",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let ALBERTADATA =  {
       "latitude": ALBERTA[0], 
       "longitude":  ALBERTA[1] ,
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Alberta",
@@ -104,12 +108,12 @@ let ALBERTADATA =  {
       "zoomLevel": 5,
       "title": "Alberta",
       "id": "Northwest Territories",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let NWTERRITORIESDATA =  {
       "latitude": NWTERRITORIES[0],
       "longitude":   NWTERRITORIES[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "NW Territories",
@@ -117,12 +121,12 @@ let NWTERRITORIESDATA =  {
       "zoomLevel": 5,
       "title": "Northwest Territories",
       "id": "Northwest Territories",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let ALASKADATA =  {
       "latitude": ALASKA[0],
       "longitude":   ALASKA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Alaska",
@@ -130,12 +134,12 @@ let ALASKADATA =  {
       "zoomLevel": 5,
       "title": "Alaska",
       "id": "Alaska",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let GREENLANDDATA =   {
       "latitude": GREENLAND[0],
       "longitude":    GREENLAND[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Greenland",
@@ -143,12 +147,12 @@ let GREENLANDDATA =   {
       "zoomLevel": 5,
       "title": "Greenland",
        "id": "Greenland",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let CADATA =  {
       "latitude": CA[0],
       "longitude":     CA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "C. America",
@@ -156,13 +160,13 @@ let CADATA =  {
       "zoomLevel": 5,
       "title": "Central America",
       "id": "Central America",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 
 let VZDATA = {
       "latitude": VZ[0], 
       "longitude":    VZ[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Venezuela",
@@ -170,12 +174,12 @@ let VZDATA = {
       "zoomLevel": 5,
       "title": "Venezuela",
       "id": "Venezuela",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let PERUDATA= {
       "latitude": PERU[0],
       "longitude":   PERU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Peru",
@@ -183,12 +187,12 @@ let PERUDATA= {
       "zoomLevel": 5,
       "title": "Peru",
       "id": "Peru",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
     let BRAZILDATA =  {
       "latitude": BRAZIL[0],
       "longitude":    BRAZIL[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Brazil",
@@ -196,25 +200,25 @@ let PERUDATA= {
       "zoomLevel": 5,
       "title": "Brazil",
       "id": "Brazil",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
     let ARGENTINADATA =   {
       "latitude": ARGENTINA[0],
       "longitude":  ARGENTINA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Argentina",
       "labelShiftY": 2,
       "zoomLevel": 5,
       "title": "Argentina",
-      "description": "Occupied by Player 1. Soldiers: 5",
+      "description": "Occupied by No One",
       "id": "Argentina"
     };
 let ICELANDDATA = {
       "latitude": ICELAND[0], 
       "longitude": ICELAND[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Iceland",
@@ -222,12 +226,12 @@ let ICELANDDATA = {
       "zoomLevel": 5,
       "title": "Iceland",
       "id": "Iceland",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let GBDATA =  {
       "latitude":   GB[0],
       "longitude":  GB[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "GB",
@@ -235,12 +239,12 @@ let GBDATA =  {
       "zoomLevel": 5,
       "title": "Great Britain",
         "id": "Great Britain",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let WEUDATA =  {
       "latitude":    WEU[0],
       "longitude":  WEU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "W EU",
@@ -248,12 +252,12 @@ let WEUDATA =  {
       "zoomLevel": 5,
       "title": "Western Europe",
       "id": "Western Europe",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let NEUDATA = {
       "latitude":    NEU[0],
       "longitude":   NEU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "N EU",
@@ -261,12 +265,12 @@ let NEUDATA = {
       "zoomLevel": 5,
       "title": "Northern Europe",
        "id": "Northern Europe",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let SEUDATA =    {
       "latitude":    SEU[0],
       "longitude":   SEU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "S EU",
@@ -274,12 +278,12 @@ let SEUDATA =    {
       "zoomLevel": 5,
       "title": "Southern Europe",
        "id": "Southern Europe",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
     let SCANDINAVIADATA =   {
       "latitude":    SCANDINAVIA[0], 
       "longitude":   SCANDINAVIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Scandinavia",
@@ -287,12 +291,12 @@ let SEUDATA =    {
       "zoomLevel": 5,
       "title": "Scandinavia",
        "id": "Scandinavia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let RUSSIADATA =  {
       "latitude":    RUSSIA[0],
       "longitude":   RUSSIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Russia",
@@ -300,12 +304,12 @@ let RUSSIADATA =  {
       "zoomLevel": 5,
       "title": "Russia",
        "id": "Russia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let NAFDATA =  {
       "latitude":    NAF[0],
       "longitude":   NAF[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "N. AF",
@@ -313,12 +317,12 @@ let NAFDATA =  {
       "zoomLevel": 5,
       "title": "Northern Africa",
        "id": "Northern Africa",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let EGYPTDATA =   {
       "latitude":   EGYPT[0],
       "longitude":   EGYPT[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Egypt",
@@ -326,12 +330,12 @@ let EGYPTDATA =   {
       "zoomLevel": 5,
       "title": "Egypt",
        "id": "Egypt",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let CAFDATA =  {
       "latitude":     CAF[0],
       "longitude":    CAF[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "C. AF",
@@ -339,12 +343,12 @@ let CAFDATA =  {
       "zoomLevel": 5,
       "title": "Central Africa",
       "id": "Central Africa",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
   let EAFDATA = {
       "latitude":     EAF[0], 
       "longitude":    EAF[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "E. AF",
@@ -352,12 +356,12 @@ let CAFDATA =  {
       "zoomLevel": 5,
       "title": "Eastern Africa",
        "id": "Eastern Africa",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
   };
   let SAFDATA =   {
       "latitude":    SAF[0],
       "longitude":    SAF[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "S. AF",
@@ -365,12 +369,12 @@ let CAFDATA =  {
       "zoomLevel": 5,
       "title": "Southern Africa",
        "id": "Southern Africa",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let MADAGASCARDATA =   {
       "latitude":   MADAGASCAR[0],
       "longitude":     MADAGASCAR[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Madagascar",
@@ -378,12 +382,12 @@ let MADAGASCARDATA =   {
       "zoomLevel": 5,
       "title": "Madagascar",
        "id": "Madagascar",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let WAUDATA =  {
       "latitude":   WAU[0],
       "longitude":     WAU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "W. AU",
@@ -391,13 +395,13 @@ let WAUDATA =  {
       "zoomLevel": 5,
       "title": "Western Australia",
        "id": "Western Australia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let EAUDATA = {
    
       "latitude":   EAU[0], 
       "longitude":     EAU[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "E. AU",
@@ -405,13 +409,13 @@ let EAUDATA = {
       "zoomLevel": 5,
       "title": "Eastern Australia",
        "id": "Eastern Australia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     
 };
 let INDONESIADATA =  {
       "latitude":  INDONESIA[0], 
       "longitude":    INDONESIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Indonesia",
@@ -419,12 +423,12 @@ let INDONESIADATA =  {
       "zoomLevel": 5,
       "title": "Indonesia",
        "id": "Indonesia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let NEWGUINEADATA =   {
       "latitude":  NEWGUINEA[0],
       "longitude":   NEWGUINEA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "New Guinea",
@@ -432,12 +436,12 @@ let NEWGUINEADATA =   {
       "zoomLevel": 5,
       "title": "New Guinea",
         "id": "New Guinea",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let MEDATA =  {
       "latitude":  ME[0], 
       "longitude":  ME[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Middle East",
@@ -445,12 +449,12 @@ let MEDATA =  {
       "zoomLevel": 5,
       "title": "Middle East",
         "id": "Middle East",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let INDIADATA =  {
       "latitude":  INDIA[0],
       "longitude":  INDIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "India",
@@ -458,12 +462,12 @@ let INDIADATA =  {
       "zoomLevel": 5,
       "title": "India",
        "id": "India",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let SEASIADATA =   {
       "latitude": SEASIA[0], 
       "longitude":  SEASIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "SE Asia",
@@ -471,12 +475,12 @@ let SEASIADATA =   {
       "zoomLevel": 5,
       "title": "SouthEast Asia",
         "id": "SouthEast Asia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let CHINADATA =   {
       "latitude": CHINA[0],
       "longitude":  CHINA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "China",
@@ -484,12 +488,12 @@ let CHINADATA =   {
       "zoomLevel": 5,
       "title": "China",
       "id": "China",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let MONGOLIADATA =   {
       "latitude": MONGOLIA[0],
       "longitude":  MONGOLIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Mongolia",
@@ -497,12 +501,12 @@ let MONGOLIADATA =   {
       "zoomLevel": 5,
       "title": "Mongolia",
       "id": "Mongolia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let JAPANDATA =    {
       "latitude": JAPAN[0],
       "longitude":  JAPAN[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Japan",
@@ -510,12 +514,12 @@ let JAPANDATA =    {
       "zoomLevel": 5,
       "title": "Japan",
         "id": "Japan",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let KAMCHATKADATA =  {
       "latitude": KAMCHATKA[0],
       "longitude":   KAMCHATKA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
@@ -523,12 +527,12 @@ let KAMCHATKADATA =  {
       "zoomLevel": 5,
       "title": "Kamchatka",
        "id": "Kamchatka",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let YAKUTSKDATA = {
      "latitude": YAKUTSK[0],
       "longitude":  YAKUTSK[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
@@ -536,12 +540,12 @@ let YAKUTSKDATA = {
       "zoomLevel": 5,
       "title": "Yakutsk",
       "id": "Yakutsk",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
 };
 let IRKUSTKDATA =  {
       "latitude": IRKUSTK[0], 
       "longitude":  IRKUSTK[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Irkustk",
@@ -549,12 +553,12 @@ let IRKUSTKDATA =  {
       "zoomLevel": 5,
       "title": "Irkustk",
       "id": "Irkustk",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let SIBERIADATA =   {
       "latitude": SIBERIA[0],
       "longitude": SIBERIA[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Siberia",
@@ -562,12 +566,12 @@ let SIBERIADATA =   {
       "zoomLevel": 5,
       "title": "Siberia",
        "id": "Siberia",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let URALDATA =   {
       "latitude": URAL[0],
       "longitude":  URAL[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Ural",
@@ -575,12 +579,12 @@ let URALDATA =   {
       "zoomLevel": 5,
       "title": "Ural",
        "id": "Ural",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     };
 let AFGHANISTANDATA =    {
       "latitude": AFGHANISTAN[0],
       "longitude": AFGHANISTAN[1],
-      "type": "circle" ,
+      "svgPath": targetSVG,
      "color": "#000000",
       "scale": 0.5,
       "label": "Afghanistan",
@@ -588,7 +592,7 @@ let AFGHANISTANDATA =    {
       "zoomLevel": 5,
       "title": "Afghanistan",
        "id": "Afghanistan",
-      "description": "Occupied by Player 1. Soldiers: 5"
+      "description": "Occupied by No One"
     }
 let EUS_WUS = {
       "latitudes": [ EUS[0], WUS[0]],
@@ -607,12 +611,14 @@ let EUS_CA = {
 let EUS_ONTARIO =  {
       "latitudes": [ EUS[0], ONTARIO[0] ],
       "longitudes": [ EUS[1], ONTARIO[1] ],
-        "color": "black"
+        "color": "black",
+        "id": "EUS_ONTARIO"
     };
 let WUS_CA = {
       "latitudes": [ WUS[0], CA[0]],
       "longitudes": [ WUS[1], CA[1]],
-        "color": "black"
+        "color": "black", 
+        "id": "WUS_CA"
 
     };
 let WUS_ALBERTA = {
@@ -643,7 +649,8 @@ let ALBERTA_ALASKA = {
 let ONTARIO_QUEBEC = {
       "latitudes": [ ONTARIO[0], QUEBEC[0]],
       "longitudes": [ ONTARIO[1], QUEBEC[1] ],
-        "color": "black"
+        "color": "black",
+        "id": "ONTARIO_QUEBEC"
     };
 let ONTARIO_NWTERRITORIES =  {
       "latitudes": [ ONTARIO[0], NWTERRITORIES[0]],
@@ -810,6 +817,7 @@ let BRAZIL_PERU =   {
       "longitudes": [BRAZIL[1], PERU[1]],
         "color": "black"
     };
+
 let ARGENTINA_BRAZIL =   {
       "latitudes": [BRAZIL[0],  ARGENTINA[0]],
       "longitudes": [BRAZIL[1], ARGENTINA[1]],
@@ -991,17 +999,53 @@ let INDONESIA_WAU =  {
       "longitudes": [WAU[1], INDONESIA[1]],
        "color": "black"
     };
+let ALASKA_INF = {
+   "latitudes": [ALASKA[0], KAMCHATKA[0]],
+      "longitudes": [ALASKA[1], -9999],
+       "color": "black"
+}
+let KAMCHATKA_INF = {
+   "latitudes": [ALASKA[0], KAMCHATKA[0]],
+      "longitudes": [9999, KAMCHATKA[1]],
+       "color": "black"
+}
 let lines  =  [EUS_WUS, EUS_QUEBEC, EUS_CA,EUS_ONTARIO,WUS_CA, WUS_ALBERTA, WUS_ONTARIO, ALBERTA_ONTARIO, ALBERTA_NWTERRITORIES, ALBERTA_ALASKA, ONTARIO_QUEBEC,
 ONTARIO_NWTERRITORIES, ONTARIO_GREENLAND, NWTERRITORIES_ALASKA,NWTERRITORIES_GREENLAND, GREENLAND_ICELAND, GREENLAND_QUEBEC, ICELAND_GB, SCANDINAVIA_ICELAND, 
 SCANDINAVIA_GB, NEU_GB, WEU_GB,WEU_SEU, WEU_NAF,WEU_NEU, NEU_RUSSIA,NEU_SEU,SCANDINAVIA_NEU,SCANDINAVIA_RUSSIA,EGYPT_SEU,MEU_SEU,NAF_SEU,NAF_EGYPT,NAF_CAF,NAF_EAF,
 NAF_BRAZIL,EAF_CAF, SAF_CAF,SAF_EAF,MADAGASCAR_EAF,MADAGASCAR_SAF,EGYPT_EAF,EGYPT_ME,BRAZIL_PERU,ARGENTINA_BRAZIL, BRAZIL_VZ,VZ_CA,VZ_PERU,ARGENTINA_PERU,ME_RUSSIA,
 AFGHANISTAN_ME,ME_INDIA,URAL_RUSSIA,AFGHANISTAN_RUSSIA,AFGHANISTAN_URAL,URAL_CHINA,URAL_SIBERIA,AFGHANISTAN_CHINA,AFGHANISTAN_INDIA,CHINA_INDIA,SEASIA_INDIA,
 CHINA_MONGOLIA,CHINA_SEASIA,IRKUSTK_MONGOLIA,JAPAN_MONGOLIA,KAMCHATKA_MONGOLIA,YAKUTSK_IRKUSTK,IRKUSTK_SIBERIA,KAMCHATKA_JAPAN,IRKUSTK_KAMCHATKRA, YAKUTSK_SIBERIA,
-KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_INDONESIA,NEWGUINEA_WAU,NEWGUINEA_EAU,WAU_EAU,INDONESIA_WAU];
+KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_INDONESIA,NEWGUINEA_WAU,NEWGUINEA_EAU,WAU_EAU,INDONESIA_WAU, ALASKA_INF, KAMCHATKA_INF,
+{
+      "svgPath": planeSVG,
+      "positionOnLine": 0,
+      "color": "#000000",
+      "alpha": 0.1,
+      "animateAlongLine": true,
+      "lineId": "EUS_ONTARIO",
+      "flipDirection": true,
+      "loop": true,
+      "scale": 0.03,
+      "positionScale": 1.3
+    }
+    // , {
+    //   "svgPath": planeSVG,
+    //   "positionOnLine": 0,
+    //   "color": "#585869",
+    //   "animateAlongLine": true,
+    //   "lineId": "ONTARIO_QUEBEC",
+    //   "flipDirection": true,
+    //   "loop": true,
+    //   "scale": 0.03,
+    //   "positionScale": 1.8
+    // }
+    ];
+
+
 let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESDATA,ALASKADATA,GREENLANDDATA,CADATA,VZDATA,PERUDATA,BRAZILDATA,ARGENTINADATA,ICELANDDATA,
     GBDATA,WEUDATA,NEUDATA, SEUDATA,SCANDINAVIADATA,RUSSIADATA,  NAFDATA, EGYPTDATA,CAFDATA,EAFDATA, SAFDATA,MADAGASCARDATA, WAUDATA,EAUDATA,INDONESIADATA, NEWGUINEADATA, 
   MEDATA,  INDIADATA,SEASIADATA, CHINADATA, MONGOLIADATA, JAPANDATA, KAMCHATKADATA, YAKUTSKDATA, IRKUSTKDATA, SIBERIADATA, URALDATA,AFGHANISTANDATA ];
-AmCharts.makeChart( "mapdiv", {
+let map = AmCharts.makeChart( "mapdiv", {
   /**
    * this tells amCharts it's a map
    */
@@ -1020,6 +1064,14 @@ AmCharts.makeChart( "mapdiv", {
     "map": "continentsLow",
      images:game,
       "lines": lines,
+        "imagesSettings": {
+    "color": "#585869",
+    "rollOverColor": "#585869",
+    "selectedColor": "#585869",
+    "pauseDuration": 0.2,
+    "animationDuration": 2.5,
+    "adjustAnimationSpeed": true
+  },
     "areas": [
       {
         "id": "europe",
@@ -1047,6 +1099,7 @@ AmCharts.makeChart( "mapdiv", {
       }
     ]
   },
+   
 
   /**
    * create areas settings
@@ -1064,6 +1117,13 @@ AmCharts.makeChart( "mapdiv", {
    */
   "largeMap": {}
 } );
-function changeTerritory() {
-  
+// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
+function changeTerritoryStatus(player, numSoldier, territory, color) {
+  territory.description = "Occupied by " + player + " Soldiers: " + numSoldier;
+  territory.label = territory.title + " "  + numSoldier;
+  territory.color = color;
+  console.log(territory.color);
+}
+function changeLines() {
+
 }
