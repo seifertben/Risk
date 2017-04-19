@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk.RiskMove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.UUID;
 

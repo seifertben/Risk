@@ -2,7 +2,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
 
 /**
  * Models a RiskPlayer turn.

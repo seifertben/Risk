@@ -9,20 +9,19 @@ import java.util.UUID;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.CardTurnInMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.GameUpdate;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.Move;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidAttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidCardMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidDieDefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidMoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ValidReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAttackMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidCardMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidClaimTerritoryMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
@@ -53,7 +52,7 @@ public class Referee {
     this.turn = turn;
   }
 
-  public GameUpdate setRestrictions() {
+  protected GameUpdate setRestrictions() {
     GameUpdate toSend = new GameUpdate();
     Move availableMoves;
     UUID playerId = turn.getPlayerId();
@@ -171,18 +170,7 @@ public class Referee {
     return move;
   }
 
-  public GameUpdate getNextGameUpdate(Move currMove) {
-    if (validLastMove) {
-      // updateNextAvailableMoves based on currMove
-      return null;
-    } else {
-      // return same old valid moves/ gameupdate
-      return null;
-    }
-
-  }
-
-  public boolean validateReinforce(ReinforceMove move) {
+  protected boolean validateReinforce(ReinforceMove move) {
     // check can do so
     if (validReinforce == null) {
       return false;
@@ -190,33 +178,33 @@ public class Referee {
     return validReinforce.validReinforceMove(move);
   }
 
-  public boolean validateCardTurnIn(CardTurnInMove move) {
+  protected boolean validateCardTurnIn(CardTurnInMove move) {
     if (validCard == null) {
       return false;
     }
     return validCard.validateCardMove(move);
   }
 
-  public boolean validateAttackMove(AttackMove move) {
+  protected boolean validateAttackMove(AttackMove move) {
     if (validAttack == null) {
       return false;
     }
     return validAttack.validAttackMove(move);
   }
 
-  public boolean validateDefendMove(DefendMove move) {
+  protected boolean validateDefendMove(DefendMove move) {
     // TODO : Fill in
     return false;
   }
 
-  public boolean validateClaimTerritory(ClaimTerritoryMove move) {
+  protected boolean validateClaimTerritory(ClaimTerritoryMove move) {
     if (validClaim == null) {
       return false;
     }
     return validClaim.validClaimTerritory(move);
   }
 
-  public boolean validateMoveTroopsMove(MoveTroopsMove move) {
+  protected boolean validateMoveTroopsMove(MoveTroopsMove move) {
     if (validMove == null) {
       return false;
     }
@@ -226,9 +214,5 @@ public class Referee {
   private boolean validateEndMove(EndMove move) {
     // TODO : fill in
     return false;
-  }
-
-  public RiskPlayer nextPlayer() {
-    return null;
   }
 }

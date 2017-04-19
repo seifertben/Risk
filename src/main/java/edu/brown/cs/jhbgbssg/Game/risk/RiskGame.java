@@ -9,16 +9,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.CardTurnInMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.GameUpdate;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.Player;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
  * Stores the state of the game.
@@ -37,7 +38,9 @@ public class RiskGame {
   private Die die;
   private Comparator<Integer> dieComparator = Collections.reverseOrder();
   private int numberOfPlayers;
-  private boolean handOutCard = false;
+  private int cardToHandOut = -1;
+  private RiskCardPool cardPool;
+  private Player winner;
 
   /**
    * Initializes the game state.
@@ -60,6 +63,7 @@ public class RiskGame {
     turnState.setTurnId(players.get(0).getPlayerId());
     die = new Die();
     this.numberOfPlayers = numPlayers;
+    cardPool = new RiskCardPool();
   }
 
   public List<UUID> getPlayerOrder() {
@@ -122,7 +126,12 @@ public class RiskGame {
     attack = new AttackMove(playerId, fromTerr, toTerr, numberDie);
     boolean validMove = referee.validateAttackMove(attack);
     if (validMove) {
-      // need to store state
+      List<Integer> roll = new ArrayList<>();
+      for (int i = 0; i < numberDie; i++) {
+        roll.add(die.roll());
+      }
+      Collections.sort(roll, dieComparator);
+      attack.setDieResult(roll);
       turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
       GameUpdate update = referee.setRestrictions();
       return update;
@@ -133,23 +142,29 @@ public class RiskGame {
     }
   }
 
-  public GameUpdate executeDefendAction(UUID playerId, TerritoryEnum attacker,
-      TerritoryEnum defend, int numberDie) {
-    DefendMove move = new DefendMove(playerId, attacker, defend, numberDie);
+  public GameUpdate executeDefendAction(UUID playerId, TerritoryEnum defend,
+      int numberDie) {
+    DefendMove move = new DefendMove(new Pair<>(playerId, defend), numberDie,
+        attack);
     boolean validMove = referee.validateDefendMove(move);
     if (validMove) {
       boolean claim = this.attack(move);
       if (claim) {
-        turnState.changePhase(MoveType.CLAIM_TERRITORY);
+        if (this.lostGame(idToPlayer.get(playerId))) {
+          if (this.gameOver()) {
+            // TODO : game over
+            // set state to game over
+            // send update
+          }
+        }
       } else {
-        // determine what the next valid turn phase is is
+        turnState.changePhase(MoveType.CLAIM_TERRITORY);
       }
-      GameUpdate update = referee.setRestrictions();
-      return update;
     } else {
-      GameUpdate update = referee.setRestrictions();
-      return update;
+      // determine what the next valid turn phase is is
     }
+    GameUpdate update = referee.setRestrictions();
+    return update;
   }
 
   public GameUpdate executeClaimTerritory(UUID playerId, TerritoryEnum from,
@@ -164,8 +179,8 @@ public class RiskGame {
       terr.removeTroops(number);
       terr2.changePlayer(playerId, number);
       player.conqueredTerritory(to);
-      // change back to attack if can
-      // reset turn
+      // TODO : figure out state
+
       GameUpdate update = referee.setRestrictions();
       return update;
     } else {
@@ -183,9 +198,12 @@ public class RiskGame {
       Territory terr2 = gameBoard.getTerritory(to);
       terr.removeTroops(numberTroops);
       terr2.addTroops(numberTroops);
+      // TODO : figure out state
 
-      // CHANGE TURN, PLAYER
       GameUpdate update = referee.setRestrictions();
+      if (cardToHandOut != -1) {
+        update.setCardToHandOut(playerId, cardToHandOut, !cardPool.isEmpty());
+      }
       return update;
     } else {
       GameUpdate update = referee.setRestrictions();
@@ -226,20 +244,15 @@ public class RiskGame {
   }
 
   private boolean attack(DefendMove defend) {
-    int compare = attack.getDieRolled();
-    int numberDie = compare;
-    List<Integer> attackRolls = new ArrayList<>();
-    for (int i = 0; i < numberDie; i++) {
-      attackRolls.add(die.roll());
-    }
-    numberDie = defend.getDieRolled();
-    compare = Math.min(numberDie, compare);
+    List<Integer> attackRolls = attack.getDieResults();
+    int numberDie = defend.getDieRolled();
     List<Integer> defendRolls = new ArrayList<>();
     for (int i = 0; i < numberDie; i++) {
       defendRolls.add(die.roll());
     }
-    Collections.sort(attackRolls, dieComparator);
     Collections.sort(defendRolls, dieComparator);
+    int compare = Math.min(numberDie, attack.getDieRolled());
+
     int defendTroopsLost = 0;
     int attackTroopsLost = 0;
     for (int i = 0; i < compare; i++) {
@@ -257,9 +270,26 @@ public class RiskGame {
     if (lost) {
       RiskPlayer player = idToPlayer.get(defend.getMovePlayer());
       player.lostTerritory(defend.getDefendedTerritory());
+      if (!cardPool.isEmpty()) {
+        cardToHandOut = cardPool.handOutCard();
+      }
     }
     return lost;
   }
 
-  // Determining phase is a bit harder
+  private boolean lostGame(RiskPlayer lost) {
+    if (!lost.hasTerritories()) {
+      players.remove(lost);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean gameOver() {
+    if (players.size() == 1) {
+      winner = players.get(1);
+      return true;
+    }
+    return false;
+  }
 }
