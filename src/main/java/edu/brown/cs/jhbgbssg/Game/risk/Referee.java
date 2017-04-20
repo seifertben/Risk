@@ -221,6 +221,21 @@ public class Referee {
     return null;
   }
 
+  protected Move getValidMoveAfterClaimTerritory(RiskPlayer player) {
+    ValidAttackMove attack = this.getValidAttackMove(player);
+    if (attack.getAttackableTerritories().size() != 0) {
+      validMove = attack;
+      return validMove;
+    }
+    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
+    if (moveTroops.getReachableTerritores().size() != 0) {
+      validMove = moveTroops;
+      return validMove;
+    }
+    validMove = null;
+    return validMove;
+  }
+
   protected Move getValidDefendMoveAfterTroopMove(RiskPlayer player,
       DefendMove move) {
     return null;

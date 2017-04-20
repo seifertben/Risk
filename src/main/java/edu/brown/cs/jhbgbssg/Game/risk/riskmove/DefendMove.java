@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +19,8 @@ public class DefendMove implements Move {
   private AttackMove attacker;
   private int defendDie;
   private List<Integer> rolled;
-  private int troopsDefendLost = 0;
-  private int troopsAttackLost = 0;
+  private Integer troopsDefendLost = null;
+  private Integer troopsAttackLost = null;
   private boolean defenderLostTerritory = false;
 
   /**
@@ -93,6 +94,18 @@ public class DefendMove implements Move {
    * @param results - result of die rolled
    */
   public void setRoll(List<Integer> results) {
+    if (results == null) {
+      throw new IllegalArgumentException("ERROR: null list");
+    } else if (results.size() != defendDie) {
+      throw new IllegalArgumentException("ERROR: wrong number of die rolled");
+    } else if (rolled != null) {
+      throw new IllegalArgumentException("ERROR: cannot roll die twice");
+    }
+    for (int i = 0; i < defendDie; i++) {
+      if (results.get(i) < 1 || results.get(i) > 6) {
+        throw new IllegalArgumentException("ERROR: bad die values");
+      }
+    }
     this.rolled = results;
   }
 
@@ -102,7 +115,7 @@ public class DefendMove implements Move {
    * @return rolled die
    */
   public List<Integer> getRoll() {
-    return this.rolled;
+    return Collections.unmodifiableList(this.rolled);
   }
 
   /**
@@ -113,7 +126,12 @@ public class DefendMove implements Move {
    * @param lostTerritory - whether or not the defender lost the territory
    */
   public void setDefendTroopsLost(int troops, boolean lostTerritory) {
-    troopsDefendLost = troops;
+    if (troopsDefendLost >= 0) {
+      throw new IllegalArgumentException("ERROR: invalid value");
+    } else if (troopsDefendLost != null) {
+      throw new IllegalArgumentException("ERROR: already set");
+    }
+    troopsDefendLost = new Integer(troops);
     defenderLostTerritory = lostTerritory;
   }
 
@@ -141,7 +159,12 @@ public class DefendMove implements Move {
    * @param troops - troops lost by the attacker
    */
   public void setAttackTroopsLost(int troops) {
-    troopsAttackLost = troops;
+    if (troopsAttackLost != null) {
+      throw new IllegalArgumentException("ERROR: already set");
+    } else if (troops < 0) {
+      throw new IllegalArgumentException("ERROR: invalid value");
+    }
+    troopsAttackLost = new Integer(troops);
   }
 
   /**

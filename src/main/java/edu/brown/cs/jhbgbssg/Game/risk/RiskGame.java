@@ -116,20 +116,27 @@ public class RiskGame {
       Move nextValidMove = referee
           .getValidMoveAfterReinforce(idToPlayer.get(playerId));
       if (nextValidMove == null) {
-        return this.switchPlayers();
+        return this.switchPlayers(move);
       }
       turnState.changePhase(nextValidMove.getMoveType());
-      update.setPrevMove(move);
-      update.setValidMoves(nextValidMove);
+      update.setValidMoves(nextValidMove, move, false);
       return update;
     } else {
       Move validMove = referee.getValidMove();
-      update.setError();
-      update.setValidMoves(validMove);
+      update.setValidMoves(validMove, null, true);
       return update;
     }
   }
 
+  /**
+   * Executes a card turn in. If the the move is valid, the game will execute
+   * it. Otherwise, it will return an error.
+   *
+   * @param playerId - player turning in the card
+   * @param card - card turning in
+   * @param troopsAdded - map of territories with the number of troops added
+   * @return game update
+   */
   public GameUpdate executeCardTurnInAction(UUID playerId, int card,
       Map<TerritoryEnum, Integer> troopsAdded) {
     GameUpdate update = new GameUpdate();
@@ -149,18 +156,25 @@ public class RiskGame {
       Move nextValidMove = referee
           .getValidMoveAfterCardTurnIn(idToPlayer.get(playerId));
       if (nextValidMove == null) {
-        return this.switchPlayers();
+        return this.switchPlayers(move);
       }
       turnState.changePhase(nextValidMove.getMoveType());
-      update.setPrevMove(move);
-      update.setValidMoves(nextValidMove);
+      update.setValidMoves(nextValidMove, move, false);
       return update;
     }
-    update.setValidMoves(referee.getValidMove());
-    update.setError();
+    update.setValidMoves(referee.getValidMove(), null, true);
     return update;
   }
 
+  /**
+   * Executes an attack.
+   *
+   * @param playerId - id of the player attacking
+   * @param fromTerr - territory attacking from
+   * @param toTerr - territory attacking
+   * @param numberDie - number of die to roll
+   * @return game update
+   */
   public GameUpdate executeAttackAction(UUID playerId, TerritoryEnum fromTerr,
       TerritoryEnum toTerr, int numberDie) {
     GameUpdate update = new GameUpdate();
@@ -177,19 +191,25 @@ public class RiskGame {
       }
       Collections.sort(roll, dieComparator);
       attack.setDieResult(roll);
-      turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
       Move move = referee.getValidMoveAfterAttack(idToPlayer.get(playerId));
-      update.setValidMoves(move);
+      turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
+      update.setValidMoves(move, attack, false);
       return update;
     } else {
       attack = null;
       Move move = referee.getValidMove();
-      update.setValidMoves(move);
-      update.setError();
+      update.setValidMoves(move, null, true);
       return update;
     }
   }
 
+  /**
+   *
+   * @param playerId - id of player defending
+   * @param defend - territory defending
+   * @param numberDie - number of die to roll
+   * @return game update
+   */
   public GameUpdate executeDefendAction(UUID playerId, TerritoryEnum defend,
       int numberDie) {
     GameUpdate update = new GameUpdate();
@@ -199,96 +219,135 @@ public class RiskGame {
     }
     DefendMove move = new DefendMove(new Pair<>(playerId, defend), numberDie,
         attack);
-    boolean validMove = referee.validateDefendMove(move);
-    if (validMove) {
-      boolean claim = this.attack(move);
-      if (claim) {
+    boolean isValidMove = referee.validateDefendMove(move);
+    if (isValidMove) {
+      this.attack(move);
+      if (move.getDefenderLostTerritory()) {
         if (this.lostGame(idToPlayer.get(playerId))) {
+          update.setLostGame(playerId);
           if (this.gameOver()) {
-            // TODO : game over
-            // set state to game over
-            // send update
+            update.setWonGame(attack.getMovePlayer());
+            return update;
           }
         }
-      } else {
+        Move nextValidMove = referee.getValidMoveAfterDefend(
+            idToPlayer.get(attack.getMovePlayer()), move);
         turnState.changePhase(MoveType.CLAIM_TERRITORY);
+        update.setValidMoves(nextValidMove, move, false);
+        return update;
+      } else {
+        Move nextValidMove = referee.getValidMoveAfterDefend(
+            idToPlayer.get(attack.getMovePlayer()), move);
+        if (nextValidMove == null) {
+          return this.switchPlayers(move);
+        }
+        update.setValidMoves(nextValidMove, move, false);
+        return update;
       }
     } else {
-      // determine what the next valid turn phase is is
+      Move validMove = referee.getValidMove();
+      update.setValidMoves(validMove, null, true);
+      return update;
     }
-    GameUpdate update = referee.setRestrictions();
-    return update;
   }
 
+  /**
+   * Executes a claim territory move. A player claims a territory if, during an
+   * attack, the number of troops on the defending territory decreases to 0.
+   * This move checks that the claim territory move is valid, and executes if
+   * so.
+   *
+   * @param playerId - player claiming territory
+   * @param from - territory from which to move troops
+   * @param to - territory to claim
+   * @param number - number of troops
+   * @return update specifying what happened
+   */
   public GameUpdate executeClaimTerritory(UUID playerId, TerritoryEnum from,
       TerritoryEnum to, int number) {
+    GameUpdate update = new GameUpdate();
     if (winner != null) {
-      GameUpdate update = new GameUpdate();
       update.setWonGame(winner.getPlayerId());
       return update;
     }
     ClaimTerritoryMove move = new ClaimTerritoryMove(playerId, from, to,
         number);
-    boolean validMove = referee.validateClaimTerritory(move);
-    if (validMove) {
+    boolean isValidMove = referee.validateClaimTerritory(move);
+    if (isValidMove) {
       RiskPlayer player = idToPlayer.get(playerId);
       Territory terr = gameBoard.getTerritory(from);
       Territory terr2 = gameBoard.getTerritory(to);
       terr.removeTroops(number);
       terr2.changePlayer(playerId, number);
       player.conqueredTerritory(to);
-      // TODO : figure out state
-
-      GameUpdate update = referee.setRestrictions();
+      Move validNextMove = referee.getValidMoveAfterClaimTerritory(player);
+      if (validNextMove == null) {
+        return this.switchPlayers(move);
+      }
+      update.setValidMoves(validNextMove, move, false);
       return update;
     } else {
-      GameUpdate update = referee.setRestrictions();
+      Move validMove = referee.getValidMove();
+      update.setValidMoves(validMove, move, true);
       return update;
     }
   }
 
+  /**
+   * This method moves the specified number of troops from a player's territory
+   * to another an adjacent one. If the move is valid, it will execute.
+   * Otherwise, the move will not be executed and RiskGame will return an error
+   * in the GameUpdate object.
+   *
+   * @param playerId - id of the player making the move
+   * @param numberTroops - number of troops to move
+   * @param from - take troops from this territory
+   * @param to - move troops to this territory
+   * @return GameUpdate specifying what happend and the next possible move
+   */
   public GameUpdate executeMoveTroops(UUID playerId, int numberTroops,
       TerritoryEnum from, TerritoryEnum to) {
-    if (winner != null) {
-      GameUpdate update = new GameUpdate();
+    GameUpdate update = new GameUpdate();
+    if (winner != null) { // nothing should happen, just broadcast winner
       update.setWonGame(winner.getPlayerId());
       return update;
     }
     MoveTroopsMove move = new MoveTroopsMove(playerId, from, to, numberTroops);
-    boolean validMove = referee.validateMoveTroopsMove(move);
-    if (validMove) {
+    boolean isValidMove = referee.validateMoveTroopsMove(move);
+
+    // move is valid
+    if (isValidMove) {
       Territory terr = gameBoard.getTerritory(from);
       Territory terr2 = gameBoard.getTerritory(to);
-      terr.removeTroops(numberTroops);
-      terr2.addTroops(numberTroops);
-      // TODO : figure out state
+      assert (!terr.removeTroops(numberTroops)); // remove troops - not emptying
+      terr2.addTroops(numberTroops); // add troops
+      return this.switchPlayers(move); // switches players
 
-      GameUpdate update = referee.setRestrictions();
-      if (cardToHandOut != -1) {
-        update.setCardToHandOut(playerId, cardToHandOut, !cardPool.isEmpty());
-      }
-      return update;
+      // move is not valid
     } else {
-      GameUpdate update = referee.setRestrictions();
+      Move validMove = referee.getValidMove(); // gets the current valid moves
+      update.setValidMoves(validMove, null, true); // sets error message
       return update;
     }
   }
 
   public GameUpdate executeSkipPhase(UUID playerId) {
     MoveType phase = turnState.getPhase();
+    GameUpdate update = new GameUpdate();
     switch (phase) {
       case CHOOSE_ATTACK_DIE:
+        // find next valid move
 
         break;
       case TURN_IN_CARD:
-        // switch
+        // find next valid move
         break;
       case MOVE_TROOPS:
-        // switch to next turn
-        break;
+        return this.switchPlayers(null);
       default:
-        // cannot switch
-        // return same state
+        Move valid = referee.getValidMove();
+        update.setValidMoves(valid, null, true);
+        return update;
     }
     return null;
   }
@@ -333,7 +392,7 @@ public class RiskGame {
    * @param defend
    * @return
    */
-  private boolean attack(DefendMove defend) {
+  private void attack(DefendMove defend) {
     List<Integer> attackRolls = attack.getDieResults();
     int numberDie = defend.getDieRolled();
     List<Integer> defendRolls = new ArrayList<>();
@@ -342,7 +401,6 @@ public class RiskGame {
     }
     Collections.sort(defendRolls, dieComparator);
     int compare = Math.min(numberDie, attack.getDieRolled());
-
     int defendTroopsLost = 0;
     int attackTroopsLost = 0;
     for (int i = 0; i < compare; i++) {
@@ -357,6 +415,8 @@ public class RiskGame {
     Territory defendTerr = gameBoard.getTerritory(attack.getAttackTo());
     attackTerr.removeTroops(attackTroopsLost);
     boolean lost = defendTerr.removeTroops(defendTroopsLost);
+    defend.setDefendTroopsLost(defendTroopsLost, lost);
+    defend.setAttackTroopsLost(attackTroopsLost);
     if (lost) {
       RiskPlayer player = idToPlayer.get(defend.getMovePlayer());
       player.lostTerritory(defend.getDefendedTerritory());
@@ -364,20 +424,26 @@ public class RiskGame {
         cardToHandOut = cardPool.handOutCard();
       }
     }
-    return lost;
   }
 
-  private GameUpdate switchPlayers() {
+  /**
+   * Switches the current player.
+   *
+   * @param prevMove
+   * @return game update
+   */
+  private GameUpdate switchPlayers(Move prevMove) {
     GameUpdate update = new GameUpdate();
     if (cardToHandOut > 0) {
       update.setCardToHandOut(turnState.getPlayerId(), cardToHandOut,
           !cardPool.isEmpty());
+      cardToHandOut = -1;
     }
     RiskPlayer player = turnState.getPlayer();
     int index = players.indexOf(player);
     turnState.setPlayer(players.get((index + 1) / players.size()));
     Move validMove = referee.getValidReinforceMove(turnState.getPlayer());
-    update.setValidMoves(validMove);
+    update.setValidMoves(validMove, prevMove, false);
     return update;
   }
 
@@ -403,9 +469,5 @@ public class RiskGame {
       return true;
     }
     return false;
-  }
-
-  private void getNextPlayer() {
-
   }
 }

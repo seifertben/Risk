@@ -3,12 +3,10 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 public class GameUpdate {
   private UUID currPlayer;
-  private boolean switchedPlayers;
   private UUID lostGame;
   private UUID wonGame;
   private Move prevMove;
@@ -16,9 +14,6 @@ public class GameUpdate {
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
-  private Pair<UUID, TerritoryEnum> lostTerritory;
-  private Pair<UUID, TerritoryEnum> gainedTerritory;
-  private boolean didLoseTerritory = false;
 
   public GameUpdate() {
   }
@@ -36,50 +31,20 @@ public class GameUpdate {
     return cardsLeft;
   }
 
-  protected void setPrevMove(Move currMove) {
-    this.prevMove = currMove;
-  }
-
   public Move getPrevMove() {
     return this.prevMove;
   }
 
-  protected void setValidMoves(Move availableMoves) {
-    this.currPlayer = availableMoves.getMovePlayer();
-    this.availableMoves = availableMoves;
+  protected void setValidMoves(Move validMoves, Move previousMove,
+      boolean error) {
+    this.currPlayer = validMoves.getMovePlayer();
+    this.availableMoves = validMoves;
+    this.prevMove = previousMove;
+    this.errors = error;
   }
 
   public Move getValidMoves() {
     return this.availableMoves;
-  }
-
-  protected void setLostTerritory(UUID player, TerritoryEnum terr,
-      boolean didLoseGame) {
-    lostTerritory = new Pair<>(player, terr);
-    didLoseTerritory = true;
-    if (didLoseGame) {
-      lostGame = player;
-    }
-  }
-
-  protected void setGainedTerritory(UUID player, TerritoryEnum terr,
-      boolean didWinGame) {
-    gainedTerritory = new Pair<>(player, terr);
-    if (didWinGame) {
-      wonGame = player;
-    }
-  }
-
-  public Pair<UUID, TerritoryEnum> getLostTerritory() {
-    return lostTerritory;
-  }
-
-  public Pair<UUID, TerritoryEnum> getGainedTerritory() {
-    return gainedTerritory;
-  }
-
-  public boolean didLoseTerritory() {
-    return didLoseTerritory;
   }
 
   protected void setWonGame(UUID wonGame) {
@@ -89,16 +54,16 @@ public class GameUpdate {
     this.wonGame = wonGame;
   }
 
+  protected void setLostGame(UUID lostGame) {
+    this.lostGame = lostGame;
+  }
+
   public UUID getLoser() {
     return lostGame;
   }
 
   public UUID getGameWon() {
     return wonGame;
-  }
-
-  protected void setError() {
-    this.errors = true;
   }
 
   public boolean getErrors() {

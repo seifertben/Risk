@@ -1,10 +1,18 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents an attack.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class AttackMove implements Move {
   private UUID playerId;
   private TerritoryEnum attackFrom;
@@ -45,7 +53,7 @@ public class AttackMove implements Move {
   /**
    * Returns territory attacking from.
    *
-   * @return
+   * @return territory id being attacked
    */
   public TerritoryEnum getAttackFrom() {
     return attackFrom;
@@ -54,7 +62,7 @@ public class AttackMove implements Move {
   /**
    * Returns territory attacking.
    *
-   * @return
+   * @return territory attacking
    */
   public TerritoryEnum getAttackTo() {
     return attackTo;
@@ -63,7 +71,7 @@ public class AttackMove implements Move {
   /**
    * Returns number of die rolled.
    *
-   * @return
+   * @return number of die rolled
    */
   public int getDieRolled() {
     return dieRolled;
@@ -73,7 +81,8 @@ public class AttackMove implements Move {
    * Sets the result of rolling the die.
    *
    * @param result - result of rolling die
-   * @throws IllegalArgumentException - if the list is null
+   * @throws IllegalArgumentException - if the list is null or if the die has
+   *           already been rolled
    */
   public void setDieResult(List<Integer> result)
       throws IllegalArgumentException {
@@ -81,11 +90,23 @@ public class AttackMove implements Move {
       throw new IllegalArgumentException("ERROR: null list");
     } else if (result.size() != dieRolled) {
       throw new IllegalArgumentException("ERROR: wrong number of die rolled");
+    } else if (dieRolledResult != null) {
+      throw new IllegalArgumentException("ERROR: cannot roll die twice");
     }
-    this.dieRolledResult = result;
+    for (int i = 0; i < dieRolled; i++) {
+      if (result.get(i) < 1 || result.get(i) > 6) {
+        throw new IllegalArgumentException("ERROR: bad die values");
+      }
+    }
+    this.dieRolledResult = new ArrayList<>(result);
   }
 
+  /**
+   * Returns an unmodifiable list of the die results.
+   *
+   * @return list of integers
+   */
   public List<Integer> getDieResults() {
-    return dieRolledResult;
+    return Collections.unmodifiableList(dieRolledResult);
   }
 }
