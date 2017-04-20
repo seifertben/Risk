@@ -33,8 +33,9 @@ public class Turn {
     return phase;
   }
 
-  public void setTurnId(UUID id) {
-    playerId = id;
+  public void setPlayer(RiskPlayer player) {
+    this.player = player;
+    playerId = player.getPlayerId();
     changePhase(MoveType.REINFORCE);
   }
 
