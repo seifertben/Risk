@@ -10,18 +10,34 @@ public class Match {
   private final UUID id;
   private List<UUID> players;
   private boolean started = false;
+  private final String matchName;
+  private final Integer lobbySize;
 
-  public Match(UUID uid) {
+  public Match(UUID uid, Integer max, String title) {
     players = Collections.synchronizedList(new ArrayList<>());
     id = uid;
+    lobbySize = max;
+    matchName = title;
   }
 
   public String getId() {
     return id.toString();
   }
 
+  public Integer lobbySize() {
+    return lobbySize;
+  }
+
+  public String matchName() {
+    return matchName;
+  }
+
+  public int playerNum() {
+    return players.size();
+  }
+
   public void addPlayer(UUID playerId) {
-    if (players.size() < 6 && !players.contains(playerId)) {
+    if (players.size() < lobbySize && !players.contains(playerId)) {
       players.add(playerId);
     }
   }
@@ -30,10 +46,6 @@ public class Match {
     if (players.contains(playerId)) {
       players.remove(playerId);
     }
-  }
-
-  public int playerNum() {
-    return players.size();
   }
 
   public List<UUID> getPlayers() {
