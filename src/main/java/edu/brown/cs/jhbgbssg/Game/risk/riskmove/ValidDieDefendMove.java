@@ -2,6 +2,9 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -12,6 +15,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class ValidDieDefendMove implements Move {
   private UUID playerId;
   private int maxNumberDie;
+  private TerritoryEnum toDefend;
 
   /**
    * Constructor for ValidDieDefendMove.
@@ -31,6 +35,18 @@ public class ValidDieDefendMove implements Move {
     }
     this.playerId = playerId;
     this.maxNumberDie = maxNumberDie;
+  }
+
+  private void setUp(RiskPlayer player, RiskBoard board,
+      TerritoryEnum toDefend) {
+    playerId = player.getPlayerId();
+    Territory terr = board.getTerritory(toDefend);
+    int troops = terr.getNumberTroops();
+    if (troops >= 2) {
+      maxNumberDie = 2;
+    } else {
+      maxNumberDie = 1;
+    }
   }
 
   @Override

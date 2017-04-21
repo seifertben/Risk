@@ -5,7 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  * Represents a Valid Reinforce Move.
@@ -37,6 +40,19 @@ public class ValidReinforceMove implements Move {
     this.playerId = playerId;
     this.territories = territories;
     this.numberReinforce = numberReinforce;
+  }
+
+  private void setUp(RiskPlayer player, RiskBoard board) {
+    playerId = player.getPlayerId();
+    numberReinforce = player.getNumberTerritories() / 3;
+    territories = player.getTerritories();
+    Collection<ContinentInterface> conts = board.getContinents();
+    for (ContinentInterface cont : conts) {
+      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
+      if (territories.containsAll(territoriesInCont)) {
+        numberReinforce += cont.getBonusValue();
+      }
+    }
   }
 
   @Override

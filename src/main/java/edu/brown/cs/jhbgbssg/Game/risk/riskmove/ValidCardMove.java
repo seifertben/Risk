@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Multiset;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -42,6 +43,12 @@ public class ValidCardMove implements Move {
     } else {
       canTurnInCards = true;
     }
+  }
+
+  private void getValidCardMove(RiskPlayer player) {
+    playerId = player.getPlayerId();
+    cards = player.getCards();
+    terrs = player.getTerritories();
   }
 
   @Override

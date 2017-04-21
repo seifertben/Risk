@@ -2,6 +2,9 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -35,6 +38,13 @@ public class ValidClaimTerritoryMove implements Move {
     this.fromTerritory = fromTerritory;
     this.territoryToClaim = territoryToClaim;
     this.maxNumberTroops = maxNumberTroops;
+  }
+
+  private void setUp(RiskPlayer player, TerritoryEnum attack,
+      TerritoryEnum claim, RiskBoard board) {
+    playerId = player.getPlayerId();
+    Territory attacking = board.getTerritory(attack);
+    maxNumberTroops = attacking.getNumberTroops() - 1;
   }
 
   @Override

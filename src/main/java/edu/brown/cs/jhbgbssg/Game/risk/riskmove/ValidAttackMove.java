@@ -1,12 +1,16 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -37,9 +41,26 @@ public class ValidAttackMove implements Move {
           "ERROR: null input to ValidAttackMove");
     }
     this.playerId = playerId;
-    this.chooseDie = chooseDie;
+    // this.chooseDie = chooseDie;
     this.whoToAttack = whoToAttack;
     if (whoToAttack.size() == 0) {
+      canAttack = false;
+    }
+  }
+
+  private void setUpAttack(RiskPlayer player, RiskBoard board) {
+    playerId = player.getPlayerId();
+    chooseDie = new HashMap<>();
+    whoToAttack = board.getPlayerAttackMap(player);
+    Collection<Territory> territories = board.getTerritories();
+    for (Territory terr : territories) {
+      int numTroops = terr.getNumberTroops();
+      int maxDice = Math.min(3, numTroops - 1);
+      if (maxDice > 0) {
+        chooseDie.put(terr.getTerritoryId(), maxDice);
+      }
+    }
+    if (chooseDie.size() == 0) {
       canAttack = false;
     }
   }
