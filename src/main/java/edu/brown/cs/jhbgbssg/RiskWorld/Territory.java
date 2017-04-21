@@ -59,6 +59,9 @@ public class Territory {
   public void addTroops(int troopsToAdd) throws IllegalArgumentException {
     if (troopsToAdd <= 0) {
       throw new IllegalArgumentException("ERROR: invalid troop number");
+    } else if (playerId == null) {
+      throw new IllegalArgumentException(
+          "ERROR: cannot add troops to a territory with no player");
     }
     numberTroops += troopsToAdd;
   }
@@ -67,10 +70,14 @@ public class Territory {
     if (playerId != null && numberTroops != 0) {
       throw new IllegalArgumentException(
           "ERROR: cannot change playeres if number of troops is not zero");
-    } else {
-      playerId = newPlayerId;
-      numberTroops = numTroops;
+    } else if (newPlayerId == null) {
+      throw new IllegalArgumentException("ERROR: cann to have a null id");
+    } else if (numTroops <= 0) {
+      throw new IllegalArgumentException(
+          "ERROR: troop number must be positive");
     }
+    playerId = newPlayerId;
+    numberTroops = numTroops;
   }
 
   public UUID getTerritoryOwner() {

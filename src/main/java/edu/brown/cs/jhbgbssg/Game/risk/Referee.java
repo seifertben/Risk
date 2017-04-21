@@ -40,6 +40,8 @@ public class Referee {
 
   /**
    * Initializes the referee.
+   *
+   * @param board - game board
    */
   public Referee(RiskBoard board) {
     this.board = board;
@@ -120,24 +122,24 @@ public class Referee {
     return (ValidMoveTroopsMove) validMove;
   }
 
-//  private ValidAttackMove getValidAttackMove(RiskPlayer player) {
-//    UUID playerId = player.getPlayerId();
-//    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
-//    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
-//        .getPlayerAttackMap(player);
-//
-//    Collection<Territory> territories = board.getTerritories();
-//
-//    for (Territory terr : territories) {
-//      int numTroops = terr.getNumberTroops();
-//      int maxDice = Math.min(3, numTroops - 1);
-//      if (maxDice > 0) {
-//        chooseDie.put(terr.getTerritoryId(), maxDice);
-//      }
-//    }
-//    validMove = new ValidAttackMove(playerId, chooseDie, whoToAttack);
-//    return (ValidAttackMove) validMove;
-//  }
+  private ValidAttackMove getValidAttackMove(RiskPlayer player) {
+    UUID playerId = player.getPlayerId();
+    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
+    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
+        .getPlayerAttackMap(player);
+
+    Collection<Territory> territories = board.getTerritories();
+
+    for (Territory terr : territories) {
+      int numTroops = terr.getNumberTroops();
+      int maxDice = Math.min(3, numTroops - 1);
+      if (maxDice > 0) {
+        chooseDie.put(terr.getTerritoryId(), maxDice);
+      }
+    }
+    validMove = new ValidAttackMove(playerId, chooseDie, whoToAttack);
+    return (ValidAttackMove) validMove;
+  }
 
   private ValidDieDefendMove getValidDieDefendMove(RiskPlayer player) {
     UUID playerId = player.getPlayerId();
@@ -166,75 +168,75 @@ public class Referee {
     return (ValidClaimTerritoryMove) validMove;
   }
 
-//  protected Move getValidMoveAfterReinforce(RiskPlayer player) {
-//    if (player.getCards().size() != 0) {
-//      return this.getValidCardMove(player);
-//    }
-//    ValidAttackMove move = this.getValidAttackMove(player);
-//    if (move.getAttackableTerritories().size() != 0) {
-//      return move;
-//    }
-//    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
-//    if (troopMove.getReachableTerritores().size() != 0) {
-//      return troopMove;
-//    }
-//    return null;
-//  }
-//
-//  protected Move getValidMoveAfterCardTurnIn(RiskPlayer player) {
-//    ValidAttackMove move = this.getValidAttackMove(player);
-//    if (move.getAttackableTerritories().size() != 0) {
-//      validMove = move;
-//      return validMove;
-//    }
-//    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
-//    if (troopMove.getReachableTerritores().size() != 0) {
-//      validMove = troopMove;
-//      return validMove;
-//    }
-//    validMove = null;
-//    return null;
-//  }
-//
-//  protected Move getValidMoveAfterAttack(RiskPlayer player) {
-//    ValidDieDefendMove move = this.getValidDieDefendMove(player);
-//    validMove = move;
-//    return validMove;
-//  }
-//
-//  protected Move getValidMoveAfterDefend(RiskPlayer player, DefendMove move) {
-//    if (move.getDefenderLostTerritory()) {
-//      validMove = this.getValidClaimTerritoryMove(player);
-//      return validMove;
-//    }
-//    ValidAttackMove attack = this.getValidAttackMove(player);
-//    if (attack.getAttackableTerritories().size() != 0) {
-//      validMove = attack;
-//      return validMove;
-//    }
-//    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
-//    if (moveTroops.getReachableTerritores().size() != 0) {
-//      validMove = moveTroops;
-//      return validMove;
-//    }
-//    validMove = null;
-//    return null;
-//  }
-//
-//  protected Move getValidMoveAfterClaimTerritory(RiskPlayer player) {
-//    ValidAttackMove attack = this.getValidAttackMove(player);
-//    if (attack.getAttackableTerritories().size() != 0) {
-//      validMove = attack;
-//      return validMove;
-//    }
-//    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
-//    if (moveTroops.getReachableTerritores().size() != 0) {
-//      validMove = moveTroops;
-//      return validMove;
-//    }
-//    validMove = null;
-//    return validMove;
-//  }
+  protected Move getValidMoveAfterReinforce(RiskPlayer player) {
+    if (player.getCards().size() != 0) {
+      return this.getValidCardMove(player);
+    }
+    ValidAttackMove move = this.getValidAttackMove(player);
+    if (move.getAttackableTerritories().size() != 0) {
+      return move;
+    }
+    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
+    if (troopMove.getReachableTerritores().size() != 0) {
+      return troopMove;
+    }
+    return null;
+  }
+
+  protected Move getValidMoveAfterCardTurnIn(RiskPlayer player) {
+    ValidAttackMove move = this.getValidAttackMove(player);
+    if (move.getAttackableTerritories().size() != 0) {
+      validMove = move;
+      return validMove;
+    }
+    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
+    if (troopMove.getReachableTerritores().size() != 0) {
+      validMove = troopMove;
+      return validMove;
+    }
+    validMove = null;
+    return null;
+  }
+
+  protected Move getValidMoveAfterAttack(RiskPlayer player) {
+    ValidDieDefendMove move = this.getValidDieDefendMove(player);
+    validMove = move;
+    return validMove;
+  }
+
+  protected Move getValidMoveAfterDefend(RiskPlayer player, DefendMove move) {
+    if (move.getDefenderLostTerritory()) {
+      validMove = this.getValidClaimTerritoryMove(player);
+      return validMove;
+    }
+    ValidAttackMove attack = this.getValidAttackMove(player);
+    if (attack.getAttackableTerritories().size() != 0) {
+      validMove = attack;
+      return validMove;
+    }
+    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
+    if (moveTroops.getReachableTerritores().size() != 0) {
+      validMove = moveTroops;
+      return validMove;
+    }
+    validMove = null;
+    return null;
+  }
+
+  protected Move getValidMoveAfterClaimTerritory(RiskPlayer player) {
+    ValidAttackMove attack = this.getValidAttackMove(player);
+    if (attack.getAttackableTerritories().size() != 0) {
+      validMove = attack;
+      return validMove;
+    }
+    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
+    if (moveTroops.getReachableTerritores().size() != 0) {
+      validMove = moveTroops;
+      return validMove;
+    }
+    validMove = null;
+    return validMove;
+  }
 
   protected Move getValidDefendMoveAfterTroopMove(RiskPlayer player,
       DefendMove move) {

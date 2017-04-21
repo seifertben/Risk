@@ -54,7 +54,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests adding a null territory throws an IllegalArgumentException.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testAddTerritoryNullInput() {
@@ -64,7 +64,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests removing a territory from a player's territory set.
    */
   @Test
   public void testLostTerritory() {
@@ -77,7 +77,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Testing removing a null territory throws an IllegalArgumentException.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testLostTerritoryNullInput() {
@@ -87,7 +87,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests adding a card.
    */
   @Test
   public void testAddCard() {
@@ -99,7 +99,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests adding multiple cards of the same type.
    */
   @Test
   public void testAddMultipleOfSameCard() {
@@ -126,7 +126,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests removing a card.
    */
   @Test
   public void testRemoveCard() {
@@ -139,7 +139,7 @@ public class RiskPlayerTest {
   }
 
   /**
-   *
+   * Tests removing one card but another card with the same value remains.
    */
   @Test
   public void testRemoveOneInstanceOfACard() {

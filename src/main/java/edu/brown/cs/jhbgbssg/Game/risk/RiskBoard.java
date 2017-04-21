@@ -161,6 +161,24 @@ public class RiskBoard {
 
   }
 
+  public Multimap<TerritoryEnum, TerritoryEnum> getPlayerAttackMap(
+      RiskPlayer player) {
+    Set<TerritoryEnum> territories = player.getTerritories();
+    Multimap<TerritoryEnum, TerritoryEnum> attackMap = HashMultimap.create();
+    for (TerritoryEnum terrId : territories) {
+      Territory terr = territoryMap.get(terrId);
+      if (terr.getNumberTroops() > 1) {
+        Set<TerritoryEnum> otherIds = board.adjacentNodes(terrId);
+        for (TerritoryEnum otherId : otherIds) {
+          if (!territories.contains(otherId)) {
+            attackMap.put(terrId, otherId);
+          }
+        }
+      }
+    }
+    return attackMap;
+  }
+
   public boolean isNeighbor(TerritoryEnum terr1, TerritoryEnum terr2) {
     return board.adjacentNodes(terr1).contains(terr2);
   }

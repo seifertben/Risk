@@ -7,9 +7,9 @@ import java.util.List;
 import edu.brown.cs.jhbgbssg.Game.CardPool;
 
 /**
+ * JUnit tests for RiskCardPool.
  *
  * @author sarahgilmore
- *
  */
 public class RiskCardPool implements CardPool {
   private List<Integer> cards;
@@ -59,7 +59,7 @@ public class RiskCardPool implements CardPool {
    * UnsupportedOperation for RiskCardPool.
    */
   @Override
-  public void handInCard() {
+  public void handInCard(int card) {
     throw new UnsupportedOperationException("ERROR: no reusing cards in Risk");
 
   }

@@ -9,7 +9,7 @@ public interface CardPool {
 
   int handOutCard();
 
-  void handInCard();
+  void handInCard(int value);
 
   boolean isEmpty();
 
