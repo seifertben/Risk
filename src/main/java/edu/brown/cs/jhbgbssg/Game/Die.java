@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk;
+package edu.brown.cs.jhbgbssg.Game;
 
 import java.util.Random;
 

@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.Die;
 import edu.brown.cs.jhbgbssg.Game.Player;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;

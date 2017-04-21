@@ -28,23 +28,19 @@ public class ValidClaimTerritoryMove implements ValidAction {
    * @param maxNumberTroops - max number of troops
    * @throws IllegalArgumentException if the input is null
    */
-  public ValidClaimTerritoryMove(UUID playerId, TerritoryEnum fromTerritory,
-      TerritoryEnum territoryToClaim, int maxNumberTroops)
-      throws IllegalArgumentException {
-    if (playerId == null || fromTerritory == null || territoryToClaim == null) {
+  public ValidClaimTerritoryMove(RiskPlayer player, RiskBoard board,
+      AttackMove attack) throws IllegalArgumentException {
+    if (player == null || board == null || attack == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    this.playerId = playerId;
-    this.fromTerritory = fromTerritory;
-    this.territoryToClaim = territoryToClaim;
-    this.maxNumberTroops = maxNumberTroops;
-  }
-
-  private void setUp(RiskPlayer player, TerritoryEnum attack,
-      TerritoryEnum claim, RiskBoard board) {
-    playerId = player.getPlayerId();
-    Territory attacking = board.getTerritory(attack);
+    assert (board.getTerritory(attack.getAttackTo()).getNumberTroops() == 0);
+    assert (player.hasTerritory(attack.getAttackFrom()));
+    this.playerId = player.getPlayerId();
+    this.fromTerritory = attack.getAttackFrom();
+    this.territoryToClaim = attack.getAttackTo();
+    Territory attacking = board.getTerritory(fromTerritory);
     maxNumberTroops = attacking.getNumberTroops() - 1;
+    assert (maxNumberTroops >= 1);
   }
 
   @Override

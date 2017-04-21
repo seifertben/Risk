@@ -20,26 +20,19 @@ public class ValidDieDefendMove implements ValidAction {
   /**
    * Constructor for ValidDieDefendMove.
    *
-   * @param playerId - player
-   * @param territory - territory defending
-   * @param maxNumberDie - number of die
+   * @param player - player
+   * @param board - board
+   * @param toDefend - territory
    * @throws IllegalArgumentException if input is null or maxNumberDie is less
    *           than 1 or greater than 2
    */
-  public ValidDieDefendMove(UUID playerId, TerritoryEnum territory,
-      int maxNumberDie) throws IllegalArgumentException {
-    if (playerId == null || territory == null) {
-      throw new IllegalArgumentException("ERROR: null input");
-    } else if (maxNumberDie < 1 || maxNumberDie > 3) {
-      throw new IllegalArgumentException("ERROR: illegal number of die");
-    }
-    this.playerId = playerId;
-    this.maxNumberDie = maxNumberDie;
-  }
-
-  private void setUp(RiskPlayer player, RiskBoard board,
+  public ValidDieDefendMove(RiskPlayer player, RiskBoard board,
       TerritoryEnum toDefend) {
+    if (player == null || board == null || toDefend == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     playerId = player.getPlayerId();
+    this.toDefend = toDefend;
     Territory terr = board.getTerritory(toDefend);
     int troops = terr.getNumberTroops();
     if (troops >= 2) {

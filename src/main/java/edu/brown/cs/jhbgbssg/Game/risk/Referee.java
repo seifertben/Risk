@@ -1,7 +1,5 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
-import java.util.UUID;
-
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
@@ -17,7 +15,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidClaimTerritoryMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * Controls the rules of the game.
@@ -27,7 +25,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
  */
 public class Referee {
   private RiskBoard board;
-  private Move lastMove;
+  // private Move lastMove;
   private ValidAction validMove = null;
 
   /**
@@ -115,30 +113,15 @@ public class Referee {
     return (ValidAttackMove) validMove;
   }
 
-  private ValidDieDefendMove getValidDieDefendMove(RiskPlayer player) {
-    UUID playerId = player.getPlayerId();
-    Territory terr = board.getTerritory(((AttackMove) lastMove).getAttackTo());
-    int troops = terr.getNumberTroops();
-    int maxNumDefendDice = 0;
-    if (troops >= 2) {
-      maxNumDefendDice = 2;
-    } else {
-      maxNumDefendDice = 1;
-    }
-    validMove = new ValidDieDefendMove(playerId,
-        ((AttackMove) lastMove).getAttackTo(), maxNumDefendDice);
+  private ValidDieDefendMove getValidDieDefendMove(RiskPlayer player,
+      TerritoryEnum toDefend) {
+    validMove = new ValidDieDefendMove(player, board, toDefend);
     return (ValidDieDefendMove) validMove;
   }
 
-  private ValidClaimTerritoryMove getValidClaimTerritoryMove(
-      RiskPlayer player) {
-    UUID playerId = player.getPlayerId();
-    Territory attacking = board
-        .getTerritory(((DefendMove) lastMove).getAttackingTerritory());
-    int maxTroopMove = attacking.getNumberTroops() - 1;
-    validMove = new ValidClaimTerritoryMove(playerId,
-        ((DefendMove) lastMove).getAttackingTerritory(),
-        ((DefendMove) lastMove).getDefendedTerritory(), maxTroopMove);
+  private ValidClaimTerritoryMove getValidClaimTerritoryMove(RiskPlayer player,
+      AttackMove attack) {
+    validMove = new ValidClaimTerritoryMove(player, board, attack);
     return (ValidClaimTerritoryMove) validMove;
   }
 
@@ -172,8 +155,9 @@ public class Referee {
     return null;
   }
 
-  protected ValidAction getValidMoveAfterAttack(RiskPlayer player) {
-    ValidDieDefendMove move = this.getValidDieDefendMove(player);
+  protected ValidAction getValidMoveAfterAttack(RiskPlayer player,
+      TerritoryEnum defend) {
+    ValidDieDefendMove move = this.getValidDieDefendMove(player, defend);
     validMove = move;
     return validMove;
   }
@@ -181,7 +165,8 @@ public class Referee {
   protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
       DefendMove move) {
     if (move.getDefenderLostTerritory()) {
-      validMove = this.getValidClaimTerritoryMove(player);
+      validMove = this.getValidClaimTerritoryMove(player,
+          move.getAttackingMove());
       return validMove;
     }
     ValidAttackMove attack = this.getValidAttackMove(player);
