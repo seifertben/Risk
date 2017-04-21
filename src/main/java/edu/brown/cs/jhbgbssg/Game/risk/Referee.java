@@ -72,7 +72,7 @@ public class Referee {
   // return toSend;
   // }
 
-  protected Move getValidMove() {
+  protected ValidAction getValidMove() {
     return validMove;
   }
 
@@ -142,7 +142,7 @@ public class Referee {
     return (ValidClaimTerritoryMove) validMove;
   }
 
-  protected Move getValidMoveAfterReinforce(RiskPlayer player) {
+  protected ValidAction getValidMoveAfterReinforce(RiskPlayer player) {
     if (player.getCards().size() != 0) {
       return this.getValidCardMove(player);
     }

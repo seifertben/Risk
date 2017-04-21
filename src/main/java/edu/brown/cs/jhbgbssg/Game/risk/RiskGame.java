@@ -18,6 +18,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
@@ -41,6 +42,7 @@ public class RiskGame {
   private int cardToHandOut = -1;
   private RiskCardPool cardPool;
   private Player winner;
+  private boolean gameStarted = false;
 
   /**
    * Initializes the game state.
@@ -109,7 +111,7 @@ public class RiskGame {
     ReinforceMove move = new ReinforceMove(playerId, reinforce);
     boolean isValidMove = referee.validateReinforce(move);
     if (!isValidMove) {
-      Move validMove = referee.getValidMove();
+      ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
@@ -117,7 +119,7 @@ public class RiskGame {
       Territory terr = gameBoard.getTerritory(entry.getKey());
       terr.addTroops(entry.getValue());
     }
-    Move nextValidMove = referee
+    ValidAction nextValidMove = referee
         .getValidMoveAfterReinforce(idToPlayer.get(playerId));
     if (nextValidMove == null) {
       return this.switchPlayers(move);
@@ -155,7 +157,7 @@ public class RiskGame {
       Territory terr = gameBoard.getTerritory(entry.getKey());
       terr.addTroops(entry.getValue());
     }
-    Move nextValidMove = referee
+    ValidAction nextValidMove = referee
         .getValidMoveAfterCardTurnIn(idToPlayer.get(playerId));
     if (nextValidMove == null) {
       return this.switchPlayers(move);
@@ -185,7 +187,7 @@ public class RiskGame {
     boolean isValidMove = referee.validateAttackMove(attack);
     if (isValidMove) {
       attack = null;
-      Move move = referee.getValidMove();
+      ValidAction move = referee.getValidMove();
       update.setValidMoves(move, null, true);
       return update;
     }
@@ -195,7 +197,8 @@ public class RiskGame {
     }
     Collections.sort(roll, dieComparator);
     attack.setDieResult(roll);
-    Move move = referee.getValidMoveAfterAttack(idToPlayer.get(playerId));
+    ValidAction move = referee
+        .getValidMoveAfterAttack(idToPlayer.get(playerId));
     turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
     update.setValidMoves(move, attack, false);
     return update;
@@ -219,7 +222,7 @@ public class RiskGame {
         attack);
     boolean isValidMove = referee.validateDefendMove(move);
     if (!isValidMove) {
-      Move validMove = referee.getValidMove();
+      ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
@@ -228,14 +231,14 @@ public class RiskGame {
       if (this.lostGame(idToPlayer.get(playerId))) {
         update.setLostGame(playerId);
       }
-      Move nextValidMove = referee.getValidMoveAfterDefend(
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(
           idToPlayer.get(attack.getMovePlayer()), move);
       turnState.changePhase(MoveType.CLAIM_TERRITORY);
       update.setValidMoves(nextValidMove, move, false);
       attack = null;
       return update;
     } else {
-      Move nextValidMove = referee.getValidMoveAfterDefend(
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(
           idToPlayer.get(attack.getMovePlayer()), move);
       if (nextValidMove == null) {
         return this.switchPlayers(move);
@@ -271,7 +274,7 @@ public class RiskGame {
         number);
     boolean isValidMove = referee.validateClaimTerritory(move);
     if (!isValidMove) {
-      Move validMove = referee.getValidMove();
+      ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, move, true);
       return update;
     }
@@ -286,7 +289,7 @@ public class RiskGame {
       update.setValidMoves(null, move, false);
       return update;
     }
-    Move validNextMove = referee.getValidMoveAfterClaimTerritory(player);
+    ValidAction validNextMove = referee.getValidMoveAfterClaimTerritory(player);
     if (validNextMove == null) {
       return this.switchPlayers(move);
     }
@@ -316,7 +319,7 @@ public class RiskGame {
     MoveTroopsMove move = new MoveTroopsMove(playerId, from, to, numberTroops);
     boolean isValidMove = referee.validateMoveTroopsMove(move);
     if (!isValidMove) {
-      Move validMove = referee.getValidMove(); // gets the current valid moves
+      ValidAction validMove = referee.getValidMove(); // gets the current valid
       update.setValidMoves(validMove, null, true); // sets error message
       return update;
     }
@@ -340,7 +343,7 @@ public class RiskGame {
       case MOVE_TROOPS:
         return this.switchPlayers(null);
       default:
-        Move valid = referee.getValidMove();
+        ValidAction valid = referee.getValidMove();
         update.setValidMoves(valid, null, true);
         return update;
     }
@@ -350,36 +353,36 @@ public class RiskGame {
   /**
    * At the beginning of the game, players choose countries.
    */
-//  public GameUpdate executeSelectTerritory(UUID playerId,
-//      TerritoryEnum territory) {
-//
-//    // check to see if it's a valid move
-//    // execute move
-//
-//    Territory territoryObject = gameBoard.getTerritory(territory);
-//    RiskPlayer player = idToPlayer.get(playerId);
-//    player.conqueredTerritory(territory);
-//    territoryObject.changePlayer(playerId, 1);
-//
-//    // update turn / move (next player)
-//  }
-//
-//  /**
-//   * At the beginning of the game, players choose countries.
-//   */
-//  public GameUpdate executeReinforceClaimedTerritory(UUID playerId,
-//      TerritoryEnum territory) {
-//
-//    // check to see if it's a valid move
-//    // execute move
-//
-//    Territory territoryObject = gameBoard.getTerritory(territory);
-//    RiskPlayer player = idToPlayer.get(playerId);
-//    player.conqueredTerritory(territory);
-//    territoryObject.changePlayer(playerId, 1);
-//
-//    // update turn / move (next player)
-//  }
+  // public GameUpdate executeSelectTerritory(UUID playerId,
+  // TerritoryEnum territory) {
+  //
+  // // check to see if it's a valid move
+  // // execute move
+  //
+  // Territory territoryObject = gameBoard.getTerritory(territory);
+  // RiskPlayer player = idToPlayer.get(playerId);
+  // player.conqueredTerritory(territory);
+  // territoryObject.changePlayer(playerId, 1);
+  //
+  // // update turn / move (next player)
+  // }
+  //
+  // /**
+  // * At the beginning of the game, players choose countries.
+  // */
+  // public GameUpdate executeReinforceClaimedTerritory(UUID playerId,
+  // TerritoryEnum territory) {
+  //
+  // // check to see if it's a valid move
+  // // execute move
+  //
+  // Territory territoryObject = gameBoard.getTerritory(territory);
+  // RiskPlayer player = idToPlayer.get(playerId);
+  // player.conqueredTerritory(territory);
+  // territoryObject.changePlayer(playerId, 1);
+  //
+  // // update turn / move (next player)
+  // }
 
   /**
    * Runs the attack.
@@ -437,7 +440,8 @@ public class RiskGame {
     RiskPlayer player = turnState.getPlayer();
     int index = players.indexOf(player);
     turnState.setPlayer(players.get((index + 1) / players.size()));
-    Move validMove = referee.getValidReinforceMove(turnState.getPlayer());
+    ValidAction validMove = referee
+        .getValidReinforceMove(turnState.getPlayer());
     update.setValidMoves(validMove, prevMove, false);
     return update;
   }
