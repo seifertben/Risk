@@ -78,7 +78,7 @@ public class AttackMove implements Move {
   }
 
   /**
-   * Sets the result of rolling the die.
+   * Sets the result of rolling the die. Can be called exactly once.
    *
    * @param result - result of rolling die
    * @throws IllegalArgumentException - if the list is null or if the die has
