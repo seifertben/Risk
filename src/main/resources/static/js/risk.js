@@ -1,14 +1,23 @@
+const player = "Player 2"
 $( document ).ready(function() {
 	setUp();
-	activateDropDown(5);
-	// addcard();
-	// addcard();
+	activateDropDown(2);
+	replaceField();
+	changePlayerImage(player2, "white", "blue");
+
+	// addcard(2);
+	// addcard(1);
 	// addcard();
 	// addcard();
 	// addcard();
 
 
 });
+function changePlayerImage(id, backgroundColor, color) { 
+	console.log(id);
+	id.style.color = color;
+	id.style.backgroundColor = backgroundColor;
+}
 function setUp () {
 	createPlayer(3);
 	attackStatus();
@@ -25,7 +34,37 @@ function setUp () {
 	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $bottom = $('#bottom');
 	   hideAll();
+	   changeAttackStatus("Player 1", "Player 2", "Russia");
+	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
+	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
+	   attackerLoss("Player 3", 2);
+	   defenderLoss("Player 3", 3);
 
+}
+function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
+	let message  = attackingPlayer + " is attacking " + defendingPlayer  + " in " + territory;
+	if (attackingPlayer ===player) {
+		 message  = "You are attacking " + defendingPlayer + " in " + territory;
+	}
+	 else if (defendingPlayer === player) {
+		message = attackingPlayer + " is attacking you in " + territory;
+	}
+	$("#attackingWho").html(message);
+}
+function changeAttackersTerritoryInfo(attackingPlayer,  territory, numSoldiers ) {
+	let message  = attackingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
+	if (attackingPlayer ===player) {
+		 message  = " You have " + numSoldiers  + " soldiers in " + territory;
+	}	
+	$("#attackerStatus").html(message);
+	 console.log(message);
+}
+function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers ) {
+	let message  = defendingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
+	if (defendingPlayer ===player) {
+		 message  = " You have " + numSoldiers  + " soldiers in " + territory;
+	$("#defenderStatus").html(message);
+	}	
 }
  function hideAll() {
  	$("#attack").hide();
@@ -44,8 +83,13 @@ function setUp () {
 
  }
 
-function addcard() {
+function addcard(number) {
+	if (number ===1) {
+	$('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+}
+	if (number ===2) {
 	$('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+}
 }
 function createPlayer(number) {
 	const $sideNav = $("#n");
@@ -91,11 +135,13 @@ function createDropdown() {
 	$parent.append($outer);
 }
 function activateDropDown(numbers) {
+	$("#dropdown").html("Select the amount of dice to roll");
 	$dropDown = $('#dieOptions');
 	for (let i = 0; i<numbers; i++) {
 		console.log("f");
-		let a = $('<a></a>');
+		// let a = $('<a></a>');
 		let option = i+1;
+		let a = $("<a class = 'option'></a>");
 		a.html(option);
 		let li = $('<li class= "drop"></li>');
 		li.append(a);
@@ -104,4 +150,29 @@ function activateDropDown(numbers) {
 			break;
 		}
 	}
+}
+function replaceField() {
+	$(".option").click(function(){
+	console.log("Hi");
+	console.log(this);
+	let id = "#" + "dropdown";
+   $(id).html(this.text);
+   console.log(this.text);
+});
+}
+function attackerLoss(attackingPlayer, losses) {
+	let message = attackingPlayer + " lost " + losses + " soldiers."
+	if (attackingPlayer === player) {
+			message = "You lost " + losses + " soldiers."
+ 
+	}
+	$("#attackLoss").html(message);
+}
+function defenderLoss(defendingPlayer, losses) {
+	let message = defendingPlayer + " lost " + losses + " soldiers."
+	if (defendingPlayer === player) {
+			message = "You lost " + losses + " soldiers."
+ 
+	}
+	$("#defendLoss").html(message);
 }
