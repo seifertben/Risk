@@ -10,14 +10,33 @@ import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents a Valid MoveTroops move.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class ValidMoveTroopsMove implements Move {
   private UUID playerId;
   private Multimap<TerritoryEnum, TerritoryEnum> whereToReach;
   private Map<TerritoryEnum, Integer> maxTroopsToMove;
 
+  /**
+   * Constructor for ValidMoveTroopsMove.
+   *
+   * @param playerId - player
+   * @param whereToReach - territories that can be reached from others
+   * @param maxTroopsToMove - maximum number of troops that can be moved from
+   *          one territory
+   * @throws IllegalArgumentException if input is null
+   */
   public ValidMoveTroopsMove(UUID playerId,
       Multimap<TerritoryEnum, TerritoryEnum> whereToReach,
-      Map<TerritoryEnum, Integer> maxTroopsToMove) {
+      Map<TerritoryEnum, Integer> maxTroopsToMove)
+      throws IllegalArgumentException {
+    if (playerId == null || whereToReach == null || maxTroopsToMove == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     this.playerId = playerId;
     this.whereToReach = whereToReach;
     this.maxTroopsToMove = maxTroopsToMove;
@@ -33,15 +52,36 @@ public class ValidMoveTroopsMove implements Move {
     return playerId;
   }
 
+  /**
+   * Returns the reachable territories.
+   *
+   * @return pairs of territories
+   */
   public Collection<Entry<TerritoryEnum, TerritoryEnum>> getReachableTerritores() {
     return whereToReach.entries();
   }
 
+  /**
+   * Returns the max number of territories that can be moved from a territory.
+   *
+   * @return pair of territories and integers
+   */
   public Set<Entry<TerritoryEnum, Integer>> maxTroopsToMove() {
     return maxTroopsToMove.entrySet();
   }
 
-  public boolean validMoveTroopMove(MoveTroopsMove move) {
+  /**
+   * Determines if a given MoveTroopsMove is valid.
+   *
+   * @param move - move to validate
+   * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
+   */
+  public boolean validMoveTroopMove(MoveTroopsMove move)
+      throws IllegalArgumentException {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     UUID currPlayer = move.getMovePlayer();
     if (!currPlayer.equals(playerId)) {
       return false;

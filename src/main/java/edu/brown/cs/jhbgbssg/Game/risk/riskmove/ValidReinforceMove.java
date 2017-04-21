@@ -7,13 +7,33 @@ import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents a Valid Reinforce Move.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class ValidReinforceMove implements Move {
   private UUID playerId;
   private Set<TerritoryEnum> territories;
   private int numberReinforce;
 
+  /**
+   * Constructor for a ValidReinforceMove.
+   *
+   * @param playerId - player
+   * @param territories - territories player owns
+   * @param numberReinforce - number of troops the player must reinforce with
+   * @throws IllegalArgumentException - thrown if the input is null or if the
+   *           numberReinforce is negative
+   */
   public ValidReinforceMove(UUID playerId, Set<TerritoryEnum> territories,
-      int numberReinforce) {
+      int numberReinforce) throws IllegalArgumentException {
+    if (territories == null || playerId == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    } else if (numberReinforce < 0) {
+      throw new IllegalArgumentException("ERROR: cannot have negative numbers");
+    }
     this.playerId = playerId;
     this.territories = territories;
     this.numberReinforce = numberReinforce;
@@ -29,14 +49,30 @@ public class ValidReinforceMove implements Move {
     return playerId;
   }
 
+  /**
+   * Returns the set of territories that can be reinforced.
+   *
+   * @return territories
+   */
   public Set<TerritoryEnum> getTerritories() {
     return this.territories;
   }
 
+  /**
+   * Returns the number of territories that can be reinforced.
+   *
+   * @return number of territories
+   */
   public int getNumberToReinforce() {
     return numberReinforce;
   }
 
+  /**
+   * Determines if the Reinforce move is valid.
+   *
+   * @param move - move to validate
+   * @return true if valid; false otherwise
+   */
   public boolean validReinforceMove(ReinforceMove move) {
     UUID currPlayer = move.getMovePlayer();
     if (!currPlayer.equals(playerId)) {
