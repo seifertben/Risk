@@ -350,36 +350,36 @@ public class RiskGame {
   /**
    * At the beginning of the game, players choose countries.
    */
-  public GameUpdate executeSelectTerritory(UUID playerId,
-      TerritoryEnum territory) {
-
-    // check to see if it's a valid move
-    // execute move
-
-    Territory territoryObject = gameBoard.getTerritory(territory);
-    RiskPlayer player = idToPlayer.get(playerId);
-    player.conqueredTerritory(territory);
-    territoryObject.changePlayer(playerId, 1);
-
-    // update turn / move (next player)
-  }
-
-  /**
-   * At the beginning of the game, players choose countries.
-   */
-  public GameUpdate executeReinforceClaimedTerritory(UUID playerId,
-      TerritoryEnum territory) {
-
-    // check to see if it's a valid move
-    // execute move
-
-    Territory territoryObject = gameBoard.getTerritory(territory);
-    RiskPlayer player = idToPlayer.get(playerId);
-    player.conqueredTerritory(territory);
-    territoryObject.changePlayer(playerId, 1);
-
-    // update turn / move (next player)
-  }
+//  public GameUpdate executeSelectTerritory(UUID playerId,
+//      TerritoryEnum territory) {
+//
+//    // check to see if it's a valid move
+//    // execute move
+//
+//    Territory territoryObject = gameBoard.getTerritory(territory);
+//    RiskPlayer player = idToPlayer.get(playerId);
+//    player.conqueredTerritory(territory);
+//    territoryObject.changePlayer(playerId, 1);
+//
+//    // update turn / move (next player)
+//  }
+//
+//  /**
+//   * At the beginning of the game, players choose countries.
+//   */
+//  public GameUpdate executeReinforceClaimedTerritory(UUID playerId,
+//      TerritoryEnum territory) {
+//
+//    // check to see if it's a valid move
+//    // execute move
+//
+//    Territory territoryObject = gameBoard.getTerritory(territory);
+//    RiskPlayer player = idToPlayer.get(playerId);
+//    player.conqueredTerritory(territory);
+//    territoryObject.changePlayer(playerId, 1);
+//
+//    // update turn / move (next player)
+//  }
 
   /**
    * Runs the attack.
