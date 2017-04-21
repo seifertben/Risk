@@ -13,7 +13,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidClaimTerritoryMove implements Move {
+public class ValidClaimTerritoryMove implements ValidAction {
   private UUID playerId;
   private TerritoryEnum fromTerritory;
   private TerritoryEnum territoryToClaim;
@@ -111,6 +111,11 @@ public class ValidClaimTerritoryMove implements Move {
     if (troops < 1 || troops > maxNumberTroops) {
       return false;
     }
+    return true;
+  }
+
+  @Override
+  public boolean actionAvailable() {
     return true;
   }
 }

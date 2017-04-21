@@ -3,6 +3,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -15,7 +16,7 @@ public class GameUpdate {
   private UUID lostGame;
   private UUID wonGame;
   private Move prevMove;
-  private Move availableMoves;
+  private ValidAction availableMoves;
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
@@ -59,7 +60,7 @@ public class GameUpdate {
     return this.prevMove;
   }
 
-  protected void setValidMoves(Move validMoves, Move previousMove,
+  protected void setValidMoves(ValidAction validMoves, Move previousMove,
       boolean error) {
     this.currPlayer = validMoves.getMovePlayer();
     this.availableMoves = validMoves;

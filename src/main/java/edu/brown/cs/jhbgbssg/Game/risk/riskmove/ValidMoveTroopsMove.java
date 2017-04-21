@@ -1,6 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,7 +20,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidMoveTroopsMove implements Move {
+public class ValidMoveTroopsMove implements ValidAction {
   private UUID playerId;
   private Multimap<TerritoryEnum, TerritoryEnum> whereToReach;
   private Map<TerritoryEnum, Integer> maxTroopsToMove;
@@ -28,25 +29,15 @@ public class ValidMoveTroopsMove implements Move {
   /**
    * Constructor for ValidMoveTroopsMove.
    *
-   * @param playerId - player
-   * @param whereToReach - territories that can be reached from others
-   * @param maxTroopsToMove - maximum number of troops that can be moved from
-   *          one territory
+   * @param player - player
+   * @param board - board
    * @throws IllegalArgumentException if input is null
    */
-  public ValidMoveTroopsMove(UUID playerId,
-      Multimap<TerritoryEnum, TerritoryEnum> whereToReach,
-      Map<TerritoryEnum, Integer> maxTroopsToMove)
+  public ValidMoveTroopsMove(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
-    if (playerId == null || whereToReach == null || maxTroopsToMove == null) {
+    if (player == null || board == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    this.playerId = playerId;
-    this.whereToReach = whereToReach;
-    this.maxTroopsToMove = maxTroopsToMove;
-  }
-
-  private void setUp(RiskPlayer player, RiskBoard board) {
     playerId = player.getPlayerId();
     whereToReach = board.getMoveableTroops(player);
     maxTroopsToMove = new HashMap<>();
@@ -74,7 +65,7 @@ public class ValidMoveTroopsMove implements Move {
    * @return pairs of territories
    */
   public Collection<Entry<TerritoryEnum, TerritoryEnum>> getReachableTerritores() {
-    return whereToReach.entries();
+    return Collections.unmodifiableCollection(whereToReach.entries());
   }
 
   /**
@@ -83,7 +74,7 @@ public class ValidMoveTroopsMove implements Move {
    * @return pair of territories and integers
    */
   public Set<Entry<TerritoryEnum, Integer>> maxTroopsToMove() {
-    return maxTroopsToMove.entrySet();
+    return Collections.unmodifiableSet(maxTroopsToMove.entrySet());
   }
 
   /**
@@ -113,5 +104,10 @@ public class ValidMoveTroopsMove implements Move {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public boolean actionAvailable() {
+    return canMove;
   }
 }

@@ -1,13 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
@@ -17,6 +10,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidCardMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidClaimTerritoryMove;
@@ -24,8 +18,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  * Controls the rules of the game.
@@ -36,7 +28,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 public class Referee {
   private RiskBoard board;
   private Move lastMove;
-  private Move validMove = null;
+  private ValidAction validMove = null;
 
   /**
    * Initializes the referee.
@@ -90,54 +82,36 @@ public class Referee {
    * @return ValidReinforceMove
    */
   protected ValidReinforceMove getValidReinforceMove(RiskPlayer player) {
-    int reinforce = player.getNumberTerritories() / 3;
-    Set<TerritoryEnum> territories = player.getTerritories();
-    Collection<ContinentInterface> conts = board.getContinents();
-    for (ContinentInterface cont : conts) {
-      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
-      if (territories.containsAll(territoriesInCont)) {
-        reinforce += cont.getBonusValue();
-      }
-    }
-    validMove = new ValidReinforceMove(player.getPlayerId(),
-        player.getTerritories(), reinforce);
+
+    validMove = new ValidReinforceMove(player, board);
     return (ValidReinforceMove) validMove;
   }
 
   private ValidCardMove getValidCardMove(RiskPlayer player) {
-    Multiset<Integer> cards = player.getCards();
-    Set<TerritoryEnum> territories = player.getTerritories();
-    return new ValidCardMove(player.getPlayerId(), cards, territories);
+    return new ValidCardMove(player);
   }
 
   private ValidMoveTroopsMove getValidMoveTroopsMove(RiskPlayer player) {
-    Multimap<TerritoryEnum, TerritoryEnum> canReach = board
-        .getMoveableTroops(player);
-    Map<TerritoryEnum, Integer> maxMove = new HashMap<>();
-    for (TerritoryEnum id : canReach.keySet()) {
-      maxMove.put(id, board.getTerritory(id).getNumberTroops() - 1);
-    }
-    validMove = new ValidMoveTroopsMove(player.getPlayerId(), canReach,
-        maxMove);
+    validMove = new ValidMoveTroopsMove(player, board);
     return (ValidMoveTroopsMove) validMove;
   }
 
   private ValidAttackMove getValidAttackMove(RiskPlayer player) {
-    UUID playerId = player.getPlayerId();
-    Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
-    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
-        .getPlayerAttackMap(player);
-
-    Collection<Territory> territories = board.getTerritories();
-
-    for (Territory terr : territories) {
-      int numTroops = terr.getNumberTroops();
-      int maxDice = Math.min(3, numTroops - 1);
-      if (maxDice > 0) {
-        chooseDie.put(terr.getTerritoryId(), maxDice);
-      }
-    }
-    validMove = new ValidAttackMove(playerId, chooseDie, whoToAttack);
+    // UUID playerId = player.getPlayerId();
+    // Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
+    // Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
+    // .getPlayerAttackMap(player);
+    //
+    // Collection<Territory> territories = board.getTerritories();
+    //
+    // for (Territory terr : territories) {
+    // int numTroops = terr.getNumberTroops();
+    // int maxDice = Math.min(3, numTroops - 1);
+    // if (maxDice > 0) {
+    // chooseDie.put(terr.getTerritoryId(), maxDice);
+    // }
+    // }
+    validMove = new ValidAttackMove(player, board);
     return (ValidAttackMove) validMove;
   }
 
@@ -183,14 +157,14 @@ public class Referee {
     return null;
   }
 
-  protected Move getValidMoveAfterCardTurnIn(RiskPlayer player) {
+  protected ValidAction getValidMoveAfterCardTurnIn(RiskPlayer player) {
     ValidAttackMove move = this.getValidAttackMove(player);
-    if (move.getAttackableTerritories().size() != 0) {
+    if (move.actionAvailable()) {
       validMove = move;
       return validMove;
     }
     ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
-    if (troopMove.getReachableTerritores().size() != 0) {
+    if (troopMove.actionAvailable()) {
       validMove = troopMove;
       return validMove;
     }
@@ -198,24 +172,25 @@ public class Referee {
     return null;
   }
 
-  protected Move getValidMoveAfterAttack(RiskPlayer player) {
+  protected ValidAction getValidMoveAfterAttack(RiskPlayer player) {
     ValidDieDefendMove move = this.getValidDieDefendMove(player);
     validMove = move;
     return validMove;
   }
 
-  protected Move getValidMoveAfterDefend(RiskPlayer player, DefendMove move) {
+  protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
+      DefendMove move) {
     if (move.getDefenderLostTerritory()) {
       validMove = this.getValidClaimTerritoryMove(player);
       return validMove;
     }
     ValidAttackMove attack = this.getValidAttackMove(player);
-    if (attack.getAttackableTerritories().size() != 0) {
+    if (attack.actionAvailable()) {
       validMove = attack;
       return validMove;
     }
     ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
-    if (moveTroops.getReachableTerritores().size() != 0) {
+    if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
     }
@@ -223,14 +198,14 @@ public class Referee {
     return null;
   }
 
-  protected Move getValidMoveAfterClaimTerritory(RiskPlayer player) {
+  protected ValidAction getValidMoveAfterClaimTerritory(RiskPlayer player) {
     ValidAttackMove attack = this.getValidAttackMove(player);
-    if (attack.getAttackableTerritories().size() != 0) {
+    if (attack.actionAvailable()) {
       validMove = attack;
       return validMove;
     }
     ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
-    if (moveTroops.getReachableTerritores().size() != 0) {
+    if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
     }

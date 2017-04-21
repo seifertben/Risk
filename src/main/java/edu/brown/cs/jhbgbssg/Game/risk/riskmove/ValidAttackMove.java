@@ -20,7 +20,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidAttackMove implements Move {
+public class ValidAttackMove implements ValidAction {
   private UUID playerId;
   private Map<TerritoryEnum, Integer> chooseDie;
   private Multimap<TerritoryEnum, TerritoryEnum> whoToAttack;
@@ -29,26 +29,13 @@ public class ValidAttackMove implements Move {
   /**
    * Constructor for ValidAttackMove.
    *
-   * @param playerId - id of the player who can attack
-   * @param chooseDie - maximum number of die a player can roll for each
-   *          territory
-   * @param whoToAttack - which territories and from where the player can attack
+   * @param player - player
+   * @param board - game board territory
    */
-  public ValidAttackMove(UUID playerId, Map<TerritoryEnum, Integer> chooseDie,
-      Multimap<TerritoryEnum, TerritoryEnum> whoToAttack) {
-    if (playerId == null || chooseDie == null || whoToAttack == null) {
-      throw new IllegalArgumentException(
-          "ERROR: null input to ValidAttackMove");
+  public ValidAttackMove(RiskPlayer player, RiskBoard board) {
+    if (player == null || board == null) {
+      throw new IllegalArgumentException("ERROR: null input");
     }
-    this.playerId = playerId;
-    // this.chooseDie = chooseDie;
-    this.whoToAttack = whoToAttack;
-    if (whoToAttack.size() == 0) {
-      canAttack = false;
-    }
-  }
-
-  private void setUpAttack(RiskPlayer player, RiskBoard board) {
     playerId = player.getPlayerId();
     chooseDie = new HashMap<>();
     whoToAttack = board.getPlayerAttackMap(player);
@@ -132,6 +119,11 @@ public class ValidAttackMove implements Move {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public boolean actionAvailable() {
+    return canAttack;
   }
 
 }

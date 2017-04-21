@@ -16,7 +16,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  * @author sarahgilmore
  *
  */
-public class ValidReinforceMove implements Move {
+public class ValidReinforceMove implements ValidAction {
   private UUID playerId;
   private Set<TerritoryEnum> territories;
   private int numberReinforce;
@@ -24,25 +24,16 @@ public class ValidReinforceMove implements Move {
   /**
    * Constructor for a ValidReinforceMove.
    *
-   * @param playerId - player
-   * @param territories - territories player owns
-   * @param numberReinforce - number of troops the player must reinforce with
+   * @param player - player
+   * @param board - board
    * @throws IllegalArgumentException - thrown if the input is null or if the
    *           numberReinforce is negative
    */
-  public ValidReinforceMove(UUID playerId, Set<TerritoryEnum> territories,
-      int numberReinforce) throws IllegalArgumentException {
-    if (territories == null || playerId == null) {
+  public ValidReinforceMove(RiskPlayer player, RiskBoard board)
+      throws IllegalArgumentException {
+    if (player == null || player == null) {
       throw new IllegalArgumentException("ERROR: null input");
-    } else if (numberReinforce < 0) {
-      throw new IllegalArgumentException("ERROR: cannot have negative numbers");
     }
-    this.playerId = playerId;
-    this.territories = territories;
-    this.numberReinforce = numberReinforce;
-  }
-
-  private void setUp(RiskPlayer player, RiskBoard board) {
     playerId = player.getPlayerId();
     numberReinforce = player.getNumberTerritories() / 3;
     territories = player.getTerritories();
@@ -108,5 +99,10 @@ public class ValidReinforceMove implements Move {
       added += val;
     }
     return added == numberReinforce;
+  }
+
+  @Override
+  public boolean actionAvailable() {
+    return true;
   }
 }

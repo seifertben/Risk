@@ -12,7 +12,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidDieDefendMove implements Move {
+public class ValidDieDefendMove implements ValidAction {
   private UUID playerId;
   private int maxNumberDie;
   private TerritoryEnum toDefend;
@@ -89,6 +89,11 @@ public class ValidDieDefendMove implements Move {
     if (1 > die || die > maxNumberDie) {
       return false;
     }
+    return true;
+  }
+
+  @Override
+  public boolean actionAvailable() {
     return true;
   }
 }

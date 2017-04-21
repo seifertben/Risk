@@ -15,40 +15,30 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidCardMove implements Move {
+public class ValidCardMove implements ValidAction {
   private UUID playerId;
   private Multiset<Integer> cards;
   private Set<TerritoryEnum> terrs;
-  private boolean canTurnInCards;
+  private boolean canTurnInCards = true;
 
   /**
    * Constructor for ValidCardMove. Takes in the player id, the set of cards
    * owned by the player and the territories owned.
    *
-   * @param playerId - playerId
-   * @param cards - set of cards
-   * @param terrs - territories owned by the player
+   * @param player - player
    */
-  public ValidCardMove(UUID playerId, Multiset<Integer> cards,
-      Set<TerritoryEnum> terrs) {
-    if (playerId == null || cards == null || terrs == null) {
+  public ValidCardMove(RiskPlayer player) {
+    if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
 
-    this.playerId = playerId;
-    this.cards = cards;
-    this.terrs = terrs;
-    if (cards.size() == 0) {
-      canTurnInCards = false;
-    } else {
-      canTurnInCards = true;
-    }
-  }
-
-  private void getValidCardMove(RiskPlayer player) {
+    this.playerId = player.getPlayerId();
     playerId = player.getPlayerId();
     cards = player.getCards();
     terrs = player.getTerritories();
+    if (cards.size() == 0) {
+      canTurnInCards = false;
+    }
   }
 
   @Override
@@ -120,5 +110,10 @@ public class ValidCardMove implements Move {
       added += val;
     }
     return added == card;
+  }
+
+  @Override
+  public boolean actionAvailable() {
+    return canTurnInCards;
   }
 }
