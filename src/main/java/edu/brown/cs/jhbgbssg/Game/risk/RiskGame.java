@@ -177,33 +177,33 @@ public class RiskGame {
    * @param numberDie - number of die to roll
    * @return game update
    */
-  public GameUpdate executeAttackAction(UUID playerId, TerritoryEnum fromTerr,
-      TerritoryEnum toTerr, int numberDie) {
-    GameUpdate update = new GameUpdate();
-    if (winner != null) {
-      update.setWonGame(winner.getPlayerId());
-      return update;
-    }
-    attack = new AttackMove(playerId, fromTerr, toTerr, numberDie);
-    boolean isValidMove = referee.validateAttackMove(attack);
-    if (isValidMove) {
-      attack = null;
-      ValidAction move = referee.getValidMove();
-      update.setValidMoves(move, null, true);
-      return update;
-    }
-    List<Integer> roll = new ArrayList<>();
-    for (int i = 0; i < numberDie; i++) {
-      roll.add(die.roll());
-    }
-    Collections.sort(roll, dieComparator);
-    attack.setDieResult(roll);
-    ValidAction move = referee
-        .getValidMoveAfterAttack(idToPlayer.get(playerId));
-    turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
-    update.setValidMoves(move, attack, false);
-    return update;
-  }
+//  public GameUpdate executeAttackAction(UUID playerId, TerritoryEnum fromTerr,
+//      TerritoryEnum toTerr, int numberDie) {
+//    GameUpdate update = new GameUpdate();
+//    if (winner != null) {
+//      update.setWonGame(winner.getPlayerId());
+//      return update;
+//    }
+//    attack = new AttackMove(playerId, fromTerr, toTerr, numberDie);
+//    boolean isValidMove = referee.validateAttackMove(attack);
+//    if (isValidMove) {
+//      attack = null;
+//      ValidAction move = referee.getValidMove();
+//      update.setValidMoves(move, null, true);
+//      return update;
+//    }
+//    List<Integer> roll = new ArrayList<>();
+//    for (int i = 0; i < numberDie; i++) {
+//      roll.add(die.roll());
+//    }
+//    Collections.sort(roll, dieComparator);
+//    attack.setDieResult(roll);
+//    ValidAction move = referee
+//        .getValidMoveAfterAttack(idToPlayer.get(playerId));
+//    turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
+//    update.setValidMoves(move, attack, false);
+//    return update;
+//  }
 
   /**
    *
