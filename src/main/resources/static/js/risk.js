@@ -1,9 +1,54 @@
+const TerritoryEnum = {
+  ALASKA: 0,
+  ONTARIO: 1,
+  CENTRAL_AMERICA: 2,
+  EASTERN_US: 3,
+  WESTERN_US: 4,
+  GREENLAND: 5,
+  NORTHWEST_TERRITORY: 6,
+  ALBERTA: 7,
+  QUEBEC: 8,
+  VENEZUELA: 9, 
+  PERU: 10,
+  BRAZIL: 11,
+  ARGENTINA: 12,
+  NORTH_AFRICA: 13,
+  EGYPT: 14,
+  EAST_AFRICA: 15,
+  CENTRAL_AFRICA: 16,
+  SOUTH_AFRICA: 17,
+  MADAGASCAR: 18,
+  ICELAND: 19,
+  GREAT_BRITIAN: 20,
+  WESTERN_EUROPE: 21,
+  NORTHERN_EUROPE: 22,
+  SCANDINAVIA: 23,
+  SOUTHERN_EUROPE: 24,
+  RUSSIA: 25,
+  AFGHANISTAN: 26,
+  CHINA: 27,
+  INDIA: 28,
+  IRKUTSK: 29,
+  JAPAN: 30,
+  KAMACHATKA: 31,
+  MIDDLE_EAST: 32,
+  MONGOLIA: 33,
+  SOUTHEAST_ASIA: 34,
+  SIBERIA: 35,
+  URAL: 36,
+  YAKUTSK: 37,
+  EASTERN_AUSTRALIA: 38,
+  INDONESIA: 39,
+  NEW_GUINEA: 40,
+  WESTERN_AUSTRALIA: 41
+}
+
 const player = "Player 2"
 $( document ).ready(function() {
-	setUp();
-	activateDropDown(2);
-	replaceField();
-	changePlayerImage(player2, "white", "blue");
+	//setUp();
+	//activateDropDown(2);
+	//replaceField();
+	//changePlayerImage(player2, "white", "blue");
 
 	// addcard(2);
 	// addcard(1);
@@ -11,13 +56,14 @@ $( document ).ready(function() {
 	// addcard();
 	// addcard();
 
-
 });
+
 function changePlayerImage(id, backgroundColor, color) { 
 	console.log(id);
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
 }
+
 function setUp () {
 	createPlayer(3);
 	attackStatus();
@@ -39,8 +85,8 @@ function setUp () {
 	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
 	   attackerLoss("Player 3", 2);
 	   defenderLoss("Player 3", 3);
-
 }
+
 function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
 	let message  = attackingPlayer + " is attacking " + defendingPlayer  + " in " + territory;
 	if (attackingPlayer ===player) {
@@ -51,6 +97,7 @@ function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
 	}
 	$("#attackingWho").html(message);
 }
+
 function changeAttackersTerritoryInfo(attackingPlayer,  territory, numSoldiers ) {
 	let message  = attackingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
 	if (attackingPlayer ===player) {
@@ -59,6 +106,7 @@ function changeAttackersTerritoryInfo(attackingPlayer,  territory, numSoldiers )
 	$("#attackerStatus").html(message);
 	 console.log(message);
 }
+
 function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers ) {
 	let message  = defendingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
 	if (defendingPlayer ===player) {
@@ -66,31 +114,31 @@ function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers )
 	$("#defenderStatus").html(message);
 	}	
 }
- function hideAll() {
- 	$("#attack").hide();
+
+function hideAll() {
+	$("#attack").hide();
  	$("#attackerRollText").hide();
- 		$("#defenderRollText").hide();
+	$("#defenderRollText").hide();
  	$("#blackRoll").hide();
  	$("#redRoll").hide();
- 	$("#attackLoss").hide();
+	$("#attackLoss").hide();
  	$("#defendLoss").hide();
  	$("#attackingWho").hide();
  	$("#defenderStatus").hide();
  	$("#attackerStatus").hide();
  	$("#dropdownbutton").hide();
  	$("#soldierOptions").hide();
-
-
- }
+}
 
 function addcard(number) {
 	if (number ===1) {
-	$('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+	  $('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+    }
+    if (number ===2) {
+	  $('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+    }
 }
-	if (number ===2) {
-	$('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
-}
-}
+
 function createPlayer(number) {
 	const $sideNav = $("#n");
 	for (let i = 0; i<number; i ++) {
@@ -176,3 +224,7 @@ function defenderLoss(defendingPlayer, losses) {
 	}
 	$("#defendLoss").html(message);
 }
+
+$(document).ready(function() {
+  setup_match();
+});

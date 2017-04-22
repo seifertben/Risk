@@ -8,12 +8,11 @@
       <hr>
       <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
 
-<script src="https://www.amcharts.com/lib/3/ammap.js"></script>
-<script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
-<div id="mapdiv" style="width: 1000px; height: 300px;"></div></div>
+    <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
+    <script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
+    <div id="mapdiv" style="width: 1000px; height: 300px;"></div></div>
     <div class="col-sm-2 sidenav" id = "n">
-         
-        
+
   </div>
 </div>
 
