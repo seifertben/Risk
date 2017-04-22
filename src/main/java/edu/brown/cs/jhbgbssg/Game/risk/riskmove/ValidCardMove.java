@@ -31,7 +31,6 @@ public class ValidCardMove implements ValidAction {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-
     this.playerId = player.getPlayerId();
     playerId = player.getPlayerId();
     cards = player.getCards();
