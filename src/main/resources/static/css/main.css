@@ -69,7 +69,8 @@
     font-size: 8pt;
   }
 
-div[id="matches"] {
+   div[id="matches"] {
+     	display: inline-block;
 	    padding: 10px;
 	    border: 2px solid black;
 		width: 320px;
@@ -78,6 +79,7 @@ div[id="matches"] {
 	    float: center;
 	}
 	div[id="enter"] {
+		display: inline-block;
 	    padding: 10px;
 	    border: 2px solid black;
 	    width: 320px;
@@ -86,9 +88,9 @@ div[id="matches"] {
 		float: left;
 	}
 	div[id="wrapper"] {
-	    displayer: block;
-	    width: 710px;
-	    height: 420px;
+	    display: inline-block;
+	    width: 2400px;
+	    height: 400px;
 	    margin: 0% 25%;
 	}
 	button[id="maker"] {
