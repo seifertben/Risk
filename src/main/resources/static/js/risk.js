@@ -155,6 +155,7 @@ function createPlayer(number, names) {
 		$("#n").append(currDiv);  
 	}
 }
+
 function attackStatus() {
 	const $div = $("#n");
 	let $br = $("<br><br><br>");
@@ -172,6 +173,7 @@ function attackStatus() {
 	$defenderStatus.attr("id", "defenderStatus");
 	$div.append($defenderStatus);
 }
+
 function createDropdown() {
 	const $parent = $("#n");
 	const $outer = $("<div class='btn-group' id = 'dropdowngroup'></div>");
@@ -180,6 +182,7 @@ function createDropdown() {
 	$outer.append($("<ul class='dropdown-menu' id = 'dieOptions' role='menu'></ul>"));
 	$parent.append($outer);
 }
+
 function activateDropDown(numbers) {
 	$("#dropdown").html("Select the amount of dice to roll");
 	$dropDown = $('#dieOptions');

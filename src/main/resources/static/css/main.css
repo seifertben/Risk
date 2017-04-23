@@ -87,6 +87,11 @@
 	    margin-right: 50px;
 		float: left;
 	}
+	div[id="nameField"] {
+	    display: inline-block;
+	    text-align: center;
+	    margin: 0% 40%;
+	}
 	div[id="wrapper"] {
 	    display: inline-block;
 	    width: 2400px;
