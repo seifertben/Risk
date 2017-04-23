@@ -95,24 +95,24 @@ public class RiskGame {
     return null;
   }
 
-  public GameUpdate executeSetupPhase(UUID playerId, TerritoryEnum selected) {
-    GameUpdate update = new GameUpdate();
-    SetupMove setupMove = new SetupMove(playerId, selected);
-    boolean isValidMove = referee.validateSetupMove(setupMove);
-    if (!isValidMove) {
-      ValidAction validMove = referee.getValidMove();
-      update.setValidMoves(validMove, null, true);
-      return update;
-    }
-    ValidAction nextValidMove = referee
-        .getValidMoveAfterSetup(idToPlayer.get(playerId));
-    if (nextValidMove == null) {
-      return this.switchPlayers(move);
-    }
-    turnState.changePhase(nextValidMove.getMoveType());
-    update.setValidMoves(nextValidMove, move, false);
-    return update;
-  }
+//  public GameUpdate executeSetupPhase(UUID playerId, TerritoryEnum selected) {
+//    GameUpdate update = new GameUpdate();
+//    SetupMove setupMove = new SetupMove(playerId, selected);
+//    boolean isValidMove = referee.validateSetupMove(setupMove);
+//    if (!isValidMove) {
+//      ValidAction validMove = referee.getValidMove();
+//      update.setValidMoves(validMove, null, true);
+//      return update;
+//    }
+//    ValidAction nextValidMove = referee
+//        .getValidMoveAfterSetup(idToPlayer.get(playerId));
+//    if (nextValidMove == null) {
+//      return this.switchPlayers(move);
+//    }
+//    turnState.changePhase(nextValidMove.getMoveType());
+//    update.setValidMoves(nextValidMove, move, false);
+//    return update;
+//  }
 
   /**
    * This method executes a reinforce action. It first checks that the given player can make such an
