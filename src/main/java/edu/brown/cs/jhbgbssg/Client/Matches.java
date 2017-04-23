@@ -48,8 +48,7 @@ public class Matches {
     JOIN,
     CREATE,
     CHANGE,
-    DESTROY,
-    ENTER
+    DESTROY
   }
 
   /**
@@ -290,16 +289,18 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerId));
       game.removePlayer(playerId);
 
-      // Update the lobby menu for all remaining players
-      JsonObject remove = new JsonObject();
-      remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
-      remove.addProperty("gameId", game.getId());
-      remove.addProperty("playerNum", game.playerNum());
-      remove.addProperty("lobbySize", game.lobbySize());
-      remove.addProperty("matchName", game.matchName());
-      for (Session player : sessions) {
-        if (player != session) {
-          player.getRemote().sendString(remove.toString());
+      if (!game.started()) {
+        // Update the lobby menu for all remaining players
+        JsonObject remove = new JsonObject();
+        remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
+        remove.addProperty("gameId", game.getId());
+        remove.addProperty("playerNum", game.playerNum());
+        remove.addProperty("lobbySize", game.lobbySize());
+        remove.addProperty("matchName", game.matchName());
+        for (Session player : sessions) {
+          if (player != session) {
+            player.getRemote().sendString(remove.toString());
+          }
         }
       }
 

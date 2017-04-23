@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
 
 import freemarker.template.Configuration;
 import joptsimple.OptionParser;
@@ -28,7 +27,6 @@ import spark.template.freemarker.FreeMarkerEngine;
 public final class Main {
 
   private static final int DEFAULT_PORT = 4567;
-  private static final Gson GSON = new Gson();
 
   /**
    * The initial method called when execution begins.
@@ -81,9 +79,7 @@ public final class Main {
 
     // Setup Spark Routes
     Spark.webSocket("/matches", Matches.class);
-    Spark.get("/menu", new FrontHandler(), freeMarker);
-    Spark.get("/risk", new GameHandler(), freeMarker);
-    // Spark.post("/connect", new ConnectHandler());
+    Spark.get("/risk", new FrontHandler(), freeMarker);
   }
 
   /**
@@ -96,23 +92,9 @@ public final class Main {
     @Override
     public ModelAndView handle(Request req, Response res) {
       Map<String, Object> variables = ImmutableMap.of();
-      return new ModelAndView(variables, "menu.ftl");
+      return new ModelAndView(variables, "risk.ftl");
     }
   }
-
-  /**
-   * Handle requests to the front page of our Maps website.
-  *
-  * @author bgabinet
-  */
- private static class GameHandler implements TemplateViewRoute {
-
-   @Override
-   public ModelAndView handle(Request req, Response res) {
-     Map<String, Object> variables = ImmutableMap.of();
-     return new ModelAndView(variables, "risk.ftl");
-   }
- }
 
   /**
    * Display an error page when an exception occurs in the server.

@@ -47,7 +47,7 @@ var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z 
 let EUSDATA = {
       "latitude": EUS[0], 
       "longitude": EUS[1],
-      // "svgPath": icon,
+      "selectable": true,
       "svgPath": targetSVG,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
@@ -62,6 +62,7 @@ let WUSDATA = {
       "latitude": WUS[0],
       "longitude":  WUS[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
@@ -75,6 +76,7 @@ let QUEBECDATA =  {
       "latitude": QUEBEC[0],
       "longitude":   QUEBEC[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
@@ -88,6 +90,7 @@ let ONTARIODATA =  {
       "latitude": ONTARIO[0], 
       "longitude":   ONTARIO[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
@@ -1117,16 +1120,13 @@ let map = AmCharts.makeChart( "mapdiv", {
    */
   "largeMap": {}
 } );
-let click = 0;
+
 map.addListener("clickMapObject", function (event) {
-  click ++;
-  console.log("click " + click);
+
+  console.log(event.mapObject.id);
    console.log($("#attack"));
   console.log("mod " + (click %2));
-  if (click % 2 === 0) {
-    $("#attack").show();
-    console.log("you");
-  }
+
 });
 
 // // changeLines("blue", ONTARIO_GREENLAND);

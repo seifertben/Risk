@@ -14,8 +14,7 @@ const MESSAGE_TYPE = {
   JOIN: 3,
   CREATE: 4,
   CHANGE: 5,
-  DESTROY: 6,
-  ENTER: 7
+  DESTROY: 6
 };
 
 document.getElementById("gameField").style.display = "none";

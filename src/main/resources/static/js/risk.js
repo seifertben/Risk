@@ -140,7 +140,7 @@ function addcard(number) {
 
 function createPlayer(number, names) {
 	const $sideNav = $("#n");
-	for (let i = 0; i<number; i ++) {
+	for (let i = 0; i < number; i++) {
 		let currDiv = $("<div></div>");
 		let text =  $("<span></span>");
 		currDiv.attr("class", "well well-sm");
