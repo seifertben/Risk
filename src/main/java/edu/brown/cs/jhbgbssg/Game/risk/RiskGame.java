@@ -19,6 +19,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -48,7 +49,8 @@ public class RiskGame {
   /**
    * Initializes the game state.
    *
-   * @param ids the player ids.
+   * @param ids
+   *          the player ids.
    */
   public RiskGame(Set<UUID> ids) {
     if (ids == null) {
@@ -92,14 +94,35 @@ public class RiskGame {
     return null;
   }
 
+  public GameUpdate executeSetupPhase(UUID playerId, TerritoryEnum selected) {
+    GameUpdate update = new GameUpdate();
+    SetupMove setupMove = new SetupMove(playerId, selected);
+    boolean isValidMove = referee.validateSetupMove(setupMove);
+    if (!isValidMove) {
+      ValidAction validMove = referee.getValidMove();
+      update.setValidMoves(validMove, null, true);
+      return update;
+    }
+    ValidAction nextValidMove = referee
+        .getValidMoveAfterSetup(idToPlayer.get(playerId));
+    if (nextValidMove == null) {
+      return this.switchPlayers(move);
+    }
+    turnState.changePhase(nextValidMove.getMoveType());
+    update.setValidMoves(nextValidMove, move, false);
+    return update;
+  }
+
   /**
-   * This method executes a reinforce action. It first checks that the given
-   * player can make such an action; if so, it executes it. Otherwise, it does
-   * not and returns an error messaging indicating the move was not valid.
+   * This method executes a reinforce action. It first checks that the given player can make such an
+   * action; if so, it executes it. Otherwise, it does not and returns an error messaging indicating
+   * the move was not valid.
    *
-   * @param playerId - id of the player trying to make the move
-   * @param reinforce - a map of territories to numbers representing the number
-   *          of troops to place on the territory
+   * @param playerId
+   *          - id of the player trying to make the move
+   * @param reinforce
+   *          - a map of territories to numbers representing the number of troops to place on the
+   *          territory
    * @return GameUpdate object representing what happened
    */
   public GameUpdate executeReinforceAction(UUID playerId,
@@ -131,12 +154,15 @@ public class RiskGame {
   }
 
   /**
-   * Executes a card turn in. If the the move is valid, the game will execute
-   * it. Otherwise, it will return an error.
+   * Executes a card turn in. If the the move is valid, the game will execute it. Otherwise, it will
+   * return an error.
    *
-   * @param playerId - player turning in the card
-   * @param card - card turning in
-   * @param troopsAdded - map of territories with the number of troops added
+   * @param playerId
+   *          - player turning in the card
+   * @param card
+   *          - card turning in
+   * @param troopsAdded
+   *          - map of territories with the number of troops added
    * @return game update
    */
   public GameUpdate executeCardTurnInAction(UUID playerId, int card,
@@ -171,45 +197,52 @@ public class RiskGame {
   /**
    * Executes an attack.
    *
-   * @param playerId - id of the player attacking
-   * @param fromTerr - territory attacking from
-   * @param toTerr - territory attacking
-   * @param numberDie - number of die to roll
+   * @param playerId
+   *          - id of the player attacking
+   * @param fromTerr
+   *          - territory attacking from
+   * @param toTerr
+   *          - territory attacking
+   * @param numberDie
+   *          - number of die to roll
    * @return game update
    */
-//  public GameUpdate executeAttackAction(UUID playerId, TerritoryEnum fromTerr,
-//      TerritoryEnum toTerr, int numberDie) {
-//    GameUpdate update = new GameUpdate();
-//    if (winner != null) {
-//      update.setWonGame(winner.getPlayerId());
-//      return update;
-//    }
-//    attack = new AttackMove(playerId, fromTerr, toTerr, numberDie);
-//    boolean isValidMove = referee.validateAttackMove(attack);
-//    if (isValidMove) {
-//      attack = null;
-//      ValidAction move = referee.getValidMove();
-//      update.setValidMoves(move, null, true);
-//      return update;
-//    }
-//    List<Integer> roll = new ArrayList<>();
-//    for (int i = 0; i < numberDie; i++) {
-//      roll.add(die.roll());
-//    }
-//    Collections.sort(roll, dieComparator);
-//    attack.setDieResult(roll);
-//    ValidAction move = referee
-//        .getValidMoveAfterAttack(idToPlayer.get(playerId));
-//    turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
-//    update.setValidMoves(move, attack, false);
-//    return update;
-//  }
+  // public GameUpdate executeAttackAction(UUID playerId, TerritoryEnum fromTerr,
+  // TerritoryEnum toTerr, int numberDie) {
+  // GameUpdate update = new GameUpdate();
+  // if (winner != null) {
+  // update.setWonGame(winner.getPlayerId());
+  // return update;
+  // }
+  // attack = new AttackMove(playerId, fromTerr, toTerr, numberDie);
+  // boolean isValidMove = referee.validateAttackMove(attack);
+  // if (isValidMove) {
+  // attack = null;
+  // ValidAction move = referee.getValidMove();
+  // update.setValidMoves(move, null, true);
+  // return update;
+  // }
+  // List<Integer> roll = new ArrayList<>();
+  // for (int i = 0; i < numberDie; i++) {
+  // roll.add(die.roll());
+  // }
+  // Collections.sort(roll, dieComparator);
+  // attack.setDieResult(roll);
+  // ValidAction move = referee
+  // .getValidMoveAfterAttack(idToPlayer.get(playerId));
+  // turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
+  // update.setValidMoves(move, attack, false);
+  // return update;
+  // }
 
   /**
    *
-   * @param playerId - id of player defending
-   * @param defend - territory defending
-   * @param numberDie - number of die to roll
+   * @param playerId
+   *          - id of player defending
+   * @param defend
+   *          - territory defending
+   * @param numberDie
+   *          - number of die to roll
    * @return game update
    */
   public GameUpdate executeDefendAction(UUID playerId, TerritoryEnum defend,
@@ -253,15 +286,18 @@ public class RiskGame {
   }
 
   /**
-   * Executes a claim territory move. A player claims a territory if, during an
-   * attack, the number of troops on the defending territory decreases to 0.
-   * This move checks that the claim territory move is valid, and executes if
-   * so.
+   * Executes a claim territory move. A player claims a territory if, during an attack, the number
+   * of troops on the defending territory decreases to 0. This move checks that the claim territory
+   * move is valid, and executes if so.
    *
-   * @param playerId - player claiming territory
-   * @param from - territory from which to move troops
-   * @param to - territory to claim
-   * @param number - number of troops
+   * @param playerId
+   *          - player claiming territory
+   * @param from
+   *          - territory from which to move troops
+   * @param to
+   *          - territory to claim
+   * @param number
+   *          - number of troops
    * @return update specifying what happened
    */
   public GameUpdate executeClaimTerritory(UUID playerId, TerritoryEnum from,
@@ -299,15 +335,18 @@ public class RiskGame {
   }
 
   /**
-   * This method moves the specified number of troops from a player's territory
-   * to another an adjacent one. If the move is valid, it will execute.
-   * Otherwise, the move will not be executed and RiskGame will return an error
-   * in the GameUpdate object.
+   * This method moves the specified number of troops from a player's territory to another an
+   * adjacent one. If the move is valid, it will execute. Otherwise, the move will not be executed
+   * and RiskGame will return an error in the GameUpdate object.
    *
-   * @param playerId - id of the player making the move
-   * @param numberTroops - number of troops to move
-   * @param from - take troops from this territory
-   * @param to - move troops to this territory
+   * @param playerId
+   *          - id of the player making the move
+   * @param numberTroops
+   *          - number of troops to move
+   * @param from
+   *          - take troops from this territory
+   * @param to
+   *          - move troops to this territory
    * @return GameUpdate specifying what happend and the next possible move
    */
   public GameUpdate executeMoveTroops(UUID playerId, int numberTroops,
@@ -335,18 +374,18 @@ public class RiskGame {
     MoveType phase = turnState.getPhase();
     GameUpdate update = new GameUpdate();
     switch (phase) {
-      case TURN_IN_CARD:
-        // find next valid move
-        break;
-      case CHOOSE_ATTACK_DIE:
-        // find next valid move
-        break;
-      case MOVE_TROOPS:
-        return this.switchPlayers(null);
-      default:
-        ValidAction valid = referee.getValidMove();
-        update.setValidMoves(valid, null, true);
-        return update;
+    case TURN_IN_CARD:
+      // find next valid move
+      break;
+    case CHOOSE_ATTACK_DIE:
+      // find next valid move
+      break;
+    case MOVE_TROOPS:
+      return this.switchPlayers(null);
+    default:
+      ValidAction valid = referee.getValidMove();
+      update.setValidMoves(valid, null, true);
+      return update;
     }
     return null;
   }
@@ -448,8 +487,8 @@ public class RiskGame {
   }
 
   /**
-   * Tests to see if the player lost the game. If so, the player is removed from
-   * the turn list and true is returned.
+   * Tests to see if the player lost the game. If so, the player is removed from the turn list and
+   * true is returned.
    */
   private boolean lostGame(RiskPlayer lost) {
     if (!lost.hasTerritories()) {
@@ -460,8 +499,7 @@ public class RiskGame {
   }
 
   /**
-   * Tests to see if the game is over. If so, it sets the winner instance
-   * variable and return true.
+   * Tests to see if the game is over. If so, it sets the winner instance variable and return true.
    */
   private boolean gameOver(RiskPlayer player) {
     if (player.getTerritories().containsAll(gameBoard.getTerritoryIds())) {
