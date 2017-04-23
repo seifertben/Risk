@@ -3,6 +3,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,8 +35,8 @@ public class RiskGame {
 
   private RiskBoard gameBoard;
   private Turn turnState;
-  private List<RiskPlayer> players;
-  private Map<UUID, RiskPlayer> idToPlayer;
+  private List<RiskPlayer> players = Collections.synchronizedList(new ArrayList<>());
+  private Map<UUID, RiskPlayer> idToPlayer = Collections.synchronizedMap(new HashMap<>());
   private Referee referee;
   private AttackMove attack;
   private Die die;
@@ -469,5 +470,11 @@ public class RiskGame {
       return true;
     }
     return false;
+  }
+
+  public void removePlayer(UUID playerId) {
+    if (players.contains(playerId)) {
+      players.remove(playerId);
+    }
   }
 }

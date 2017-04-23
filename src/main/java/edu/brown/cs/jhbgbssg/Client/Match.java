@@ -3,7 +3,11 @@ package edu.brown.cs.jhbgbssg.Client;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
+
+import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 
 public class Match {
 
@@ -13,6 +17,7 @@ public class Match {
   private boolean started = false;
   private final String matchName;
   private final Integer lobbySize;
+  private RiskGame myGame;
 
   public Match(UUID uid, Integer max, String title) {
     players = Collections.synchronizedList(new ArrayList<>());
@@ -46,9 +51,8 @@ public class Match {
   }
 
   public void removePlayer(UUID playerId) {
-    if (players.contains(playerId)) {
-      players.remove(playerId);
-    }
+    myGame.removePlayer(playerId);
+    players = myGame.getPlayerOrder();
   }
 
   public List<UUID> getPlayers() {
@@ -65,6 +69,9 @@ public class Match {
 
   public void start() {
     started = true;
+    Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
+    myGame = new RiskGame(idSet);
+    players = myGame.getPlayerOrder();
   }
 
   @Override

@@ -88,6 +88,7 @@ public class Matches {
   public void closed(Session session, int statusCode, String reason) throws IOException {
     // Update the lobbies and remove
     // this player from our list
+    System.out.println("CLOSED");
     remove_player(session);
     sessions.remove(session);
   }
@@ -194,6 +195,8 @@ public class Matches {
    */
   private void start_game(Match toStart) throws IOException {
 
+    toStart.start();
+
     // Add this match's info to an update message
     JsonObject update = new JsonObject();
     update.addProperty("type", MESSAGE_TYPE.START.ordinal());
@@ -291,9 +294,10 @@ public class Matches {
       }
 
       // Remove this player from the cache
-      playerToSession.remove(playerId);
-      sessionToPlayer.remove(session);
       playerToGame.remove(playerId);
     }
+    System.out.println("HI");
+    playerToSession.remove(playerId);
+    sessionToPlayer.remove(session);
   }
 }
