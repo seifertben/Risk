@@ -33,6 +33,9 @@ public class RiskBoard {
   private Map<TerritoryEnum, Territory> territoryMap;
   private Map<ContinentEnum, ContinentInterface> continentMap;
 
+  /**
+   * Constructor for RiskBoard.
+   */
   public RiskBoard() {
     this.buildBoard();
     this.setUpContinents();
@@ -161,6 +164,13 @@ public class RiskBoard {
 
   }
 
+  /**
+   * Gets a map portraying which territories a player can attack from and which
+   * territories a player can attack from a given territory.
+   *
+   * @param player - player to construct attack map for
+   * @return multimap indicating where a player can attack
+   */
   public Multimap<TerritoryEnum, TerritoryEnum> getPlayerAttackMap(
       RiskPlayer player) {
     Set<TerritoryEnum> territories = player.getTerritories();
@@ -179,14 +189,33 @@ public class RiskBoard {
     return attackMap;
   }
 
+  /**
+   * Returns true if the two territories are neighbors; false otherwise.
+   *
+   * @param terr1 - territory
+   * @param terr2 - territory
+   * @return true if they are neighbors; false otherwise
+   */
   public boolean isNeighbor(TerritoryEnum terr1, TerritoryEnum terr2) {
     return board.adjacentNodes(terr1).contains(terr2);
   }
 
+  /**
+   * Gets the territory mapped two by a given id.
+   *
+   * @param terrId - territory id
+   * @return territory
+   */
   public Territory getTerritory(TerritoryEnum terrId) {
     return territoryMap.get(terrId);
   }
 
+  /**
+   * Gets the neighbors of this territory.
+   *
+   * @param terr - territory id.
+   * @return set of neighboring territories.
+   */
   public Set<Territory> getNeighbors(TerritoryEnum terr) {
     Set<Territory> neighbors = new HashSet<>();
     Set<TerritoryEnum> ids = board.adjacentNodes(terr);
@@ -234,4 +263,29 @@ public class RiskBoard {
     return Collections.unmodifiableSet(territoryMap.keySet());
   }
 
+  public boolean removeTroops(TerritoryEnum id, int remove) {
+    // Territory terr = territoryMap.get(id);
+    // player id = terr.getOwner();
+    // boolean lost = terr.removeTroops(remove);
+    // if (lost = true) {
+    // player.lostTerritory(id);
+    // return true;
+    // }
+    // return false;
+    return false;
+  }
+
+  public boolean addTroops(TerritoryEnum id, int add) {
+    // Territory terr = territoryMap.get(id);
+    // return terr.addTroops();
+
+    return false;
+  }
+
+  public boolean changePlayer(UUID playerId, TerritoryEnum id, int add) {
+    // Territory terr = territoryMap.get(id);
+    // terr.changeOwner(id, add);
+    // return player.conqueredTerritory(id);
+    return false;
+  }
 }

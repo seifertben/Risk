@@ -23,8 +23,7 @@ public class ValidDieDefendMove implements ValidAction {
    * @param player - player
    * @param board - board
    * @param toDefend - territory
-   * @throws IllegalArgumentException if input is null or maxNumberDie is less
-   *           than 1 or greater than 2
+   * @throws IllegalArgumentException if input is null
    */
   public ValidDieDefendMove(RiskPlayer player, RiskBoard board,
       TerritoryEnum toDefend) {
@@ -35,6 +34,7 @@ public class ValidDieDefendMove implements ValidAction {
     this.toDefend = toDefend;
     Territory terr = board.getTerritory(toDefend);
     int troops = terr.getNumberTroops();
+    assert (troops > 0);
     if (troops >= 2) {
       maxNumberDie = 2;
     } else {
@@ -78,8 +78,11 @@ public class ValidDieDefendMove implements ValidAction {
     if (!currPlayer.equals(playerId)) {
       return false;
     }
+    if (!toDefend.equals(move.getDefendedTerritory())) {
+      return false;
+    }
     int die = move.getDieRolled();
-    if (1 > die || die > maxNumberDie) {
+    if (die < 1 || die > maxNumberDie) {
       return false;
     }
     return true;

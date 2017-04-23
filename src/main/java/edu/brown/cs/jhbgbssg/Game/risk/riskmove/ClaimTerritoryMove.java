@@ -36,18 +36,24 @@ public class ClaimTerritoryMove implements Move {
     this.from = from;
   }
 
+  /**
+   * Returns the type of move.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.CLAIM_TERRITORY;
   }
 
+  /**
+   * Returns the player id making the move.
+   */
   @Override
   public UUID getMovePlayer() {
     return playerId;
   }
 
   /**
-   * Territory claimed.
+   * Returns the id of the territory claimed.
    *
    * @return territory
    */
@@ -56,7 +62,7 @@ public class ClaimTerritoryMove implements Move {
   }
 
   /**
-   * Territory attacking.
+   * Returns the id of the attacking territory.
    *
    * @return territory
    */
@@ -65,7 +71,7 @@ public class ClaimTerritoryMove implements Move {
   }
 
   /**
-   * Number of troops moved.
+   * Returns the number of troops moved.
    *
    * @return number of troops
    */
