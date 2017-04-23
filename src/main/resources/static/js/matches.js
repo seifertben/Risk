@@ -1,4 +1,5 @@
 document.getElementById("gameField").style.display = "none";
+document.getElementById("menuField").style.display = "none";
 //document.getElementById("myBtn").disabled = true;
 
 $(window).keydown(function(evt){
@@ -15,16 +16,19 @@ const MESSAGE_TYPE = {
   JOIN: 3,
   CREATE: 4,
   CHANGE: 5,
-  DESTROY: 6
+  DESTROY: 6,
+  ENTER: 7
 };
 
 let conn;
 let myId;
+let myName;
 const $maker = $("#maker");
 
 const setup_matches = () => {
 
   conn = new WebSocket("ws://107.170.49.223/matches");
+	//conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -51,7 +55,6 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.CREATE:
    		let game = document.createElement("BUTTON");
-   		//game.class = "list-group-item list-group-item-action";
    		game.id = data.gameId;
    		game.name = data.matchName;
    		document.getElementById("matches").appendChild(game);
@@ -64,6 +67,21 @@ const setup_matches = () => {
       case MESSAGE_TYPE.START:
         document.getElementById("gameField").style.display = "inline";
         document.getElementById("menuField").style.display = "none";
+        document.getElementById(data.gameId).remove();
+        let players = [];
+        players.push(data.player0);
+        players.push(data.player1);
+        players.push(data.player2);
+        if (data.player3 != null) {
+            players.push(data.player3);     	
+        }
+        if (data.player4 != null) {
+            players.push(data.player4);     	
+        }
+        if (data.player5 != null) {
+            players.push(data.player5);     	
+        }
+        createPlayer(data.playerNum, players);
         break;
 
       case MESSAGE_TYPE.DESTROY:
@@ -83,6 +101,16 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
+window.onkeyup = function(e) {
+	var key = e.keyCode ? e.keyCode : e.which;
+
+	   if (key == 13 && myName == null) {
+	       myName = document.getElementById("nameInput").value;
+	       document.getElementById("nameField").style.display = "none";
+	       document.getElementById("menuField").style.display = "inline";
+	   }
+	}
+
 const create_match = event => {
 	event.preventDefault();
 	let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(), "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
@@ -93,7 +121,7 @@ const create_match = event => {
 const join_match = event => {
 	event.preventDefault();
 	let game = event.target;
-	let mess = {"type" : MESSAGE_TYPE.JOIN, "playerId" : myId, "gameId" : game.id};
+	let mess = {"type" : MESSAGE_TYPE.JOIN, "playerId" : myId, "gameId" : game.id, "playerName" : myName};
 	conn.send(JSON.stringify(mess));
 }
 

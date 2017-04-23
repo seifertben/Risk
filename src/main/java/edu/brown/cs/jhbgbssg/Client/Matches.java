@@ -37,7 +37,8 @@ public class Matches {
     JOIN,
     CREATE,
     CHANGE,
-    DESTROY
+    DESTROY,
+    ENTER
   }
 
   /**
@@ -133,6 +134,7 @@ public class Matches {
     // and the id of the match they want to join
     UUID gameUUID = UUID.fromString(received.get("gameId").getAsString());
     UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
+    String playerName = received.get("playerName").getAsString();
 
     // If the player asked to rejoin a lobby, do nothing
     if (playerToGame.get(playerUUID) == gameUUID) {
@@ -142,7 +144,7 @@ public class Matches {
     // Get the match that the player asked to join,
     // and add this player to it.
     Match toAdd = matchIdToClass.get(gameUUID);
-    toAdd.addPlayer(playerUUID);
+    toAdd.addPlayer(playerUUID, playerName);
 
     Match toChange = null;
 
@@ -196,7 +198,11 @@ public class Matches {
     JsonObject update = new JsonObject();
     update.addProperty("type", MESSAGE_TYPE.START.ordinal());
     update.addProperty("gameId", toStart.getId());
-
+    for (int index = 0; index < toStart.playerNum(); index++) {
+      update.addProperty("player" + index, toStart.getPlayerName(index));
+    }
+    update.addProperty("playerNum", toStart.playerNum());
+    
     // Update all players in this match, displaying the risk map
     // and hiding the lobby menu
     List<UUID> players = toStart.getPlayers();
@@ -214,9 +220,6 @@ public class Matches {
     for (Session player : sessions) {
       player.getRemote().sendString(update.toString());
     }
-
-    // Tell the match to being play
-    toStart.start();
   }
 
   /**

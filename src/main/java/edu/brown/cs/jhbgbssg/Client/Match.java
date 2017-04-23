@@ -9,12 +9,14 @@ public class Match {
 
   private final UUID id;
   private List<UUID> players;
+  private List<String> names;
   private boolean started = false;
   private final String matchName;
   private final Integer lobbySize;
 
   public Match(UUID uid, Integer max, String title) {
     players = Collections.synchronizedList(new ArrayList<>());
+    names = Collections.synchronizedList(new ArrayList<>());
     id = uid;
     lobbySize = max;
     matchName = title;
@@ -36,9 +38,10 @@ public class Match {
     return players.size();
   }
 
-  public void addPlayer(UUID playerId) {
+  public void addPlayer(UUID playerId, String name) {
     if (players.size() < lobbySize && !players.contains(playerId)) {
       players.add(playerId);
+      names.add(name);
     }
   }
 
@@ -50,6 +53,10 @@ public class Match {
 
   public List<UUID> getPlayers() {
     return new ArrayList<UUID>(players);
+  }
+
+  public String getPlayerName(Integer index) {
+    return names.get(index);
   }
 
   public boolean started() {

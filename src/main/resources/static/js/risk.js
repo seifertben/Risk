@@ -44,7 +44,7 @@ const TerritoryEnum = {
 }
 
 const player = "Player 2"
-$( document ).ready(function() {
+	
 	//setUp();
 	//activateDropDown(2);
 	//replaceField();
@@ -56,7 +56,6 @@ $( document ).ready(function() {
 	// addcard();
 	// addcard();
 
-});
 
 function changePlayerImage(id, backgroundColor, color) { 
 	console.log(id);
@@ -139,15 +138,14 @@ function addcard(number) {
     }
 }
 
-function createPlayer(number) {
+function createPlayer(number, names) {
 	const $sideNav = $("#n");
 	for (let i = 0; i<number; i ++) {
-		console.log('hi');
 		let currDiv = $("<div></div>");
 		let text =  $("<span></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
-		let string = "player" + player;
+		let string = names[i];
 		text.html(string);
 		currDiv.attr("id", string);
 		currDiv.append(text);
@@ -224,7 +222,3 @@ function defenderLoss(defendingPlayer, losses) {
 	}
 	$("#defendLoss").html(message);
 }
-
-$(document).ready(function() {
-  setup_match();
-});
