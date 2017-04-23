@@ -3,6 +3,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,8 +35,10 @@ public class RiskGame {
 
   private RiskBoard gameBoard;
   private Turn turnState;
-  private List<RiskPlayer> players;
-  private Map<UUID, RiskPlayer> idToPlayer;
+  private List<RiskPlayer> players = Collections
+      .synchronizedList(new ArrayList<>());
+  private Map<UUID, RiskPlayer> idToPlayer = Collections
+      .synchronizedMap(new HashMap<>());
   private Referee referee;
   private AttackMove attack;
   private Die die;
@@ -91,6 +94,26 @@ public class RiskGame {
 
     return null;
   }
+
+  // public GameUpdate executeSetupPhase(UUID playerId, TerritoryEnum selected)
+  // {
+  // GameUpdate update = new GameUpdate();
+  // SetupMove setupMove = new SetupMove(playerId, selected);
+  // boolean isValidMove = referee.validateSetupMove(setupMove);
+  // if (!isValidMove) {
+  // ValidAction validMove = referee.getValidMove();
+  // update.setValidMoves(validMove, null, true);
+  // return update;
+  // }
+  // ValidAction nextValidMove = referee
+  // .getValidMoveAfterSetup(idToPlayer.get(playerId));
+  // if (nextValidMove == null) {
+  // return this.switchPlayers(move);
+  // }
+  // turnState.changePhase(nextValidMove.getMoveType());
+  // update.setValidMoves(nextValidMove, move, false);
+  // return update;
+  // }
 
   /**
    * This method executes a reinforce action. It first checks that the given
@@ -486,5 +509,11 @@ public class RiskGame {
       return true;
     }
     return false;
+  }
+
+  public void removePlayer(UUID playerId) {
+    if (players.contains(playerId)) {
+      players.remove(playerId);
+    }
   }
 }
