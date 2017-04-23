@@ -130,16 +130,20 @@ public class Referee {
 
   protected ValidAction getValidMoveAfterReinforce(RiskPlayer player) {
     if (player.getCards().size() != 0) {
-      return this.getValidCardMove(player);
+      validMove = this.getValidCardMove(player);
+      return validMove;
     }
     ValidAttackMove move = this.getValidAttackMove(player);
-    if (move.getAttackableTerritories().size() != 0) {
+    if (move.actionAvailable()) {
+      validMove = move;
       return move;
     }
     ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
     if (troopMove.getReachableTerritores().size() != 0) {
+      validMove = troopMove;
       return troopMove;
     }
+    validMove = null;
     return null;
   }
 

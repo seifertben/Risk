@@ -7,6 +7,12 @@ import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskCardPool;
 
+/**
+ * JUnit tests for RiskCardPool.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class RiskCardPoolTest {
 
   /**

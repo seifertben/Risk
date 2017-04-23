@@ -104,23 +104,26 @@ public class ValidAttackMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null move");
     }
     UUID currPlayer = move.getMovePlayer();
-    if (!currPlayer.equals(playerId)) {
+    if (!currPlayer.equals(playerId)) { // right player trying to attack
       return false;
     }
     TerritoryEnum attackFrom = move.getAttackFrom();
     TerritoryEnum attackTo = move.getAttackTo();
     int die = move.getDieRolled();
-    if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
+    if (!whoToAttack.containsEntry(attackFrom, attackTo)) { // valid territories
       return false;
     }
     assert (chooseDie.containsKey(attackFrom));
     int allowedDie = chooseDie.get(attackFrom);
-    if (die > 1 || die > allowedDie) {
+    if (die < 1 || die > allowedDie) { // valid number of die
       return false;
     }
     return true;
   }
 
+  /**
+   * Returns a boolean indicating if any attack move is valid.
+   */
   @Override
   public boolean actionAvailable() {
     return canAttack;

@@ -22,10 +22,9 @@ public class ValidClaimTerritoryMove implements ValidAction {
   /**
    * Constructor for ValidClaimTerritoryMove.
    *
-   * @param playerId - player who can make this move.
-   * @param fromTerritory - territory that can move troops
-   * @param territoryToClaim - territory to claim
-   * @param maxNumberTroops - max number of troops
+   * @param player - player
+   * @param board - game board
+   * @param attack - attack move
    * @throws IllegalArgumentException if the input is null
    */
   public ValidClaimTerritoryMove(RiskPlayer player, RiskBoard board,
