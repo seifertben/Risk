@@ -10,8 +10,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import com.google.gson.JsonObject;
+
+import edu.brown.cs.jhbgbssg.Game.risk.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
 
 /**
  * Handles players and game updates for an individual match. Acts as a proxy for
@@ -165,6 +170,14 @@ public class Match {
     Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
     myGame = new RiskGame(idSet);
     players = myGame.getPlayerOrder();
+  }
+
+  public JsonObject getUpdate(JsonObject received) {
+    SetupMove move = (SetupMove) messageApi.jsonToMove(received.toString());
+    
+    //GameUpdate update = myGame.executeSetupChoiceAction(move);
+    //return messageApi.getJsonObjectMessage(update);
+    return null;
   }
 
   @Override

@@ -6,14 +6,21 @@ $(window).keydown(function(evt){
 });
 
 const MESSAGE_TYPE = {
-  CONNECT: 0,
-  REMOVE: 1,
-  START: 2,
-  JOIN: 3,
-  CREATE: 4,
-  CHANGE: 5,
-  DESTROY: 6,
-  SELECT: 7
+  SELECT: 0,
+  SETUP_REINFORCE: 1,
+  REINFORCE: 2,
+  TURN_IN_CARD: 3,
+  ATTACK: 4,
+  DEFEND: 5,
+  CLAIM_TERRITORY: 6,
+  MOVE_TROOPS: 7,
+  CONNECT: 8,
+  REMOVE: 9,
+  START: 10,
+  JOIN: 11,
+  CREATE: 12,
+  CHANGE: 13,
+  DESTROY: 14,
 };
 
 document.getElementById("gameField").style.display = "none";
@@ -110,7 +117,8 @@ const setup_matches = () => {
         $("#" + data.gameId).remove();
         break;
       case MESSAGE_TYPE.SELECT:
-        make_selection(data.playerId, data.territory);
+        console.log("HHHHIIII");
+        make_selection(data.playerId, data.territoryId);
         break;
     }
   };

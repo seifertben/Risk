@@ -40,7 +40,7 @@ public class MessageAPI {
   private static final Gson GSON = new Gson();
   private static final TerritoryEnum[] IDS = TerritoryEnum.values();
 
-  private enum Message_Type {
+  private enum MESSAGE_TYPE {
     SELECT, SETUP_REINFORCE, REINFORCE, TURN_IN_CARD, ATTACK, DEFEND, CLAIM_TERRITORY, MOVE_TROOPS;
   }
 
@@ -93,8 +93,8 @@ public class MessageAPI {
    */
   public Move jsonToMove(String message) {
     JsonObject recieved = GSON.fromJson(message, JsonObject.class);
-    int ordinal = recieved.get("MESSAGE_TYPE").getAsInt();
-    Message_Type type = Message_Type.values()[ordinal];
+    int ordinal = recieved.get("type").getAsInt();
+    MESSAGE_TYPE type = MESSAGE_TYPE.values()[ordinal];
     switch (type) {
       case SELECT:
         return this.jsonToSelect(recieved);
@@ -123,8 +123,8 @@ public class MessageAPI {
    * @return setup move
    */
   private Move jsonToSelect(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    int index = object.get("territory_id").getAsInt();
+    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+    int index = object.get("territoryId").getAsInt();
     TerritoryEnum terr = IDS[index];
     SetupMove setup = new SetupMove(playerId, terr);
     return setup;
@@ -138,7 +138,7 @@ public class MessageAPI {
    * @return reinforce move
    */
   private Move jsonToReinforce(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
+    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
         new TypeToken<Map<TerritoryEnum, Integer>>() {
         }.getType());
@@ -154,7 +154,7 @@ public class MessageAPI {
    * @return card move
    */
   private Move jsonToCard(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_dd").getAsString());
+    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
         new TypeToken<Map<TerritoryEnum, Integer>>() {
         }.getType());
@@ -170,7 +170,7 @@ public class MessageAPI {
    * @return attack move
    */
   private Move jsonToAttack(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
+    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
     int index = object.get("attack_from").getAsInt();
     TerritoryEnum attackFrom = IDS[index];
     index = object.get("attacking").getAsInt();

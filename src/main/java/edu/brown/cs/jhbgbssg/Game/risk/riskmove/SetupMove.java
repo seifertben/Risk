@@ -10,7 +10,7 @@ public class SetupMove implements Move {
 
   public SetupMove(UUID playerId, TerritoryEnum selected)
       throws IllegalArgumentException {
-    if (playerId == null || territorySelected == null) {
+    if (playerId == null || selected == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.playerId = playerId;
