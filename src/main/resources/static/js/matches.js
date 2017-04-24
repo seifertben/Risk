@@ -1,7 +1,3 @@
-document.getElementById("gameField").style.display = "none";
-document.getElementById("menuField").style.display = "none";
-//document.getElementById("myBtn").disabled = true;
-
 $(window).keydown(function(evt){
 	if (event.keyCode == 13) {
 		event.preventDefault();
@@ -17,18 +13,25 @@ const MESSAGE_TYPE = {
   CREATE: 4,
   CHANGE: 5,
   DESTROY: 6,
-  ENTER: 7
+  SELECT: 7
 };
+
+document.getElementById("gameField").style.display = "none";
+document.getElementById("menuField").style.display = "none";
 
 let conn;
 let myId;
 let myName;
+let players = [];
+let idToName = [];
+let nameToId = [];
+let colors = [];
 const $maker = $("#maker");
 
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-	//conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -68,24 +71,46 @@ const setup_matches = () => {
         document.getElementById("gameField").style.display = "inline";
         document.getElementById("menuField").style.display = "none";
         document.getElementById(data.gameId).remove();
-        let players = [];
-        players.push(data.player0);
-        players.push(data.player1);
-        players.push(data.player2);
-        if (data.player3 != null) {
-            players.push(data.player3);     	
+        players.push(data.player0name);
+        idToName[data.player0id] = data.player0name;
+        nameToId[data.player0name] = data.player0id;
+        colors[data.player0name] = "red";
+        players.push(data.player1name);
+        idToName[data.player1id] = data.player1name;
+        nameToId[data.player1name] = data.player1id;
+        colors[data.player1name] = "blue";
+        if (data.player2id != null) {
+            players.push(data.player2name);
+            idToName[data.player2id] = data.player2name;
+            nameToId[data.player2name] = data.player2id;
+            colors[data.player2name] = "green";
         }
-        if (data.player4 != null) {
-            players.push(data.player4);     	
+        if (data.player3id != null) {
+            players.push(data.player3name);
+            idToName[data.player3id] = data.player3name;
+            nameToId[data.player3name] = data.player3id;
+            colors[data.player3name] = "purple";
         }
-        if (data.player5 != null) {
-            players.push(data.player5);     	
+        if (data.player4id != null) {
+            players.push(data.player4name);
+            idToName[data.player4id] = data.player4name;
+            nameToId[data.player4name] = data.player4id;
+            colors[data.player4name] = "orange";
+        }
+        if (data.player5id != null) {
+            players.push(data.player5);
+            idToName[data.player5id] = data.player5name;
+            nameToId[data.player5name] = data.player5id;
+            colors[data.player5name] = "yellow";
         }
         createPlayer(data.playerNum, players);
         break;
 
       case MESSAGE_TYPE.DESTROY:
         $("#" + data.gameId).remove();
+        break;
+      case MESSAGE_TYPE.SELECT:
+        make_selection(data.playerId, data.territory);
         break;
     }
   };
@@ -104,7 +129,7 @@ function guid() {
 window.onkeyup = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
 
-	   if (key == 13 && myName == null) {
+	   if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
 	       myName = document.getElementById("nameInput").value;
 	       document.getElementById("nameField").style.display = "none";
 	       document.getElementById("menuField").style.display = "inline";
@@ -113,7 +138,9 @@ window.onkeyup = function(e) {
 
 const create_match = event => {
 	event.preventDefault();
-	let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(), "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
+	let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
+			"lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
+
 	document.getElementById("name").value = "";
 	conn.send(JSON.stringify(mess));
 }

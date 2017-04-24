@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Client;
 
+// Importing resources
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,17 +20,27 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 
+/**
+ * This class handles lobbies, player connections,
+ * starting matches, and relaying messages to matches.
+ * @author bgabinet
+ */
 @WebSocket
 public class Matches {
 
+  // Session queue and GSON
   private static final Gson GSON = new Gson();
   private static final Queue<Session> sessions = new ConcurrentLinkedQueue<>();
+
+  // Caching
   private List<Match> matches = Collections.synchronizedList(new ArrayList<>());
   private Map<UUID, Match> matchIdToClass = Collections.synchronizedMap(new HashMap<>());
   private Map<UUID, Session> playerToSession = Collections.synchronizedMap(new HashMap<>());
   private Map<Session, UUID> sessionToPlayer = Collections.synchronizedMap(new HashMap<>());
   private Map<UUID, UUID> playerToGame = Collections.synchronizedMap(new HashMap<>());
 
+  // Different types of messages
+  // that can be sent or received
   private static enum MESSAGE_TYPE {
     CONNECT,
     REMOVE,
@@ -38,7 +49,7 @@ public class Matches {
     CREATE,
     CHANGE,
     DESTROY,
-    ENTER
+    SELECT,
   }
 
   /**
@@ -115,6 +126,18 @@ public class Matches {
     if (received.get("type").getAsInt() == MESSAGE_TYPE.CREATE.ordinal()) {
       create_lobby(session, message);
     }
+
+    // If this message is a request to create a lobby...
+    if (received.get("type").getAsInt() == MESSAGE_TYPE.SELECT.ordinal()) {
+      JsonObject update = new JsonObject();
+      update.addProperty("type", MESSAGE_TYPE.SELECT.ordinal());
+      update.addProperty("playerId", received.get("playerId").getAsString());
+      update.addProperty("territory", received.get("territory").getAsString());
+      Match game = matchIdToClass.get(playerToGame.get(UUID.fromString(received.get("playerId").getAsString())));
+      for (int index = 0; index < game.playerNum(); index++) {
+        playerToSession.get(game.getPlayers().get(index)).getRemote().sendString(update.toString());
+      }
+    }
   }
 
   /**
@@ -137,7 +160,22 @@ public class Matches {
     String playerName = received.get("playerName").getAsString();
 
     // If the player asked to rejoin a lobby, do nothing
-    if (playerToGame.get(playerUUID) == gameUUID) {
+    if (playerToGame.get(playerUUID) != null
+        && playerToGame.get(playerUUID).equals(gameUUID)) {
+
+      // Remove them from the match
+      Match game = matchIdToClass.get(playerToGame.get(playerUUID));
+      game.removePlayer(playerUUID);
+      JsonObject remove = new JsonObject();
+      remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
+      remove.addProperty("gameId", game.getId());
+      remove.addProperty("playerNum", game.playerNum());
+      remove.addProperty("lobbySize", game.lobbySize());
+      remove.addProperty("matchName", game.matchName());
+      for (Session player : sessions) {
+        player.getRemote().sendString(remove.toString());
+      }
+      playerToGame.put(playerUUID, null);
       return;
     }
 
@@ -194,12 +232,15 @@ public class Matches {
    */
   private void start_game(Match toStart) throws IOException {
 
+    toStart.start();
+
     // Add this match's info to an update message
     JsonObject update = new JsonObject();
     update.addProperty("type", MESSAGE_TYPE.START.ordinal());
     update.addProperty("gameId", toStart.getId());
     for (int index = 0; index < toStart.playerNum(); index++) {
-      update.addProperty("player" + index, toStart.getPlayerName(index));
+      update.addProperty("player" + index + "name", toStart.getPlayerName(index));
+      update.addProperty("player" + index + "id", toStart.getPlayerId(index).toString());
     }
     update.addProperty("playerNum", toStart.playerNum());
     
@@ -277,23 +318,27 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerId));
       game.removePlayer(playerId);
 
-      // Update the lobby menu for all remaining players
-      JsonObject remove = new JsonObject();
-      remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
-      remove.addProperty("gameId", game.getId());
-      remove.addProperty("playerNum", game.playerNum());
-      remove.addProperty("lobbySize", game.lobbySize());
-      remove.addProperty("matchName", game.matchName());
-      for (Session player : sessions) {
-        if (player != session) {
-          player.getRemote().sendString(remove.toString());
+      if (!game.started()) {
+        // Update the lobby menu for all remaining players
+        JsonObject remove = new JsonObject();
+        remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
+        remove.addProperty("gameId", game.getId());
+        remove.addProperty("playerNum", game.playerNum());
+        remove.addProperty("lobbySize", game.lobbySize());
+        remove.addProperty("matchName", game.matchName());
+        for (Session player : sessions) {
+          if (player != session) {
+            player.getRemote().sendString(remove.toString());
+          }
         }
       }
 
-      // Remove this player from the cache
-      playerToSession.remove(playerId);
-      sessionToPlayer.remove(session);
+      // Remove this player from the match cache
       playerToGame.remove(playerId);
     }
+
+    // Remove this player from the general cache
+    playerToSession.remove(playerId);
+    sessionToPlayer.remove(session);
   }
 }

@@ -1,26 +1,26 @@
-﻿<#assign content>
-<div class="container-fluid text-center">    
-  <div class="row content">
-    <div class="col-sm-2 sidenav"></div>
-	
-    <div class="col-sm-8 text-left"> 
-      <h1>Welcome to Risk</h1>
-      <hr>
-      <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
-
-    <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
-    <script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
-    <div id="mapdiv" style="width: 1000px; height: 300px;"></div></div>
-    <div class="col-sm-2 sidenav" id = "n">
-
+<#assign content>
+<div id="nameField">
+  <form id="nameForm">
+    <h2>Please Enter a Name</h2><br>
+    <input type="text" id="nameInput"></text>
+  </form>
+</div>
+<div id="menuField">
+  <div id="wrapper">
+  <form id="game" class="well well-sm">
+    <div id="enter">
+    <h2>Enter a Match Name and a Number of Players</h2><br>
+    <input id="name" type="text" autocomplete="off"></input>
+    <input id="playerNum" type="number" min="2" max="6" value="2"></input>
+    <button id="maker">Make a game</button>
+    </div>
+    <div id="matches" class="list-group">
+    </div>
+  </form>
   </div>
 </div>
-
-<footer class="container-fluid text-center" id = "bottom">
-
-<ul id= "cards">
- 
-</ul>
-</footer>
+<div id="gameField">
+  <#include "map.ftl">
+</div>
 </#assign>
 <#include "main.ftl">

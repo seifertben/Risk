@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.List;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
@@ -23,8 +24,7 @@ public class ValidDieDefendMove implements ValidAction {
    * @param player - player
    * @param board - board
    * @param toDefend - territory
-   * @throws IllegalArgumentException if input is null or maxNumberDie is less
-   *           than 1 or greater than 2
+   * @throws IllegalArgumentException if input is null
    */
   public ValidDieDefendMove(RiskPlayer player, RiskBoard board,
       TerritoryEnum toDefend) {
@@ -35,6 +35,7 @@ public class ValidDieDefendMove implements ValidAction {
     this.toDefend = toDefend;
     Territory terr = board.getTerritory(toDefend);
     int troops = terr.getNumberTroops();
+    assert (troops > 0);
     if (troops >= 2) {
       maxNumberDie = 2;
     } else {
@@ -61,6 +62,10 @@ public class ValidDieDefendMove implements ValidAction {
     return maxNumberDie;
   }
 
+  public TerritoryEnum getDefendTerritory() {
+    return toDefend;
+  }
+
   /**
    * Checks if the defend move given is within the bounds defined by this valid
    * defend object.
@@ -75,12 +80,19 @@ public class ValidDieDefendMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     UUID currPlayer = move.getMovePlayer();
+    int die = move.getDieRolled();
     if (!currPlayer.equals(playerId)) {
       return false;
-    }
-    int die = move.getDieRolled();
-    if (1 > die || die > maxNumberDie) {
+    } else if (!toDefend.equals(move.getDefendedTerritory())) {
       return false;
+    } else if (die < 1 || die > maxNumberDie) {
+      return false;
+    }
+    List<Integer> rolled = move.getRoll();
+    for (int i = 0; i < die; i++) {
+      if (rolled.get(i) < 1 || rolled.get(i) > 6) {
+        return false;
+      }
     }
     return true;
   }

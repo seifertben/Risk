@@ -1,9 +1,11 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.Die;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -16,12 +18,14 @@ import edu.brown.cs.jhbgbssh.tuple.Pair;
 public class DefendMove implements Move {
   private UUID playerId;
   private TerritoryEnum defended;
-  private AttackMove attacker;
   private int defendDie;
   private List<Integer> rolled;
   private Integer troopsDefendLost = null;
   private Integer troopsAttackLost = null;
   private boolean defenderLostTerritory = false;
+  private UUID attackerId;
+  private TerritoryEnum attackerTerr;
+  private Die die = new Die();
 
   /**
    * Constructor for defend move.
@@ -31,15 +35,23 @@ public class DefendMove implements Move {
    * @param attacker - attackMove
    * @throws IllegalArgumentException - thrown if the input is null
    */
-  public DefendMove(Pair<UUID, TerritoryEnum> defender, int defendDie,
-      AttackMove attacker) throws IllegalArgumentException {
+  public DefendMove(Pair<UUID, TerritoryEnum> defender,
+      Pair<UUID, TerritoryEnum> attacker, int defendDie)
+      throws IllegalArgumentException {
     if (defender == null || attacker == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.playerId = defender.getFirstElement();
     this.defended = defender.getSecondElement();
+    this.attackerId = attacker.getFirstElement();
+    this.attackerTerr = attacker.getSecondElement();
     this.defendDie = defendDie;
-    this.attacker = attacker;
+    rolled = new ArrayList<>();
+    for (int i = 0; i < defendDie; i++) {
+      rolled.add(die.roll());
+    }
+    Collections.sort(rolled);
+    Collections.reverse(rolled);
   }
 
   @Override
@@ -76,37 +88,11 @@ public class DefendMove implements Move {
    * @return territory
    */
   public TerritoryEnum getAttackingTerritory() {
-    return attacker.getAttackFrom();
+    return attackerTerr;
   }
 
-  /**
-   * Gets the attacking move.
-   *
-   * @return AttackMove
-   */
-  public AttackMove getAttackingMove() {
-    return attacker;
-  }
-
-  /**
-   * Sets the result of the rolled die. Ordered from greatest to lowest.
-   *
-   * @param results - result of die rolled
-   */
-  public void setRoll(List<Integer> results) {
-    if (results == null) {
-      throw new IllegalArgumentException("ERROR: null list");
-    } else if (results.size() != defendDie) {
-      throw new IllegalArgumentException("ERROR: wrong number of die rolled");
-    } else if (rolled != null) {
-      throw new IllegalArgumentException("ERROR: cannot roll die twice");
-    }
-    for (int i = 0; i < defendDie; i++) {
-      if (results.get(i) < 1 || results.get(i) > 6) {
-        throw new IllegalArgumentException("ERROR: bad die values");
-      }
-    }
-    this.rolled = results;
+  public UUID getAttackerId() {
+    return attackerId;
   }
 
   /**

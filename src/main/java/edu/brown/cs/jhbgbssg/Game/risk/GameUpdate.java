@@ -29,6 +29,11 @@ public class GameUpdate {
 
   protected void setCardToHandOut(UUID playerId, int card,
       boolean isCardsLeft) {
+    if (playerId == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    } else if (card <= 0 || card > 2) {
+      throw new IllegalArgumentException("ERROR: illegal card value");
+    }
     handout = new Pair<>(playerId, card);
     this.cardsLeft = isCardsLeft;
   }
@@ -74,18 +79,23 @@ public class GameUpdate {
    *
    * @return valid move options
    */
-  public Move getValidMoves() {
+  public ValidAction getValidMoves() {
     return this.availableMoves;
   }
 
-  protected void setWonGame(UUID wonGame) {
+  protected void setWonGame(UUID wonGame) throws IllegalArgumentException {
     if (this.wonGame != null) {
       throw new IllegalArgumentException("ERROR: game already won");
+    } else if (wonGame == null) {
+      throw new IllegalArgumentException("ERROR: null input");
     }
     this.wonGame = wonGame;
   }
 
   protected void setLostGame(UUID lostGame) {
+    if (lostGame == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     this.lostGame = lostGame;
   }
 

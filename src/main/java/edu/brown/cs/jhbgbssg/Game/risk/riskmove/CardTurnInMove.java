@@ -1,6 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class CardTurnInMove implements Move {
     }
     this.playerId = playerId;
     this.card = card;
-    this.terr = terr;
+    this.terr = new HashMap<>(terr);
   }
 
   @Override

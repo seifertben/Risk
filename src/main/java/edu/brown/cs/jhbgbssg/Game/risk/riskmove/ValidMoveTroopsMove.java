@@ -1,11 +1,8 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -64,8 +61,8 @@ public class ValidMoveTroopsMove implements ValidAction {
    *
    * @return pairs of territories
    */
-  public Collection<Entry<TerritoryEnum, TerritoryEnum>> getReachableTerritores() {
-    return Collections.unmodifiableCollection(whereToReach.entries());
+  public Multimap<TerritoryEnum, TerritoryEnum> getReachableTerritores() {
+    return whereToReach;
   }
 
   /**
@@ -73,8 +70,8 @@ public class ValidMoveTroopsMove implements ValidAction {
    *
    * @return pair of territories and integers
    */
-  public Set<Entry<TerritoryEnum, Integer>> maxTroopsToMove() {
-    return Collections.unmodifiableSet(maxTroopsToMove.entrySet());
+  public Map<TerritoryEnum, Integer> maxTroopsToMove() {
+    return Collections.unmodifiableMap(maxTroopsToMove);
   }
 
   /**

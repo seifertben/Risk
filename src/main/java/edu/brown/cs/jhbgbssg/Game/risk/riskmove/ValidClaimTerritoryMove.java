@@ -22,10 +22,9 @@ public class ValidClaimTerritoryMove implements ValidAction {
   /**
    * Constructor for ValidClaimTerritoryMove.
    *
-   * @param playerId - player who can make this move.
-   * @param fromTerritory - territory that can move troops
-   * @param territoryToClaim - territory to claim
-   * @param maxNumberTroops - max number of troops
+   * @param player - player
+   * @param board - game board
+   * @param attack - attack move
    * @throws IllegalArgumentException if the input is null
    */
   public ValidClaimTerritoryMove(RiskPlayer player, RiskBoard board,
@@ -94,17 +93,14 @@ public class ValidClaimTerritoryMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     UUID currPlayer = move.getMovePlayer();
+    int troops = move.getNumberTroops();
     if (!currPlayer.equals(playerId)) {
       return false;
-    }
-    if (move.getTerritoryClaimed() != territoryToClaim) {
+    } else if (move.getTerritoryClaimed() != territoryToClaim) {
       return false;
-    }
-    if (move.getTerritoryFrom() != fromTerritory) {
+    } else if (move.getTerritoryFrom() != fromTerritory) {
       return false;
-    }
-    int troops = move.getNumberTroops();
-    if (troops < 1 || troops > maxNumberTroops) {
+    } else if (troops < 1 || troops > maxNumberTroops) {
       return false;
     }
     return true;

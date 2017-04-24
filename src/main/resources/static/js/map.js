@@ -5,7 +5,7 @@ const ONTARIO = [50.899997,  -87.521976];
 const ALBERTA =   [55.279171,  -113.971396];
 const NWTERRITORIES = [65.199589,   -119.253051];
 const ALASKA =  [65.903817,   -154.899950];
-const  GREENLAND = [74.663742,  -41.234447]; 
+const GREENLAND = [74.663742,  -41.234447]; 
 const CA =  [22.525567, -102.054754];
 const VZ = [ 1.683763, -73.050849];
 const PERU = [-15.185794,  -69.359442];
@@ -47,87 +47,80 @@ var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z 
 let EUSDATA = {
       "latitude": EUS[0], 
       "longitude": EUS[1],
-      // "svgPath": icon,
+      "selectable": true,
       "svgPath": targetSVG,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. US",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Eastern United States",
-        "id": "Eastern United States",
-      "description": "Occupied by No One"
+      "title": "Eastern United States: Occupied by No One",
+        "id": "Eastern United States"
     };
 let WUSDATA = {
       "latitude": WUS[0],
       "longitude":  WUS[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. US",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Western United States",
-        "id": "Western United States",
-      "description": "Occupied by No One"
+      "title": "Western United States: Occupied by No One",
+        "id": "Western United States"
     };
 let QUEBECDATA =  {
       "latitude": QUEBEC[0],
       "longitude":   QUEBEC[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
-      "label": "Quebec",
+      "label": "Quebec ",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Quebec",
-        "id": "Quebec",
-      "description": "Occupied by No One"
+      "title": "Quebec: Occupied by No One",
+        "id": "Quebec"
     };
-let ONTARIODATA =  {
+let ONTARIODATA = {
       "latitude": ONTARIO[0], 
       "longitude":   ONTARIO[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Ontario",
-      "id": "Northwest Territories",
-      "description": "Occupied by No One"
+      "title": "Ontario: Occupied by No One",
+      "id": "Ontario"
     };
 let ALBERTADATA =  {
       "latitude": ALBERTA[0], 
       "longitude":  ALBERTA[1] ,
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "selectable": true,
+      "color": "#000000",
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alberta",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Alberta",
-      "id": "Northwest Territories",
-      "description": "Occupied by No One"
+      "title": "Alberta: Occupied by No One",
+      "id": "Alberta"
     };
 let NWTERRITORIESDATA =  {
       "latitude": NWTERRITORIES[0],
-      "longitude":   NWTERRITORIES[1],
+      "longitude": NWTERRITORIES[1],
+      "selectable": true,
       "svgPath": targetSVG,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "NW Territories",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Northwest Territories",
-      "id": "Northwest Territories",
-      "description": "Occupied by No One"
+      "title": "Northwest Territories: Occupied by No One",
+      "id": "Northwest Territories"
     };
 let ALASKADATA =  {
       "latitude": ALASKA[0],
@@ -138,10 +131,9 @@ let ALASKADATA =  {
       "scale": 0.5,
       "label": "Alaska",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Alaska",
-      "id": "Alaska",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Alaska: Occupied by No One",
+      "id": "Alaska"
     };
 let GREENLANDDATA =   {
       "latitude": GREENLAND[0],
@@ -152,10 +144,9 @@ let GREENLANDDATA =   {
       "scale": 0.5,
       "label": "Greenland",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Greenland",
-       "id": "Greenland",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Greenland: Occupied by No One",
+       "id": "Greenland"
     };
 let CADATA =  {
       "latitude": CA[0],
@@ -166,10 +157,9 @@ let CADATA =  {
       "scale": 0.5,
       "label": "C. America",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Central America",
+      "selectable": true,
+      "title": "Central America: Occupied by No One",
       "id": "Central America",
-      "description": "Occupied by No One"
     };
 
 let VZDATA = {
@@ -181,10 +171,9 @@ let VZDATA = {
       "scale": 0.5,
       "label": "Venezuela",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Venezuela",
-      "id": "Venezuela",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Venezuela: Occupied by No One",
+      "id": "Venezuela"
     };
 let PERUDATA= {
       "latitude": PERU[0],
@@ -195,10 +184,9 @@ let PERUDATA= {
       "scale": 0.5,
       "label": "Peru",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Peru",
-      "id": "Peru",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Peru: Occupied by No One",
+      "id": "Peru"
     };
     let BRAZILDATA =  {
       "latitude": BRAZIL[0],
@@ -209,10 +197,9 @@ let PERUDATA= {
       "scale": 0.5,
       "label": "Brazil",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Brazil",
-      "id": "Brazil",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Brazil: Occupied by No One",
+      "id": "Brazil"
     };
     let ARGENTINADATA =   {
       "latitude": ARGENTINA[0],
@@ -223,9 +210,8 @@ let PERUDATA= {
       "scale": 0.5,
       "label": "Argentina",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Argentina",
-      "description": "Occupied by No One",
+      "selectable": true,
+      "title": "Argentina: Occupied by No One",
       "id": "Argentina"
     };
 let ICELANDDATA = {
@@ -237,10 +223,9 @@ let ICELANDDATA = {
       "scale": 0.5,
       "label": "Iceland",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Iceland",
-      "id": "Iceland",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Iceland: Occupied by No One",
+      "id": "Iceland"
     };
 let GBDATA =  {
       "latitude":   GB[0],
@@ -251,10 +236,9 @@ let GBDATA =  {
       "scale": 0.5,
       "label": "GB",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Great Britain",
-        "id": "Great Britain",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Great Britain: Occupied by No One",
+        "id": "Great Britain"
     };
 let WEUDATA =  {
       "latitude":    WEU[0],
@@ -264,53 +248,49 @@ let WEUDATA =  {
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W EU",
+      "selectable": true,
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Western Europe",
-      "id": "Western Europe",
-      "description": "Occupied by No One"
+      "title": "Western Europe: Occupied by No One",
+      "id": "Western Europe"
     };
 let NEUDATA = {
       "latitude":    NEU[0],
       "longitude":   NEU[1],
+      "selectable": true,
       "svgPath": targetSVG,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N EU",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Northern Europe",
-       "id": "Northern Europe",
-      "description": "Occupied by No One"
+      "title": "Northern Europe: Occupied by No One",
+       "id": "Northern Europe"
     };
 let SEUDATA =    {
       "latitude":    SEU[0],
       "longitude":   SEU[1],
+      "selectable": true,
       "svgPath": targetSVG,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S EU",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Southern Europe",
-       "id": "Southern Europe",
-      "description": "Occupied by No One"
+      "title": "Southern Europe: Occupied by No One",
+       "id": "Southern Europe"
     };
     let SCANDINAVIADATA =   {
       "latitude":    SCANDINAVIA[0], 
       "longitude":   SCANDINAVIA[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Scandinavia",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Scandinavia",
-       "id": "Scandinavia",
-      "description": "Occupied by No One"
+      "title": "Scandinavia: Occupied by No One",
+       "id": "Scandinavia"
     };
 let RUSSIADATA =  {
       "latitude":    RUSSIA[0],
@@ -320,25 +300,23 @@ let RUSSIADATA =  {
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Russia",
+      "selectable": true,
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Russia",
-       "id": "Russia",
-      "description": "Occupied by No One"
+      "title": "Russia: Occupied by No One",
+       "id": "Russia"
     };
 let NAFDATA =  {
       "latitude":    NAF[0],
       "longitude":   NAF[1],
       "svgPath": targetSVG,
+      "selectable": true,
      "color": "#000000",  
 "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N. AF",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Northern Africa",
-       "id": "Northern Africa",
-      "description": "Occupied by No One"
+      "title": "Northern Africa: Occupied by No One",
+       "id": "Northern Africa"
     };
 let EGYPTDATA =   {
       "latitude":   EGYPT[0],
@@ -349,10 +327,9 @@ let EGYPTDATA =   {
       "scale": 0.5,
       "label": "Egypt",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Egypt",
-       "id": "Egypt",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Egypt: Occupied by No One",
+       "id": "Egypt"
     };
 let CAFDATA =  {
       "latitude":     CAF[0],
@@ -363,7 +340,7 @@ let CAFDATA =  {
       "scale": 0.5,
       "label": "C. AF",
       "labelShiftY": 2,
-      "zoomLevel": 5,
+      "selectable": true,
       "title": "Central Africa",
       "id": "Central Africa",
       "description": "Occupied by No One"
@@ -377,10 +354,9 @@ let CAFDATA =  {
       "scale": 0.5,
       "label": "E. AF",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Eastern Africa",
-       "id": "Eastern Africa",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Eastern Africa: Occupied by No One",
+       "id": "Eastern Africa"
   };
   let SAFDATA =   {
       "latitude":    SAF[0],
@@ -391,10 +367,9 @@ let CAFDATA =  {
       "scale": 0.5,
       "label": "S. AF",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Southern Africa",
-       "id": "Southern Africa",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Southern Africa: Occupied by No One",
+       "id": "Southern Africa"
     };
 let MADAGASCARDATA =   {
       "latitude":   MADAGASCAR[0],
@@ -405,10 +380,9 @@ let MADAGASCARDATA =   {
       "scale": 0.5,
       "label": "Madagascar",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Madagascar",
-       "id": "Madagascar",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Madagascar: Occupied by No One",
+       "id": "Madagascar"
     };
 let WAUDATA =  {
       "latitude":   WAU[0],
@@ -419,10 +393,9 @@ let WAUDATA =  {
       "scale": 0.5,
       "label": "W. AU",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Western Australia",
-       "id": "Western Australia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Western Australia: Occupied by No One",
+       "id": "Western Australia"
     };
 let EAUDATA = {
    
@@ -434,10 +407,9 @@ let EAUDATA = {
       "scale": 0.5,
       "label": "E. AU",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Eastern Australia",
-       "id": "Eastern Australia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Eastern Australia: Occupied by No One",
+       "id": "Eastern Australia"
     
 };
 let INDONESIADATA =  {
@@ -449,10 +421,9 @@ let INDONESIADATA =  {
       "scale": 0.5,
       "label": "Indonesia",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Indonesia",
-       "id": "Indonesia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Indonesia: Occupied by No One",
+       "id": "Indonesia"
     };
 let NEWGUINEADATA =   {
       "latitude":  NEWGUINEA[0],
@@ -463,7 +434,7 @@ let NEWGUINEADATA =   {
       "scale": 0.5,
       "label": "New Guinea",
       "labelShiftY": 2,
-      "zoomLevel": 5,
+      "selectable": true,
       "title": "New Guinea",
         "id": "New Guinea",
       "description": "Occupied by No One"
@@ -477,10 +448,9 @@ let MEDATA =  {
       "scale": 0.5,
       "label": "Middle East",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Middle East",
-        "id": "Middle East",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Middle East: Occupied by No One",
+        "id": "Middle East"
     };
 let INDIADATA =  {
       "latitude":  INDIA[0],
@@ -491,10 +461,9 @@ let INDIADATA =  {
       "scale": 0.5,
       "label": "India",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "India",
-       "id": "India",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "India: Occupied by No One",
+       "id": "India"
     };
 let SEASIADATA =   {
       "latitude": SEASIA[0], 
@@ -505,10 +474,9 @@ let SEASIADATA =   {
       "scale": 0.5,
       "label": "SE Asia",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "SouthEast Asia",
-        "id": "SouthEast Asia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "SouthEast Asia: Occupied by No One",
+        "id": "SouthEast Asia"
     };
 let CHINADATA =   {
       "latitude": CHINA[0],
@@ -519,7 +487,7 @@ let CHINADATA =   {
       "scale": 0.5,
       "label": "China",
       "labelShiftY": 2,
-      "zoomLevel": 5,
+      "selectable": true,
       "title": "China",
       "id": "China",
       "description": "Occupied by No One"
@@ -533,10 +501,9 @@ let MONGOLIADATA =   {
       "scale": 0.5,
       "label": "Mongolia",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Mongolia",
-      "id": "Mongolia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Mongolia: Occupied by No One",
+      "id": "Mongolia"
     };
 let JAPANDATA =    {
       "latitude": JAPAN[0],
@@ -547,10 +514,9 @@ let JAPANDATA =    {
       "scale": 0.5,
       "label": "Japan",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Japan",
-        "id": "Japan",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Japan: Occupied by No One",
+        "id": "Japan"
     };
 let KAMCHATKADATA =  {
       "latitude": KAMCHATKA[0],
@@ -561,10 +527,9 @@ let KAMCHATKADATA =  {
       "scale": 0.5,
       "label": "Kamchatka",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Kamchatka",
-       "id": "Kamchatka",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Kamchatka: Occupied by No One",
+       "id": "Kamchatka"
     };
 let YAKUTSKDATA = {
      "latitude": YAKUTSK[0],
@@ -575,8 +540,8 @@ let YAKUTSKDATA = {
       "scale": 0.5,
       "label": "Yakutsk",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Yakutsk",
+      "selectable": true,
+      "title": "Yakutsk: Occupied by No One",
       "id": "Yakutsk",
       "description": "Occupied by No One"
 };
@@ -589,24 +554,22 @@ let IRKUSTKDATA =  {
       "scale": 0.5,
       "label": "Irkustk",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Irkustk",
-      "id": "Irkustk",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Irkustk: Occupied by No One",
+      "id": "Irkustk"
     };
 let SIBERIADATA =   {
       "latitude": SIBERIA[0],
       "longitude": SIBERIA[1],
       "svgPath": targetSVG,
      "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Siberia",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Siberia",
-       "id": "Siberia",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Siberia: Occupied by No One",
+       "id": "Siberia"
     };
 let URALDATA =   {
       "latitude": URAL[0],
@@ -618,9 +581,8 @@ let URALDATA =   {
       "label": "Ural",
       "labelShiftY": 2,
       "zoomLevel": 5,
-      "title": "Ural",
-       "id": "Ural",
-      "description": "Occupied by No One"
+      "title": "Ural: Occupied by No One",
+       "id": "Ural"
     };
 let AFGHANISTANDATA =    {
       "latitude": AFGHANISTAN[0],
@@ -631,10 +593,9 @@ let AFGHANISTANDATA =    {
       "scale": 0.5,
       "label": "Afghanistan",
       "labelShiftY": 2,
-      "zoomLevel": 5,
-      "title": "Afghanistan",
-       "id": "Afghanistan",
-      "description": "Occupied by No One"
+      "selectable": true,
+      "title": "Afghanistan: Occupied by No One",
+       "id": "Afghanistan"
     }
 let EUS_WUS = {
       "latitudes": [ EUS[0], WUS[0]],
@@ -1089,25 +1050,17 @@ let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESD
     GBDATA,WEUDATA,NEUDATA, SEUDATA,SCANDINAVIADATA,RUSSIADATA,  NAFDATA, EGYPTDATA,CAFDATA,EAFDATA, SAFDATA,MADAGASCARDATA, WAUDATA,EAUDATA,INDONESIADATA, NEWGUINEADATA, 
   MEDATA,  INDIADATA,SEASIADATA, CHINADATA, MONGOLIADATA, JAPANDATA, KAMCHATKADATA, YAKUTSKDATA, IRKUSTKDATA, SIBERIADATA, URALDATA,AFGHANISTANDATA ];
 let map = AmCharts.makeChart( "mapdiv", {
-  /**
-   * this tells amCharts it's a map
-   */
+
   "type": "map",
   "mouseWheelZoomEnabled": true,
-  /**
-   * create data provider object
-   * map property is usually the same as the name of the map file.
-   * getAreasFromMap indicates that amMap should read all the areas available
-   * in the map data and treat them as they are included in your data provider.
-   * in case you don't set it to true, all the areas except listed in data
-   * provider will be treated as unlisted.
-   */
 
   "dataProvider": {
-    "map": "continentsLow",
-     images:game,
+      "map": "continentsLow",
+      images:game,
       "lines": lines,
-    "areas": [
+      "zoomLatitude": 0,
+      "zoomLongitude": 0,
+      "areas": [
       {
         "id": "europe",
         "color": "grey"
@@ -1136,42 +1089,85 @@ let map = AmCharts.makeChart( "mapdiv", {
   },
    
 
-  /**
-   * create areas settings
-   * autoZoom set to true means that the map will zoom_in when clicked on the area
-   * selectedColor indicates color of the clicked area.
-   */
   "areasSettings": {
-    "autoZoom": true,
     "rollOverOutlineColor": 'grey',
     "selectedColor": undefined
-
-    
   },
-  
 
   /**
    * let's say we want a small map to be displayed, so let's create it
    */
   "largeMap": {}
 } );
-let click = 0;
-map.addListener("clickMapObject", function (event) {
-  click ++;
-  console.log("click " + click);
-   console.log($("#attack"));
-  console.log("mod " + (click %2));
-  if (click % 2 === 0) {
-    $("#attack").show();
-    console.log("you");
-  }
-});
 
-// changeLines("blue", ONTARIO_GREENLAND);
+let selected = [];
+// FOR NOW, ALL PLAYERS HAVE MAP LISTENERS
+map.addListener("clickMapObject", select_territory);
+
+function select_territory(event) {
+
+  let mess = {"type": MESSAGE_TYPE.SELECT, "playerId": myId, "territory": event.mapObject.id};
+  if (!selected.includes(event.mapObject.id)) {
+	  conn.send(JSON.stringify(mess));
+  }
+}
+
+function make_selection(player, territory) {
+  selected.push(territory);
+  console.log(colors[idToName[player]]);
+  let index;
+  let current;
+  for (index = 0; index < game.length; index ++) {
+	  current = game[index];
+	  if (current.id == territory) {
+		  changeTerritoryStatus(idToName[player], 1, current, colors[idToName[player]], colors[idToName[player]]);
+		  // FIX ME
+		  map.dataProvider.zoomLevel = map.zoomLevel();
+		  map.dataProvider.zoomLatitude = map.zoomLatitude();
+		  map.dataProvider.zoomLongitude = map.zoomLongitude();
+		  map.validateData();
+		  break;
+	  }
+  }
+}
+
+// // changeLines("blue", ONTARIO_GREENLAND);
 // changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
+// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
+
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
-  territory.description = "Occupied by " + player + " Soldiers: " + numSoldier;
-  territory.label = territory.title + " "  + numSoldier;
+  let originalTitle = territory.title.split(":");
+  let originalLabel = territory.label.split(" ");
+  console.log(originalLabel);
+  territory.title = originalTitle[0] + "Occupied by " + player + " Soldiers: " + numSoldier;
+   let string = "";
+  //   for (let i = 0; i <originalLabel.length-1; i++) {
+  //       string += originalLabel[i] + " ";
+  //   }
+  //   string += numSoldier.toString();
+  // }
+  console.log(isNaN(parseInt(originalLabel[originalLabel.length-1])));
+  if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
+    console.log("here");
+    for (let i = 0; i <originalLabel.length; i++) {
+      if (i + 1 !=originalLabel.length) {
+        string += originalLabel[i] + " ";
+      }
+      else {
+        string = string + originalLabel[i] + ": "
+      }
+    }
+    string += numSoldier.toString();
+  }
+  else {
+    console.log("there");
+    console.log(territory.label);
+   let modified = territory.label.split(":");
+   console.log("modified " + modified);
+  string = modified[0] + ": " + numSoldier.toString();
+  } 
+  console.log(string);
+  territory.label = string;
   territory.color = color;
   territory.labelRollOverColor = color;
   console.log(territory.color);

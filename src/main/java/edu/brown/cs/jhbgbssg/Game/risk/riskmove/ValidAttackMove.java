@@ -2,8 +2,8 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -88,8 +88,8 @@ public class ValidAttackMove implements ValidAction {
    *
    * @return collection of TerritoryEnum-TerritoryEnum entries
    */
-  public Collection<Entry<TerritoryEnum, TerritoryEnum>> whoToAttack() {
-    return whoToAttack.entries();
+  public Multimap<TerritoryEnum, TerritoryEnum> whoToAttack() {
+    return whoToAttack;
   }
 
   /**
@@ -104,23 +104,31 @@ public class ValidAttackMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null move");
     }
     UUID currPlayer = move.getMovePlayer();
-    if (!currPlayer.equals(playerId)) {
-      return false;
-    }
     TerritoryEnum attackFrom = move.getAttackFrom();
     TerritoryEnum attackTo = move.getAttackTo();
     int die = move.getDieRolled();
-    if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
+    if (!currPlayer.equals(playerId)) { // right player trying to attack
+      return false;
+    } else if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
       return false;
     }
     assert (chooseDie.containsKey(attackFrom));
     int allowedDie = chooseDie.get(attackFrom);
-    if (die > 1 || die > allowedDie) {
+    if (die < 1 || die > allowedDie) { // valid number of die
       return false;
+    }
+    List<Integer> rolled = move.getDieResults();
+    for (int i = 0; i < die; i++) {
+      if (rolled.get(i) < 1 || rolled.get(i) > 6) {
+        return false;
+      }
     }
     return true;
   }
 
+  /**
+   * Returns a boolean indicating if any attack move is valid.
+   */
   @Override
   public boolean actionAvailable() {
     return canAttack;
