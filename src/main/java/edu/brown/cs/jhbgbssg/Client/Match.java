@@ -138,6 +138,17 @@ public class Match {
   }
 
   /**
+   * Request the id of a given player.
+   * An index must be given since player order
+   * will eventually be randomized.
+   * @param index Index of the player whose id we want.
+   * @return Id of the requested player as a string.
+   */
+  public UUID getPlayerId(Integer index) {
+    return players.get(index);
+  }
+
+  /**
    * Returns whether or not the match has started.
    * 
    * @return True if the match has begun, false otherwise.
