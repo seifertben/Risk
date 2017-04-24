@@ -86,8 +86,10 @@ public class RiskGame {
 
   public GameUpdate startGame() {
     // set initial restrictions called
-
-    return null;
+    ValidAction action = referee.getFirstSetup(turnState.getPlayer());
+    GameUpdate update = new GameUpdate();
+    update.setValidMoves(action, null, false);
+    return update;
   }
 
   public GameUpdate executeSetupChoiceAction(UUID playerId,

@@ -73,6 +73,7 @@ public class MessageAPI {
     if (card != null) {
       message.addProperty("handoutcard", true);
       message.addProperty("cardPlayerId", GSON.toJson(card.getFirstElement()));
+      message.addProperty("cardvalue", card.getSecondElement());
     } else {
       message.addProperty("handoutcard", false);
     }
