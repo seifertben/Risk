@@ -69,6 +69,13 @@ public class MessageAPI {
     } else {
       message.addProperty("error", false);
     }
+    Pair<UUID, Integer> card = update.getCardHandOut();
+    if (card != null) {
+      message.addProperty("handoutcard", true);
+      message.addProperty("cardPlayerId", GSON.toJson(card.getFirstElement()));
+    } else {
+      message.addProperty("handoutcard", false);
+    }
     if (update.getValidMoves() == null) {
       message.addProperty("isNextMove", false);
     } else {
