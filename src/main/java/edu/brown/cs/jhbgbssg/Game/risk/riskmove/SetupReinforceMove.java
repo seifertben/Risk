@@ -26,4 +26,12 @@ public class SetupReinforceMove implements Move {
     return playerId;
   }
 
+  public int getToReinforce() {
+    return toReinforce;
+  }
+
+  public TerritoryEnum getSelectedTerritory() {
+    return territorySelected;
+  }
+
 }

@@ -2,19 +2,22 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 public class ValidSetupReinforceMove implements ValidAction {
 
   private UUID playerId;
+  int maxReinforce;
 
-  public ValidSetupReinforceMove(UUID playerId, RiskBoard board) {
-
+  public ValidSetupReinforceMove(RiskPlayer player, UUID playerId) {
+    maxReinforce = player.getInitialReinforcements();
   }
 
   public boolean validSetupReinforceMove(SetupReinforceMove move) {
-    // TODO Auto-generated method stub
-    return false;
+    if (move.getToReinforce() > maxReinforce) {
+      return false;
+    }
+    return true;
   }
 
   @Override
