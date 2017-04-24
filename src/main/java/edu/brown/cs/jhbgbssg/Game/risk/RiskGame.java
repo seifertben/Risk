@@ -215,9 +215,6 @@ public class RiskGame {
 
   /**
    *
-   * @param playerId - id of player defending
-   * @param defend - territory defending
-   * @param numberDie - number of die to roll
    * @return game update
    */
   public GameUpdate executeDefendAction(DefendMove move) {
