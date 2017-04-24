@@ -9,6 +9,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupReinforceMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAttackMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidCardMove;
@@ -17,6 +18,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
 import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidSetupMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidSetupReinforceMove;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -206,6 +208,11 @@ public class Referee {
     return null;
   }
 
+  protected Move getValidMoveAfterSetup(RiskPlayer player,
+      SetupMove move) {
+    return null;
+  }
+
   /**
    * Checks that the ReinforceMove is valid.
    *
@@ -313,4 +320,14 @@ public class Referee {
     ValidSetupMove setupMove = (ValidSetupMove) validMove;
     return setupMove.validSetupMove(move);
   }
+
+  protected boolean validateSetupReinforceMove(SetupReinforceMove move) {
+    if (validMove == null
+        || validMove.getMoveType() != MoveType.SETUP_REINFORCE) {
+      return false;
+    }
+    ValidSetupReinforceMove setupReinforceMove = (ValidSetupReinforceMove) validMove;
+    return setupReinforceMove.validSetupReinforceMove(move);
+  }
+
 }
