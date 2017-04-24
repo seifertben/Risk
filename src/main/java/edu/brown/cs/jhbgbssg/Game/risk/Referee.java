@@ -41,6 +41,11 @@ public class Referee {
     this.board = board;
   }
 
+  protected ValidAction getFirstSetup(RiskPlayer player) {
+    validMove = new ValidSetupMove(player, board);
+    return validMove;
+  }
+
   protected ValidAction getValidMove() {
     return validMove;
   }
@@ -163,8 +168,7 @@ public class Referee {
     return null;
   }
 
-  protected Move getValidMoveAfterSetup(RiskPlayer player,
-      SetupMove move) {
+  protected Move getValidMoveAfterSetup(RiskPlayer player, SetupMove move) {
     return null;
   }
 
