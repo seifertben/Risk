@@ -26,6 +26,6 @@ public class Die {
    */
   public int roll() {
     Random generate = new Random();
-    return generate.nextInt(SIDES + 1) + 1;
+    return generate.nextInt(SIDES) + 1;
   }
 }

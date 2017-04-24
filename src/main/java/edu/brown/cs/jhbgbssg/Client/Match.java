@@ -10,12 +10,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 
 /**
- * Handles players and game updates
- * for an individual match. Acts as
- * a proxy for the actual Risk Game.
+ * Handles players and game updates for an individual match. Acts as a proxy for
+ * the actual Risk Game.
+ * 
  * @author user
  */
 public class Match {
@@ -25,14 +26,17 @@ public class Match {
   // and actual risk game
   private final UUID id;
   private List<UUID> players = Collections.synchronizedList(new ArrayList<>());
-  private Map<UUID, String> names = Collections.synchronizedMap(new HashMap<>());
+  private Map<UUID, String> names = Collections
+      .synchronizedMap(new HashMap<>());
   private boolean started = false;
   private final String matchName;
   private final Integer lobbySize;
   private RiskGame myGame;
+  private MessageAPI messageApi = new MessageAPI();
 
   /**
    * Create a match.
+   * 
    * @param uid This match's unique id.
    * @param max This match's max player number.
    * @param title This match's name.
@@ -45,6 +49,7 @@ public class Match {
 
   /**
    * Match id getter.
+   * 
    * @return This match's id, as a string.
    */
   public String getId() {
@@ -53,6 +58,7 @@ public class Match {
 
   /**
    * Max player number getter.
+   * 
    * @return Maximum number of players for this match.
    */
   public Integer lobbySize() {
@@ -61,6 +67,7 @@ public class Match {
 
   /**
    * Match title getter.
+   * 
    * @return This match's name.
    */
   public String matchName() {
@@ -69,16 +76,16 @@ public class Match {
 
   /**
    * Current lobby population getter.
-   * @return The number of players currently
-   *     in this lobby.
+   * 
+   * @return The number of players currently in this lobby.
    */
   public int playerNum() {
     return players.size();
   }
 
   /**
-   * Adds players to the lobby,
-   * as long as the match has no started.
+   * Adds players to the lobby, as long as the match has no started.
+   * 
    * @param playerId Player id to add.
    * @param name Player name.
    */
@@ -91,6 +98,7 @@ public class Match {
 
   /**
    * Removes a player from the match.
+   * 
    * @param playerId Player to remove.
    */
   public void removePlayer(UUID playerId) {
@@ -110,6 +118,7 @@ public class Match {
 
   /**
    * Get players in this match.
+   * 
    * @return A list of players in this match.
    */
   public List<UUID> getPlayers() {
@@ -117,9 +126,9 @@ public class Match {
   }
 
   /**
-   * Request the name of a given player.
-   * An index must be given since player order
-   * will eventually be randomized.
+   * Request the name of a given player. An index must be given since player
+   * order will eventually be randomized.
+   * 
    * @param index Index of the player whose name we want.
    * @return Name of the requested player as a string.
    */
@@ -141,6 +150,7 @@ public class Match {
 
   /**
    * Returns whether or not the match has started.
+   * 
    * @return True if the match has begun, false otherwise.
    */
   public boolean started() {

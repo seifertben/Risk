@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.Die;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -19,6 +20,7 @@ public class AttackMove implements Move {
   private TerritoryEnum attackTo;
   private int dieRolled;
   private List<Integer> dieRolledResult;
+  private Die die = new Die();
 
   /**
    * Constructor for an AttackMove.
@@ -38,6 +40,12 @@ public class AttackMove implements Move {
     this.attackFrom = attackFrom;
     this.attackTo = attackTo;
     this.dieRolled = dieRolled;
+    dieRolledResult = new ArrayList<>();
+    for (int i = 0; i < dieRolled; i++) {
+      dieRolledResult.add(die.roll());
+    }
+    Collections.sort(dieRolledResult);
+    Collections.reverse(dieRolledResult);
   }
 
   @Override
@@ -75,30 +83,6 @@ public class AttackMove implements Move {
    */
   public int getDieRolled() {
     return dieRolled;
-  }
-
-  /**
-   * Sets the result of rolling the die. Can be called exactly once.
-   *
-   * @param result - result of rolling die
-   * @throws IllegalArgumentException - if the list is null or if the die has
-   *           already been rolled
-   */
-  public void setDieResult(List<Integer> result)
-      throws IllegalArgumentException {
-    if (result == null) {
-      throw new IllegalArgumentException("ERROR: null list");
-    } else if (result.size() != dieRolled) {
-      throw new IllegalArgumentException("ERROR: wrong number of die rolled");
-    } else if (dieRolledResult != null) {
-      throw new IllegalArgumentException("ERROR: cannot roll die twice");
-    }
-    for (int i = 0; i < dieRolled; i++) {
-      if (result.get(i) < 1 || result.get(i) > 6) {
-        throw new IllegalArgumentException("ERROR: bad die values");
-      }
-    }
-    this.dieRolledResult = new ArrayList<>(result);
   }
 
   /**

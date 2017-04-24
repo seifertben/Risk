@@ -224,12 +224,6 @@ public class RiskGame {
       update.setValidMoves(move, null, true);
       return update;
     }
-    List<Integer> roll = new ArrayList<>();
-    for (int i = 0; i < numberDie; i++) {
-      roll.add(die.roll());
-    }
-    Collections.sort(roll, dieComparator);
-    attack.setDieResult(roll);
     ValidAction move = referee.getValidMoveAfterAttack(idToPlayer.get(playerId),
         toTerr);
     turnState.changePhase(MoveType.CHOOSE_DEFEND_DIE);
@@ -251,8 +245,8 @@ public class RiskGame {
       update.setWonGame(winner.getPlayerId());
       return update;
     }
-    DefendMove move = new DefendMove(new Pair<>(playerId, defend), numberDie,
-        attack);
+    DefendMove move = new DefendMove(new Pair<>(playerId, defend),
+        new Pair<>(attack.getMovePlayer(), attack.getAttackFrom()), numberDie);
     boolean isValidMove = referee.validateDefendMove(move);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -428,13 +422,8 @@ public class RiskGame {
    */
   private void attack(DefendMove defend) {
     List<Integer> attackRolls = attack.getDieResults();
-    int numberDie = defend.getDieRolled();
-    List<Integer> defendRolls = new ArrayList<>();
-    for (int i = 0; i < numberDie; i++) {
-      defendRolls.add(die.roll());
-    }
-    Collections.sort(defendRolls, dieComparator);
-    int compare = Math.min(numberDie, attack.getDieRolled());
+    List<Integer> defendRolls = defend.getRoll();
+    int compare = Math.min(attackRolls.size(), defendRolls.size());
     int defendTroopsLost = 0;
     int attackTroopsLost = 0;
     for (int i = 0; i < compare; i++) {
@@ -449,11 +438,6 @@ public class RiskGame {
     Territory defendTerr = gameBoard.getTerritory(attack.getAttackTo());
     assert (!attackTerr.removeTroops(attackTroopsLost));
     boolean lost = defendTerr.removeTroops(defendTroopsLost);
-    // boolean lost = gameBoard.removeTroops(attackFrom, defendTroopsLost);
-    // gameBoard.removeTroops(attackFrom, attackTroopsLost);
-    // if (lost) {
-    // hand out card;
-    //
     defend.setDefendTroopsLost(defendTroopsLost, lost);
     defend.setAttackTroopsLost(attackTroopsLost);
     if (lost) {

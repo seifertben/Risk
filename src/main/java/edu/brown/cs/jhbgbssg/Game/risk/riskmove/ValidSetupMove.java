@@ -2,6 +2,7 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,6 +53,10 @@ public class ValidSetupMove implements ValidAction {
   @Override
   public boolean actionAvailable() {
     return moveAvailable;
+  }
+
+  public List<TerritoryEnum> getTerritories() {
+    return Collections.unmodifiableList(selectableTerritories);
   }
 
   private List<TerritoryEnum> getSelectableTerritories() {

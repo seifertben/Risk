@@ -20,6 +20,7 @@ public class Territory {
    * Constructs a territory and assigns it an id.
    *
    * @param id - id of territory
+   * @param contId - id of the continent territory belongs to
    * @throws IllegalArgumentException thrown if id is null
    */
   public Territory(TerritoryEnum id, ContinentEnum contId)
@@ -42,7 +43,7 @@ public class Territory {
   }
 
   /**
-   * Returns whether or not the territory is occuppied.
+   * Returns whether or not the territory is occupied.
    *
    * @return true if occupied; false otherwise.
    */
@@ -66,7 +67,19 @@ public class Territory {
     numberTroops += troopsToAdd;
   }
 
-  public void changePlayer(UUID newPlayerId, int numTroops) {
+  /**
+   * Changes the player that controls the territory. It only executes if there
+   * are no troops on the territory and if no player currently owns the
+   * territory.
+   *
+   * @param newPlayerId - player to control the territory
+   * @param numTroops - number of troops to put on the territory
+   * @throws IllegalArgumentException - if the player id is null or if the a new
+   *           player cannot be set as the territory's owner in its current
+   *           state
+   */
+  public void changePlayer(UUID newPlayerId, int numTroops)
+      throws IllegalArgumentException {
     if (playerId != null && numberTroops != 0) {
       throw new IllegalArgumentException(
           "ERROR: cannot change playeres if number of troops is not zero");
@@ -80,6 +93,11 @@ public class Territory {
     numberTroops = numTroops;
   }
 
+  /**
+   * Gets the player that owns the territory.
+   *
+   * @return id of the player
+   */
   public UUID getTerritoryOwner() {
     return playerId;
   }
@@ -114,10 +132,20 @@ public class Territory {
     return false;
   }
 
+  /**
+   * Gets the id of the continent this territory belongs to.
+   *
+   * @return continent id
+   */
   public ContinentEnum getContinent() {
     return this.contId;
   }
 
+  /**
+   * Gets the player that owns the territory.
+   *
+   * @return id of the player
+   */
   public UUID getOwner() {
     return playerId;
   }

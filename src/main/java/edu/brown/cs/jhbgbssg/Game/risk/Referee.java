@@ -27,51 +27,16 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  */
 public class Referee {
   private RiskBoard board;
-  // private Move lastMove;
   private ValidAction validMove = null;
 
   /**
    * Initializes the referee.
    *
-   * @param board
-   *          - game board
+   * @param board - game board
    */
   public Referee(RiskBoard board) {
     this.board = board;
   }
-
-  // protected GameUpdate setRestrictions() {
-  // GameUpdate toSend = new GameUpdate();
-  // Move availableMoves;
-  // UUID playerId = turn.getPlayerId();
-  // switch (turn.getPhase()) {
-  // case REINFORCE:
-  // availableMoves = this.getValidReinforceMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // case TURN_IN_CARD:
-  // availableMoves = this.getValidCardMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // case CHOOSE_ATTACK_DIE:
-  // availableMoves = this.getValidAttackMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // case CHOOSE_DEFEND_DIE:
-  // availableMoves = this.getValidDieDefendMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // case CLAIM_TERRITORY:
-  // availableMoves = this.getValidClaimTerritoryMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // case MOVE_TROOPS:
-  // availableMoves = this.getValidMoveTroopsMove();
-  // toSend.setValidMoves(availableMoves);
-  // break;
-  // }
-  // return toSend;
-  // }
 
   protected ValidAction getValidMove() {
     return validMove;
@@ -98,20 +63,6 @@ public class Referee {
   }
 
   private ValidAttackMove getValidAttackMove(RiskPlayer player) {
-    // UUID playerId = player.getPlayerId();
-    // Map<TerritoryEnum, Integer> chooseDie = new HashMap<>();
-    // Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = board
-    // .getPlayerAttackMap(player);
-    //
-    // Collection<Territory> territories = board.getTerritories();
-    //
-    // for (Territory terr : territories) {
-    // int numTroops = terr.getNumberTroops();
-    // int maxDice = Math.min(3, numTroops - 1);
-    // if (maxDice > 0) {
-    // chooseDie.put(terr.getTerritoryId(), maxDice);
-    // }
-    // }
     validMove = new ValidAttackMove(player, board);
     return (ValidAttackMove) validMove;
   }
@@ -213,8 +164,7 @@ public class Referee {
   /**
    * Checks that the ReinforceMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateReinforce(ReinforceMove move) {
@@ -228,8 +178,7 @@ public class Referee {
   /**
    * Checks that the CardTurnInMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateCardTurnIn(CardTurnInMove move) {
@@ -243,8 +192,7 @@ public class Referee {
   /**
    * Checks that the AttackMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateAttackMove(AttackMove move) {
@@ -259,8 +207,7 @@ public class Referee {
   /**
    * Checks the the DefendMoveis valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateDefendMove(DefendMove move) {
@@ -275,8 +222,7 @@ public class Referee {
   /**
    * Checks that the ClaimTerritoryMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateClaimTerritory(ClaimTerritoryMove move) {
@@ -291,8 +237,7 @@ public class Referee {
   /**
    * Checks that the MoveTroopsMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateMoveTroopsMove(MoveTroopsMove move) {
@@ -306,8 +251,7 @@ public class Referee {
   /**
    * Checks that the SetupMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateSetupMove(SetupMove move) {
