@@ -15,7 +15,7 @@ const MESSAGE_TYPE = {
   CREATE: 4,
   CHANGE: 5,
   DESTROY: 6,
-  ENTER: 7
+  ENTER: 7,
 };
 
 document.getElementById("gameField").style.display = "none";

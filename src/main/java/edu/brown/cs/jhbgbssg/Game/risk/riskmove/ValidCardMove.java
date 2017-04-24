@@ -89,15 +89,13 @@ public class ValidCardMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     UUID currPlayer = move.getMovePlayer();
+    int card = move.getCard();
+    Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
     if (!currPlayer.equals(playerId)) {
       return false;
-    }
-    int card = move.getCard();
-    if (!cards.contains(card)) {
+    } else if (!cards.contains(card)) {
       return false;
-    }
-    Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
-    if (!terrs.containsAll(reinforced.keySet())) {
+    } else if (!terrs.containsAll(reinforced.keySet())) {
       return false;
     }
     Collection<Integer> values = reinforced.values();

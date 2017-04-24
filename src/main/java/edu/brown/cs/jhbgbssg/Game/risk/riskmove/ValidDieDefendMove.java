@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.List;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
@@ -75,15 +76,19 @@ public class ValidDieDefendMove implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     UUID currPlayer = move.getMovePlayer();
+    int die = move.getDieRolled();
     if (!currPlayer.equals(playerId)) {
       return false;
-    }
-    if (!toDefend.equals(move.getDefendedTerritory())) {
+    } else if (!toDefend.equals(move.getDefendedTerritory())) {
+      return false;
+    } else if (die < 1 || die > maxNumberDie) {
       return false;
     }
-    int die = move.getDieRolled();
-    if (die < 1 || die > maxNumberDie) {
-      return false;
+    List<Integer> rolled = move.getRoll();
+    for (int i = 0; i < die; i++) {
+      if (rolled.get(i) < 1 || rolled.get(i) > 6) {
+        return false;
+      }
     }
     return true;
   }

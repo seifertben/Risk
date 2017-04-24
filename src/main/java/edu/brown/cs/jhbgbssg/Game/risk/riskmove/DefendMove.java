@@ -1,9 +1,11 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.Die;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -22,6 +24,7 @@ public class DefendMove implements Move {
   private Integer troopsDefendLost = null;
   private Integer troopsAttackLost = null;
   private boolean defenderLostTerritory = false;
+  private Die die = new Die();
 
   /**
    * Constructor for defend move.
@@ -40,6 +43,12 @@ public class DefendMove implements Move {
     this.defended = defender.getSecondElement();
     this.defendDie = defendDie;
     this.attacker = attacker;
+    rolled = new ArrayList<>();
+    for (int i = 0; i < defendDie; i++) {
+      rolled.add(die.roll());
+    }
+    Collections.sort(rolled);
+    Collections.reverse(rolled);
   }
 
   @Override
@@ -86,27 +95,6 @@ public class DefendMove implements Move {
    */
   public AttackMove getAttackingMove() {
     return attacker;
-  }
-
-  /**
-   * Sets the result of the rolled die. Ordered from greatest to lowest.
-   *
-   * @param results - result of die rolled
-   */
-  public void setRoll(List<Integer> results) {
-    if (results == null) {
-      throw new IllegalArgumentException("ERROR: null list");
-    } else if (results.size() != defendDie) {
-      throw new IllegalArgumentException("ERROR: wrong number of die rolled");
-    } else if (rolled != null) {
-      throw new IllegalArgumentException("ERROR: cannot roll die twice");
-    }
-    for (int i = 0; i < defendDie; i++) {
-      if (results.get(i) < 1 || results.get(i) > 6) {
-        throw new IllegalArgumentException("ERROR: bad die values");
-      }
-    }
-    this.rolled = results;
   }
 
   /**
