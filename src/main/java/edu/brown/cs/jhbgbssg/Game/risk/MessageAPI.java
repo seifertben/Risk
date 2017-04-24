@@ -488,22 +488,23 @@ public class MessageAPI {
   }
 
   /**
-   * sets up the move troops option.
+   * This method sets up a JsonObject representing the ValidMoveTroopsMove
+   * object.
    *
-   * @param move
-   * @return
+   * @param move - valid move troops move
+   * @return json object
    */
   private JsonObject setUpMoveTroops(ValidMoveTroopsMove move) {
-    Multimap<TerritoryEnum, TerritoryEnum> toMove = move
+    Multimap<TerritoryEnum, TerritoryEnum> reachable = move
         .getReachableTerritores();
     Map<TerritoryEnum, Integer> maxMove = move.maxTroopsToMove();
-    Map<Integer, Collection<Integer>> ordToMove = this
-        .getOrdinalCollectionMap(toMove.asMap());
+    Map<Integer, Collection<Integer>> ordReachable = this
+        .getOrdinalCollectionMap(reachable.asMap());
     Map<Integer, Integer> ordMaxMove = this.getOrdinalMap(maxMove);
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("player_id", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("move_options", "move_troops");
-    jsonObject.addProperty("can_move_move", GSON.toJson(ordToMove));
+    jsonObject.addProperty("can_move_move", GSON.toJson(ordReachable));
     jsonObject.addProperty("max_troop_move", GSON.toJson(ordMaxMove));
     return jsonObject;
   }

@@ -121,15 +121,14 @@ public class Referee {
   }
 
   protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
-      DefendMove move) {
-    if (move.getDefenderLostTerritory()) {
-      validMove = this.getValidClaimTerritoryMove(player,
-          move.getAttackingMove());
+      DefendMove defend, AttackMove attack) {
+    if (defend.getDefenderLostTerritory()) {
+      validMove = this.getValidClaimTerritoryMove(player, attack);
       return validMove;
     }
-    ValidAttackMove attack = this.getValidAttackMove(player);
-    if (attack.actionAvailable()) {
-      validMove = attack;
+    ValidAttackMove validAttack = this.getValidAttackMove(player);
+    if (validAttack.actionAvailable()) {
+      validMove = validAttack;
       return validMove;
     }
     ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
