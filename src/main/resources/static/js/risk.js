@@ -41,9 +41,9 @@ const TerritoryEnum = {
   INDONESIA: 39,
   NEW_GUINEA: 40,
   WESTERN_AUSTRALIA: 41
-}
+};
 
-const player = "Player 2"
+const player = "Player 2";
 	
 	//setUp();
 	//activateDropDown(2);
@@ -138,21 +138,23 @@ function addcard(number) {
     }
 }
 
-function createPlayer(number, names) {
+function createPlayer(number) {
 	const $sideNav = $("#n");
 	for (let i = 0; i < number; i++) {
 		let currDiv = $("<div></div>");
 		let text =  $("<span></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
-		let string = names[i];
-		text.html(string);
+		let string = nameToId[players[i]];
+		console.log(nameToId[players[i]]);
+		text.html(players[i]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		console.log(currDiv.attr("class"));
 		console.log(currDiv.attr("Id"));
 		console.log($sideNav);
-		$("#n").append(currDiv);  
+		$("#n").append(currDiv);
+		document.getElementById(string).style.backgroundColor = colors[players[i]];
 	}
 }
 
@@ -166,7 +168,7 @@ function attackStatus() {
 	$div.append($attack);
 	let $attackerStatus = $("<p></p>");
 	$attackerStatus.html("You have 5 soldiers in Russia");
-		$attackerStatus.attr("id", "attackerStatus");
+	$attackerStatus.attr("id", "attackerStatus");
 	$div.append($attackerStatus);
 	let $defenderStatus = $("<p></p>");
 	$defenderStatus.html("Player 2 has 3 soldiers in China");
@@ -200,6 +202,7 @@ function activateDropDown(numbers) {
 		}
 	}
 }
+
 function replaceField() {
 	$(".option").click(function(){
 	console.log("Hi");
@@ -209,6 +212,7 @@ function replaceField() {
    console.log(this.text);
 });
 }
+
 function attackerLoss(attackingPlayer, losses) {
 	let message = attackingPlayer + " lost " + losses + " soldiers."
 	if (attackingPlayer === player) {
@@ -217,6 +221,7 @@ function attackerLoss(attackingPlayer, losses) {
 	}
 	$("#attackLoss").html(message);
 }
+
 function defenderLoss(defendingPlayer, losses) {
 	let message = defendingPlayer + " lost " + losses + " soldiers."
 	if (defendingPlayer === player) {
