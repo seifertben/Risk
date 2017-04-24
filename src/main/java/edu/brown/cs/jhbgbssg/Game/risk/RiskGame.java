@@ -259,14 +259,14 @@ public class RiskGame {
         update.setLostGame(playerId);
       }
       ValidAction nextValidMove = referee.getValidMoveAfterDefend(
-          idToPlayer.get(attack.getMovePlayer()), move);
+          idToPlayer.get(attack.getMovePlayer()), move, attack);
       turnState.changePhase(MoveType.CLAIM_TERRITORY);
       update.setValidMoves(nextValidMove, move, false);
       attack = null;
       return update;
     } else {
       ValidAction nextValidMove = referee.getValidMoveAfterDefend(
-          idToPlayer.get(attack.getMovePlayer()), move);
+          idToPlayer.get(attack.getMovePlayer()), move, attack);
       if (nextValidMove == null) {
         return this.switchPlayers(move);
       } else {
