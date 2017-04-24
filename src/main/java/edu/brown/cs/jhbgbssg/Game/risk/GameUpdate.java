@@ -79,7 +79,7 @@ public class GameUpdate {
    *
    * @return valid move options
    */
-  public Move getValidMoves() {
+  public ValidAction getValidMoves() {
     return this.availableMoves;
   }
 

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -89,8 +88,8 @@ public class ValidAttackMove implements ValidAction {
    *
    * @return collection of TerritoryEnum-TerritoryEnum entries
    */
-  public Collection<Entry<TerritoryEnum, TerritoryEnum>> whoToAttack() {
-    return whoToAttack.entries();
+  public Multimap<TerritoryEnum, TerritoryEnum> whoToAttack() {
+    return whoToAttack;
   }
 
   /**

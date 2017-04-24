@@ -62,6 +62,10 @@ public class ValidDieDefendMove implements ValidAction {
     return maxNumberDie;
   }
 
+  public TerritoryEnum getDefendTerritory() {
+    return toDefend;
+  }
+
   /**
    * Checks if the defend move given is within the bounds defined by this valid
    * defend object.
