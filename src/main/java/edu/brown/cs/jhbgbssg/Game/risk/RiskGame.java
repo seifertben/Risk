@@ -245,8 +245,8 @@ public class RiskGame {
       update.setWonGame(winner.getPlayerId());
       return update;
     }
-    DefendMove move = new DefendMove(new Pair<>(playerId, defend), numberDie,
-        attack);
+    DefendMove move = new DefendMove(new Pair<>(playerId, defend),
+        new Pair<>(attack.getMovePlayer(), attack.getAttackFrom()), numberDie);
     boolean isValidMove = referee.validateDefendMove(move);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
