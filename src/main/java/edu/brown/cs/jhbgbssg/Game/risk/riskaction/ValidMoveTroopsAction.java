@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,8 +17,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidMoveTroopsMove implements ValidAction {
-  private UUID playerId;
+public class ValidMoveTroopsAction implements ValidAction {
+  private RiskPlayer player;
   private Multimap<TerritoryEnum, TerritoryEnum> whereToReach;
   private Map<TerritoryEnum, Integer> maxTroopsToMove;
   private boolean canMove;
@@ -30,12 +30,12 @@ public class ValidMoveTroopsMove implements ValidAction {
    * @param board - board
    * @throws IllegalArgumentException if input is null
    */
-  public ValidMoveTroopsMove(RiskPlayer player, RiskBoard board)
+  public ValidMoveTroopsAction(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
     if (player == null || board == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    playerId = player.getPlayerId();
+    this.player = player;
     whereToReach = board.getMoveableTroops(player);
     maxTroopsToMove = new HashMap<>();
     for (TerritoryEnum id : whereToReach.keySet()) {
@@ -53,7 +53,7 @@ public class ValidMoveTroopsMove implements ValidAction {
 
   @Override
   public UUID getMovePlayer() {
-    return playerId;
+    return player.getPlayerId();
   }
 
   /**
@@ -81,13 +81,13 @@ public class ValidMoveTroopsMove implements ValidAction {
    * @return true if valid; false otherwise
    * @throws IllegalArgumentException if the input is null
    */
-  public boolean validMoveTroopMove(MoveTroopsMove move)
+  public boolean validMoveTroopMove(MoveTroopsAction move)
       throws IllegalArgumentException {
     if (move == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    UUID currPlayer = move.getMovePlayer();
-    if (!currPlayer.equals(playerId)) {
+    RiskPlayer currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(player)) {
       return false;
     }
     TerritoryEnum from = move.getFromTerritory();

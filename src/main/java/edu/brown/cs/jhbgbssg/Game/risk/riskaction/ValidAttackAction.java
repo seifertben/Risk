@@ -1,8 +1,7 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,8 +19,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidAttackMove implements ValidAction {
-  private UUID playerId;
+public class ValidAttackAction implements ValidAction {
+  private RiskPlayer player;
   private Map<TerritoryEnum, Integer> chooseDie;
   private Multimap<TerritoryEnum, TerritoryEnum> whoToAttack;
   private boolean canAttack;
@@ -32,11 +31,11 @@ public class ValidAttackMove implements ValidAction {
    * @param player - player
    * @param board - game board territory
    */
-  public ValidAttackMove(RiskPlayer player, RiskBoard board) {
+  public ValidAttackAction(RiskPlayer player, RiskBoard board) {
     if (player == null || board == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    playerId = player.getPlayerId();
+    this.player = player;
     chooseDie = new HashMap<>();
     whoToAttack = board.getPlayerAttackMap(player);
     Collection<Territory> territories = board.getTerritories();
@@ -59,7 +58,7 @@ public class ValidAttackMove implements ValidAction {
 
   @Override
   public UUID getMovePlayer() {
-    return playerId;
+    return player.getPlayerId();
   }
 
   /**
@@ -99,15 +98,15 @@ public class ValidAttackMove implements ValidAction {
    * @param move - move user is trying to execute
    * @return true if the move is valid; false otherwise
    */
-  public boolean validAttackMove(AttackMove move) {
+  public boolean validAttackMove(AttackAction move) {
     if (move == null) {
       throw new IllegalArgumentException("ERROR: null move");
     }
-    UUID currPlayer = move.getMovePlayer();
-    TerritoryEnum attackFrom = move.getAttackFrom();
-    TerritoryEnum attackTo = move.getAttackTo();
-    int die = move.getDieRolled();
-    if (!currPlayer.equals(playerId)) { // right player trying to attack
+    RiskPlayer currPlayer = move.getMovePlayer();
+    TerritoryEnum attackFrom = move.getAttackingTerritory();
+    TerritoryEnum attackTo = move.getDefendingTerritory();
+    int die = move.getNumberDiceRolled();
+    if (!currPlayer.equals(player)) { // right player trying to attack
       return false;
     } else if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
       return false;
@@ -116,12 +115,6 @@ public class ValidAttackMove implements ValidAction {
     int allowedDie = chooseDie.get(attackFrom);
     if (die < 1 || die > allowedDie) { // valid number of die
       return false;
-    }
-    List<Integer> rolled = move.getDieResults();
-    for (int i = 0; i < die; i++) {
-      if (rolled.get(i) < 1 || rolled.get(i) > 6) {
-        return false;
-      }
     }
     return true;
   }

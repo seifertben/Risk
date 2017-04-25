@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collection;
 import java.util.Map;
@@ -16,8 +16,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  * @author sarahgilmore
  *
  */
-public class ValidReinforceMove implements ValidAction {
-  private UUID playerId;
+public class ValidReinforceAction implements ValidAction {
+  private RiskPlayer player;
   private Set<TerritoryEnum> territories;
   private int numberReinforce;
 
@@ -29,12 +29,12 @@ public class ValidReinforceMove implements ValidAction {
    * @throws IllegalArgumentException - thrown if the input is null or if the
    *           numberReinforce is negative
    */
-  public ValidReinforceMove(RiskPlayer player, RiskBoard board)
+  public ValidReinforceAction(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
     if (player == null || player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    playerId = player.getPlayerId();
+    this.player = player;
     numberReinforce = player.getNumberTerritories() / 3;
     territories = player.getTerritories();
     Collection<ContinentInterface> conts = board.getContinents();
@@ -53,7 +53,7 @@ public class ValidReinforceMove implements ValidAction {
 
   @Override
   public UUID getMovePlayer() {
-    return playerId;
+    return player.getPlayerId();
   }
 
   /**
@@ -80,9 +80,9 @@ public class ValidReinforceMove implements ValidAction {
    * @param move - move to validate
    * @return true if valid; false otherwise
    */
-  public boolean validReinforceMove(ReinforceMove move) {
-    UUID currPlayer = move.getMovePlayer();
-    if (!currPlayer.equals(playerId)) {
+  public boolean validReinforceMove(ReinforceAction move) {
+    RiskPlayer currPlayer = move.getMovePlayer();
+    if (!currPlayer.equals(player)) {
       return false;
     }
     Map<TerritoryEnum, Integer> reinforced = move.getReinforcedTerritories();

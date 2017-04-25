@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -25,7 +25,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testConstructor() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 3);
     assertNotNull(attack);
   }
@@ -36,7 +36,7 @@ public class AttackMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullId() {
-    new AttackMove(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
+    new AttackAction(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
   }
 
   /**
@@ -45,7 +45,7 @@ public class AttackMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullAttackTerr() {
-    new AttackMove(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
+    new AttackAction(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
   }
 
   /**
@@ -54,7 +54,7 @@ public class AttackMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullDefendTerr() {
-    new AttackMove(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
+    new AttackAction(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
   }
 
   /**
@@ -62,7 +62,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 3);
     assertTrue(attack.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
   }
@@ -72,7 +72,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackFrom() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ICELAND,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
         TerritoryEnum.GREENLAND, 3);
     assertTrue(attack.getAttackFrom() == TerritoryEnum.ICELAND);
   }
@@ -82,7 +82,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackTo() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ICELAND,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
         TerritoryEnum.GREENLAND, 3);
     assertTrue(attack.getAttackTo() == TerritoryEnum.GREENLAND);
   }
@@ -92,7 +92,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetDieRolled() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ICELAND,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
         TerritoryEnum.GREENLAND, 2);
     assertTrue(attack.getDieRolled() == 2);
   }
@@ -102,7 +102,7 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetRollResults() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ICELAND,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
         TerritoryEnum.GREENLAND, 3);
     List<Integer> roll = attack.getDieResults();
     assertTrue(roll.size() == 3);
