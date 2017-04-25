@@ -46,7 +46,7 @@ public class Referee {
 
   /**
    * Constructor for Referee. It takes in the RiskBoard and a set of players.
-   * 
+   *
    * @param board
    *          - board
    * @param playerSet
@@ -168,11 +168,29 @@ public class Referee {
    *
    * @return valid action of the next player
    */
-  protected ValidAction switchPlayer() {
+  protected ValidAction switchPlayer(Action prevMove) {
     int index = turnOrder.indexOf(currPlayer);
     index = (index + 1) % turnOrder.size();
     currPlayer = turnOrder.get(index);
     validMove = this.getValidReinforceMove(currPlayer);
+    if (prevMove.getMoveType() == MoveType.SETUP) {
+      validMove = new ValidSetupAction(currPlayer, board);
+      if (validMove.actionAvailable()) {
+        return validMove;
+      } else {
+        validMove = new ValidSetupReinforceAction(currPlayer);
+        return validMove;
+      }
+    } else if (prevMove.getMoveType() == MoveType.SETUP_REINFORCE) {
+      validMove = new ValidSetupReinforceAction(currPlayer);
+      if (validMove.actionAvailable()) {
+        return validMove;
+      } else {
+        currPlayer = turnOrder.get(0);
+        validMove = this.getValidReinforceMove(currPlayer);
+        return validMove;
+      }
+    }
     return validMove;
   }
 
@@ -339,12 +357,11 @@ public class Referee {
     return true;
   }
 
-  protected Action getValidMoveAfterSetup(RiskPlayer player, SetupAction move) {
+  protected ValidAction getValidMoveAfterSetup() {
     return null;
   }
 
-  public ValidAction getValidMoveAfterReinforceSetup(RiskPlayer riskPlayer,
-      SetupReinforceAction setupReinforceMove) {
+  public ValidAction getValidMoveAfterReinforceSetup() {
     return null;
   }
 
