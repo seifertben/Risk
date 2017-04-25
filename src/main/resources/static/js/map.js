@@ -618,7 +618,7 @@ let URALDATA =   {
       "scale": 0.5,
       "label": "Ural",
       "labelShiftY": 2,
-      "zoomLevel": 5,
+      "selectable": true,
       "title": "Ural: Occupied by No One",
       "id": 36,
     };

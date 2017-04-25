@@ -126,10 +126,9 @@ function replaceTransferListField() {
 	    let id = "#" + "transferDropDownText";
         $(id).html(this.text);
     });
-
 }
-function populateTranferList(number) {
-	for (let i =1 i<=number; i ++) {
+function populateTransferList(number) {
+	for (let i = 1; i <= number; i++) {
 		let a = $("<a class = 'transferOption'></a>");
 		a.html(i);
 		let li = $('<li class= "transferDrop"></li>');
