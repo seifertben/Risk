@@ -1170,7 +1170,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
 
-  territory.title = originalTitle[0] + "Occupied by " + player + " Soldiers: " + numSoldier;
+  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + numSoldier;
    let string = "";
   //   for (let i = 0; i <originalLabel.length-1; i++) {
   //       string += originalLabel[i] + " ";
