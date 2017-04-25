@@ -34,6 +34,7 @@ let idToName = [];
 let nameToId = [];
 let colors = [];
 const $maker = $("#maker");
+let currentPlayer;
 
 const setup_matches = () => {
 
@@ -116,9 +117,16 @@ const setup_matches = () => {
       case MESSAGE_TYPE.DESTROY:
         $("#" + data.gameId).remove();
         break;
-      case MESSAGE_TYPE.SELECT:
-        console.log("HHHHIIII");
+
+      case MESSAGE_TYPE.CLAIM_TERRITORY:
+        currentPlayer = null;
         make_selection(data.playerId, data.territoryId);
+        break;
+      case MESSAGE_TYPE.SELECT:
+    	  //PICK UP HERE
+    	currentPlayer = data.playerId;
+    	console.log(currentPlayer);
+        map.addListener("clickMapObject", select_territory);
         break;
     }
   };
@@ -136,7 +144,6 @@ function guid() {
 
 window.onkeyup = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
-
 	   if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
 	       myName = document.getElementById("nameInput").value;
 	       document.getElementById("nameField").style.display = "none";

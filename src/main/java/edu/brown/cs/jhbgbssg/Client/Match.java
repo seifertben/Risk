@@ -165,11 +165,13 @@ public class Match {
   /**
    * Initiate this match and create our risk game.
    */
-  public void start() {
+  public JsonObject start() {
     started = true;
     Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
     myGame = new RiskGame(idSet);
     players = myGame.getPlayerOrder();
+    GameUpdate initial = myGame.startGame();
+    return messageApi.getJsonObjectMessage(initial);
   }
 
   public JsonObject getUpdate(JsonObject received) {

@@ -58,7 +58,6 @@ const player = "Player 2";
 
 
 function changePlayerImage(id, backgroundColor, color) { 
-	console.log(id);
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
 }
@@ -146,13 +145,9 @@ function createPlayer(number) {
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
 		let string = nameToId[players[i]];
-		console.log(nameToId[players[i]]);
 		text.html(players[i]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
-		console.log(currDiv.attr("class"));
-		console.log(currDiv.attr("Id"));
-		console.log($sideNav);
 		$("#n").append(currDiv);
 		document.getElementById(string).style.backgroundColor = colors[players[i]];
 	}
@@ -205,12 +200,9 @@ function activateDropDown(numbers) {
 
 function replaceField() {
 	$(".option").click(function(){
-	console.log("Hi");
-	console.log(this);
-	let id = "#" + "dropdown";
-   $(id).html(this.text);
-   console.log(this.text);
-});
+	    let id = "#" + "dropdown";
+        $(id).html(this.text);
+    });
 }
 
 function attackerLoss(attackingPlayer, losses) {
