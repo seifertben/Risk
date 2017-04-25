@@ -27,7 +27,7 @@ public class SetupAction implements Action {
    */
   public SetupAction(RiskPlayer player, RiskBoard board, TerritoryEnum selected)
       throws IllegalArgumentException {
-    if (player == null || board == null || territorySelected == null) {
+    if (player == null || board == null || selected == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;

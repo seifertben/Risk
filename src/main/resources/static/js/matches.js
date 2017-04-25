@@ -149,7 +149,7 @@ const setup_matches = () => {
       case MESSAGE_TYPE.VALID_ACTIONS:
     	  switch(data.moveType) {
       		case MOVE_TYPES.SETUP:
-      		  availableForClaim = data.selectable;
+      		  availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
               break;
     	  }

@@ -123,7 +123,6 @@ public class Matches {
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
-      System.out.println(response);
       for (int index = 0; index < response.size(); index++) {
         if (response.get(index).has("player")) {
           UUID playerId = UUID.fromString(response.get(index).get("player").getAsString());

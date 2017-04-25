@@ -1141,9 +1141,10 @@ let map = AmCharts.makeChart( "mapdiv", {
 } );
 
 function select_territory(event) {
-  console.log("CLICKED");
-  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY, "playerId": myId, "territoryId": event.mapObject.id};
-  console.log(availableForClaim.length);
+
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
+  console.log(availableForClaim);
+  console.log(availableForClaim[0]);
   console.log(event.mapObject.id);
   if (availableForClaim.includes(event.mapObject.id)) {
 	  console.log("IMIN");

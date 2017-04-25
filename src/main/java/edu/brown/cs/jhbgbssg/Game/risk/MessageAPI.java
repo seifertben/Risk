@@ -174,7 +174,7 @@ public class MessageAPI {
    */
   public TerritoryEnum getSelectedTerritory(JsonObject object) {
     try {
-      int index = object.get("selectedTerritory").getAsInt();
+      int index = object.get("territoryId").getAsInt();
       TerritoryEnum selected = TerritoryEnum.values()[index];
       return selected;
     } catch (NullPointerException e) {
@@ -439,7 +439,7 @@ public class MessageAPI {
     Collection<Integer> ordTerrs = this.getOrdinalSet(territories);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
-    jsonObject.addProperty("player", move.getMovePlayer().toString());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("selectable", GSON.toJson(ordTerrs));
     return jsonObject;
   }
@@ -455,7 +455,7 @@ public class MessageAPI {
     Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
-    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
     jsonObject.addProperty("numberTroops", move.getNumberToReinforce());
     return jsonObject;
@@ -473,7 +473,7 @@ public class MessageAPI {
     Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
-    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("cards", GSON.toJson(cards));
     jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
     return jsonObject;

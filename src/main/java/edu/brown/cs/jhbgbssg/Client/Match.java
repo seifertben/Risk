@@ -204,8 +204,11 @@ public class Match {
         GameUpdate update = null;
         switch (type) {
           case SETUP:
+            System.out.println("INSETUP");
             SetupAction setup = this.createSetupAction(received);
+            System.out.println("PAST");
             update = actionProcessor.processSetupAction(setup);
+            System.out.println(update);
             break;
           case SETUP_REINFORCE:
             // SetupReinforceAction action = this.crea
@@ -272,7 +275,12 @@ public class Match {
     TerritoryEnum selected = messageApi.getSelectedTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
-    return new SetupAction(player, board, selected);
+    System.out.println(selected);
+    System.out.println(playerId);
+    System.out.println(player);
+    SetupAction a = new SetupAction(player, board, selected);
+    System.out.println(a);
+    return a;
   }
 
   private AttackAction createAttackAction(JsonObject received) {
