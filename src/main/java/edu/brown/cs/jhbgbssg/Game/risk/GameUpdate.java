@@ -20,6 +20,7 @@ public class GameUpdate {
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
+  private boolean playerChanged;
 
   /**
    * Constructor of GameUpdate.
@@ -133,5 +134,13 @@ public class GameUpdate {
    */
   public UUID getCurrentPlayer() {
     return this.currPlayer;
+  }
+
+  public void playerChanged() {
+    playerChanged = true;
+  }
+
+  public boolean didPlayerChange() {
+    return playerChanged;
   }
 }

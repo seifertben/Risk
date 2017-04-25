@@ -25,6 +25,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -124,14 +125,14 @@ public class Match {
    */
   public void removePlayer(UUID playerId) {
     // If the match has started, update back end
-//    if (started) {
-//      myGame.removePlayer(playerId);
-//      players = myGame.getPlayerOrder();
-//
-//      // Otherwise, edit our list
-//    } else {
-      players.remove(playerId);
-//    }
+    // if (started) {
+    // myGame.removePlayer(playerId);
+    // players = myGame.getPlayerOrder();
+    //
+    // // Otherwise, edit our list
+    // } else {
+    players.remove(playerId);
+    // }
 
     // Remove this player's name
     names.put(playerId, null);
@@ -182,29 +183,73 @@ public class Match {
    * Initiate this match and create our risk game.
    */
   public void start() {
-
-    started = true;
-    Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
-    riskPlayers = new HashMap<>();
-    for (UUID playerId : idSet) {
-      riskPlayers.put(playerId, new RiskPlayer(playerId));
+    synchronized (this) {
+      started = true;
+      Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
+      riskPlayers = new HashMap<>();
+      for (UUID playerId : idSet) {
+        riskPlayers.put(playerId, new RiskPlayer(playerId));
+      }
+      board = new RiskBoard();
+      referee = new Referee(board, riskPlayers.values());
+      actionProcessor = new RiskActionProcessor(referee);
+      players = referee.getPlayerOrder();
+      // GameUpdate initial = myGame.startGame();
+      // return messageApi.getJsonObjectMessage(initial);
     }
-    board = new RiskBoard();
-    referee = new Referee(board, riskPlayers.values());
-    actionProcessor = new RiskActionProcessor(referee);
-    players = referee.getPlayerOrder();
-//    GameUpdate initial = myGame.startGame();
-//    return messageApi.getJsonObjectMessage(initial);
   }
 
-  public JsonObject getUpdate(JsonObject received) {
-    // get oject type and construct object.
-    // run action processor
-    // convert message to json
-    // return message list
-    //SetupAction move = (SetupAction) messageApi.jsonToMove(received.toString());
-    // GameUpdate update = myGame.executeSetupChoiceAction(move);
-    // return messageApi.getJsonObjectMessage(update);
+  public List<JsonObject> getUpdate(JsonObject received) {
+    synchronized (this) {
+      try {
+        MoveType type = messageApi.getMoveType(received);
+        GameUpdate update = null;
+        switch (type) {
+          case SETUP:
+            SetupAction setup = this.createSetupAction(received);
+            update = actionProcessor.processSetupAction(setup);
+            break;
+          case SETUP_REINFORCE:
+            // SetupReinforceAction action = this.crea
+            break;
+          case REINFORCE:
+            ReinforceAction reinforce = this.createReinforceAction(received);
+            update = actionProcessor.processReinforceAction(reinforce);
+            break;
+          case TURN_IN_CARD:
+            CardTurnInAction cardAction = this.createCardAction(received);
+            update = actionProcessor.processCardTurnInAction(cardAction);
+            break;
+          case CHOOSE_ATTACK_DIE:
+            AttackAction attack = this.createAttackAction(received);
+            update = actionProcessor.processAttackAction(attack);
+            break;
+          case CHOOSE_DEFEND_DIE:
+            DefendAction defend = this.createDefendAction(received);
+            update = actionProcessor.processDefendAction(defend);
+            break;
+          case CLAIM_TERRITORY:
+            ClaimTerritoryAction claim = this
+                .createClaimTerritoryAction(received);
+            update = actionProcessor.processClaimTerritoryAction(claim);
+            break;
+          case SKIP:
+            RiskPlayer player = this.getSkipPlayer(received);
+            update = actionProcessor.processSkipAction(player);
+          default:
+            MoveTroopsAction moveAction = this.createMoveTroopsAction(received);
+            update = actionProcessor.processMoveTroopsAction(moveAction);
+        }
+        List<JsonObject> messages = messageApi.getUpdateMessages(update);
+        return messages;
+      } catch (IllegalArgumentException e) {
+        if (referee.getWinner() != null) {
+          // get winner
+        } else {
+          // get valid move
+        }
+      }
+    }
     return null;
   }
 
@@ -270,6 +315,12 @@ public class Match {
     int numberTroops = messageApi.getNumberTroopsToMove(received);
     return new MoveTroopsAction(player, board, movePair.getFirstElement(),
         movePair.getSecondElement(), numberTroops);
+  }
+
+  private RiskPlayer getSkipPlayer(JsonObject received) {
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    return player;
   }
 
   @Override

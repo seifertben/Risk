@@ -105,7 +105,7 @@ public class Referee {
    *
    * @return
    */
-  protected RiskPlayer getWinner() {
+  public RiskPlayer getWinner() {
     return winner;
   }
 
@@ -157,6 +157,12 @@ public class Referee {
     return -1;
   }
 
+  /**
+   * Switches the current player and determines which the valid actions the
+   * player can do.
+   *
+   * @return valid action of the next player
+   */
   protected ValidAction switchPlayer() {
     int index = turnOrder.indexOf(currPlayer);
     index = (index + 1) % turnOrder.size();
@@ -165,11 +171,26 @@ public class Referee {
     return validMove;
   }
 
+  /**
+   * Returns whether or not the card deck is empty.
+   *
+   * @return true if empty; false otherwise
+   */
   protected boolean emptyCardDeck() {
     return cardPool.isEmpty();
   }
 
-  protected ValidAction getValidMove() {
+  /**
+   * Gets the current ValidAction. If the game has not been started, the
+   * gameStarted indicator variable is set to true and the first valid action is
+   * returned for the first player.
+   *
+   * @return the current valid action
+   */
+  public ValidAction getValidMove() {
+    if (!gameStarted) {
+      gameStarted = true;
+    }
     return validMove;
   }
 
@@ -209,6 +230,13 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Gets the next valid action after turning a card has been turned in. The
+   * next valid action is either an attack or moving a troops. If there is no
+   * valid action left for the current player, null is returned.
+   *
+   * @return next valid action after turning in a card
+   */
   protected ValidAction getValidMoveAfterCardTurnIn() {
     ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
@@ -224,6 +252,12 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Gets the next valid action after an attack. After an attack, the only valid
+   * action is defending.
+   *
+   * @return next valid action after attacking
+   */
   protected ValidAction getValidMoveAfterAttack() {
     TerritoryEnum defending = lastAttack.getDefendingTerritory();
     RiskPlayer defender = board.getTerritory(defending).getOwner();
@@ -233,6 +267,16 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Gets the next valid action after defending. If the the defender lost his
+   * territory, the next valid action is the attacker claiming the territory.
+   * Otherwise, the next valid action is either another attack or a moving
+   * troops. If no action is available for the current player, the method
+   * returns null.
+   *
+   * @param defend - defend move
+   * @return next valid action after defending
+   */
   protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
     if (defend.getDefenderLostTerritory()) {
       validMove = new ValidClaimTerritoryAction(currPlayer, board, lastAttack);
@@ -256,6 +300,14 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Gets the next valid action after claiming a territory. If the current
+   * player can attack, a valid attack action is returned. If not, a valid move
+   * troops action is returned if the current player can move their troops.
+   * Otherwise, null is returned if the current player has no valid action.
+   *
+   * @return next valid action after claiming a territory
+   */
   protected ValidAction getValidMoveAfterClaimTerritory() {
     ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {
@@ -271,9 +323,16 @@ public class Referee {
     return null;
   }
 
-  protected Action getValidDefendMoveAfterTroopMove(RiskPlayer player,
-      DefendAction move) {
-    return null;
+  protected boolean validSkipMove(RiskPlayer player) {
+    if (!player.equals(currPlayer)) {
+      return false;
+    }
+    MoveType type = validMove.getMoveType();
+    if (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
+        || type == MoveType.MOVE_TROOPS) {
+      return false;
+    }
+    return true;
   }
 
   protected Action getValidMoveAfterSetup(RiskPlayer player, SetupAction move) {

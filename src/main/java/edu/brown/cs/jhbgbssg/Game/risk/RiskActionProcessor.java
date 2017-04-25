@@ -6,7 +6,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
@@ -24,14 +23,32 @@ public class RiskActionProcessor {
   private int cardToHandOut = -1;
 
   /**
-   * Initializes the game state.
+   * Constructor for RiskActionProcessor. It takes in a referee it uses to
+   * validate the actions before executing them.
    *
+   * @param referee - referee for the Risk Game
+   * @throws IllegalArgumentException if the input is null
    */
-  public RiskActionProcessor(Referee referee) {
+  public RiskActionProcessor(Referee referee) throws IllegalArgumentException {
+    if (referee == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     this.referee = referee;
   }
 
-  public GameUpdate processSetupAction(SetupAction action) {
+  /**
+   * Processes a set up action and returns a game update indicating what
+   * happened.
+   *
+   * @param action - set up action to execute
+   * @return GameUpdate
+   * @throws IllegalArgumentException - if the input is null
+   */
+  public GameUpdate processSetupAction(SetupAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -52,7 +69,19 @@ public class RiskActionProcessor {
     return update;
   }
 
-  public GameUpdate processSetupReinforceAction(SetupReinforceAction action) {
+  /**
+   * Processes a setup reinforce action and returns a game update indicating
+   * what happened.
+   *
+   * @param action - set up reinforce action
+   * @return game update
+   * @throws IllegalArgumentException - if the input is null
+   */
+  public GameUpdate processSetupReinforceAction(SetupReinforceAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -75,31 +104,36 @@ public class RiskActionProcessor {
   }
 
   /**
-   * This method executes a reinforce action. It first checks that the given
+   * This method processes a reinforce action. It first checks that the given
    * player can make such an action; if so, it executes it. Otherwise, it does
    * not and returns an error messaging indicating the move was not valid.
    *
-   * @param move of troops to place on the territory
+   * @param action of troops to place on the territory
    * @return GameUpdate object representing what happened
+   * @throws IllegalArgumentException if the input is null
    */
-  public GameUpdate processReinforceAction(ReinforceAction move) {
+  public GameUpdate processReinforceAction(ReinforceAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
-    boolean isValidMove = referee.validateReinforce(move);
+    boolean isValidMove = referee.validateReinforce(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    move.executeAction();
+    action.executeAction();
     ValidAction nextValidMove = referee.getValidMoveAfterReinforce();
     if (nextValidMove == null) {
-      return this.switchPlayers(move, move.getMovePlayer());
+      return this.switchPlayers(action, action.getMovePlayer());
     }
-    update.setValidMoves(nextValidMove, move, false);
+    update.setValidMoves(nextValidMove, action, false);
     return update;
   }
 
@@ -107,26 +141,31 @@ public class RiskActionProcessor {
    * Executes a card turn in. If the the move is valid, the game will execute
    * it. Otherwise, it will return an error.
    *
-   * @param move
+   * @param action - card turn in action
    * @return game update
+   * @throws IllegalArgumentException - if the input is null
    */
-  public GameUpdate processCardTurnInAction(CardTurnInAction move) {
+  public GameUpdate processCardTurnInAction(CardTurnInAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
-    boolean isValidMove = referee.validateCardTurnIn(move);
+    boolean isValidMove = referee.validateCardTurnIn(action);
     if (!isValidMove) { // move is not valid
       update.setValidMoves(referee.getValidMove(), null, true);
       return update;
     }
-    move.executeAction();
+    action.executeAction();
     ValidAction nextValidMove = referee.getValidMoveAfterCardTurnIn();
     if (nextValidMove == null) {
-      return this.switchPlayers(move, move.getMovePlayer());
+      return this.switchPlayers(action, action.getMovePlayer());
     }
-    update.setValidMoves(nextValidMove, move, false);
+    update.setValidMoves(nextValidMove, action, false);
     return update;
   }
 
@@ -135,8 +174,13 @@ public class RiskActionProcessor {
    *
    * @param action - action
    * @return game update
+   * @throws IllegalArgumentException - if the input is null
    */
-  public GameUpdate processAttackAction(AttackAction action) {
+  public GameUpdate processAttackAction(AttackAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -156,34 +200,40 @@ public class RiskActionProcessor {
 
   /**
    *
+   * @param action - defend action
    * @return game update
+   * @throws IllegalArgumentException - if the input is null
    */
-  public GameUpdate processDefendAction(DefendAction move) {
+  public GameUpdate processDefendAction(DefendAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
-    boolean isValidMove = referee.validateDefendMove(move);
+    boolean isValidMove = referee.validateDefendMove(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    move.executeAction();
-    if (move.getDefenderLostTerritory()) {
-      if (referee.playerLost(move.getMovePlayer())) {
-        update.setLostGame(move.getMovePlayer().getPlayerId());
+    action.executeAction();
+    if (action.getDefenderLostTerritory()) {
+      if (referee.playerLost(action.getMovePlayer())) {
+        update.setLostGame(action.getMovePlayer().getPlayerId());
       }
-      ValidAction nextValidMove = referee.getValidMoveAfterDefend(move);
-      update.setValidMoves(nextValidMove, move, false);
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(action);
+      update.setValidMoves(nextValidMove, action, false);
       return update;
     } else {
-      ValidAction nextValidMove = referee.getValidMoveAfterDefend(move);
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(action);
       if (nextValidMove == null) {
-        return this.switchPlayers(move, move.getAttackerId());
+        return this.switchPlayers(action, action.getAttackerId());
       }
-      update.setValidMoves(nextValidMove, move, false);
+      update.setValidMoves(nextValidMove, action, false);
       return update;
     }
   }
@@ -196,8 +246,13 @@ public class RiskActionProcessor {
    *
    * @param action - action
    * @return update specifying what happened
+   * @throws IllegalArgumentException - if the input is null
    */
-  public GameUpdate processClaimTerritoryAction(ClaimTerritoryAction action) {
+  public GameUpdate processClaimTerritoryAction(ClaimTerritoryAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -230,9 +285,14 @@ public class RiskActionProcessor {
    * in the GameUpdate object.
    *
    * @param action - action
-   * @return GameUpdate specifying what happend and the next possible move
+   * @return GameUpdate specifying what happened and the next possible move
+   * @throws IllegalArgumentException - if the input is null
    */
-  public GameUpdate processMoveTroopsAction(MoveTroopsAction action) {
+  public GameUpdate processMoveTroopsAction(MoveTroopsAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -248,31 +308,25 @@ public class RiskActionProcessor {
     return this.switchPlayers(action, action.getMovePlayer());
   }
 
-  public GameUpdate processSkipAction(RiskPlayer player) {
-    GameUpdate update = new GameUpdate();
-    ValidAction validAction = referee.getValidMove();
-    MoveType phase = validAction.getMoveType();
-    if (referee.getWinner() != null) {
-      update.setWonGame(referee.getWinner().getPlayerId());
+  /**
+   * Processes a skip action.
+   *
+   * @param player - player trying to skip an action
+   * @return game update
+   * @throws IllegalArgumentException if the input is null
+   */
+  public GameUpdate processSkipAction(RiskPlayer player)
+      throws IllegalArgumentException {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    if (referee.validSkipMove(player)) {
+      return this.switchPlayers(null, player);
+    } else {
+      GameUpdate update = new GameUpdate();
+      update.setValidMoves(referee.getValidMove(), null, true);
       return update;
-    } else if (!referee.playersTurn(player)) {
-      update.setValidMoves(validAction, null, true);
     }
-    switch (phase) {
-      case TURN_IN_CARD:
-        // find next valid move
-        break;
-      case CHOOSE_ATTACK_DIE:
-        // find next valid move
-        break;
-      case MOVE_TROOPS:
-        return this.switchPlayers(null, player);
-      default:
-        ValidAction valid = referee.getValidMove();
-        update.setValidMoves(valid, null, true);
-        return update;
-    }
-    return null;
   }
 
   /**
@@ -290,6 +344,7 @@ public class RiskActionProcessor {
     }
     ValidAction action = referee.switchPlayer();
     update.setValidMoves(action, prevMove, false);
+    update.playerChanged();
     return update;
   }
 }
