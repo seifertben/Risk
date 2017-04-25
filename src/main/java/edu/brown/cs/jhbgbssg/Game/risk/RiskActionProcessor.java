@@ -23,11 +23,13 @@ public class RiskActionProcessor {
   private int cardToHandOut = -1;
 
   /**
-   * Constructor for RiskActionProcessor. It takes in a referee it uses to
-   * validate the actions before executing them.
+   * Constructor for RiskActionProcessor. It takes in a referee it uses to validate the actions
+   * before executing them.
    *
-   * @param referee - referee for the Risk Game
-   * @throws IllegalArgumentException if the input is null
+   * @param referee
+   *          - referee for the Risk Game
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public RiskActionProcessor(Referee referee) throws IllegalArgumentException {
     if (referee == null) {
@@ -37,12 +39,13 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Processes a set up action and returns a game update indicating what
-   * happened.
+   * Processes a set up action and returns a game update indicating what happened.
    *
-   * @param action - set up action to execute
+   * @param action
+   *          - set up action to execute
    * @return GameUpdate
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processSetupAction(SetupAction action)
       throws IllegalArgumentException {
@@ -60,8 +63,8 @@ public class RiskActionProcessor {
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    ValidAction nextValidMove = (ValidAction) referee
-        .getValidMoveAfterSetup(action.getMovePlayer(), action);
+    ValidAction nextValidMove = referee
+        .getValidMoveAfterSetup();
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }
@@ -70,12 +73,13 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Processes a setup reinforce action and returns a game update indicating
-   * what happened.
+   * Processes a setup reinforce action and returns a game update indicating what happened.
    *
-   * @param action - set up reinforce action
+   * @param action
+   *          - set up reinforce action
    * @return game update
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processSetupReinforceAction(SetupReinforceAction action)
       throws IllegalArgumentException {
@@ -95,7 +99,7 @@ public class RiskActionProcessor {
     }
     action.executeAction();
     ValidAction nextValidMove = referee
-        .getValidMoveAfterReinforceSetup(action.getMovePlayer(), action);
+        .getValidMoveAfterReinforceSetup();
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }
@@ -104,13 +108,15 @@ public class RiskActionProcessor {
   }
 
   /**
-   * This method processes a reinforce action. It first checks that the given
-   * player can make such an action; if so, it executes it. Otherwise, it does
-   * not and returns an error messaging indicating the move was not valid.
+   * This method processes a reinforce action. It first checks that the given player can make such
+   * an action; if so, it executes it. Otherwise, it does not and returns an error messaging
+   * indicating the move was not valid.
    *
-   * @param action of troops to place on the territory
+   * @param action
+   *          of troops to place on the territory
    * @return GameUpdate object representing what happened
-   * @throws IllegalArgumentException if the input is null
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public GameUpdate processReinforceAction(ReinforceAction action)
       throws IllegalArgumentException {
@@ -138,12 +144,14 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Executes a card turn in. If the the move is valid, the game will execute
-   * it. Otherwise, it will return an error.
+   * Executes a card turn in. If the the move is valid, the game will execute it. Otherwise, it will
+   * return an error.
    *
-   * @param action - card turn in action
+   * @param action
+   *          - card turn in action
    * @return game update
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processCardTurnInAction(CardTurnInAction action)
       throws IllegalArgumentException {
@@ -172,9 +180,11 @@ public class RiskActionProcessor {
   /**
    * Executes an attack.
    *
-   * @param action - action
+   * @param action
+   *          - action
    * @return game update
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processAttackAction(AttackAction action)
       throws IllegalArgumentException {
@@ -200,9 +210,11 @@ public class RiskActionProcessor {
 
   /**
    *
-   * @param action - defend action
+   * @param action
+   *          - defend action
    * @return game update
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processDefendAction(DefendAction action)
       throws IllegalArgumentException {
@@ -239,14 +251,15 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Executes a claim territory move. A player claims a territory if, during an
-   * attack, the number of troops on the defending territory decreases to 0.
-   * This move checks that the claim territory move is valid, and executes if
-   * so.
+   * Executes a claim territory move. A player claims a territory if, during an attack, the number
+   * of troops on the defending territory decreases to 0. This move checks that the claim territory
+   * move is valid, and executes if so.
    *
-   * @param action - action
+   * @param action
+   *          - action
    * @return update specifying what happened
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processClaimTerritoryAction(ClaimTerritoryAction action)
       throws IllegalArgumentException {
@@ -279,14 +292,15 @@ public class RiskActionProcessor {
   }
 
   /**
-   * This method moves the specified number of troops from a player's territory
-   * to another an adjacent one. If the move is valid, it will execute.
-   * Otherwise, the move will not be executed and RiskGame will return an error
-   * in the GameUpdate object.
+   * This method moves the specified number of troops from a player's territory to another an
+   * adjacent one. If the move is valid, it will execute. Otherwise, the move will not be executed
+   * and RiskGame will return an error in the GameUpdate object.
    *
-   * @param action - action
+   * @param action
+   *          - action
    * @return GameUpdate specifying what happened and the next possible move
-   * @throws IllegalArgumentException - if the input is null
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
   public GameUpdate processMoveTroopsAction(MoveTroopsAction action)
       throws IllegalArgumentException {
@@ -311,9 +325,11 @@ public class RiskActionProcessor {
   /**
    * Processes a skip action.
    *
-   * @param player - player trying to skip an action
+   * @param player
+   *          - player trying to skip an action
    * @return game update
-   * @throws IllegalArgumentException if the input is null
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public GameUpdate processSkipAction(RiskPlayer player)
       throws IllegalArgumentException {
@@ -342,7 +358,7 @@ public class RiskActionProcessor {
           referee.emptyCardDeck());
       cardToHandOut = -1;
     }
-    ValidAction action = referee.switchPlayer();
+    ValidAction action = referee.switchPlayer(prevMove);
     update.setValidMoves(action, prevMove, false);
     update.playerChanged();
     return update;
