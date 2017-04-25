@@ -45,8 +45,7 @@ public class Africa implements ContinentInterface {
 
   @Override
   public boolean containsTerritory(TerritoryEnum terr) {
-
-    return false;
+    return territories.contains(terr);
   }
 
   @Override
