@@ -33,6 +33,10 @@ public class RiskActionProcessor {
 
   public GameUpdate processSetupAction(SetupAction action) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateSetupMove(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -48,8 +52,12 @@ public class RiskActionProcessor {
     return update;
   }
 
-  public GameUpdate executeSetupReinforceAction(SetupReinforceAction action) {
+  public GameUpdate processSetupReinforceAction(SetupReinforceAction action) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateSetupReinforceMove(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -74,17 +82,20 @@ public class RiskActionProcessor {
    * @param move of troops to place on the territory
    * @return GameUpdate object representing what happened
    */
-  public GameUpdate executeReinforceAction(ReinforceAction move) {
+  public GameUpdate processReinforceAction(ReinforceAction move) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateReinforce(move);
-    if (!isValidMove) { // not a valid move
+    if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
     move.executeAction();
-    ValidAction nextValidMove = referee
-        .getValidMoveAfterReinforce(move.getMovePlayer());
+    ValidAction nextValidMove = referee.getValidMoveAfterReinforce();
     if (nextValidMove == null) {
       return this.switchPlayers(move, move.getMovePlayer());
     }
@@ -99,16 +110,19 @@ public class RiskActionProcessor {
    * @param move
    * @return game update
    */
-  public GameUpdate executeCardTurnInAction(CardTurnInAction move) {
+  public GameUpdate processCardTurnInAction(CardTurnInAction move) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateCardTurnIn(move);
     if (!isValidMove) { // move is not valid
       update.setValidMoves(referee.getValidMove(), null, true);
       return update;
     }
     move.executeAction();
-    ValidAction nextValidMove = referee
-        .getValidMoveAfterCardTurnIn(move.getMovePlayer());
+    ValidAction nextValidMove = referee.getValidMoveAfterCardTurnIn();
     if (nextValidMove == null) {
       return this.switchPlayers(move, move.getMovePlayer());
     }
@@ -122,8 +136,12 @@ public class RiskActionProcessor {
    * @param action - action
    * @return game update
    */
-  public GameUpdate executeAttackAction(AttackAction action) {
+  public GameUpdate processAttackAction(AttackAction action) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateAttackMove(action);
     if (isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -131,7 +149,7 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction validMove = referee.getValidMoveAfterAttack(action);
+    ValidAction validMove = referee.getValidMoveAfterAttack();
     update.setValidMoves(validMove, action, false);
     return update;
   }
@@ -140,8 +158,12 @@ public class RiskActionProcessor {
    *
    * @return game update
    */
-  public GameUpdate executeDefendAction(DefendAction move) {
+  public GameUpdate processDefendAction(DefendAction move) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateDefendMove(move);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -175,8 +197,12 @@ public class RiskActionProcessor {
    * @param action - action
    * @return update specifying what happened
    */
-  public GameUpdate executeClaimTerritory(ClaimTerritoryAction action) {
+  public GameUpdate processClaimTerritoryAction(ClaimTerritoryAction action) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateClaimTerritory(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -186,9 +212,10 @@ public class RiskActionProcessor {
     action.executeAction();
     if (referee.isWinner(action.getMovePlayer())) {
       update.setWonGame(action.getMovePlayer().getPlayerId());
+      update.setValidMoves(null, action, false);
+      return update;
     }
-    ValidAction validNextMove = referee
-        .getValidMoveAfterClaimTerritory(action.getMovePlayer());
+    ValidAction validNextMove = referee.getValidMoveAfterClaimTerritory();
     if (validNextMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }
@@ -205,8 +232,12 @@ public class RiskActionProcessor {
    * @param action - action
    * @return GameUpdate specifying what happend and the next possible move
    */
-  public GameUpdate executeMoveTroops(MoveTroopsAction action) {
+  public GameUpdate processMoveTroopsAction(MoveTroopsAction action) {
     GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
     boolean isValidMove = referee.validateMoveTroopsMove(action);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
@@ -217,9 +248,16 @@ public class RiskActionProcessor {
     return this.switchPlayers(action, action.getMovePlayer());
   }
 
-  public GameUpdate executeSkipPhase(RiskPlayer player) {
-    MoveType phase = referee.getValidMove().getMoveType();
+  public GameUpdate processSkipAction(RiskPlayer player) {
     GameUpdate update = new GameUpdate();
+    ValidAction validAction = referee.getValidMove();
+    MoveType phase = validAction.getMoveType();
+    if (referee.getWinner() != null) {
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    } else if (!referee.playersTurn(player)) {
+      update.setValidMoves(validAction, null, true);
+    }
     switch (phase) {
       case TURN_IN_CARD:
         // find next valid move
