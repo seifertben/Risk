@@ -135,12 +135,12 @@ public class Matches {
     }
 
     // If this message is a request to create a lobby...
-    if (received.get("type").getAsInt() == MESSAGE_TYPE.SELECT.ordinal()) {
+    if (received.get("type").getAsInt() == MESSAGE_TYPE.CLAIM_TERRITORY.ordinal()) {
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
-      JsonObject response = game.getUpdate(received);
+      //JsonObject response = game.getUpdate(received);
       JsonObject update = new JsonObject();
-      update.addProperty("type", MESSAGE_TYPE.SELECT.ordinal());
+      update.addProperty("type", MESSAGE_TYPE.CLAIM_TERRITORY.ordinal());
       update.addProperty("playerId", received.get("playerId").getAsString());
       update.addProperty("territoryId", received.get("territoryId").getAsString());
       for (int index = 0; index < game.playerNum(); index++) {
@@ -241,7 +241,7 @@ public class Matches {
    */
   private void start_game(Match toStart) throws IOException {
 
-    toStart.start();
+    JsonObject initial = toStart.start();
 
     // Add this match's info to an update message
     JsonObject update = new JsonObject();
@@ -270,6 +270,11 @@ public class Matches {
     for (Session player : sessions) {
       player.getRemote().sendString(update.toString());
     }
+
+    // PICK UP HERE
+    JsonObject firstMove = initial.get("nextMove").getAsJsonObject();
+    UUID starterUUID = UUID.fromString(firstMove.get("playerId").getAsString());
+    playerToSession.get(starterUUID).getRemote().sendString(firstMove.toString());
   }
 
   /**

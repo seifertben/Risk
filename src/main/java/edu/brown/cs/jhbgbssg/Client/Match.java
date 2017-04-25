@@ -13,10 +13,12 @@ import java.util.UUID;
 
 import com.google.gson.JsonObject;
 
+import edu.brown.cs.jhbgbssg.Game.risk.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -179,7 +181,8 @@ public class Match {
   /**
    * Initiate this match and create our risk game.
    */
-  public void start() {
+  public JsonObject start() {
+
     started = true;
     Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
     riskPlayers = new HashMap<>();
@@ -189,6 +192,10 @@ public class Match {
     referee = new Referee(board, riskPlayers.values());
     actionProcessor = new RiskActionProcessor(referee);
     players = referee.getPlayerOrder();
+    myGame = new RiskGame(idSet);
+    players = myGame.getPlayerOrder();
+    GameUpdate initial = myGame.startGame();
+    return messageApi.getJsonObjectMessage(initial);
   }
 
   public JsonObject getUpdate(JsonObject received) {
@@ -197,7 +204,6 @@ public class Match {
     // convert message to json
     // return message list
     SetupAction move = (SetupAction) messageApi.jsonToMove(received.toString());
-
     // GameUpdate update = myGame.executeSetupChoiceAction(move);
     // return messageApi.getJsonObjectMessage(update);
     return null;
