@@ -6,22 +6,35 @@ $(window).keydown(function(evt){
 });
 
 const MESSAGE_TYPE = {
-  SELECT: 0,
+  CONNECT: 0,
+  REMOVE: 1,
+  START: 2,
+  JOIN: 3,
+  CREATE: 4,
+  CHANGE: 5,
+  DESTROY: 6,
+  WINNER: 7,
+  LOSER: 8,
+  HANDOUT_CARD: 9,
+  NO_CARDS_LEFT: 10,
+  PREVIOUS_ACTION: 11,
+  VALID_ACTIONS: 12,
+  ERROR: 13,
+  MOVE: 14,
+}
+
+const MOVE_TYPES = {
+  SETUP: 0,
   SETUP_REINFORCE: 1,
-  REINFORCE: 2,
-  TURN_IN_CARD: 3,
-  ATTACK: 4,
-  DEFEND: 5,
+  TURN_IN_CARD: 2,
+  REINFORCE: 3,
+  CHOOSE_ATTACK_DIE: 4,
+  CHOOSE_DEFEND_DIE: 5,
   CLAIM_TERRITORY: 6,
   MOVE_TROOPS: 7,
-  CONNECT: 8,
-  REMOVE: 9,
-  START: 10,
-  JOIN: 11,
-  CREATE: 12,
-  CHANGE: 13,
-  DESTROY: 14,
-};
+  SKIP: 8,
+}
+
 
 document.getElementById("gameField").style.display = "none";
 document.getElementById("menuField").style.display = "none";
@@ -34,7 +47,7 @@ let idToName = [];
 let nameToId = [];
 let colors = [];
 const $maker = $("#maker");
-let currentPlayer;
+let availableForClaim = [];
 
 const setup_matches = () => {
 
@@ -118,16 +131,29 @@ const setup_matches = () => {
         $("#" + data.gameId).remove();
         break;
 
-      case MESSAGE_TYPE.CLAIM_TERRITORY:
-        currentPlayer = null;
-        make_selection(data.playerId, data.territoryId);
-        break;
-      case MESSAGE_TYPE.SELECT:
-    	  //PICK UP HERE
-    	currentPlayer = data.playerId;
-    	console.log(currentPlayer);
-        map.addListener("clickMapObject", select_territory);
-        break;
+//      case MESSAGE_TYPE.SELECT:
+//    	  //PICK UP HERE
+//    	currentPlayer = data.playerId;
+//    	console.log(currentPlayer);
+//        map.addListener("clickMapObject", select_territory);
+//        break;
+//        
+
+      case MESSAGE_TYPE.PREVIOUS_ACTION:
+    	  switch(data.moveType){
+    	    case MOVE_TYPES.CLAIM_TERRITORY:
+    	      make_selection(data.playerId, data.territoryId);
+    		  break;
+    	    }
+    	  break;
+      case MESSAGE_TYPE.VALID_ACTIONS:
+    	  switch(data.moveType) {
+      		case MOVE_TYPES.SETUP:
+      		  availableForClaim = data.selectable;
+              map.addListener("clickMapObject", select_territory);
+              break;
+    	  }
+    	  break;
     }
   };
 }

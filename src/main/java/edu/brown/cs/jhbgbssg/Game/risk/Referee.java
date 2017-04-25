@@ -82,6 +82,18 @@ public class Referee {
     return Collections.unmodifiableList(playerOrder);
   }
 
+  /**
+   * Removes a player with the given UUID from the game.
+   * @param playerId Id of player to remove.
+   */
+  public void removePlayer(UUID playerId) {
+    for (int i = 0; i < turnOrder.size(); i++) {
+      if (turnOrder.get(i).getPlayerId() == playerId) {
+        turnOrder.remove(i);
+      }
+    }
+  }
+
   public GameUpdate startGame() {
     if (!gameStarted) {
       gameStarted = true;
@@ -92,6 +104,10 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Indicates whether the game has started.
+   * @return Started boolean.
+   */
   public boolean gameStarted() {
     return gameStarted;
   }

@@ -14,6 +14,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -39,26 +42,6 @@ public class Matches {
   private Map<Session, UUID> sessionToPlayer = Collections.synchronizedMap(new HashMap<>());
   private Map<UUID, UUID> playerToGame = Collections.synchronizedMap(new HashMap<>());
 
-  // Different types of messages
-  // that can be sent or received
-  private static enum MESSAGE_TYPE {
-    SELECT,
-    SETUP_REINFORCE,
-    REINFORCE,
-    TURN_IN_CARD,
-    ATTACK,
-    DEFEND,
-    CLAIM_TERRITORY,
-    MOVE_TROOPS,
-    CONNECT,
-    REMOVE,
-    START,
-    JOIN,
-    CREATE,
-    CHANGE,
-    DESTROY,
-  }
-
   /**
    * Connect a player and update their match list.
    * @param session Player session.
@@ -74,7 +57,7 @@ public class Matches {
     UUID playerId = UUID.randomUUID();
  
     JsonObject jj = new JsonObject();
-    jj.addProperty("type", MESSAGE_TYPE.CONNECT.ordinal());
+    jj.addProperty("type", RiskMessageType.CONNECT.ordinal());
     jj.addProperty("id", playerId.toString());
     playerToSession.put(playerId, session);
     sessionToPlayer.put(session, playerId);
@@ -84,7 +67,7 @@ public class Matches {
     for (Match game : matches) {
       if (!game.started()) {
         JsonObject update = new JsonObject();
-        update.addProperty("type", MESSAGE_TYPE.CREATE.ordinal());
+        update.addProperty("type", RiskMessageType.CREATE.ordinal());
         update.addProperty("gameId", game.getId());
         update.addProperty("matchName", game.matchName());
         update.addProperty("playerNum", game.playerNum());
@@ -125,26 +108,33 @@ public class Matches {
     JsonObject received = GSON.fromJson(message, JsonObject.class);
 
     // If this message is a request to join a lobby...
-    if (received.get("type").getAsInt() == MESSAGE_TYPE.JOIN.ordinal()) {
+    if (received.get("type").getAsInt() == RiskMessageType.JOIN.ordinal()) {
       join_player(session, message);
     }
 
     // If this message is a request to create a lobby...
-    if (received.get("type").getAsInt() == MESSAGE_TYPE.CREATE.ordinal()) {
+    if (received.get("type").getAsInt() == RiskMessageType.CREATE.ordinal()) {
       create_lobby(session, message);
     }
 
     // If this message is a request to create a lobby...
-    if (received.get("type").getAsInt() == MESSAGE_TYPE.CLAIM_TERRITORY.ordinal()) {
+    if (received.get("type").getAsInt() == RiskMessageType.MOVE.ordinal()) {
+
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
-      //JsonObject response = game.getUpdate(received);
-      JsonObject update = new JsonObject();
-      update.addProperty("type", MESSAGE_TYPE.CLAIM_TERRITORY.ordinal());
-      update.addProperty("playerId", received.get("playerId").getAsString());
-      update.addProperty("territoryId", received.get("territoryId").getAsString());
-      for (int index = 0; index < game.playerNum(); index++) {
-        playerToSession.get(game.getPlayers().get(index)).getRemote().sendString(update.toString());
+      List<JsonObject> response = game.getUpdate(received);
+      System.out.println(response);
+      for (int index = 0; index < response.size(); index++) {
+        if (response.get(index).has("player")) {
+          UUID playerId = UUID.fromString(response.get(index).get("player").getAsString());
+          playerToSession.get(playerId).getRemote().sendString(response.get(index).toString());
+        } else {
+          List<UUID> playerList = game.getPlayers();
+          for (int looper = 0; looper < game.playerNum(); looper++) {
+            UUID toAlert = playerList.get(looper);
+            playerToSession.get(toAlert).getRemote().sendString(response.get(index).toString());
+          }
+        }
       }
     }
   }
@@ -176,7 +166,7 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       game.removePlayer(playerUUID);
       JsonObject remove = new JsonObject();
-      remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
+      remove.addProperty("type", RiskMessageType.REMOVE.ordinal());   
       remove.addProperty("gameId", game.getId());
       remove.addProperty("playerNum", game.playerNum());
       remove.addProperty("lobbySize", game.lobbySize());
@@ -210,7 +200,7 @@ public class Matches {
     // Send out a message updating the menu
     // with this new lobby change
     JsonObject change = new JsonObject();
-    change.addProperty("type", MESSAGE_TYPE.CHANGE.ordinal());
+    change.addProperty("type", RiskMessageType.CHANGE.ordinal());
     change.addProperty("oldGameId", toChange.getId());
     change.addProperty("oldMatchName", toChange.matchName());
     change.addProperty("oldPlayerNum", toChange.playerNum());
@@ -245,7 +235,7 @@ public class Matches {
 
     // Add this match's info to an update message
     JsonObject update = new JsonObject();
-    update.addProperty("type", MESSAGE_TYPE.START.ordinal());
+    update.addProperty("type", RiskMessageType.START.ordinal());
     update.addProperty("gameId", toStart.getId());
     for (int index = 0; index < toStart.playerNum(); index++) {
       update.addProperty("player" + index + "name", toStart.getPlayerName(index));
@@ -263,7 +253,7 @@ public class Matches {
     // Make a new update to remove this lobby from the menu,
     // so no one else can join it
     update = new JsonObject();
-    update.addProperty("type", MESSAGE_TYPE.DESTROY.ordinal());
+    update.addProperty("type", RiskMessageType.DESTROY.ordinal());
     update.addProperty("gameId", toStart.getId());
 
     // Send this message to all players
@@ -312,7 +302,7 @@ public class Matches {
     // Update the menu of all players
     // with the existence of this lobby
     JsonObject update = new JsonObject();
-    update.addProperty("type", MESSAGE_TYPE.CREATE.ordinal());   
+    update.addProperty("type", RiskMessageType.CREATE.ordinal());   
     update.addProperty("gameId", gameId.toString());
     update.addProperty("playerNum", 0);
     update.addProperty("lobbySize", lobbySize);
@@ -330,7 +320,6 @@ public class Matches {
    *     update messages to players.
    */
   private void remove_player(Session session) throws IOException {
-    // UPDATE TO MESSAGE GAMES AND HANDLE LEAVERS
 
     // If this player was in a lobby...
     UUID playerId = sessionToPlayer.get(session);
@@ -341,9 +330,10 @@ public class Matches {
       game.removePlayer(playerId);
 
       if (!game.started()) {
+
         // Update the lobby menu for all remaining players
         JsonObject remove = new JsonObject();
-        remove.addProperty("type", MESSAGE_TYPE.REMOVE.ordinal());   
+        remove.addProperty("type", RiskMessageType.REMOVE.ordinal());   
         remove.addProperty("gameId", game.getId());
         remove.addProperty("playerNum", game.playerNum());
         remove.addProperty("lobbySize", game.lobbySize());

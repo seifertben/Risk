@@ -125,7 +125,12 @@ public class Match {
    */
   public void removePlayer(UUID playerId) {
 
-    players.remove(playerId);
+    if (started) {
+      referee.removePlayer(playerId);
+      players = referee.getPlayerOrder();
+    } else {
+      players.remove(playerId);
+    }
 
     // Remove this player's name
     names.put(playerId, null);

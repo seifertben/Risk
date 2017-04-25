@@ -1140,12 +1140,13 @@ let map = AmCharts.makeChart( "mapdiv", {
   "largeMap": {}
 } );
 
-let selected = [];
-
 function select_territory(event) {
-
-  let mess = {"type": MESSAGE_TYPE.CLAIM_TERRITORY, "playerId": myId, "territoryId": event.mapObject.id};
-  if (!selected.includes(event.mapObject.id)) {
+  console.log("CLICKED");
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY, "playerId": myId, "territoryId": event.mapObject.id};
+  console.log(availableForClaim.length);
+  console.log(event.mapObject.id);
+  if (availableForClaim.includes(event.mapObject.id)) {
+	  console.log("IMIN");
 	  conn.send(JSON.stringify(mess));
   }
 }
