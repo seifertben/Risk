@@ -18,7 +18,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
+//import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -124,14 +124,14 @@ public class Match {
    */
   public void removePlayer(UUID playerId) {
     // If the match has started, update back end
-    if (started) {
-      myGame.removePlayer(playerId);
-      players = myGame.getPlayerOrder();
-
-      // Otherwise, edit our list
-    } else {
+//    if (started) {
+//      myGame.removePlayer(playerId);
+//      players = myGame.getPlayerOrder();
+//
+//      // Otherwise, edit our list
+//    } else {
       players.remove(playerId);
-    }
+//    }
 
     // Remove this player's name
     names.put(playerId, null);
@@ -181,21 +181,20 @@ public class Match {
   /**
    * Initiate this match and create our risk game.
    */
-  public JsonObject start() {
+  public void start() {
 
     started = true;
     Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
     riskPlayers = new HashMap<>();
     for (UUID playerId : idSet) {
-      riskPlayers.put(id, new RiskPlayer(playerId));
+      riskPlayers.put(playerId, new RiskPlayer(playerId));
     }
+    board = new RiskBoard();
     referee = new Referee(board, riskPlayers.values());
     actionProcessor = new RiskActionProcessor(referee);
     players = referee.getPlayerOrder();
-    myGame = new RiskGame(idSet);
-    players = myGame.getPlayerOrder();
-    GameUpdate initial = myGame.startGame();
-    return messageApi.getJsonObjectMessage(initial);
+//    GameUpdate initial = myGame.startGame();
+//    return messageApi.getJsonObjectMessage(initial);
   }
 
   public JsonObject getUpdate(JsonObject received) {
@@ -203,7 +202,7 @@ public class Match {
     // run action processor
     // convert message to json
     // return message list
-    SetupAction move = (SetupAction) messageApi.jsonToMove(received.toString());
+    //SetupAction move = (SetupAction) messageApi.jsonToMove(received.toString());
     // GameUpdate update = myGame.executeSetupChoiceAction(move);
     // return messageApi.getJsonObjectMessage(update);
     return null;

@@ -10,17 +10,17 @@ import java.util.Set;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.Player;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 

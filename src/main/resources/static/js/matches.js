@@ -111,7 +111,7 @@ const setup_matches = () => {
             nameToId[data.player5name] = data.player5id;
             colors[data.player5name] = "yellow";
         }
-        createPlayer(data.playerNum, players);
+        createPlayer(data.playerNum);
         break;
 
       case MESSAGE_TYPE.DESTROY:

@@ -241,7 +241,7 @@ public class Matches {
    */
   private void start_game(Match toStart) throws IOException {
 
-    JsonObject initial = toStart.start();
+    toStart.start();
 
     // Add this match's info to an update message
     JsonObject update = new JsonObject();
@@ -272,9 +272,10 @@ public class Matches {
     }
 
     // PICK UP HERE
-    JsonObject firstMove = initial.get("nextMove").getAsJsonObject();
-    UUID starterUUID = UUID.fromString(firstMove.get("playerId").getAsString());
-    playerToSession.get(starterUUID).getRemote().sendString(firstMove.toString());
+    // SEND MESSAGE FOR FIRST MOVE
+//    JsonObject firstMove = initial.get("nextMove").getAsJsonObject();
+//    UUID starterUUID = UUID.fromString(firstMove.get("playerId").getAsString());
+//    playerToSession.get(starterUUID).getRemote().sendString(firstMove.toString());
   }
 
   /**
