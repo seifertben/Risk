@@ -42,19 +42,23 @@ const TerritoryEnum = {
   NEW_GUINEA: 40,
   WESTERN_AUSTRALIA: 41
 };
-
+let cardID = 0;
 const player = "Player 2";
 	
-	//setUp();
-	//activateDropDown(2);
-	//replaceField();
+	setUp();
+	activateDropDown(2);
+	replaceField();
+	replaceTransferListField();
 	//changePlayerImage(player2, "white", "blue");
 
-	// addcard(2);
-	// addcard(1);
+	addcard(2);
+	addcard(1);
+	  // populateTransferList(10);
 	// addcard();
 	// addcard();
 	// addcard();
+	$("#transferconfirm").on("click", confirmTransfer);
+	$("#diceconfirm").on("click", confirmDice);
 	$("#turnInCards").on( "click", turnInCards);
 	console.log($(".card"));
 	$('.card').click(function() {
@@ -71,10 +75,22 @@ const player = "Player 2";
    		this.style.borderColor = "none";
    }
 });
+function confirmTransfer() {
+	console.log($("#transferDropDownText").text());
+	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
+		$("#transfergroup").hide();
 
+	}
+}
+function confirmDice() {
+	console.log($("#dropdown").text());
+	if ($("#dropdown").text() !== "Select the amount of dice to roll") {
+		$("#dropdowngroup").hide();
+
+	}
+}
 function turnInCards() {
 	$('#cards li').each(function() {
-		console
 		if (this.style.borderStyle === "solid") {
 			this.remove();
 		}
@@ -90,9 +106,10 @@ function changePlayerImage(id, backgroundColor, color) {
 }
 
 function setUp () {
-	createPlayer(3);
+	// createPlayer(3);
 	attackStatus();
 	createDropdown();
+	createConquestTransferTroopsList();
 	$sideNav = $('#n');
 	$sideNav.append("<br>");
 	$sideNav.append($("<p id = 'numReinforcements'></p>"));
@@ -105,36 +122,44 @@ function setUp () {
 	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Success</button>"));
-	   hideAll();
+
+	   // hideAll();
 	   changeAttackStatus("Player 1", "Player 2", "Russia");
 	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
 	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
 	   attackerLoss("Player 3", 2);
 	   defenderLoss("Player 3", 3);
+	   updateReinforcementMessage(10);
 }
 function createConquestTransferTroopsList() {
 	const $parent = $("#n");
 	const $outer = $("<div class='btn-group' id = 'transfergroup'></div>");
-	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferbutton'><span id = transferDropDownText>Select the amount of troops to move to conquered territory </span></button>"));
+	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferbutton'><span id = transferDropDownText>Select troops to move to conquered territory</span></button>"));
 	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='transferDropDown' data-toggle='dropdown'><span class='caret'></span></button>");
 	$outer.append($("<ul class='dropdown-menu' id = 'transferOptions' role='menu'></ul>"));
+		$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
+
 	$parent.append($outer);
+	populateTransferList(10);
 
 }
 function replaceTransferListField() {
-	$(".tranferOption").click(function(){
+	$(".transferOption").click(function(){
 	    let id = "#" + "transferDropDownText";
         $(id).html(this.text);
     });
 }
 function populateTransferList(number) {
+	$("#transferDropDownText").html("Select troops to move to conquered territory");
 	for (let i = 1; i <= number; i++) {
+		console.log("loop");
 		let a = $("<a class = 'transferOption'></a>");
-		a.html(i);
+		a.html(i.toString());
 		let li = $('<li class= "transferDrop"></li>');
 		li.append(a);
-		$dropDown.append(li); 
+		$("#transferOptions").append(li); 
 	}
+	console.log($("transferOptions"));
 
 }
 function updateReinforcementMessage(number){
@@ -244,6 +269,7 @@ function createDropdown() {
 	$outer.append($("<button type='button' class='btn btn-primary' id = 'dropdownbutton'><span id = dropdown>Select the amount of dice to roll</span></button>"));
 	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='soldierOptions' data-toggle='dropdown'><span class='caret'></span></button>");
 	$outer.append($("<ul class='dropdown-menu' id = 'dieOptions' role='menu'></ul>"));
+	$outer.append($("<button type='button' class='btn btn-primary' id = 'diceconfirm'>Confirm Selection</button>"));
 	$parent.append($outer);
 }
 
