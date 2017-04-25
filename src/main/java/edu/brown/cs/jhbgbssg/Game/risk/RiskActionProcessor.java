@@ -21,7 +21,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 public class RiskActionProcessor {
 
   private Referee referee;
-  private AttackAction attack;
   private int cardToHandOut = -1;
 
   /**
@@ -127,15 +126,13 @@ public class RiskActionProcessor {
     GameUpdate update = new GameUpdate();
     boolean isValidMove = referee.validateAttackMove(action);
     if (isValidMove) {
-      attack = null;
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    action = attack;
-    attack.executeAction();
-    ValidAction validMove = referee.getValidMoveAfterAttack(attack);
-    update.setValidMoves(validMove, attack, false);
+    action.executeAction();
+    ValidAction validMove = referee.getValidMoveAfterAttack(action);
+    update.setValidMoves(validMove, action, false);
     return update;
   }
 
@@ -156,18 +153,14 @@ public class RiskActionProcessor {
       if (referee.playerLost(move.getMovePlayer())) {
         update.setLostGame(move.getMovePlayer().getPlayerId());
       }
-      ValidAction nextValidMove = referee
-          .getValidMoveAfterDefend(attack.getMovePlayer(), move, attack);
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(move);
       update.setValidMoves(nextValidMove, move, false);
-      attack = null;
       return update;
     } else {
-      ValidAction nextValidMove = referee
-          .getValidMoveAfterDefend(attack.getMovePlayer(), move, attack);
+      ValidAction nextValidMove = referee.getValidMoveAfterDefend(move);
       if (nextValidMove == null) {
         return this.switchPlayers(move, move.getAttackerId());
       }
-      attack = null;
       update.setValidMoves(nextValidMove, move, false);
       return update;
     }

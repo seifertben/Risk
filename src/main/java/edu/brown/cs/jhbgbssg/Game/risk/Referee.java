@@ -41,6 +41,7 @@ public class Referee {
   private CardPool cardPool;
   private ValidAction validMove = null;
   private RiskPlayer currPlayer;
+  private AttackAction lastAttack;
 
   /**
    * Initializes the referee.
@@ -70,6 +71,10 @@ public class Referee {
 
   protected RiskPlayer getWinner() {
     return winner;
+  }
+
+  public AttackAction getCurrentAttack() {
+    return lastAttack;
   }
 
   protected boolean isWinner(RiskPlayer player) {
@@ -190,22 +195,26 @@ public class Referee {
     return validMove;
   }
 
-  protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
-      DefendAction defend, AttackAction attack) {
+  protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
+    RiskPlayer player = lastAttack.getRiskPlayer();
     if (defend.getDefenderLostTerritory()) {
-      validMove = this.getValidClaimTerritoryMove(player, attack);
+      validMove = this.getValidClaimTerritoryMove(player, lastAttack);
+      lastAttack = null;
       return validMove;
     }
     ValidAttackAction validAttack = this.getValidAttackMove(player);
     if (validAttack.actionAvailable()) {
+      lastAttack = null;
       validMove = validAttack;
       return validMove;
     }
     ValidMoveTroopsAction moveTroops = this.getValidMoveTroopsMove(player);
     if (moveTroops.actionAvailable()) {
+      lastAttack = null;
       validMove = moveTroops;
       return validMove;
     }
+    lastAttack = null;
     validMove = null;
     return null;
   }
@@ -278,8 +287,12 @@ public class Referee {
         || validMove.getMoveType() != MoveType.CHOOSE_ATTACK_DIE) {
       return false;
     }
-    ValidAttackAction attack = (ValidAttackAction) validMove;
-    return attack.validAttackMove(move);
+    ValidAttackAction validAttack = (ValidAttackAction) validMove;
+    if (validAttack.validAttackMove(move)) {
+      lastAttack = move;
+      return true;
+    }
+    return false;
   }
 
   /**
