@@ -124,15 +124,8 @@ public class Match {
    * @param playerId Player to remove.
    */
   public void removePlayer(UUID playerId) {
-    // If the match has started, update back end
-    // if (started) {
-    // myGame.removePlayer(playerId);
-    // players = myGame.getPlayerOrder();
-    //
-    // // Otherwise, edit our list
-    // } else {
+
     players.remove(playerId);
-    // }
 
     // Remove this player's name
     names.put(playerId, null);
