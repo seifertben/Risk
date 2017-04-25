@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.UUID;
 
@@ -13,8 +13,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidClaimTerritoryMove implements ValidAction {
-  private UUID playerId;
+public class ValidClaimTerritoryAction implements ValidAction {
+  private RiskPlayer player;
   private TerritoryEnum fromTerritory;
   private TerritoryEnum territoryToClaim;
   private int maxNumberTroops;
@@ -27,16 +27,17 @@ public class ValidClaimTerritoryMove implements ValidAction {
    * @param attack - attack move
    * @throws IllegalArgumentException if the input is null
    */
-  public ValidClaimTerritoryMove(RiskPlayer player, RiskBoard board,
-      AttackMove attack) throws IllegalArgumentException {
+  public ValidClaimTerritoryAction(RiskPlayer player, RiskBoard board,
+      AttackAction attack) throws IllegalArgumentException {
     if (player == null || board == null || attack == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    assert (board.getTerritory(attack.getAttackTo()).getNumberTroops() == 0);
-    assert (player.hasTerritory(attack.getAttackFrom()));
-    this.playerId = player.getPlayerId();
-    this.fromTerritory = attack.getAttackFrom();
-    this.territoryToClaim = attack.getAttackTo();
+    assert (board.getTerritory(attack.getAttackingTerritory())
+        .getNumberTroops() == 0);
+    assert (player.hasTerritory(attack.getDefendingTerritory()));
+    this.player = player;
+    this.fromTerritory = attack.getAttackingTerritory();
+    this.territoryToClaim = attack.getDefendingTerritory();
     Territory attacking = board.getTerritory(fromTerritory);
     maxNumberTroops = attacking.getNumberTroops() - 1;
     assert (maxNumberTroops >= 1);
@@ -49,7 +50,7 @@ public class ValidClaimTerritoryMove implements ValidAction {
 
   @Override
   public UUID getMovePlayer() {
-    return playerId;
+    return player.getPlayerId();
   }
 
   /**
@@ -87,18 +88,18 @@ public class ValidClaimTerritoryMove implements ValidAction {
    * @return true if the move is valid; false otherwise
    * @throws IllegalArgumentException if the input is null
    */
-  public boolean validClaimTerritory(ClaimTerritoryMove move)
+  public boolean validClaimTerritory(ClaimTerritoryAction move)
       throws IllegalArgumentException {
     if (move == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    UUID currPlayer = move.getMovePlayer();
+    RiskPlayer currPlayer = move.getMovePlayer();
     int troops = move.getNumberTroops();
-    if (!currPlayer.equals(playerId)) {
+    if (!currPlayer.equals(player)) {
       return false;
-    } else if (move.getTerritoryClaimed() != territoryToClaim) {
+    } else if (move.getClaimingTerritory() != territoryToClaim) {
       return false;
-    } else if (move.getTerritoryFrom() != fromTerritory) {
+    } else if (move.getAttackingTerritory() != fromTerritory) {
       return false;
     } else if (troops < 1 || troops > maxNumberTroops) {
       return false;

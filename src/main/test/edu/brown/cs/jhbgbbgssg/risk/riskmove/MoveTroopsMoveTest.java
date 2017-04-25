@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -24,7 +24,7 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testConstructor() {
-    MoveTroopsMove move = new MoveTroopsMove(UUID.randomUUID(),
+    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
         TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertNotNull(move);
   }
@@ -35,7 +35,7 @@ public class MoveTroopsMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullId() {
-    new MoveTroopsMove(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    new MoveTroopsAction(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
   }
 
   /**
@@ -44,7 +44,7 @@ public class MoveTroopsMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullTerrFrom() {
-    new MoveTroopsMove(UUID.randomUUID(), null, TerritoryEnum.ALBERTA, 4);
+    new MoveTroopsAction(UUID.randomUUID(), null, TerritoryEnum.ALBERTA, 4);
   }
 
   /**
@@ -53,7 +53,7 @@ public class MoveTroopsMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullTerrTo() {
-    new MoveTroopsMove(UUID.randomUUID(), TerritoryEnum.ALASKA, null, 4);
+    new MoveTroopsAction(UUID.randomUUID(), TerritoryEnum.ALASKA, null, 4);
   }
 
   /**
@@ -61,7 +61,7 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    MoveTroopsMove move = new MoveTroopsMove(UUID.randomUUID(),
+    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
         TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertTrue(move.getMoveType() == MoveType.MOVE_TROOPS);
   }
@@ -71,7 +71,7 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetFromTerritory() {
-    MoveTroopsMove move = new MoveTroopsMove(UUID.randomUUID(),
+    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
         TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertTrue(move.getFromTerritory() == TerritoryEnum.ALASKA);
   }
@@ -81,7 +81,7 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetToTerritory() {
-    MoveTroopsMove move = new MoveTroopsMove(UUID.randomUUID(),
+    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
         TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertTrue(move.getToTerrtiory() == TerritoryEnum.ALBERTA);
   }
@@ -91,7 +91,7 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetTroopsMoved() {
-    MoveTroopsMove move = new MoveTroopsMove(UUID.randomUUID(),
+    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
         TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertTrue(move.troopsMoved() == 4);
 

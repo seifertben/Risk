@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,7 +15,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidCardMove implements ValidAction {
+public class ValidCardAction implements ValidAction {
   private UUID playerId;
   private Multiset<Integer> cards;
   private Set<TerritoryEnum> terrs;
@@ -27,7 +27,7 @@ public class ValidCardMove implements ValidAction {
    *
    * @param player - player
    */
-  public ValidCardMove(RiskPlayer player) {
+  public ValidCardAction(RiskPlayer player) {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
@@ -84,11 +84,11 @@ public class ValidCardMove implements ValidAction {
    * @param move - move to check validity of
    * @return true if the move is valid; false otherwise
    */
-  public boolean validateCardMove(CardTurnInMove move) {
+  public boolean validateCardMove(CardTurnInAction move) {
     if (move == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    UUID currPlayer = move.getMovePlayer();
+    RiskPlayer currPlayer = move.getMovePlayer();
     int card = move.getCard();
     Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
     if (!currPlayer.equals(playerId)) {

@@ -9,8 +9,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -30,7 +30,7 @@ public class ReinforceMoveTest {
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceMove reinforce = new ReinforceMove(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
     assertNotNull(reinforce);
   }
 
@@ -44,7 +44,7 @@ public class ReinforceMoveTest {
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    new ReinforceMove(null, map);
+    new ReinforceAction(null, map);
   }
 
   /**
@@ -53,7 +53,7 @@ public class ReinforceMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullMap() {
-    new ReinforceMove(UUID.randomUUID(), null);
+    new ReinforceAction(UUID.randomUUID(), null);
   }
 
   /**
@@ -65,7 +65,7 @@ public class ReinforceMoveTest {
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceMove reinforce = new ReinforceMove(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
     assertTrue(reinforce.getMoveType() == MoveType.REINFORCE);
   }
 
@@ -78,7 +78,7 @@ public class ReinforceMoveTest {
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceMove reinforce = new ReinforceMove(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
     Map<TerritoryEnum, Integer> reinforceMap = reinforce
         .getReinforcedTerritories();
     assertTrue(reinforceMap.size() == 3);

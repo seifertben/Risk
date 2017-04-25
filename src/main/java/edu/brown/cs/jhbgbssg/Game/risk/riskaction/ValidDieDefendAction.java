@@ -1,6 +1,5 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
-import java.util.List;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
@@ -13,8 +12,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ValidDieDefendMove implements ValidAction {
-  private UUID playerId;
+public class ValidDieDefendAction implements ValidAction {
+  private RiskPlayer player;
   private int maxNumberDie;
   private TerritoryEnum toDefend;
 
@@ -26,12 +25,12 @@ public class ValidDieDefendMove implements ValidAction {
    * @param toDefend - territory
    * @throws IllegalArgumentException if input is null
    */
-  public ValidDieDefendMove(RiskPlayer player, RiskBoard board,
+  public ValidDieDefendAction(RiskPlayer player, RiskBoard board,
       TerritoryEnum toDefend) {
     if (player == null || board == null || toDefend == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    playerId = player.getPlayerId();
+    this.player = player;
     this.toDefend = toDefend;
     Territory terr = board.getTerritory(toDefend);
     int troops = terr.getNumberTroops();
@@ -50,7 +49,7 @@ public class ValidDieDefendMove implements ValidAction {
 
   @Override
   public UUID getMovePlayer() {
-    return playerId;
+    return player.getPlayerId();
   }
 
   /**
@@ -62,6 +61,11 @@ public class ValidDieDefendMove implements ValidAction {
     return maxNumberDie;
   }
 
+  /**
+   * Returns the defending territory.
+   *
+   * @return territory to defend
+   */
   public TerritoryEnum getDefendTerritory() {
     return toDefend;
   }
@@ -74,25 +78,19 @@ public class ValidDieDefendMove implements ValidAction {
    * @return true if valid; false otherwise
    * @throws IllegalArgumentException if null input
    */
-  public boolean validateDefendMove(DefendMove move)
+  public boolean validateDefendMove(DefendAction move)
       throws IllegalArgumentException {
     if (move == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    UUID currPlayer = move.getMovePlayer();
+    RiskPlayer currPlayer = move.getMovePlayer();
     int die = move.getDieRolled();
-    if (!currPlayer.equals(playerId)) {
+    if (!currPlayer.equals(player)) {
       return false;
     } else if (!toDefend.equals(move.getDefendedTerritory())) {
       return false;
     } else if (die < 1 || die > maxNumberDie) {
       return false;
-    }
-    List<Integer> rolled = move.getRoll();
-    for (int i = 0; i < die; i++) {
-      if (rolled.get(i) < 1 || rolled.get(i) > 6) {
-        return false;
-      }
     }
     return true;
   }

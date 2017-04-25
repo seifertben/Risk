@@ -16,23 +16,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidCardMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidSetupMove;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidDieDefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -99,7 +99,7 @@ public class MessageAPI {
    * @param message - json message
    * @return move oject
    */
-  public Move jsonToMove(String message) {
+  public Action jsonToMove(String message) {
     JsonObject recieved = GSON.fromJson(message, JsonObject.class);
     int ordinal = recieved.get("type").getAsInt();
     MESSAGE_TYPE type = MESSAGE_TYPE.values()[ordinal];
@@ -130,11 +130,12 @@ public class MessageAPI {
    * @param object - json message
    * @return setup move
    */
-  private Move jsonToSelect(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
-    int index = object.get("territoryId").getAsInt();
+
+  private Action jsonToSelect(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
+    int index = object.get("territory_id").getAsInt();
     TerritoryEnum terr = IDS[index];
-    SetupMove setup = new SetupMove(playerId, terr);
+    SetupAction setup = new SetupAction(playerId, terr);
     return setup;
   }
 
@@ -145,12 +146,13 @@ public class MessageAPI {
    * @param object - json message
    * @return reinforce move
    */
-  private Move jsonToReinforce(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+
+  private Action jsonToReinforce(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
         new TypeToken<Map<TerritoryEnum, Integer>>() {
         }.getType());
-    ReinforceMove move = new ReinforceMove(playerId, map);
+    ReinforceAction move = new ReinforceAction(playerId, map);
     return move;
   }
 
@@ -161,13 +163,14 @@ public class MessageAPI {
    * @param object - json message
    * @return card move
    */
-  private Move jsonToCard(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+
+  private Action jsonToCard(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_dd").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
         new TypeToken<Map<TerritoryEnum, Integer>>() {
         }.getType());
     int card = object.get("card").getAsInt();
-    return new CardTurnInMove(playerId, card, map);
+    return new CardTurnInAction(playerId, card, map);
   }
 
   /**
@@ -177,14 +180,15 @@ public class MessageAPI {
    * @param object - json message
    * @return attack move
    */
-  private Move jsonToAttack(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+
+  private Action jsonToAttack(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     int index = object.get("attack_from").getAsInt();
     TerritoryEnum attackFrom = IDS[index];
     index = object.get("attacking").getAsInt();
     TerritoryEnum attacking = IDS[index];
     int numberDie = object.get("number_die").getAsInt();
-    return new AttackMove(playerId, attackFrom, attacking, numberDie);
+    return new AttackAction(playerId, attackFrom, attacking, numberDie);
   }
 
   /**
@@ -194,15 +198,15 @@ public class MessageAPI {
    * @param object
    * @return
    */
-  private Move jsonToDefend(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+  private Action jsonToDefend(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     UUID attackerId = UUID.fromString(object.get("attacker_id").getAsString());
     int index = object.get("attacking").getAsInt();
     TerritoryEnum attacking = IDS[index];
     index = object.get("defending").getAsInt();
     TerritoryEnum defending = IDS[index];
     int numberDie = object.get("number_die").getAsInt();
-    return new DefendMove(new Pair<>(playerId, defending),
+    return new DefendAction(new Pair<>(playerId, defending),
         new Pair<>(attackerId, attacking), numberDie);
   }
 
@@ -213,14 +217,14 @@ public class MessageAPI {
    * @param object - json message
    * @return claim territory move
    */
-  private Move jsonToClaim(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+  private Action jsonToClaim(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     int index = object.get("claiming_from").getAsInt();
     TerritoryEnum claimingFrom = IDS[index];
     index = object.get("claiming").getAsInt();
     TerritoryEnum claiming = IDS[index];
     int troopsMoved = object.get("troops_moved").getAsInt();
-    return new ClaimTerritoryMove(playerId, claimingFrom, claiming,
+    return new ClaimTerritoryAction(playerId, claimingFrom, claiming,
         troopsMoved);
   }
 
@@ -231,33 +235,33 @@ public class MessageAPI {
    * @param object - json message
    * @return move troops move
    */
-  private Move jsonToMoveTroops(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("playerId").getAsString());
+  private Action jsonToMoveTroops(JsonObject object) {
+    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     int index = object.get("move_from").getAsInt();
     TerritoryEnum moveFrom = IDS[index];
     index = object.get("move_to").getAsInt();
     TerritoryEnum moveTo = IDS[index];
     int troopsMoved = object.get("troops_moved").getAsInt();
-    return new MoveTroopsMove(playerId, moveFrom, moveTo, troopsMoved);
+    return new MoveTroopsAction(playerId, moveFrom, moveTo, troopsMoved);
   }
 
-  private JsonObject getPrevMove(Move prevMove) {
+  private JsonObject getPrevMove(Action prevMove) {
     MoveType type = prevMove.getMoveType();
     switch (type) {
       case SETUP:
-        return this.prevSetupMove((SetupMove) prevMove);
+        return this.prevSetupMove((SetupAction) prevMove);
       case REINFORCE:
-        return this.prevReinforceMove((ReinforceMove) prevMove);
+        return this.prevReinforceMove((ReinforceAction) prevMove);
       case TURN_IN_CARD:
-        return this.prevCardMove((CardTurnInMove) prevMove);
+        return this.prevCardMove((CardTurnInAction) prevMove);
       case CHOOSE_ATTACK_DIE:
-        return this.prevAttackMove((AttackMove) prevMove);
+        return this.prevAttackMove((AttackAction) prevMove);
       case CHOOSE_DEFEND_DIE:
-        return this.prevDefendMove((DefendMove) prevMove);
+        return this.prevDefendMove((DefendAction) prevMove);
       case CLAIM_TERRITORY:
-        return this.prevClaimMove((ClaimTerritoryMove) prevMove);
+        return this.prevClaimMove((ClaimTerritoryAction) prevMove);
       default:
-        return this.prevMoveTroops((MoveTroopsMove) prevMove);
+        return this.prevMoveTroops((MoveTroopsAction) prevMove);
     }
   }
 
@@ -267,7 +271,7 @@ public class MessageAPI {
    * @param move - set up move to convert to json
    * @return json object
    */
-  private JsonObject prevSetupMove(SetupMove move) {
+  private JsonObject prevSetupMove(SetupAction move) {
     TerritoryEnum selected = move.getSelectedTerritory();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("move", "select");
@@ -282,7 +286,7 @@ public class MessageAPI {
    * @param move - reinforce move
    * @return json object
    */
-  private JsonObject prevReinforceMove(ReinforceMove move) {
+  private JsonObject prevReinforceMove(ReinforceAction move) {
     Map<TerritoryEnum, Integer> reinforced = move.getReinforcedTerritories();
     Map<Integer, Integer> ordinalReinforced = this.getOrdinalMap(reinforced);
     JsonObject jsonObject = new JsonObject();
@@ -292,7 +296,7 @@ public class MessageAPI {
     return jsonObject;
   }
 
-  private JsonObject prevCardMove(CardTurnInMove move) {
+  private JsonObject prevCardMove(CardTurnInAction move) {
     Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
     Map<Integer, Integer> ordinalReinforced = this.getOrdinalMap(reinforced);
     int card = move.getCard();
@@ -304,7 +308,7 @@ public class MessageAPI {
     return jsonObject;
   }
 
-  private JsonObject prevAttackMove(AttackMove move) {
+  private JsonObject prevAttackMove(AttackAction move) {
     TerritoryEnum attackFrom = move.getAttackFrom();
     TerritoryEnum attacking = move.getAttackTo();
     List<Integer> roll = move.getDieResults();
@@ -317,9 +321,9 @@ public class MessageAPI {
     return jsonObject;
   }
 
-  private JsonObject prevDefendMove(DefendMove move) {
-    UUID attacker = move.getAttackerId();
-    UUID defender = move.getMovePlayer();
+  private JsonObject prevDefendMove(DefendAction move) {
+    UUID attacker = move.getAttackerId().getPlayerId();
+    UUID defender = move.getMovePlayer().getPlayerId();
     TerritoryEnum attacking = move.getAttackingTerritory();
     TerritoryEnum defending = move.getDefendedTerritory();
     List<Integer> roll = move.getRoll();
@@ -339,7 +343,7 @@ public class MessageAPI {
     return jsonObject;
   }
 
-  private JsonObject prevClaimMove(ClaimTerritoryMove move) {
+  private JsonObject prevClaimMove(ClaimTerritoryAction move) {
     UUID player = move.getMovePlayer();
     TerritoryEnum claimFrom = move.getTerritoryFrom();
     TerritoryEnum claimed = move.getTerritoryClaimed();
@@ -353,7 +357,7 @@ public class MessageAPI {
     return jsonObject;
   }
 
-  private JsonObject prevMoveTroops(MoveTroopsMove move) {
+  private JsonObject prevMoveTroops(MoveTroopsAction move) {
     UUID player = move.getMovePlayer();
     TerritoryEnum moveFrom = move.getFromTerritory();
     TerritoryEnum moveTo = move.getToTerrtiory();
@@ -372,19 +376,19 @@ public class MessageAPI {
     MoveType type = action.getMoveType();
     switch (type) {
       case SETUP:
-        return this.setUpMove((ValidSetupMove) action);
+        return this.setUpMove((ValidSetupAction) action);
       case REINFORCE:
-        return this.setUpReinforceMove((ValidReinforceMove) action);
+        return this.setUpReinforceMove((ValidReinforceAction) action);
       case TURN_IN_CARD:
-        return this.setUpTurnInCards((ValidCardMove) action);
+        return this.setUpTurnInCards((ValidCardAction) action);
       case CHOOSE_ATTACK_DIE:
-        return this.setUpAttackMove((ValidAttackMove) action);
+        return this.setUpAttackMove((ValidAttackAction) action);
       case CHOOSE_DEFEND_DIE:
-        return this.setUpDefendMove((ValidDieDefendMove) action);
+        return this.setUpDefendMove((ValidDieDefendAction) action);
       case CLAIM_TERRITORY:
-        return this.setUpClaimTerritoryMove((ValidClaimTerritoryMove) action);
+        return this.setUpClaimTerritoryMove((ValidClaimTerritoryAction) action);
       default:
-        return this.setUpMoveTroops((ValidMoveTroopsMove) action);
+        return this.setUpMoveTroops((ValidMoveTroopsAction) action);
     }
   }
 
@@ -394,7 +398,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpMove(ValidSetupMove move) {
+  private JsonObject setUpMove(ValidSetupAction move) {
     List<TerritoryEnum> territories = move.getTerritories();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", MESSAGE_TYPE.SELECT.ordinal());
@@ -409,7 +413,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpReinforceMove(ValidReinforceMove move) {
+  private JsonObject setUpReinforceMove(ValidReinforceAction move) {
     Set<TerritoryEnum> terrs = move.getTerritories();
     Set<Integer> ordTerr = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
@@ -426,7 +430,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpTurnInCards(ValidCardMove move) {
+  private JsonObject setUpTurnInCards(ValidCardAction move) {
     Multiset<Integer> cards = move.getCards();
     Set<TerritoryEnum> terrs = move.getTerritories();
     Set<Integer> ordTerr = this.getOrdinalSet(terrs);
@@ -444,7 +448,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpAttackMove(ValidAttackMove move) {
+  private JsonObject setUpAttackMove(ValidAttackAction move) {
     move.whoToAttack();
     Map<TerritoryEnum, Integer> numberDie = move.getAttackableTerritories();
     Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = move.whoToAttack();
@@ -465,7 +469,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpDefendMove(ValidDieDefendMove move) {
+  private JsonObject setUpDefendMove(ValidDieDefendAction move) {
     TerritoryEnum toDefend = move.getDefendTerritory();
     int maxDie = move.getMaxNumberDie();
     JsonObject jsonObject = new JsonObject();
@@ -482,7 +486,7 @@ public class MessageAPI {
    * @param move
    * @return
    */
-  private JsonObject setUpClaimTerritoryMove(ValidClaimTerritoryMove move) {
+  private JsonObject setUpClaimTerritoryMove(ValidClaimTerritoryAction move) {
     TerritoryEnum attacker = move.getFromTerritory();
     TerritoryEnum claimed = move.getClaimedTerritory();
     int maxTroops = move.getMaxNumberTroops();
@@ -502,7 +506,7 @@ public class MessageAPI {
    * @param move - valid move troops move
    * @return json object
    */
-  private JsonObject setUpMoveTroops(ValidMoveTroopsMove move) {
+  private JsonObject setUpMoveTroops(ValidMoveTroopsAction move) {
     Multimap<TerritoryEnum, TerritoryEnum> reachable = move
         .getReachableTerritores();
     Map<TerritoryEnum, Integer> maxMove = move.maxTroopsToMove();

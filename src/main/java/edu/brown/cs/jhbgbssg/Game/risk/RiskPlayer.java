@@ -2,6 +2,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,10 +27,8 @@ public class RiskPlayer implements Player {
   /**
    * Constructor for a RiskPlayer. Takes in the player's unique player id
    *
-   * @param playerId
-   *          - player Id.
-   * @throws IllegalArgumentException
-   *           - thrown if the id is null
+   * @param playerId - player Id.
+   * @throws IllegalArgumentException - thrown if the id is null
    */
   public RiskPlayer(UUID playerId) throws IllegalArgumentException {
     if (playerId == null) {
@@ -60,8 +59,7 @@ public class RiskPlayer implements Player {
   /**
    * Determines if the player owns the given card.
    *
-   * @param cardValue
-   *          - card value
+   * @param cardValue - card value
    * @return boolean indcating if the player owns the card
    */
   public boolean hasCard(int cardValue) {
@@ -71,8 +69,7 @@ public class RiskPlayer implements Player {
   /**
    * Removes a card from the player's card set.
    *
-   * @param cardValue
-   *          - card value to remove
+   * @param cardValue - card value to remove
    * @return boolean indicating if the card was removed.
    */
   public boolean removeCard(int cardValue) {
@@ -82,8 +79,7 @@ public class RiskPlayer implements Player {
   /**
    * Adds card to player set.
    *
-   * @param cardValue
-   *          - value of the card
+   * @param cardValue - value of the card
    * @return indicating the card was added
    */
   public boolean addCard(int cardValue) {
@@ -93,8 +89,7 @@ public class RiskPlayer implements Player {
   /**
    * Determines if the player owns this territory.
    *
-   * @param territory
-   *          - territory id
+   * @param territory - territory id
    * @return boolean indicating if the player owns it
    */
   public boolean hasTerritory(TerritoryEnum territory) {
@@ -104,11 +99,9 @@ public class RiskPlayer implements Player {
   /**
    * Adds territory to the owned territory set.
    *
-   * @param conqueredTerritory
-   *          - territory to add
+   * @param conqueredTerritory - territory to add
    * @return boolean indicating if the territory was added and not a duplicate
-   * @throws IllegalArgumentException
-   *           - thrown if the territory is null
+   * @throws IllegalArgumentException - thrown if the territory is null
    */
   public boolean conqueredTerritory(TerritoryEnum conqueredTerritory)
       throws IllegalArgumentException {
@@ -121,11 +114,9 @@ public class RiskPlayer implements Player {
   /**
    * Removes a territory from the players owned territory set.
    *
-   * @param lostTerritory
-   *          - territory lost
+   * @param lostTerritory - territory lost
    * @return boolean indicating if the territory was removed
-   * @throws IllegalArgumentException
-   *           - thrown if the territory is null
+   * @throws IllegalArgumentException - thrown if the territory is null
    */
   public boolean lostTerritory(TerritoryEnum lostTerritory)
       throws IllegalArgumentException {
@@ -164,16 +155,16 @@ public class RiskPlayer implements Player {
 
   public void setIntialReinforcement(int numPlayers) {
     switch (numPlayers) {
-    case 2:
-      remainingSetupReinforcements = 40;
-    case 3:
-      remainingSetupReinforcements = 35;
-    case 4:
-      remainingSetupReinforcements = 30;
-    case 5:
-      remainingSetupReinforcements = 25;
-    case 6:
-      remainingSetupReinforcements = 20;
+      case 2:
+        remainingSetupReinforcements = 40;
+      case 3:
+        remainingSetupReinforcements = 35;
+      case 4:
+        remainingSetupReinforcements = 30;
+      case 5:
+        remainingSetupReinforcements = 25;
+      case 6:
+        remainingSetupReinforcements = 20;
     }
   }
 
@@ -185,4 +176,20 @@ public class RiskPlayer implements Player {
     return remainingSetupReinforcements;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof RiskPlayer)) {
+      return false;
+    }
+    RiskPlayer otherPlayer = (RiskPlayer) o;
+    if (otherPlayer.playerId.equals(playerId)) {
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(playerId);
+  }
 }

@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -24,7 +24,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testConstructor() {
-    ClaimTerritoryMove claim = new ClaimTerritoryMove(UUID.randomUUID(),
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
         TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
     assertNotNull(claim);
   }
@@ -34,7 +34,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullId() {
-    new ClaimTerritoryMove(null, TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA,
+    new ClaimTerritoryAction(null, TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA,
         4);
   }
 
@@ -44,7 +44,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullClaimFromTerr() {
-    new ClaimTerritoryMove(UUID.randomUUID(), null, TerritoryEnum.INDIA, 4);
+    new ClaimTerritoryAction(UUID.randomUUID(), null, TerritoryEnum.INDIA, 4);
   }
 
   /**
@@ -53,7 +53,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullClaimTerr() {
-    new ClaimTerritoryMove(UUID.randomUUID(), TerritoryEnum.AFGHANISTAN, null,
+    new ClaimTerritoryAction(UUID.randomUUID(), TerritoryEnum.AFGHANISTAN, null,
         4);
   }
 
@@ -62,7 +62,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    ClaimTerritoryMove claim = new ClaimTerritoryMove(UUID.randomUUID(),
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
         TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
     assertTrue(claim.getMoveType() == MoveType.CLAIM_TERRITORY);
   }
@@ -72,7 +72,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetAttackTerritory() {
-    ClaimTerritoryMove claim = new ClaimTerritoryMove(UUID.randomUUID(),
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
         TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
     assertTrue(claim.getTerritoryFrom() == TerritoryEnum.AFGHANISTAN);
   }
@@ -82,7 +82,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetTerritoryClaimed() {
-    ClaimTerritoryMove claim = new ClaimTerritoryMove(UUID.randomUUID(),
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
         TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
     assertTrue(claim.getTerritoryClaimed() == TerritoryEnum.INDIA);
   }
@@ -92,7 +92,7 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetNumberTroops() {
-    ClaimTerritoryMove claim = new ClaimTerritoryMove(UUID.randomUUID(),
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
         TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
     assertTrue(claim.getNumberTroops() == 4);
 
