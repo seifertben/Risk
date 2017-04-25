@@ -62,7 +62,7 @@ public class SetupReinforceAction implements Action {
   public boolean executeAction() {
     if (!actionExecuted) {
       player.decrementInitialReinforcements(1);
-      board.addTroops(territorySelected, 1);
+      //board.addTroops(territorySelected, 1);
       actionExecuted = true;
       return actionExecuted;
     }
