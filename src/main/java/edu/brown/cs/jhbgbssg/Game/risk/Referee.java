@@ -169,7 +169,8 @@ public class Referee {
   }
 
   protected Move getValidMoveAfterSetup(RiskPlayer player, SetupMove move) {
-    return null;
+    // validMove = this.getValidSetupMove();
+    return validMove;
   }
 
   public ValidAction getValidMoveAfterReinforceSetup(RiskPlayer riskPlayer,
