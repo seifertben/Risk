@@ -32,6 +32,7 @@ public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
   private Map<ContinentEnum, ContinentInterface> continentMap;
+  private Map<UUID, RiskPlayer> playerMap;
 
   /**
    * Constructor for RiskBoard.
@@ -261,31 +262,5 @@ public class RiskBoard {
 
   public Set<TerritoryEnum> getTerritoryIds() {
     return Collections.unmodifiableSet(territoryMap.keySet());
-  }
-
-  public boolean removeTroops(TerritoryEnum id, int remove) {
-    // Territory terr = territoryMap.get(id);
-    // player id = terr.getOwner();
-    // boolean lost = terr.removeTroops(remove);
-    // if (lost = true) {
-    // player.lostTerritory(id);
-    // return true;
-    // }
-    // return false;
-    return false;
-  }
-
-  public boolean addTroops(TerritoryEnum id, int add) {
-    // Territory terr = territoryMap.get(id);
-    // return terr.addTroops();
-
-    return false;
-  }
-
-  public boolean changePlayer(UUID playerId, TerritoryEnum id, int add) {
-    // Territory terr = territoryMap.get(id);
-    // terr.changeOwner(id, add);
-    // return player.conqueredTerritory(id);
-    return false;
   }
 }

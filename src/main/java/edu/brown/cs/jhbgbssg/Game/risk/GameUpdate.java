@@ -2,8 +2,8 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -15,7 +15,7 @@ public class GameUpdate {
   private UUID currPlayer;
   private UUID lostGame;
   private UUID wonGame;
-  private Move prevMove;
+  private Action prevMove;
   private ValidAction availableMoves;
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
@@ -61,11 +61,11 @@ public class GameUpdate {
    *
    * @return previous move
    */
-  public Move getPrevMove() {
+  public Action getPrevMove() {
     return this.prevMove;
   }
 
-  protected void setValidMoves(ValidAction validMoves, Move previousMove,
+  protected void setValidMoves(ValidAction validMoves, Action previousMove,
       boolean error) {
     this.currPlayer = validMoves.getMovePlayer();
     this.availableMoves = validMoves;

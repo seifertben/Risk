@@ -44,58 +44,63 @@ const AFGHANISTAN = [37.768380, 66.896086];
 var planeSVG = "m2,106h28l24,30h72l-44,-133h35l80,132h98c21,0 21,34 0,34l-98,0 -80,134h-35l43,-133h-71l-24,30h-28l15,-47";
 
 var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
+let idToData = {};
 let EUSDATA = {
       "latitude": EUS[0], 
       "longitude": EUS[1],
       "selectable": true,
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. US",
       "labelShiftY": 2,
       "title": "Eastern United States: Occupied by No One",
-        "id": "Eastern United States"
+      "id": 3,
     };
+idToData[3] = EUSDATA;
 let WUSDATA = {
       "latitude": WUS[0],
       "longitude":  WUS[1],
       "svgPath": targetSVG,
       "selectable": true,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. US",
       "labelShiftY": 2,
       "title": "Western United States: Occupied by No One",
-        "id": "Western United States"
+      "id": 4,
     };
+idToData[4] = WUSDATA;
 let QUEBECDATA =  {
       "latitude": QUEBEC[0],
       "longitude":   QUEBEC[1],
       "svgPath": targetSVG,
       "selectable": true,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Quebec ",
       "labelShiftY": 2,
       "title": "Quebec: Occupied by No One",
-        "id": "Quebec"
+      "id": 8,
     };
+idToData[8] = QUEBECDATA;
 let ONTARIODATA = {
       "latitude": ONTARIO[0], 
       "longitude":   ONTARIO[1],
       "svgPath": targetSVG,
       "selectable": true,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
       "labelShiftY": 2,
       "title": "Ontario: Occupied by No One",
-      "id": "Ontario"
+      "id": 1,
     };
+idToData[1] = ONTARIODATA;
 let ALBERTADATA =  {
       "latitude": ALBERTA[0], 
       "longitude":  ALBERTA[1] ,
@@ -107,496 +112,531 @@ let ALBERTADATA =  {
       "label": "Alberta",
       "labelShiftY": 2,
       "title": "Alberta: Occupied by No One",
-      "id": "Alberta"
+      "id": 7,
     };
+idToData[7] = ALBERTADATA;
 let NWTERRITORIESDATA =  {
       "latitude": NWTERRITORIES[0],
       "longitude": NWTERRITORIES[1],
       "selectable": true,
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "NW Territories",
       "labelShiftY": 2,
       "title": "Northwest Territories: Occupied by No One",
-      "id": "Northwest Territories"
+      "id": 6,
     };
+idToData[6] = NWTERRITORIESDATA;
 let ALASKADATA =  {
       "latitude": ALASKA[0],
       "longitude":   ALASKA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alaska",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Alaska: Occupied by No One",
-      "id": "Alaska"
+      "id": 0,
     };
+idToData[0] = ALASKADATA;
 let GREENLANDDATA =   {
       "latitude": GREENLAND[0],
       "longitude":    GREENLAND[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Greenland",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Greenland: Occupied by No One",
-       "id": "Greenland"
+      "id": 5,
     };
+idToData[5] = GREENLANDDATA;
 let CADATA =  {
       "latitude": CA[0],
       "longitude":     CA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. America",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Central America: Occupied by No One",
-      "id": "Central America",
+      "id": 2,
     };
-
+idToData[2] = CADATA;
 let VZDATA = {
       "latitude": VZ[0], 
       "longitude":    VZ[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Venezuela",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Venezuela: Occupied by No One",
-      "id": "Venezuela"
+      "id": 9,
     };
+idToData[9] = VZDATA;
 let PERUDATA= {
       "latitude": PERU[0],
       "longitude":   PERU[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Peru",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Peru: Occupied by No One",
-      "id": "Peru"
+      "id": 10,
     };
-    let BRAZILDATA =  {
+idToData[10] = PERUDATA;
+let BRAZILDATA =  {
       "latitude": BRAZIL[0],
       "longitude":    BRAZIL[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Brazil",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Brazil: Occupied by No One",
-      "id": "Brazil"
+      "id": 11,
     };
-    let ARGENTINADATA =   {
+idToData[11] = BRAZILDATA;
+let ARGENTINADATA =   {
       "latitude": ARGENTINA[0],
       "longitude":  ARGENTINA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Argentina",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Argentina: Occupied by No One",
-      "id": "Argentina"
+      "id": 12,
     };
+idToData[12] = ARGENTINADATA;
 let ICELANDDATA = {
       "latitude": ICELAND[0], 
       "longitude": ICELAND[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Iceland",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Iceland: Occupied by No One",
-      "id": "Iceland"
+      "id": 19,
     };
+idToData[19] = ICELANDDATA;
 let GBDATA =  {
       "latitude":   GB[0],
       "longitude":  GB[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "GB",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Great Britain: Occupied by No One",
-        "id": "Great Britain"
+      "id": 20,
     };
+idToData[20] = GBDATA;
 let WEUDATA =  {
       "latitude":    WEU[0],
       "longitude":  WEU[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W EU",
       "selectable": true,
       "labelShiftY": 2,
       "title": "Western Europe: Occupied by No One",
-      "id": "Western Europe"
+      "id": 21,
     };
+idToData[21] = WEUDATA;
 let NEUDATA = {
       "latitude":    NEU[0],
       "longitude":   NEU[1],
       "selectable": true,
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N EU",
       "labelShiftY": 2,
       "title": "Northern Europe: Occupied by No One",
-       "id": "Northern Europe"
+      "id": 22,
     };
+idToData[22] = NEUDATA;
 let SEUDATA =    {
       "latitude":    SEU[0],
       "longitude":   SEU[1],
       "selectable": true,
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S EU",
       "labelShiftY": 2,
       "title": "Southern Europe: Occupied by No One",
-       "id": "Southern Europe"
+      "id": 24,
     };
-    let SCANDINAVIADATA =   {
+idToData[24] = SEUDATA;
+let SCANDINAVIADATA =   {
       "latitude":    SCANDINAVIA[0], 
       "longitude":   SCANDINAVIA[1],
       "svgPath": targetSVG,
       "selectable": true,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Scandinavia",
       "labelShiftY": 2,
       "title": "Scandinavia: Occupied by No One",
-       "id": "Scandinavia"
+      "id": 23,
     };
+idToData[23] = SCANDINAVIADATA;
 let RUSSIADATA =  {
       "latitude":    RUSSIA[0],
       "longitude":   RUSSIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Russia",
       "selectable": true,
       "labelShiftY": 2,
       "title": "Russia: Occupied by No One",
-       "id": "Russia"
+      "id": 25,
     };
+idToData[25] = RUSSIADATA;
 let NAFDATA =  {
       "latitude":    NAF[0],
       "longitude":   NAF[1],
       "svgPath": targetSVG,
       "selectable": true,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N. AF",
       "labelShiftY": 2,
       "title": "Northern Africa: Occupied by No One",
-       "id": "Northern Africa"
+      "id": 13,
     };
+idToData[13] = NAFDATA;
 let EGYPTDATA =   {
       "latitude":   EGYPT[0],
       "longitude":   EGYPT[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Egypt",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Egypt: Occupied by No One",
-       "id": "Egypt"
+      "id": 14,
     };
+idToData[14] = EGYPTDATA;
 let CAFDATA =  {
       "latitude":     CAF[0],
       "longitude":    CAF[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. AF",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Central Africa",
-      "id": "Central Africa",
+      "id": 16,
       "description": "Occupied by No One"
     };
-  let EAFDATA = {
+idToData[16] = CAFDATA;
+let EAFDATA = {
       "latitude":     EAF[0], 
       "longitude":    EAF[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. AF",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Eastern Africa: Occupied by No One",
-       "id": "Eastern Africa"
-  };
-  let SAFDATA =   {
+      "id": 15,
+};
+idToData[15] = EAFDATA;
+let SAFDATA =   {
       "latitude":    SAF[0],
       "longitude":    SAF[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S. AF",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Southern Africa: Occupied by No One",
-       "id": "Southern Africa"
+      "id": 17,
     };
+idToData[17] = SAFDATA;
 let MADAGASCARDATA =   {
       "latitude":   MADAGASCAR[0],
       "longitude":     MADAGASCAR[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Madagascar",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Madagascar: Occupied by No One",
-       "id": "Madagascar"
+      "id": 18,
     };
+idToData[18] = MADAGASCARDATA;
 let WAUDATA =  {
       "latitude":   WAU[0],
       "longitude":     WAU[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. AU",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Western Australia: Occupied by No One",
-       "id": "Western Australia"
+      "id": 41,
     };
+idToData[41] = WAUDATA;
 let EAUDATA = {
-   
       "latitude":   EAU[0], 
       "longitude":     EAU[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. AU",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Eastern Australia: Occupied by No One",
-       "id": "Eastern Australia"
-    
-};
+      "id": 38,
+    };
+idToData[38] = EAUDATA;
 let INDONESIADATA =  {
       "latitude":  INDONESIA[0], 
       "longitude":    INDONESIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Indonesia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Indonesia: Occupied by No One",
-       "id": "Indonesia"
+      "id": 39,
     };
+idToData[39] = INDONESIADATA;
 let NEWGUINEADATA =   {
       "latitude":  NEWGUINEA[0],
       "longitude":   NEWGUINEA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "New Guinea",
       "labelShiftY": 2,
       "selectable": true,
       "title": "New Guinea",
-        "id": "New Guinea",
+      "id": 40,
       "description": "Occupied by No One"
     };
+idToData[40] = NEWGUINEADATA;
 let MEDATA =  {
       "latitude":  ME[0], 
       "longitude":  ME[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Middle East",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Middle East: Occupied by No One",
-        "id": "Middle East"
+      "id": 32,
     };
+idToData[32] = MEDATA;
 let INDIADATA =  {
       "latitude":  INDIA[0],
       "longitude":  INDIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "India",
       "labelShiftY": 2,
       "selectable": true,
       "title": "India: Occupied by No One",
-       "id": "India"
+      "id": 28,
     };
+idToData[28] = INDIADATA;
 let SEASIADATA =   {
       "latitude": SEASIA[0], 
       "longitude":  SEASIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "SE Asia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "SouthEast Asia: Occupied by No One",
-        "id": "SouthEast Asia"
+      "id": 34,
     };
+idToData[34] = SEASIADATA;
 let CHINADATA =   {
       "latitude": CHINA[0],
       "longitude":  CHINA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "China",
       "labelShiftY": 2,
       "selectable": true,
       "title": "China",
-      "id": "China",
+      "id": 27,
       "description": "Occupied by No One"
     };
+idToData[27] = CHINADATA;
 let MONGOLIADATA =   {
       "latitude": MONGOLIA[0],
       "longitude":  MONGOLIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Mongolia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Mongolia: Occupied by No One",
-      "id": "Mongolia"
+      "id": 33,
     };
+idToData[33] = MONGOLIADATA;
 let JAPANDATA =    {
       "latitude": JAPAN[0],
       "longitude":  JAPAN[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Japan",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Japan: Occupied by No One",
-        "id": "Japan"
+      "id": 30,
     };
+idToData[30] = JAPANDATA;
 let KAMCHATKADATA =  {
       "latitude": KAMCHATKA[0],
       "longitude":   KAMCHATKA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Kamchatka: Occupied by No One",
-       "id": "Kamchatka"
+      "id": 31,
     };
+idToData[31] = KAMCHATKADATA;
 let YAKUTSKDATA = {
-     "latitude": YAKUTSK[0],
+      "latitude": YAKUTSK[0],
       "longitude":  YAKUTSK[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
-      "id": "Yakutsk",
+      "id": 37,
       "description": "Occupied by No One"
-};
+	};
+idToData[37] = YAKUTSKDATA;
 let IRKUSTKDATA =  {
       "latitude": IRKUSTK[0], 
       "longitude":  IRKUSTK[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Irkustk",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Irkustk: Occupied by No One",
-      "id": "Irkustk"
+      "id": 29,
     };
+idToData[29] = IRKUSTKDATA;
 let SIBERIADATA =   {
       "latitude": SIBERIA[0],
       "longitude": SIBERIA[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
+      "color": "#000000",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Siberia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Siberia: Occupied by No One",
-       "id": "Siberia"
+      "id": 35,
     };
+idToData[35] = SIBERIADATA;
 let URALDATA =   {
       "latitude": URAL[0],
       "longitude":  URAL[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ural",
       "labelShiftY": 2,
       "zoomLevel": 5,
       "title": "Ural: Occupied by No One",
-       "id": "Ural"
+      "id": 36,
     };
-let AFGHANISTANDATA =    {
+idToData[36] = URALDATA;
+let AFGHANISTANDATA = {
       "latitude": AFGHANISTAN[0],
       "longitude": AFGHANISTAN[1],
       "svgPath": targetSVG,
-     "color": "#000000",  
-"labelRollOverColor": "#000000",
+      "color": "#000000",  
+      "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Afghanistan",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Afghanistan: Occupied by No One",
-       "id": "Afghanistan"
-    }
+      "id": 26,
+    };
+idToData[26] = AFGHANISTANDATA;
 let EUS_WUS = {
       "latitudes": [ EUS[0], WUS[0]],
       "longitudes": [ EUS[1], WUS[1] ],
@@ -1048,7 +1088,7 @@ KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_IND
 
 let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESDATA,ALASKADATA,GREENLANDDATA,CADATA,VZDATA,PERUDATA,BRAZILDATA,ARGENTINADATA,ICELANDDATA,
     GBDATA,WEUDATA,NEUDATA, SEUDATA,SCANDINAVIADATA,RUSSIADATA,  NAFDATA, EGYPTDATA,CAFDATA,EAFDATA, SAFDATA,MADAGASCARDATA, WAUDATA,EAUDATA,INDONESIADATA, NEWGUINEADATA, 
-  MEDATA,  INDIADATA,SEASIADATA, CHINADATA, MONGOLIADATA, JAPANDATA, KAMCHATKADATA, YAKUTSKDATA, IRKUSTKDATA, SIBERIADATA, URALDATA,AFGHANISTANDATA ];
+  MEDATA, INDIADATA,SEASIADATA, CHINADATA, MONGOLIADATA, JAPANDATA, KAMCHATKADATA, YAKUTSKDATA, IRKUSTKDATA, SIBERIADATA, URALDATA,AFGHANISTANDATA ];
 let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
@@ -1101,33 +1141,24 @@ let map = AmCharts.makeChart( "mapdiv", {
 } );
 
 let selected = [];
-// FOR NOW, ALL PLAYERS HAVE MAP LISTENERS
-map.addListener("clickMapObject", select_territory);
 
 function select_territory(event) {
 
-  let mess = {"type": MESSAGE_TYPE.SELECT, "playerId": myId, "territory": event.mapObject.id};
+  let mess = {"type": MESSAGE_TYPE.CLAIM_TERRITORY, "playerId": myId, "territoryId": event.mapObject.id};
   if (!selected.includes(event.mapObject.id)) {
 	  conn.send(JSON.stringify(mess));
   }
 }
 
 function make_selection(player, territory) {
-  selected.push(territory);
-  console.log(colors[idToName[player]]);
-  let index;
-  let current;
-  for (index = 0; index < game.length; index ++) {
-	  current = game[index];
-	  if (current.id == territory) {
-		  changeTerritoryStatus(idToName[player], 1, current, colors[idToName[player]], colors[idToName[player]]);
-		  // FIX ME
-		  map.dataProvider.zoomLevel = map.zoomLevel();
-		  map.dataProvider.zoomLatitude = map.zoomLatitude();
-		  map.dataProvider.zoomLongitude = map.zoomLongitude();
-		  map.validateData();
-		  break;
-	  }
+  console.log(myId);
+  console.log(currentPlayer);
+  if (myId == currentPlayer) {
+    changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[idToName[player]], colors[idToName[player]]);
+    map.dataProvider.zoomLevel = map.zoomLevel();
+    map.dataProvider.zoomLatitude = map.zoomLatitude();
+    map.dataProvider.zoomLongitude = map.zoomLongitude();
+    map.validateData();
   }
 }
 
@@ -1138,7 +1169,7 @@ function make_selection(player, territory) {
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
-  console.log(originalLabel);
+
   territory.title = originalTitle[0] + "Occupied by " + player + " Soldiers: " + numSoldier;
    let string = "";
   //   for (let i = 0; i <originalLabel.length-1; i++) {
@@ -1160,18 +1191,15 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
     string += numSoldier.toString();
   }
   else {
-    console.log("there");
-    console.log(territory.label);
-   let modified = territory.label.split(":");
-   console.log("modified " + modified);
-  string = modified[0] + ": " + numSoldier.toString();
+    let modified = territory.label.split(":");
+    string = modified[0] + ": " + numSoldier.toString();
   } 
-  console.log(string);
+
   territory.label = string;
   territory.color = color;
   territory.labelRollOverColor = color;
-  console.log(territory.color);
 }
+
 function mapClick() {
 
 }

@@ -6,14 +6,21 @@ $(window).keydown(function(evt){
 });
 
 const MESSAGE_TYPE = {
-  CONNECT: 0,
-  REMOVE: 1,
-  START: 2,
-  JOIN: 3,
-  CREATE: 4,
-  CHANGE: 5,
-  DESTROY: 6,
-  SELECT: 7
+  SELECT: 0,
+  SETUP_REINFORCE: 1,
+  REINFORCE: 2,
+  TURN_IN_CARD: 3,
+  ATTACK: 4,
+  DEFEND: 5,
+  CLAIM_TERRITORY: 6,
+  MOVE_TROOPS: 7,
+  CONNECT: 8,
+  REMOVE: 9,
+  START: 10,
+  JOIN: 11,
+  CREATE: 12,
+  CHANGE: 13,
+  DESTROY: 14,
 };
 
 document.getElementById("gameField").style.display = "none";
@@ -27,6 +34,7 @@ let idToName = [];
 let nameToId = [];
 let colors = [];
 const $maker = $("#maker");
+let currentPlayer;
 
 const setup_matches = () => {
 
@@ -109,8 +117,16 @@ const setup_matches = () => {
       case MESSAGE_TYPE.DESTROY:
         $("#" + data.gameId).remove();
         break;
+
+      case MESSAGE_TYPE.CLAIM_TERRITORY:
+        currentPlayer = null;
+        make_selection(data.playerId, data.territoryId);
+        break;
       case MESSAGE_TYPE.SELECT:
-        make_selection(data.playerId, data.territory);
+    	  //PICK UP HERE
+    	currentPlayer = data.playerId;
+    	console.log(currentPlayer);
+        map.addListener("clickMapObject", select_territory);
         break;
     }
   };
@@ -128,7 +144,6 @@ function guid() {
 
 window.onkeyup = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
-
 	   if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
 	       myName = document.getElementById("nameInput").value;
 	       document.getElementById("nameField").style.display = "none";

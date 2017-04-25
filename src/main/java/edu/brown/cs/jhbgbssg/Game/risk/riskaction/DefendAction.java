@@ -1,13 +1,14 @@
-package edu.brown.cs.jhbgbssg.Game.risk.riskmove;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.Die;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
  * Represents a DefendMove.
@@ -15,43 +16,39 @@ import edu.brown.cs.jhbgbssh.tuple.Pair;
  * @author sarahgilmore
  *
  */
-public class DefendMove implements Move {
-  private UUID playerId;
-  private TerritoryEnum defended;
+public class DefendAction implements Action {
+  private RiskPlayer defender;
+  private AttackAction attack;
+  private RiskBoard board;
   private int defendDie;
-  private List<Integer> rolled;
+  private List<Integer> defenderRoll;
   private Integer troopsDefendLost = null;
   private Integer troopsAttackLost = null;
   private boolean defenderLostTerritory = false;
-  private UUID attackerId;
-  private TerritoryEnum attackerTerr;
+  private boolean actionExecuted;
   private Die die = new Die();
 
   /**
    * Constructor for defend move.
    *
-   * @param defender - id and territory defended
+   * @param player - defending player
+   * @param board - board
    * @param defendDie - number of die to roll
-   * @param attacker - attackMove
+   * @param attack - attack move
    * @throws IllegalArgumentException - thrown if the input is null
    */
-  public DefendMove(Pair<UUID, TerritoryEnum> defender,
-      Pair<UUID, TerritoryEnum> attacker, int defendDie)
-      throws IllegalArgumentException {
-    if (defender == null || attacker == null) {
+  public DefendAction(RiskPlayer player, RiskBoard board, AttackAction attack,
+      int defendDie) throws IllegalArgumentException {
+    if (defender == null || attack == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    this.playerId = defender.getFirstElement();
-    this.defended = defender.getSecondElement();
-    this.attackerId = attacker.getFirstElement();
-    this.attackerTerr = attacker.getSecondElement();
+    this.defender = player;
+    this.attack = attack;
     this.defendDie = defendDie;
-    rolled = new ArrayList<>();
-    for (int i = 0; i < defendDie; i++) {
-      rolled.add(die.roll());
-    }
-    Collections.sort(rolled);
-    Collections.reverse(rolled);
+    this.board = board;
+    this.defenderRoll = new ArrayList<>();
+    this.actionExecuted = false;
+
   }
 
   @Override
@@ -60,8 +57,8 @@ public class DefendMove implements Move {
   }
 
   @Override
-  public UUID getMovePlayer() {
-    return playerId;
+  public RiskPlayer getMovePlayer() {
+    return defender;
   }
 
   /**
@@ -79,7 +76,7 @@ public class DefendMove implements Move {
    * @return territory
    */
   public TerritoryEnum getDefendedTerritory() {
-    return defended;
+    return attack.getDefendingTerritory();
   }
 
   /**
@@ -88,11 +85,16 @@ public class DefendMove implements Move {
    * @return territory
    */
   public TerritoryEnum getAttackingTerritory() {
-    return attackerTerr;
+    return attack.getAttackingTerritory();
   }
 
-  public UUID getAttackerId() {
-    return attackerId;
+  /**
+   * Get attacker's id.
+   *
+   * @return attacker id
+   */
+  public RiskPlayer getAttackerId() {
+    return attack.getMovePlayer();
   }
 
   /**
@@ -101,7 +103,7 @@ public class DefendMove implements Move {
    * @return rolled die
    */
   public List<Integer> getRoll() {
-    return Collections.unmodifiableList(this.rolled);
+    return Collections.unmodifiableList(defenderRoll);
   }
 
   /**
@@ -160,5 +162,56 @@ public class DefendMove implements Move {
    */
   public int getTroopsAttackerLost() {
     return troopsAttackLost;
+  }
+
+  @Override
+  public boolean isActionExecuted() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean executeAction() {
+    if (!actionExecuted) {
+      for (int i = 0; i < defendDie; i++) {
+        defenderRoll.add(die.roll());
+      }
+      Collections.sort(defenderRoll);
+      Collections.reverse(defenderRoll);
+      this.attack();
+      actionExecuted = true;
+      return actionExecuted;
+    }
+    return false;
+  }
+
+  /**
+   * Runs the attack.
+   *
+   * @param defend
+   * @return
+   */
+  private void attack() {
+    List<Integer> attackRolls = attack.getRoll();
+    int compare = Math.min(attackRolls.size(), defenderRoll.size());
+    int defendTroopsLost = 0;
+    int attackTroopsLost = 0;
+    for (int i = 0; i < compare; i++) {
+      int result = Integer.compare(attackRolls.get(i), defenderRoll.get(i));
+      if (result > 0) {
+        defendTroopsLost++;
+      } else {
+        attackTroopsLost++;
+      }
+    }
+    Territory attackTerr = board.getTerritory(attack.getAttackingTerritory());
+    Territory defendTerr = board.getTerritory(attack.getDefendingTerritory());
+    assert (!attackTerr.removeTroops(attackTroopsLost));
+    defenderLostTerritory = defendTerr.removeTroops(defendTroopsLost);
+    troopsDefendLost = Integer.valueOf(defendTroopsLost);
+    troopsAttackLost = Integer.valueOf(attackTroopsLost);
+    if (defenderLostTerritory) {
+      defender.lostTerritory(attack.getAttackingTerritory());
+    }
   }
 }

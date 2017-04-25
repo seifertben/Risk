@@ -1,7 +1,6 @@
 package edu.brown.cs.jhbgbssg.RiskWorld;
 
-import java.util.UUID;
-
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
@@ -13,7 +12,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 public class Territory {
   private TerritoryEnum id;
   private int numberTroops;
-  private UUID playerId = null;
+  private RiskPlayer player = null;
   private ContinentEnum contId;
 
   /**
@@ -60,7 +59,7 @@ public class Territory {
   public void addTroops(int troopsToAdd) throws IllegalArgumentException {
     if (troopsToAdd <= 0) {
       throw new IllegalArgumentException("ERROR: invalid troop number");
-    } else if (playerId == null) {
+    } else if (player == null) {
       throw new IllegalArgumentException(
           "ERROR: cannot add troops to a territory with no player");
     }
@@ -72,24 +71,24 @@ public class Territory {
    * are no troops on the territory and if no player currently owns the
    * territory.
    *
-   * @param newPlayerId - player to control the territory
+   * @param newPlayer - player to control the territory
    * @param numTroops - number of troops to put on the territory
    * @throws IllegalArgumentException - if the player id is null or if the a new
    *           player cannot be set as the territory's owner in its current
    *           state
    */
-  public void changePlayer(UUID newPlayerId, int numTroops)
+  public void changePlayer(RiskPlayer newPlayer, int numTroops)
       throws IllegalArgumentException {
-    if (playerId != null && numberTroops != 0) {
+    if (player != null && numberTroops != 0) {
       throw new IllegalArgumentException(
           "ERROR: cannot change playeres if number of troops is not zero");
-    } else if (newPlayerId == null) {
+    } else if (newPlayer == null) {
       throw new IllegalArgumentException("ERROR: cann to have a null id");
     } else if (numTroops <= 0) {
       throw new IllegalArgumentException(
           "ERROR: troop number must be positive");
     }
-    playerId = newPlayerId;
+    player = newPlayer;
     numberTroops = numTroops;
   }
 
@@ -98,8 +97,8 @@ public class Territory {
    *
    * @return id of the player
    */
-  public UUID getTerritoryOwner() {
-    return playerId;
+  public RiskPlayer getTerritoryOwner() {
+    return player;
   }
 
   /**
@@ -146,7 +145,7 @@ public class Territory {
    *
    * @return id of the player
    */
-  public UUID getOwner() {
-    return playerId;
+  public RiskPlayer getOwner() {
+    return player;
   }
 }

@@ -58,6 +58,7 @@ public class RiskGame {
       throw new IllegalArgumentException("ERROR: illegal number of players");
     }
     gameBoard = new RiskBoard();
+    referee = new Referee(gameBoard);
     turnState = new Turn();
     // Create the RiskPlayers.
     for (UUID i : ids) {
@@ -94,8 +95,9 @@ public class RiskGame {
     return update;
   }
 
-  public GameUpdate executeSetupChoiceAction(UUID playerId,
-      TerritoryEnum selected) {
+  public GameUpdate executeSetupChoiceAction(SetupMove move) {
+    UUID playerId = move.getMovePlayer();
+    TerritoryEnum selected = move.getSelectedTerritory();
     GameUpdate update = new GameUpdate();
     SetupMove setupMove = new SetupMove(playerId, selected);
     boolean isValidMove = referee.validateSetupMove(setupMove);

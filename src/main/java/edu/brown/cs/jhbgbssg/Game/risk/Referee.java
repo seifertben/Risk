@@ -1,24 +1,31 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.CardTurnInMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.Move;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.SetupReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidAttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidCardMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidClaimTerritoryMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidDieDefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidMoveTroopsMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidReinforceMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidSetupMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.ValidSetupReinforceMove;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import edu.brown.cs.jhbgbssg.Game.CardPool;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidDieDefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -29,7 +36,11 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  */
 public class Referee {
   private RiskBoard board;
+  private RiskPlayer winner;
+  private List<RiskPlayer> turnOrder;
+  private CardPool cardPool;
   private ValidAction validMove = null;
+  private RiskPlayer currPlayer;
 
   /**
    * Initializes the referee.
@@ -37,13 +48,64 @@ public class Referee {
    * @param board
    *          - game board
    */
-  public Referee(RiskBoard board) {
+  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet) {
     this.board = board;
+    turnOrder = new ArrayList<>(playerSet);
+    Collections.shuffle(turnOrder);
+    currPlayer = turnOrder.get(0);
+    cardPool = new RiskCardPool();
+    validMove = new ValidSetupAction(turnOrder.get(0), board);
   }
 
-  protected ValidAction getFirstSetup(RiskPlayer player) {
-    validMove = new ValidSetupMove(player, board);
+  public List<UUID> getPlayerOrder() {
+    List<UUID> playerOrder = new ArrayList<>();
+    for (int i = 0; i < turnOrder.size(); i++) {
+      playerOrder.add(turnOrder.get(i).getPlayerId());
+    }
+    return Collections.unmodifiableList(playerOrder);
+  }
+
+  protected ValidAction getFirstSetup() {
     return validMove;
+  }
+
+  protected RiskPlayer getWinner() {
+    return winner;
+  }
+
+  protected boolean isWinner(RiskPlayer player) {
+    if (player.getTerritories().containsAll(board.getTerritoryIds())) {
+      winner = player;
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean playerLost(RiskPlayer player) {
+    if (!player.hasTerritories()) {
+      turnOrder.remove(player);
+      return true;
+    }
+    return false;
+  }
+
+  protected int handOutCard() {
+    if (!cardPool.isEmpty()) {
+      return cardPool.handOutCard();
+    }
+    return -1;
+  }
+
+  protected ValidAction switchPlayer() {
+    int index = turnOrder.indexOf(currPlayer);
+    index = (index + 1) % turnOrder.size();
+    currPlayer = turnOrder.get(index);
+    validMove = this.getValidReinforceMove(currPlayer);
+    return validMove;
+  }
+
+  protected boolean emptyCardDeck() {
+    return cardPool.isEmpty();
   }
 
   protected ValidAction getValidMove() {
@@ -55,36 +117,35 @@ public class Referee {
    *
    * @return ValidReinforceMove
    */
-  protected ValidReinforceMove getValidReinforceMove(RiskPlayer player) {
-
-    validMove = new ValidReinforceMove(player, board);
-    return (ValidReinforceMove) validMove;
+  protected ValidReinforceAction getValidReinforceMove(RiskPlayer player) {
+    validMove = new ValidReinforceAction(player, board);
+    return (ValidReinforceAction) validMove;
   }
 
-  private ValidCardMove getValidCardMove(RiskPlayer player) {
-    return new ValidCardMove(player);
+  private ValidCardAction getValidCardMove(RiskPlayer player) {
+    return new ValidCardAction(player);
   }
 
-  private ValidMoveTroopsMove getValidMoveTroopsMove(RiskPlayer player) {
-    validMove = new ValidMoveTroopsMove(player, board);
-    return (ValidMoveTroopsMove) validMove;
+  private ValidMoveTroopsAction getValidMoveTroopsMove(RiskPlayer player) {
+    validMove = new ValidMoveTroopsAction(player, board);
+    return (ValidMoveTroopsAction) validMove;
   }
 
-  private ValidAttackMove getValidAttackMove(RiskPlayer player) {
-    validMove = new ValidAttackMove(player, board);
-    return (ValidAttackMove) validMove;
+  private ValidAttackAction getValidAttackMove(RiskPlayer player) {
+    validMove = new ValidAttackAction(player, board);
+    return (ValidAttackAction) validMove;
   }
 
-  private ValidDieDefendMove getValidDieDefendMove(RiskPlayer player,
+  private ValidDieDefendAction getValidDieDefendMove(RiskPlayer player,
       TerritoryEnum toDefend) {
-    validMove = new ValidDieDefendMove(player, board, toDefend);
-    return (ValidDieDefendMove) validMove;
+    validMove = new ValidDieDefendAction(player, board, toDefend);
+    return (ValidDieDefendAction) validMove;
   }
 
-  private ValidClaimTerritoryMove getValidClaimTerritoryMove(RiskPlayer player,
-      AttackMove attack) {
-    validMove = new ValidClaimTerritoryMove(player, board, attack);
-    return (ValidClaimTerritoryMove) validMove;
+  private ValidClaimTerritoryAction getValidClaimTerritoryMove(
+      RiskPlayer player, AttackAction attack) {
+    validMove = new ValidClaimTerritoryAction(player, board, attack);
+    return (ValidClaimTerritoryAction) validMove;
   }
 
   protected ValidAction getValidMoveAfterReinforce(RiskPlayer player) {
@@ -92,12 +153,12 @@ public class Referee {
       validMove = this.getValidCardMove(player);
       return validMove;
     }
-    ValidAttackMove move = this.getValidAttackMove(player);
+    ValidAttackAction move = this.getValidAttackMove(player);
     if (move.actionAvailable()) {
       validMove = move;
       return move;
     }
-    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction troopMove = this.getValidMoveTroopsMove(player);
     if (troopMove.getReachableTerritores().size() != 0) {
       validMove = troopMove;
       return troopMove;
@@ -107,12 +168,12 @@ public class Referee {
   }
 
   protected ValidAction getValidMoveAfterCardTurnIn(RiskPlayer player) {
-    ValidAttackMove move = this.getValidAttackMove(player);
+    ValidAttackAction move = this.getValidAttackMove(player);
     if (move.actionAvailable()) {
       validMove = move;
       return validMove;
     }
-    ValidMoveTroopsMove troopMove = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction troopMove = this.getValidMoveTroopsMove(player);
     if (troopMove.actionAvailable()) {
       validMove = troopMove;
       return validMove;
@@ -121,25 +182,27 @@ public class Referee {
     return null;
   }
 
-  protected ValidAction getValidMoveAfterAttack(RiskPlayer player,
-      TerritoryEnum defend) {
-    ValidDieDefendMove move = this.getValidDieDefendMove(player, defend);
+  protected ValidAction getValidMoveAfterAttack(AttackAction attack) {
+    TerritoryEnum defending = attack.getDefendingTerritory();
+    RiskPlayer defender = board.getTerritory(defending).getOwner();
+    ValidDieDefendAction move = this.getValidDieDefendMove(defender,
+        attack.getDefendingTerritory());
     validMove = move;
     return validMove;
   }
 
   protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
-      DefendMove defend, AttackMove attack) {
+      DefendAction defend, AttackAction attack) {
     if (defend.getDefenderLostTerritory()) {
       validMove = this.getValidClaimTerritoryMove(player, attack);
       return validMove;
     }
-    ValidAttackMove validAttack = this.getValidAttackMove(player);
+    ValidAttackAction validAttack = this.getValidAttackMove(player);
     if (validAttack.actionAvailable()) {
       validMove = validAttack;
       return validMove;
     }
-    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction moveTroops = this.getValidMoveTroopsMove(player);
     if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
@@ -149,12 +212,12 @@ public class Referee {
   }
 
   protected ValidAction getValidMoveAfterClaimTerritory(RiskPlayer player) {
-    ValidAttackMove attack = this.getValidAttackMove(player);
+    ValidAttackAction attack = this.getValidAttackMove(player);
     if (attack.actionAvailable()) {
       validMove = attack;
       return validMove;
     }
-    ValidMoveTroopsMove moveTroops = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction moveTroops = this.getValidMoveTroopsMove(player);
     if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
@@ -163,18 +226,17 @@ public class Referee {
     return validMove;
   }
 
-  protected Move getValidDefendMoveAfterTroopMove(RiskPlayer player,
-      DefendMove move) {
+  protected Action getValidDefendMoveAfterTroopMove(RiskPlayer player,
+      DefendAction move) {
     return null;
   }
 
-  protected Move getValidMoveAfterSetup(RiskPlayer player, SetupMove move) {
-    // validMove = this.getValidSetupMove();
-    return validMove;
+  protected Action getValidMoveAfterSetup(RiskPlayer player, SetupAction move) {
+    return null;
   }
 
   public ValidAction getValidMoveAfterReinforceSetup(RiskPlayer riskPlayer,
-      SetupReinforceMove setupReinforceMove) {
+      SetupReinforceAction setupReinforceMove) {
     return null;
   }
 
@@ -185,11 +247,11 @@ public class Referee {
    *          - move to check the validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateReinforce(ReinforceMove move) {
+  protected boolean validateReinforce(ReinforceAction move) {
     if (validMove == null || validMove.getMoveType() != MoveType.REINFORCE) {
       return false;
     }
-    ValidReinforceMove reinforce = (ValidReinforceMove) validMove;
+    ValidReinforceAction reinforce = (ValidReinforceAction) validMove;
     return reinforce.validReinforceMove(move);
   }
 
@@ -200,11 +262,11 @@ public class Referee {
    *          - move to check the validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateCardTurnIn(CardTurnInMove move) {
+  protected boolean validateCardTurnIn(CardTurnInAction move) {
     if (validMove == null || validMove.getMoveType() != MoveType.TURN_IN_CARD) {
       return false;
     }
-    ValidCardMove card = (ValidCardMove) validMove;
+    ValidCardAction card = (ValidCardAction) validMove;
     return card.validateCardMove(move);
   }
 
@@ -215,12 +277,12 @@ public class Referee {
    *          - move to check the validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateAttackMove(AttackMove move) {
+  protected boolean validateAttackMove(AttackAction move) {
     if (validMove == null
         || validMove.getMoveType() != MoveType.CHOOSE_ATTACK_DIE) {
       return false;
     }
-    ValidAttackMove attack = (ValidAttackMove) validMove;
+    ValidAttackAction attack = (ValidAttackAction) validMove;
     return attack.validAttackMove(move);
   }
 
@@ -231,12 +293,12 @@ public class Referee {
    *          - move to check validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateDefendMove(DefendMove move) {
+  protected boolean validateDefendMove(DefendAction move) {
     if (validMove == null
         || validMove.getMoveType() != MoveType.CHOOSE_DEFEND_DIE) {
       return false;
     }
-    ValidDieDefendMove defend = (ValidDieDefendMove) validMove;
+    ValidDieDefendAction defend = (ValidDieDefendAction) validMove;
     return defend.validateDefendMove(move);
   }
 
@@ -247,12 +309,12 @@ public class Referee {
    *          - move to check validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateClaimTerritory(ClaimTerritoryMove move) {
+  protected boolean validateClaimTerritory(ClaimTerritoryAction move) {
     if (validMove == null
         || validMove.getMoveType() != MoveType.CLAIM_TERRITORY) {
       return false;
     }
-    ValidClaimTerritoryMove claim = (ValidClaimTerritoryMove) validMove;
+    ValidClaimTerritoryAction claim = (ValidClaimTerritoryAction) validMove;
     return claim.validClaimTerritory(move);
   }
 
@@ -263,11 +325,11 @@ public class Referee {
    *          - move to check validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateMoveTroopsMove(MoveTroopsMove move) {
+  protected boolean validateMoveTroopsMove(MoveTroopsAction move) {
     if (validMove == null || validMove.getMoveType() != MoveType.MOVE_TROOPS) {
       return false;
     }
-    ValidMoveTroopsMove moveTroops = (ValidMoveTroopsMove) validMove;
+    ValidMoveTroopsAction moveTroops = (ValidMoveTroopsAction) validMove;
     return moveTroops.validMoveTroopMove(move);
   }
 
@@ -278,20 +340,20 @@ public class Referee {
    *          - move to check validity of
    * @return true if valid; false otherwise
    */
-  protected boolean validateSetupMove(SetupMove move) {
+  protected boolean validateSetupMove(SetupAction move) {
     if (validMove == null || validMove.getMoveType() != MoveType.SETUP) {
       return false;
     }
-    ValidSetupMove setupMove = (ValidSetupMove) validMove;
+    ValidSetupAction setupMove = (ValidSetupAction) validMove;
     return setupMove.validSetupMove(move);
   }
 
-  protected boolean validateSetupReinforceMove(SetupReinforceMove move) {
+  protected boolean validateSetupReinforceMove(SetupReinforceAction move) {
     if (validMove == null
         || validMove.getMoveType() != MoveType.SETUP_REINFORCE) {
       return false;
     }
-    ValidSetupReinforceMove setupReinforceMove = (ValidSetupReinforceMove) validMove;
+    ValidSetupReinforceAction setupReinforceMove = (ValidSetupReinforceAction) validMove;
     return setupReinforceMove.validSetupReinforceMove(move);
   }
 }

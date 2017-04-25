@@ -8,9 +8,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.AttackMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.DefendMove;
-import edu.brown.cs.jhbgbssg.Game.risk.riskmove.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -27,9 +27,9 @@ public class DefendMoveTest {
    */
   @Test
   public void testConstructor() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 3);
-    DefendMove defend = new DefendMove(
+    DefendAction defend = new DefendAction(
         new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2, attack);
     assertNotNull(defend);
   }
@@ -40,9 +40,9 @@ public class DefendMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullPair() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 3);
-    new DefendMove(null, 2, attack);
+    new DefendAction(null, 2, attack);
   }
 
   /**
@@ -51,7 +51,7 @@ public class DefendMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullAttack() {
-    new DefendMove(new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2,
+    new DefendAction(new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2,
         null);
   }
 
@@ -61,9 +61,9 @@ public class DefendMoveTest {
    */
   @Test
   public void testGetRoll() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 2);
-    DefendMove defend = new DefendMove(
+    DefendAction defend = new DefendAction(
         new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2, attack);
     List<Integer> roll = defend.getRoll();
     assertTrue(roll.size() == 2);
@@ -80,9 +80,9 @@ public class DefendMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 2);
-    DefendMove defend = new DefendMove(
+    DefendAction defend = new DefendAction(
         new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2, attack);
     assertTrue(defend.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
   }
@@ -92,9 +92,9 @@ public class DefendMoveTest {
    */
   @Test
   public void testGetDefendTerritory() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 2);
-    DefendMove defend = new DefendMove(
+    DefendAction defend = new DefendAction(
         new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2, attack);
     assertTrue(defend.getDefendedTerritory() == TerritoryEnum.ALBERTA);
   }
@@ -104,9 +104,9 @@ public class DefendMoveTest {
    */
   @Test
   public void testGetAttackingTerritory() {
-    AttackMove attack = new AttackMove(UUID.randomUUID(), TerritoryEnum.ALASKA,
+    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
         TerritoryEnum.ALBERTA, 2);
-    DefendMove defend = new DefendMove(
+    DefendAction defend = new DefendAction(
         new Pair<>(UUID.randomUUID(), TerritoryEnum.ALBERTA), 2, attack);
     assertTrue(defend.getAttackingTerritory() == TerritoryEnum.ALASKA);
   }
