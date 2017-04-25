@@ -1,9 +1,10 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.CardPool;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
@@ -46,7 +47,7 @@ public class Referee {
    *
    * @param board - game board
    */
-  public Referee(RiskBoard board, Set<RiskPlayer> playerSet) {
+  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet) {
     this.board = board;
     turnOrder = new ArrayList<>(playerSet);
     Collections.shuffle(turnOrder);
@@ -55,8 +56,12 @@ public class Referee {
     validMove = new ValidSetupAction(turnOrder.get(0), board);
   }
 
-  public List<RiskPlayer> getPlayerOrder() {
-    return Collections.unmodifiableList(turnOrder);
+  public List<UUID> getPlayerOrder() {
+    List<UUID> playerOrder = new ArrayList<>();
+    for (int i = 0; i < turnOrder.size(); i++) {
+      playerOrder.add(turnOrder.get(i).getPlayerId());
+    }
+    return Collections.unmodifiableList(playerOrder);
   }
 
   protected ValidAction getFirstSetup() {

@@ -40,7 +40,7 @@ public class MessageAPI {
   private static final Gson GSON = new Gson();
   private static final TerritoryEnum[] IDS = TerritoryEnum.values();
 
-  private enum Message_Type {
+  private enum MESSAGE_TYPE {
     SELECT, SETUP_REINFORCE, REINFORCE, TURN_IN_CARD, ATTACK, DEFEND, CLAIM_TERRITORY, MOVE_TROOPS;
   }
 
@@ -101,8 +101,8 @@ public class MessageAPI {
    */
   public Action jsonToMove(String message) {
     JsonObject recieved = GSON.fromJson(message, JsonObject.class);
-    int ordinal = recieved.get("MESSAGE_TYPE").getAsInt();
-    Message_Type type = Message_Type.values()[ordinal];
+    int ordinal = recieved.get("type").getAsInt();
+    MESSAGE_TYPE type = MESSAGE_TYPE.values()[ordinal];
     switch (type) {
       case SELECT:
         return this.jsonToSelect(recieved);
@@ -130,6 +130,7 @@ public class MessageAPI {
    * @param object - json message
    * @return setup move
    */
+
   private Action jsonToSelect(JsonObject object) {
     UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     int index = object.get("territory_id").getAsInt();
@@ -145,6 +146,7 @@ public class MessageAPI {
    * @param object - json message
    * @return reinforce move
    */
+
   private Action jsonToReinforce(JsonObject object) {
     UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
@@ -161,6 +163,7 @@ public class MessageAPI {
    * @param object - json message
    * @return card move
    */
+
   private Action jsonToCard(JsonObject object) {
     UUID playerId = UUID.fromString(object.get("player_dd").getAsString());
     Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
@@ -177,6 +180,7 @@ public class MessageAPI {
    * @param object - json message
    * @return attack move
    */
+
   private Action jsonToAttack(JsonObject object) {
     UUID playerId = UUID.fromString(object.get("player_id").getAsString());
     int index = object.get("attack_from").getAsInt();
@@ -318,8 +322,8 @@ public class MessageAPI {
   }
 
   private JsonObject prevDefendMove(DefendAction move) {
-    UUID attacker = move.getAttackerId();
-    UUID defender = move.getMovePlayer();
+    UUID attacker = move.getAttackerId().getPlayerId();
+    UUID defender = move.getMovePlayer().getPlayerId();
     TerritoryEnum attacking = move.getAttackingTerritory();
     TerritoryEnum defending = move.getDefendedTerritory();
     List<Integer> roll = move.getRoll();

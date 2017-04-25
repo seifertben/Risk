@@ -42,6 +42,14 @@ public class Matches {
   // Different types of messages
   // that can be sent or received
   private static enum MESSAGE_TYPE {
+    SELECT,
+    SETUP_REINFORCE,
+    REINFORCE,
+    TURN_IN_CARD,
+    ATTACK,
+    DEFEND,
+    CLAIM_TERRITORY,
+    MOVE_TROOPS,
     CONNECT,
     REMOVE,
     START,
@@ -49,7 +57,6 @@ public class Matches {
     CREATE,
     CHANGE,
     DESTROY,
-    SELECT,
   }
 
   /**
@@ -129,11 +136,13 @@ public class Matches {
 
     // If this message is a request to create a lobby...
     if (received.get("type").getAsInt() == MESSAGE_TYPE.SELECT.ordinal()) {
+      UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
+      Match game = matchIdToClass.get(playerToGame.get(playerUUID));
+      JsonObject response = game.getUpdate(received);
       JsonObject update = new JsonObject();
       update.addProperty("type", MESSAGE_TYPE.SELECT.ordinal());
       update.addProperty("playerId", received.get("playerId").getAsString());
-      update.addProperty("territory", received.get("territory").getAsString());
-      Match game = matchIdToClass.get(playerToGame.get(UUID.fromString(received.get("playerId").getAsString())));
+      update.addProperty("territoryId", received.get("territoryId").getAsString());
       for (int index = 0; index < game.playerNum(); index++) {
         playerToSession.get(game.getPlayers().get(index)).getRemote().sendString(update.toString());
       }
