@@ -3,11 +3,21 @@ package edu.brown.cs.jhbgbbgssg.risk;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -625,11 +635,51 @@ public class BoardTest {
   @Test
   public void test() {
     JsonObject obj = new JsonObject();
-    obj.addProperty("here", "what");
-    try {
-      obj.get("asdfa").getAsInt();
-    } catch (NullPointerException e) {
-      System.out.println("caught");
-    }
+    Gson gson = new Gson();
+    List<MoveType> list = new ArrayList<>();
+    list.add(MoveType.CHOOSE_ATTACK_DIE);
+    list.add(MoveType.CLAIM_TERRITORY);
+    System.out.println(list);
+    java.lang.reflect.Type listType = new TypeToken<List<MoveType>>() {
+    }.getType();
+
+    obj.addProperty("list", gson.toJson(list)); // listType));
+    System.out.println(obj);
+    List<MoveType> after = gson.fromJson(obj.get("list").getAsString(),
+        listType);
+    System.out.println(after);
+    System.out.println(after.contains(MoveType.CLAIM_TERRITORY));
+    // List<MoveType> translate = gson.fromJson(obj.get("list"),
+    // new TypeToken<List<MoveType>>() {
+    // }.getType());
+    // System.out.println(list.get(0).ordinal());
+    // System.out.println(after.get(0).ordinal());
+
+    // obj.addProperty("terr", "ALASKA");
+    // System.out.println(obj.get("terr"));
+    // System.out.println(
+    // gson.fromJson(obj.get("terr").getAsString(), TerritoryEnum.class));
+    // TerritoryEnum x = gson.fromJson(obj.get("terr").getAsString(),
+    // TerritoryEnum.class);
+    // System.out.println(x == TerritoryEnum.ALASKA);
+
+    Multimap<TerritoryEnum, TerritoryEnum> map = HashMultimap.create();
+    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.ALASKA);
+    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA);
+    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.ONTARIO);
+    map.put(TerritoryEnum.ONTARIO, TerritoryEnum.ALASKA);
+    map.put(TerritoryEnum.ONTARIO, TerritoryEnum.INDIA);
+    map.put(TerritoryEnum.ALASKA, TerritoryEnum.AFGHANISTAN);
+    obj.addProperty("map", gson.toJson(map.asMap()));
+
+    java.lang.reflect.Type mapType = new TypeToken<Map<TerritoryEnum, Collection<TerritoryEnum>>>() {
+    }.getType();
+    System.out.println(obj);
+    Map<TerritoryEnum, Collection<TerritoryEnum>> translateMap = gson
+        .fromJson(obj.get("map").getAsString(), mapType);
+    System.out.println(translateMap);
+    System.out.println(translateMap.get(TerritoryEnum.AFGHANISTAN)
+        .contains(TerritoryEnum.INDIA));
+
   }
 }

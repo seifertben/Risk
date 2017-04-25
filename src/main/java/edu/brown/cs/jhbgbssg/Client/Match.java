@@ -182,7 +182,7 @@ public class Match {
   /**
    * Initiate this match and create our risk game.
    */
-  public void start() {
+  public List<JsonObject> start() {
     synchronized (this) {
       started = true;
       Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
@@ -194,8 +194,8 @@ public class Match {
       referee = new Referee(board, riskPlayers.values());
       actionProcessor = new RiskActionProcessor(referee);
       players = referee.getPlayerOrder();
-      // GameUpdate initial = myGame.startGame();
-      // return messageApi.getJsonObjectMessage(initial);
+      GameUpdate initial = referee.startGame();
+      return messageApi.getUpdateMessages(initial);
     }
   }
 

@@ -79,10 +79,12 @@ public class Referee {
     return Collections.unmodifiableList(playerOrder);
   }
 
-  public ValidAction getFirstSetup() {
+  public GameUpdate startGame() {
     if (!gameStarted) {
       gameStarted = true;
-      return validMove;
+      GameUpdate update = new GameUpdate();
+      update.setValidMoves(validMove, null, false);
+      return update;
     }
     return null;
   }
