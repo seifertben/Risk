@@ -41,227 +41,256 @@ public class MessageAPI {
   private static final TerritoryEnum[] IDS = TerritoryEnum.values();
 
   private enum MESSAGE_TYPE {
-    SELECT, SETUP_REINFORCE, REINFORCE, TURN_IN_CARD, ATTACK, DEFEND, CLAIM_TERRITORY, MOVE_TROOPS;
+    WINNER, LOSER, HANDOUT_CARD, NO_CARDS_LEFT, PREVIOUS_ACTION, VALID_ACTIONS, ERROR;
   }
 
   public MessageAPI() {
 
   }
 
-  public JsonObject getJsonObjectMessage(GameUpdate update) {
-    JsonObject message = new JsonObject();
-    UUID winner = update.getGameWon();
-    if (winner == null) {
-      message.addProperty("isWinner", false);
-    } else {
-      message.addProperty("isWinner", true);
-      message.addProperty("winner", winner.toString());
+  public MoveType getMoveType(JsonObject received) {
+    try {
+      int type = received.get("moveType").getAsInt();
+      return MoveType.values()[type];
+    } catch (NullPointerException | IllegalArgumentException e) {
+      throw new IllegalArgumentException("ERROR: illegal message");
     }
-    UUID loser = update.getLoser();
-    if (loser == null) {
-      message.addProperty("isLoser", false);
-    } else {
-      message.addProperty("isLoser", true);
-      message.addProperty("loser", loser.toString());
+  }
+
+  /**
+   * Gets the player id.
+   *
+   * @param object - json object
+   * @return player id
+   */
+  public UUID getPlayerId(JsonObject object) {
+    return UUID.fromString(object.get("playerId").getAsString());
+  }
+
+  /**
+   * Returns a pair of attacking and defending territories.
+   *
+   * @param object - json object.
+   * @return attacking and defending territory pair
+   */
+  public Pair<TerritoryEnum, TerritoryEnum> getAttackingDefendingTerritory(
+      JsonObject object) {
+    try {
+      int attack = object.get("attackingTerritory").getAsInt();
+      int defend = object.get("defendingTerritory").getAsInt();
+      return new Pair<>(IDS[attack], IDS[defend]);
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+
+  }
+
+  /**
+   * Returns a pair of attacking and claiming territories.
+   *
+   * @param object - json object
+   * @return attacking and claiming territory
+   */
+  public Pair<TerritoryEnum, TerritoryEnum> getAttackClaimingTerritory(
+      JsonObject object) {
+    try {
+      int attack = object.get("attackingTerritory").getAsInt();
+      int claim = object.get("claimingTerritory").getAsInt();
+      return new Pair<>(IDS[attack], IDS[claim]);
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Returns a pair territories that troops are moved to and from.
+   *
+   * @param object - json object
+   * @return pair of territories
+   */
+  public Pair<TerritoryEnum, TerritoryEnum> getMoveTroopsTerritories(
+      JsonObject object) {
+    try {
+      int moveFrom = object.get("moveFromTerritory").getAsInt();
+      int moveTo = object.get("moveToTerritory").getAsInt();
+      return new Pair<>(IDS[moveFrom], IDS[moveTo]);
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Gets number of die rolled.
+   *
+   * @param object - json object
+   * @return number of die to roll
+   */
+  public int getNumberDieToRoll(JsonObject object) {
+    try {
+      return object.get("numberDieToRoll").getAsInt();
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Gets number of troops to move.
+   *
+   * @param object - json object
+   * @return number of troops to move
+   */
+  public int getNumberTroopsToMove(JsonObject object) {
+    try {
+      return object.get("troopsToMove").getAsInt();
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Gets card turned in.
+   *
+   * @param object - json object
+   * @return card to turn in
+   */
+  public int getCardTurnedIn(JsonObject object) {
+    try {
+      return object.get("card").getAsInt();
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Gets the selected territory.
+   *
+   * @param object - json object
+   * @return selected territory
+   */
+  public TerritoryEnum getSelectedTerritory(JsonObject object) {
+    try {
+      int ordinal = object.get("selectedTerritory").getAsInt();
+      return IDS[ordinal];
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  /**
+   * Gets the territories reinforced with their assocaited number of troops.
+   *
+   * @param object - json object
+   * @return reinforced territories.
+   */
+  public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
+    try {
+      Map<Integer, Integer> ordinalMap = GSON.fromJson(
+          object.get("reinforceMap"), new TypeToken<Map<Integer, Integer>>() {
+          }.getType());
+      Map<TerritoryEnum, Integer> territoryMap = new HashMap<>();
+      for (Entry<Integer, Integer> entry : ordinalMap.entrySet()) {
+        territoryMap.put(IDS[entry.getKey()], entry.getValue());
+      }
+      return territoryMap;
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException(
+          "ERROR: no property in the json object");
+    }
+  }
+
+  public List<JsonObject> getUpdateMessages(GameUpdate update) {
+    List<JsonObject> messages = new ArrayList<>();
+    if (update.getPrevMove() != null) {
+      messages.add(this.prevActionToJson(update.getPrevMove()));
+    }
+    if (update.getLoser() != null) {
+      JsonObject obj = new JsonObject();
+      obj.addProperty("type", MESSAGE_TYPE.LOSER.ordinal());
+      obj.addProperty("loser", GSON.toJson(update.getLoser()));
+      messages.add(obj);
+    }
+    if (update.getGameWon() != null) {
+      JsonObject obj = new JsonObject();
+      obj.addProperty("type", MESSAGE_TYPE.WINNER.ordinal());
+      obj.addProperty("winner", GSON.toJson(update.getGameWon()));
+      messages.add(obj);
     }
     if (update.getErrors()) {
-      message.addProperty("error", true);
-    } else {
-      message.addProperty("error", false);
+      JsonObject obj = new JsonObject();
+      obj.addProperty("type", MESSAGE_TYPE.ERROR.ordinal());
+      obj.addProperty("player", GSON.toJson(update.getCurrentPlayer()));
+      messages.add(obj);
     }
-    Pair<UUID, Integer> card = update.getCardHandOut();
-    if (card != null) {
-      message.addProperty("handoutcard", true);
-      message.addProperty("cardPlayerId", GSON.toJson(card.getFirstElement()));
-      message.addProperty("cardvalue", card.getSecondElement());
-    } else {
-      message.addProperty("handoutcard", false);
+    if (update.getCardHandOut() != null) {
+      JsonObject obj = new JsonObject();
+      int card = update.getCardHandOut().getSecondElement();
+      UUID player = update.getCardHandOut().getFirstElement();
+      obj.addProperty("type", MESSAGE_TYPE.HANDOUT_CARD.ordinal());
+      obj.addProperty("player", GSON.toJson(player));
+      obj.addProperty("cardValue", card);
+      messages.add(obj);
     }
-    if (update.getValidMoves() == null) {
-      message.addProperty("isNextMove", false);
-    } else {
-      message.addProperty("isNextMove", false);
-      JsonObject obj = this.validJsonMove(update);
-      message.add("nextMove", obj);
+    if (!update.cardsLeft()) {
+      JsonObject obj = new JsonObject();
+      obj.addProperty("type", MESSAGE_TYPE.NO_CARDS_LEFT.ordinal());
+      messages.add(obj);
     }
-    if (update.getPrevMove() == null) {
-      message.addProperty("isPrevMove", false);
-    } else {
-      JsonObject obj = this.getPrevMove(update.getPrevMove());
-      message.add("prevMove", obj);
+    if (update.getValidMoves() != null) {
+      JsonObject obj = this.validJsonMove(update.getValidMoves());
+      obj.addProperty("type", MESSAGE_TYPE.VALID_ACTIONS.ordinal());
+      messages.add(obj);
     }
-    return message;
+    return messages;
   }
 
-  /**
-   * Converts a json string into the corresponding Java move object.
-   *
-   * @param message - json message
-   * @return move oject
-   */
-  public Action jsonToMove(String message) {
-    JsonObject recieved = GSON.fromJson(message, JsonObject.class);
-    int ordinal = recieved.get("type").getAsInt();
-    MESSAGE_TYPE type = MESSAGE_TYPE.values()[ordinal];
-    switch (type) {
-      case SELECT:
-        return this.jsonToSelect(recieved);
-      case REINFORCE:
-        return this.jsonToReinforce(recieved);
-      case TURN_IN_CARD:
-        return this.jsonToCard(recieved);
-      case ATTACK:
-        return this.jsonToAttack(recieved);
-      case DEFEND:
-        return this.jsonToDefend(recieved);
-      case CLAIM_TERRITORY:
-        return this.jsonToClaim(recieved);
-      case MOVE_TROOPS:
-        return this.jsonToMoveTroops(recieved);
-      default:
-        return null;
-    }
-  }
-
-  /**
-   * Translates a jsonObject indicating which territory was selected to a
-   * SetupMove object.
-   *
-   * @param object - json message
-   * @return setup move
-   */
-
-  private Action jsonToSelect(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    int index = object.get("territory_id").getAsInt();
-    TerritoryEnum terr = IDS[index];
-    SetupAction setup = new SetupAction(playerId, terr);
-    return setup;
-  }
-
-  /**
-   * Translates a jsonObject indicating which territories to reinforce to a
-   * ReinforceMove.
-   *
-   * @param object - json message
-   * @return reinforce move
-   */
-
-  private Action jsonToReinforce(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
-        new TypeToken<Map<TerritoryEnum, Integer>>() {
-        }.getType());
-    ReinforceAction move = new ReinforceAction(playerId, map);
-    return move;
-  }
-
-  /**
-   * Translates a jsonObject indicating which card was turned in and where the
-   * troops were put.
-   *
-   * @param object - json message
-   * @return card move
-   */
-
-  private Action jsonToCard(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_dd").getAsString());
-    Map<TerritoryEnum, Integer> map = GSON.fromJson("reinforced",
-        new TypeToken<Map<TerritoryEnum, Integer>>() {
-        }.getType());
-    int card = object.get("card").getAsInt();
-    return new CardTurnInAction(playerId, card, map);
-  }
-
-  /**
-   * Translates a jsonObject indicating which territory to attack, from where
-   * and with how many die.
-   *
-   * @param object - json message
-   * @return attack move
-   */
-
-  private Action jsonToAttack(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    int index = object.get("attack_from").getAsInt();
-    TerritoryEnum attackFrom = IDS[index];
-    index = object.get("attacking").getAsInt();
-    TerritoryEnum attacking = IDS[index];
-    int numberDie = object.get("number_die").getAsInt();
-    return new AttackAction(playerId, attackFrom, attacking, numberDie);
-  }
-
-  /**
-   * Translates a jsonObject indicating which territory is defending, against
-   * which territory, and how many die was rolled.
-   *
-   * @param object
-   * @return
-   */
-  private Action jsonToDefend(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    UUID attackerId = UUID.fromString(object.get("attacker_id").getAsString());
-    int index = object.get("attacking").getAsInt();
-    TerritoryEnum attacking = IDS[index];
-    index = object.get("defending").getAsInt();
-    TerritoryEnum defending = IDS[index];
-    int numberDie = object.get("number_die").getAsInt();
-    return new DefendAction(new Pair<>(playerId, defending),
-        new Pair<>(attackerId, attacking), numberDie);
-  }
-
-  /**
-   * Translates a json object indicating which territory to claim and with how
-   * many troops to a ClaimTerritoryMove.
-   *
-   * @param object - json message
-   * @return claim territory move
-   */
-  private Action jsonToClaim(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    int index = object.get("claiming_from").getAsInt();
-    TerritoryEnum claimingFrom = IDS[index];
-    index = object.get("claiming").getAsInt();
-    TerritoryEnum claiming = IDS[index];
-    int troopsMoved = object.get("troops_moved").getAsInt();
-    return new ClaimTerritoryAction(playerId, claimingFrom, claiming,
-        troopsMoved);
-  }
-
-  /**
-   * Translates a json object indicating which territory to move troops to, from
-   * where and how many.
-   *
-   * @param object - json message
-   * @return move troops move
-   */
-  private Action jsonToMoveTroops(JsonObject object) {
-    UUID playerId = UUID.fromString(object.get("player_id").getAsString());
-    int index = object.get("move_from").getAsInt();
-    TerritoryEnum moveFrom = IDS[index];
-    index = object.get("move_to").getAsInt();
-    TerritoryEnum moveTo = IDS[index];
-    int troopsMoved = object.get("troops_moved").getAsInt();
-    return new MoveTroopsAction(playerId, moveFrom, moveTo, troopsMoved);
-  }
-
-  private JsonObject getPrevMove(Action prevMove) {
-    MoveType type = prevMove.getMoveType();
+  private JsonObject prevActionToJson(Action prevAction) {
+    MoveType type = prevAction.getMoveType();
+    JsonObject object = new JsonObject();
+    JsonObject payload;
+    object.addProperty("messageType", "previousMove");
     switch (type) {
       case SETUP:
-        return this.prevSetupMove((SetupAction) prevMove);
+        payload = this.prevSetupMove((SetupAction) prevAction);
+        object.addProperty("moveType", "SETUP");
+        object.add("payload", payload);
+        return object;
+      case SETUP_REINFORCE:
+        return null;
       case REINFORCE:
-        return this.prevReinforceMove((ReinforceAction) prevMove);
+        object.addProperty("moveType", "REINFORCE");
+        payload = this.prevReinforceMove((ReinforceAction) prevAction);
+        object.add("payload", payload);
+        return object;
       case TURN_IN_CARD:
-        return this.prevCardMove((CardTurnInAction) prevMove);
+        object.addProperty("moveType", "TURN_IN_CARD");
+        payload = this.prevCardMove((CardTurnInAction) prevAction);
+        object.add("payload", payload);
+        return object;
       case CHOOSE_ATTACK_DIE:
-        return this.prevAttackMove((AttackAction) prevMove);
+        object.addProperty("moveType", "CHOOSE_ATTACK_DIE");
+        payload = this.prevAttackMove((AttackAction) prevAction);
+        object.add("payload", payload);
+        return object;
       case CHOOSE_DEFEND_DIE:
-        return this.prevDefendMove((DefendAction) prevMove);
+        object.addProperty("moveType", "CHOOSE_DEFEND_DIE");
+        payload = this.prevDefendMove((DefendAction) prevAction);
+        object.add("payload", payload);
+        return object;
       case CLAIM_TERRITORY:
-        return this.prevClaimMove((ClaimTerritoryAction) prevMove);
+        object.addProperty("moveType", "CLAIM_TERRITORY");
+        return this.prevClaimMove((ClaimTerritoryAction) prevAction);
       default:
-        return this.prevMoveTroops((MoveTroopsAction) prevMove);
+        object.addProperty("moveType", "MOVE_TROOPS");
+        payload = this.prevMoveTroops((MoveTroopsAction) prevAction);
+        object.add("payload", payload);
+        return object;
     }
   }
 
@@ -274,8 +303,8 @@ public class MessageAPI {
   private JsonObject prevSetupMove(SetupAction move) {
     TerritoryEnum selected = move.getSelectedTerritory();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move", "select");
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
+    jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
     jsonObject.addProperty("selected", selected.ordinal());
     return jsonObject;
   }
@@ -290,9 +319,9 @@ public class MessageAPI {
     Map<TerritoryEnum, Integer> reinforced = move.getReinforcedTerritories();
     Map<Integer, Integer> ordinalReinforced = this.getOrdinalMap(reinforced);
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
-    jsonObject.addProperty("move", "reinforce");
-    jsonObject.addProperty("reinforce", GSON.toJson(ordinalReinforced));
+    jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
+    jsonObject.addProperty("reinforced", GSON.toJson(ordinalReinforced));
     return jsonObject;
   }
 
@@ -301,22 +330,22 @@ public class MessageAPI {
     Map<Integer, Integer> ordinalReinforced = this.getOrdinalMap(reinforced);
     int card = move.getCard();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
-    jsonObject.addProperty("move", "card");
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
+    jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
     jsonObject.addProperty("card", card);
     jsonObject.addProperty("reinforced", GSON.toJson(ordinalReinforced));
     return jsonObject;
   }
 
   private JsonObject prevAttackMove(AttackAction move) {
-    TerritoryEnum attackFrom = move.getAttackFrom();
-    TerritoryEnum attacking = move.getAttackTo();
-    List<Integer> roll = move.getDieResults();
+    TerritoryEnum attackFrom = move.getAttackingTerritory();
+    TerritoryEnum attacking = move.getDefendingTerritory();
+    List<Integer> roll = move.getRoll();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
-    jsonObject.addProperty("move", "attack");
-    jsonObject.addProperty("attack_from", attackFrom.ordinal());
-    jsonObject.addProperty("attack_to", attacking.ordinal());
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
+    jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
+    jsonObject.addProperty("attackFrom", attackFrom.ordinal());
+    jsonObject.addProperty("attackTo", attacking.ordinal());
     jsonObject.addProperty("roll", GSON.toJson(roll));
     return jsonObject;
   }
@@ -331,48 +360,47 @@ public class MessageAPI {
     int defenderTroopsLost = move.getTroopsDefenderLost();
     boolean defenderLost = move.getDefenderLostTerritory();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move", "defend");
+    jsonObject.addProperty("moveType", MoveType.CHOOSE_DEFEND_DIE.ordinal());
     jsonObject.addProperty("defender", GSON.toJson(defender));
     jsonObject.addProperty("attacker", GSON.toJson(attacker));
     jsonObject.addProperty("roll", GSON.toJson(roll));
-    jsonObject.addProperty("attack_territory", attacking.ordinal());
-    jsonObject.addProperty("defend_territory", defending.ordinal());
-    jsonObject.addProperty("attacker_troops_lost", attackerTroopsLost);
-    jsonObject.addProperty("defender_troops_lost", defenderTroopsLost);
-    jsonObject.addProperty("is_territory_lost", defenderLost);
+    jsonObject.addProperty("attackTerritory", attacking.ordinal());
+    jsonObject.addProperty("defendTerritory", defending.ordinal());
+    jsonObject.addProperty("attackerTroopsLost", attackerTroopsLost);
+    jsonObject.addProperty("defenderTroopsLost", defenderTroopsLost);
+    jsonObject.addProperty("defenderLostTerritory", defenderLost);
     return jsonObject;
   }
 
   private JsonObject prevClaimMove(ClaimTerritoryAction move) {
-    UUID player = move.getMovePlayer();
-    TerritoryEnum claimFrom = move.getTerritoryFrom();
-    TerritoryEnum claimed = move.getTerritoryClaimed();
+    UUID player = move.getMovePlayer().getPlayerId();
+    TerritoryEnum claimFrom = move.getAttackingTerritory();
+    TerritoryEnum claimed = move.getClaimingTerritory();
     int numberTroops = move.getNumberTroops();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", GSON.toJson(player));
-    jsonObject.addProperty("move", "claim");
-    jsonObject.addProperty("claimed_from", claimFrom.ordinal());
-    jsonObject.addProperty("claimed_territory", claimed.ordinal());
-    jsonObject.addProperty("number_troops", numberTroops);
+    jsonObject.addProperty("movePlayer", GSON.toJson(player));
+    jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
+    jsonObject.addProperty("claimedFrom", claimFrom.ordinal());
+    jsonObject.addProperty("claimedTerritory", claimed.ordinal());
+    jsonObject.addProperty("numberTroops", numberTroops);
     return jsonObject;
   }
 
   private JsonObject prevMoveTroops(MoveTroopsAction move) {
-    UUID player = move.getMovePlayer();
+    UUID player = move.getMovePlayer().getPlayerId();
     TerritoryEnum moveFrom = move.getFromTerritory();
     TerritoryEnum moveTo = move.getToTerrtiory();
     int numberTroops = move.troopsMoved();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", GSON.toJson(player));
-    jsonObject.addProperty("move", "moved_troops");
-    jsonObject.addProperty("move_from", moveFrom.toString());
-    jsonObject.addProperty("move_to", moveTo.toString());
-    jsonObject.addProperty("number_troops", numberTroops);
+    jsonObject.addProperty("movePlayer", GSON.toJson(player));
+    jsonObject.addProperty("moveType", MoveType.MOVE_TROOPS.ordinal());
+    jsonObject.addProperty("moveGrom", moveFrom.toString());
+    jsonObject.addProperty("moveTo", moveTo.toString());
+    jsonObject.addProperty("numberTroops", numberTroops);
     return jsonObject;
   }
 
-  private JsonObject validJsonMove(GameUpdate update) {
-    ValidAction action = update.getValidMoves();
+  private JsonObject validJsonMove(ValidAction action) {
     MoveType type = action.getMoveType();
     switch (type) {
       case SETUP:
@@ -401,8 +429,8 @@ public class MessageAPI {
   private JsonObject setUpMove(ValidSetupAction move) {
     List<TerritoryEnum> territories = move.getTerritories();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("type", MESSAGE_TYPE.SELECT.ordinal());
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
+    jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
+    jsonObject.addProperty("player", move.getMovePlayer().toString());
     jsonObject.addProperty("selectable", GSON.toJson(territories));
     return jsonObject;
   }
@@ -417,10 +445,10 @@ public class MessageAPI {
     Set<TerritoryEnum> terrs = move.getTerritories();
     Set<Integer> ordTerr = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move_options", "reinforce");
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("territories", GSON.toJson(ordTerr));
-    jsonObject.addProperty("number_troops", move.getNumberToReinforce());
+    jsonObject.addProperty("numberTroops", move.getNumberToReinforce());
     return jsonObject;
   }
 
@@ -435,8 +463,8 @@ public class MessageAPI {
     Set<TerritoryEnum> terrs = move.getTerritories();
     Set<Integer> ordTerr = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move_options", "card_turn_in");
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("cards", GSON.toJson(cards));
     jsonObject.addProperty("territories", GSON.toJson(ordTerr));
     return jsonObject;
@@ -456,10 +484,10 @@ public class MessageAPI {
     Map<Integer, Collection<Integer>> ordToAttack = this
         .getOrdinalCollectionMap(whoToAttack.asMap());
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move_options", "attack");
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
-    jsonObject.addProperty("territory_max_die_roll", GSON.toJson(ordNumberDie));
-    jsonObject.addProperty("can_attack", GSON.toJson(ordToAttack));
+    jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("maxDieRoll", GSON.toJson(ordNumberDie));
+    jsonObject.addProperty("whoCanAttack", GSON.toJson(ordToAttack));
     return jsonObject;
   }
 
@@ -473,10 +501,10 @@ public class MessageAPI {
     TerritoryEnum toDefend = move.getDefendTerritory();
     int maxDie = move.getMaxNumberDie();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
-    jsonObject.addProperty("move_options", "defend");
-    jsonObject.addProperty("to_defend", toDefend.ordinal());
-    jsonObject.addProperty("max_number_die", maxDie);
+    jsonObject.addProperty("moveType", MoveType.CHOOSE_DEFEND_DIE.ordinal());
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("defendTerritory", toDefend.ordinal());
+    jsonObject.addProperty("maxDieRoll", maxDie);
     return jsonObject;
   }
 
@@ -491,11 +519,11 @@ public class MessageAPI {
     TerritoryEnum claimed = move.getClaimedTerritory();
     int maxTroops = move.getMaxNumberTroops();
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("move_options", "claim");
-    jsonObject.addProperty("player_dd", GSON.toJson(move.getMovePlayer()));
-    jsonObject.addProperty("to_claim", claimed.ordinal());
-    jsonObject.addProperty("claim_from", attacker.ordinal());
-    jsonObject.addProperty("max_troop_number", maxTroops);
+    jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("territoryToClaim", claimed.ordinal());
+    jsonObject.addProperty("territoryClaimingFrom", attacker.ordinal());
+    jsonObject.addProperty("maxNumberTroops", maxTroops);
     return jsonObject;
   }
 
@@ -514,10 +542,10 @@ public class MessageAPI {
         .getOrdinalCollectionMap(reachable.asMap());
     Map<Integer, Integer> ordMaxMove = this.getOrdinalMap(maxMove);
     JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
-    jsonObject.addProperty("move_options", "move_troops");
-    jsonObject.addProperty("can_move_move", GSON.toJson(ordReachable));
-    jsonObject.addProperty("max_troop_move", GSON.toJson(ordMaxMove));
+    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("moveType", MoveType.MOVE_TROOPS.ordinal());
+    jsonObject.addProperty("canMove", GSON.toJson(ordReachable));
+    jsonObject.addProperty("maxTroopsMove", GSON.toJson(ordMaxMove));
     return jsonObject;
   }
 

@@ -58,15 +58,6 @@ public class AttackAction implements Action {
   }
 
   /**
-   * Returns the player attacking.
-   *
-   * @return attacking player
-   */
-  public RiskPlayer getRiskPlayer() {
-    return player;
-  }
-
-  /**
    * Returns territory attacking from.
    *
    * @return territory id being attacked
@@ -103,7 +94,7 @@ public class AttackAction implements Action {
   }
 
   /**
-   * Returns true if the action has been exected; false otherwise.
+   * Returns true if the action has been executed; false otherwise.
    */
   @Override
   public boolean isActionExecuted() {

@@ -18,13 +18,23 @@ import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
+//import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
  * Handles players and game updates for an individual match. Acts as a proxy for
  * the actual Risk Game.
- * 
+ *
  * @author user
  */
 public class Match {
@@ -40,11 +50,11 @@ public class Match {
   private final String matchName;
   private final Integer lobbySize;
   private MessageAPI messageApi = new MessageAPI();
-  private RiskGame myGame;
   private RiskBoard board;
   private RiskActionProcessor actionProcessor;
   private Referee referee;
   private Map<UUID, RiskPlayer> riskPlayers;
+  private UUID winner;
 
   /**
    * Create a match.
@@ -115,14 +125,14 @@ public class Match {
    */
   public void removePlayer(UUID playerId) {
     // If the match has started, update back end
-    if (started) {
-      myGame.removePlayer(playerId);
-      players = myGame.getPlayerOrder();
-
-      // Otherwise, edit our list
-    } else {
-      players.remove(playerId);
-    }
+    // if (started) {
+    // myGame.removePlayer(playerId);
+    // players = myGame.getPlayerOrder();
+    //
+    // // Otherwise, edit our list
+    // } else {
+    players.remove(playerId);
+    // }
 
     // Remove this player's name
     names.put(playerId, null);
@@ -172,29 +182,145 @@ public class Match {
   /**
    * Initiate this match and create our risk game.
    */
-  public JsonObject start() {
-    
-    started = true;
-    Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
-    riskPlayers = new HashMap<>();
-    for (UUID playerId : idSet) {
-      riskPlayers.put(id, new RiskPlayer(playerId));
+  public void start() {
+    synchronized (this) {
+      started = true;
+      Set<UUID> idSet = Collections.synchronizedSet(new TreeSet<>(players));
+      riskPlayers = new HashMap<>();
+      for (UUID playerId : idSet) {
+        riskPlayers.put(playerId, new RiskPlayer(playerId));
+      }
+      board = new RiskBoard();
+      referee = new Referee(board, riskPlayers.values());
+      actionProcessor = new RiskActionProcessor(referee);
+      players = referee.getPlayerOrder();
+      // GameUpdate initial = myGame.startGame();
+      // return messageApi.getJsonObjectMessage(initial);
     }
-    referee = new Referee(board, riskPlayers.values());
-    actionProcessor = new RiskActionProcessor(referee);
-    players = referee.getPlayerOrder();
-    myGame = new RiskGame(idSet);
-    players = myGame.getPlayerOrder();
-    GameUpdate initial = myGame.startGame();
-    return messageApi.getJsonObjectMessage(initial);
   }
 
-  public JsonObject getUpdate(JsonObject received) {
-   // SetupMove move = (SetupMove) messageApi.jsonToMove(received.toString());
-
-    // GameUpdate update = myGame.executeSetupChoiceAction(move);
-    // return messageApi.getJsonObjectMessage(update);
+  public List<JsonObject> getUpdate(JsonObject received) {
+    synchronized (this) {
+      try {
+        MoveType type = messageApi.getMoveType(received);
+        GameUpdate update = null;
+        switch (type) {
+          case SETUP:
+            SetupAction setup = this.createSetupAction(received);
+            update = actionProcessor.processSetupAction(setup);
+            break;
+          case SETUP_REINFORCE:
+            // SetupReinforceAction action = this.crea
+            break;
+          case REINFORCE:
+            ReinforceAction reinforce = this.createReinforceAction(received);
+            update = actionProcessor.processReinforceAction(reinforce);
+            break;
+          case TURN_IN_CARD:
+            CardTurnInAction cardAction = this.createCardAction(received);
+            update = actionProcessor.processCardTurnInAction(cardAction);
+            break;
+          case CHOOSE_ATTACK_DIE:
+            AttackAction attack = this.createAttackAction(received);
+            update = actionProcessor.processAttackAction(attack);
+            break;
+          case CHOOSE_DEFEND_DIE:
+            DefendAction defend = this.createDefendAction(received);
+            update = actionProcessor.processDefendAction(defend);
+            break;
+          case CLAIM_TERRITORY:
+            ClaimTerritoryAction claim = this
+                .createClaimTerritoryAction(received);
+            update = actionProcessor.processClaimTerritoryAction(claim);
+            break;
+          case SKIP:
+            RiskPlayer player = this.getSkipPlayer(received);
+            update = actionProcessor.processSkipAction(player);
+          default:
+            MoveTroopsAction moveAction = this.createMoveTroopsAction(received);
+            update = actionProcessor.processMoveTroopsAction(moveAction);
+        }
+        List<JsonObject> messages = messageApi.getUpdateMessages(update);
+        return messages;
+      } catch (IllegalArgumentException e) {
+        if (referee.getWinner() != null) {
+          // get winner
+        } else {
+          // get valid move
+        }
+      }
+    }
     return null;
+  }
+
+  private ReinforceAction createReinforceAction(JsonObject received) {
+    Map<TerritoryEnum, Integer> reinforced = messageApi
+        .getNumberReinforced(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    return new ReinforceAction(player, board, reinforced);
+  }
+
+  private CardTurnInAction createCardAction(JsonObject received) {
+    Map<TerritoryEnum, Integer> reinforced = messageApi
+        .getNumberReinforced(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    int card = messageApi.getCardTurnedIn(received);
+    return new CardTurnInAction(player, board, card, reinforced);
+  }
+
+  private SetupAction createSetupAction(JsonObject received) {
+    TerritoryEnum selected = messageApi.getSelectedTerritory(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    return new SetupAction(player, board, selected);
+  }
+
+  private AttackAction createAttackAction(JsonObject received) {
+    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
+        .getAttackingDefendingTerritory(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    int numberDie = messageApi.getNumberDieToRoll(received);
+    return new AttackAction(player, attackPair.getFirstElement(),
+        attackPair.getSecondElement(), numberDie);
+  }
+
+  private DefendAction createDefendAction(JsonObject received) {
+    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
+        .getAttackingDefendingTerritory(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    int numberDie = messageApi.getNumberDieToRoll(received);
+    return new DefendAction(player, board, referee.getCurrentAttack(),
+        numberDie);
+  }
+
+  private ClaimTerritoryAction createClaimTerritoryAction(JsonObject received) {
+    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
+        .getAttackClaimingTerritory(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    int numberTroops = messageApi.getNumberTroopsToMove(received);
+    return new ClaimTerritoryAction(player, board, attackPair.getFirstElement(),
+        attackPair.getSecondElement(), numberTroops);
+  }
+
+  private MoveTroopsAction createMoveTroopsAction(JsonObject received) {
+    Pair<TerritoryEnum, TerritoryEnum> movePair = messageApi
+        .getMoveTroopsTerritories(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    int numberTroops = messageApi.getNumberTroopsToMove(received);
+    return new MoveTroopsAction(player, board, movePair.getFirstElement(),
+        movePair.getSecondElement(), numberTroops);
+  }
+
+  private RiskPlayer getSkipPlayer(JsonObject received) {
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    return player;
   }
 
   @Override

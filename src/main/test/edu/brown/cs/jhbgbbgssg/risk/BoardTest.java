@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.google.gson.JsonObject;
+
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
@@ -615,5 +617,19 @@ public class BoardTest {
         TerritoryEnum.NEW_GUINEA));
     assertTrue(board.isNeighbor(TerritoryEnum.EASTERN_AUSTRALIA,
         TerritoryEnum.WESTERN_AUSTRALIA));
+  }
+
+  /**
+   * 
+   */
+  @Test
+  public void test() {
+    JsonObject obj = new JsonObject();
+    obj.addProperty("here", "what");
+    try {
+      obj.get("asdfa").getAsInt();
+    } catch (NullPointerException e) {
+      System.out.println("caught");
+    }
   }
 }

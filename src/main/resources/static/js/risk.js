@@ -55,8 +55,35 @@ const player = "Player 2";
 	// addcard();
 	// addcard();
 	// addcard();
+	$("#turnInCards").on( "click", turnInCards);
+	console.log($(".card"));
+	$('.card').click(function() {
+		console.log(this.style.borderColor);
+			console.log(this.style.borderStyle);
+	if (this.style.borderStyle !== "solid") {
+    this.style.borderStyle = "solid";
+   	this.style.borderColor = "black";
+   	console.log("if");
+   	   }
+   else {
+   		console.log("else");
+   		 this.style.borderStyle = "none";
+   		this.style.borderColor = "none";
+   }
+});
 
+function turnInCards() {
+	$('#cards li').each(function() {
+		console
+		if (this.style.borderStyle === "solid") {
+			this.remove();
+		}
+    //this now refers to each li
+    //do stuff to each
+});
+	console.log("click!");
 
+}
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
@@ -67,8 +94,9 @@ function setUp () {
 	attackStatus();
 	createDropdown();
 	$sideNav = $('#n');
-	$sideNav.append("<br>")
-	$sideNav.append("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>");
+	$sideNav.append("<br>");
+	$sideNav.append($("<p id = 'numReinforcements'></p>"));
+	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
 	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 	$sideNav.append($( "<ul id = 'blackRoll'>"));
 	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
@@ -76,7 +104,7 @@ function setUp () {
 	 $sideNav.append("<br>");
 	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
-	   $bottom = $('#bottom');
+	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Success</button>"));
 	   hideAll();
 	   changeAttackStatus("Player 1", "Player 2", "Russia");
 	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
@@ -84,7 +112,35 @@ function setUp () {
 	   attackerLoss("Player 3", 2);
 	   defenderLoss("Player 3", 3);
 }
+function createConquestTransferTroopsList() {
+	const $parent = $("#n");
+	const $outer = $("<div class='btn-group' id = 'transfergroup'></div>");
+	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferbutton'><span id = transferDropDownText>Select the amount of troops to move to conquered territory </span></button>"));
+	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='transferDropDown' data-toggle='dropdown'><span class='caret'></span></button>");
+	$outer.append($("<ul class='dropdown-menu' id = 'transferOptions' role='menu'></ul>"));
+	$parent.append($outer);
 
+}
+function replaceTransferListField() {
+	$(".tranferOption").click(function(){
+	    let id = "#" + "transferDropDownText";
+        $(id).html(this.text);
+    });
+}
+function populateTransferList(number) {
+	for (let i = 1; i <= number; i++) {
+		let a = $("<a class = 'transferOption'></a>");
+		a.html(i);
+		let li = $('<li class= "transferDrop"></li>');
+		li.append(a);
+		$dropDown.append(li); 
+	}
+
+}
+function updateReinforcementMessage(number){
+	let string = "You have " + number + " soldiers to deploy";
+	$("#numReinforcements").html(string);
+}
 function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
 	let message  = attackingPlayer + " is attacking " + defendingPlayer  + " in " + territory;
 	if (attackingPlayer ===player) {
@@ -126,15 +182,26 @@ function hideAll() {
  	$("#attackerStatus").hide();
  	$("#dropdownbutton").hide();
  	$("#soldierOptions").hide();
+ 	$("#transferbutton").hide();
 }
 
 function addcard(number) {
+	let card;
 	if (number ===1) {
-	  $('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+		card = $("<li class = 'card'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+		card.attr("id", cardID.toString());
+		cardID++;		
+	  $('#cards').append(card);
+	  console.log(card.attr('id'));
     }
     if (number ===2) {
-	  $('#cards').append($("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>"));
+    	card = $("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+			card.attr("id", cardID.toString());
+			  console.log(card.attr('id'));
+		cardID++;  
+	  $('#cards').append(card);
     }
+    console.log(cardID);
 }
 
 function createPlayer(number) {
@@ -185,7 +252,6 @@ function activateDropDown(numbers) {
 	$dropDown = $('#dieOptions');
 	for (let i = 0; i<numbers; i++) {
 		console.log("f");
-		// let a = $('<a></a>');
 		let option = i+1;
 		let a = $("<a class = 'option'></a>");
 		a.html(option);

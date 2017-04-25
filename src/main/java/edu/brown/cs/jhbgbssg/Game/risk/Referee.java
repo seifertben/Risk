@@ -41,14 +41,26 @@ public class Referee {
   private CardPool cardPool;
   private ValidAction validMove = null;
   private RiskPlayer currPlayer;
+  private AttackAction lastAttack;
+  private boolean gameStarted = false;
 
   /**
-   * Initializes the referee.
-   *
+   * Constructor for Referee. It takes in the RiskBoard and a set of players.
+   * 
    * @param board
-   *          - game board
+   *          - board
+   * @param playerSet
+   *          - set of risk players
+   * @throws IllegalArgumentException
+   *           - if the input is null
    */
-  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet) {
+  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet)
+      throws IllegalArgumentException {
+    if (board == null || playerSet == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    } else if (playerSet.size() < 2 || playerSet.size() > 6) {
+      throw new IllegalArgumentException("ERROR: illegal number of players");
+    }
     this.board = board;
     turnOrder = new ArrayList<>(playerSet);
     Collections.shuffle(turnOrder);
@@ -57,6 +69,11 @@ public class Referee {
     validMove = new ValidSetupAction(turnOrder.get(0), board);
   }
 
+  /**
+   * Returns the ordered list of player ids in the game.
+   *
+   * @return list of player ids
+   */
   public List<UUID> getPlayerOrder() {
     List<UUID> playerOrder = new ArrayList<>();
     for (int i = 0; i < turnOrder.size(); i++) {
@@ -65,15 +82,47 @@ public class Referee {
     return Collections.unmodifiableList(playerOrder);
   }
 
-  protected ValidAction getFirstSetup() {
-    return validMove;
+  public ValidAction getFirstSetup() {
+    if (!gameStarted) {
+      gameStarted = true;
+      return validMove;
+    }
+    return null;
   }
 
-  protected RiskPlayer getWinner() {
+  public boolean gameStarted() {
+    return gameStarted;
+  }
+
+  /**
+   * Returns the current attack action.
+   *
+   * @return AttackAction
+   */
+  public AttackAction getCurrentAttack() {
+    return lastAttack;
+  }
+
+  /**
+   * Returns the winner if there is one.
+   *
+   * @return
+   */
+  public RiskPlayer getWinner() {
     return winner;
   }
 
+  /**
+   * Determines if there the player is a winner and sets the winner field if so.
+   *
+   * @param player
+   *          - player to determine winner
+   * @return true if there is a winner; false otherwise
+   */
   protected boolean isWinner(RiskPlayer player) {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (player.getTerritories().containsAll(board.getTerritoryIds())) {
       winner = player;
       return true;
@@ -81,7 +130,18 @@ public class Referee {
     return false;
   }
 
+  /**
+   * Determines if the player has lost the game. If so, the player is removed from the turnOrder
+   * list and the method returns true.
+   *
+   * @param player
+   *          - player to check for losing the game
+   * @return true if the player lost the game; false otherwise
+   */
   protected boolean playerLost(RiskPlayer player) {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (!player.hasTerritories()) {
       turnOrder.remove(player);
       return true;
@@ -89,6 +149,11 @@ public class Referee {
     return false;
   }
 
+  /**
+   * Hands out a card if the card pool is not empty. Otherwise, the method returns -1.
+   *
+   * @return card value to hand out
+   */
   protected int handOutCard() {
     if (!cardPool.isEmpty()) {
       return cardPool.handOutCard();
@@ -96,6 +161,11 @@ public class Referee {
     return -1;
   }
 
+  /**
+   * Switches the current player and determines which the valid actions the player can do.
+   *
+   * @return valid action of the next player
+   */
   protected ValidAction switchPlayer() {
     int index = turnOrder.indexOf(currPlayer);
     index = (index + 1) % turnOrder.size();
@@ -104,11 +174,25 @@ public class Referee {
     return validMove;
   }
 
+  /**
+   * Returns whether or not the card deck is empty.
+   *
+   * @return true if empty; false otherwise
+   */
   protected boolean emptyCardDeck() {
     return cardPool.isEmpty();
   }
 
-  protected ValidAction getValidMove() {
+  /**
+   * Gets the current ValidAction. If the game has not been started, the gameStarted indicator
+   * variable is set to true and the first valid action is returned for the first player.
+   *
+   * @return the current valid action
+   */
+  public ValidAction getValidMove() {
+    if (!gameStarted) {
+      gameStarted = true;
+    }
     return validMove;
   }
 
@@ -122,113 +206,135 @@ public class Referee {
     return (ValidReinforceAction) validMove;
   }
 
-  private ValidCardAction getValidCardMove(RiskPlayer player) {
-    return new ValidCardAction(player);
-  }
-
-  private ValidMoveTroopsAction getValidMoveTroopsMove(RiskPlayer player) {
-    validMove = new ValidMoveTroopsAction(player, board);
-    return (ValidMoveTroopsAction) validMove;
-  }
-
-  private ValidAttackAction getValidAttackMove(RiskPlayer player) {
-    validMove = new ValidAttackAction(player, board);
-    return (ValidAttackAction) validMove;
-  }
-
-  private ValidDieDefendAction getValidDieDefendMove(RiskPlayer player,
-      TerritoryEnum toDefend) {
-    validMove = new ValidDieDefendAction(player, board, toDefend);
-    return (ValidDieDefendAction) validMove;
-  }
-
-  private ValidClaimTerritoryAction getValidClaimTerritoryMove(
-      RiskPlayer player, AttackAction attack) {
-    validMove = new ValidClaimTerritoryAction(player, board, attack);
-    return (ValidClaimTerritoryAction) validMove;
-  }
-
-  protected ValidAction getValidMoveAfterReinforce(RiskPlayer player) {
-    if (player.getCards().size() != 0) {
-      validMove = this.getValidCardMove(player);
+  /**
+   * Gets the next valid action after a player has reinforced. If current player does not have any
+   * valid moves left, the method returns null.
+   *
+   * @param player
+   * @return ValidAction - next set of valid actions
+   */
+  protected ValidAction getValidMoveAfterReinforce() {
+    if (currPlayer.getCards().size() != 0) {
+      validMove = new ValidCardAction(currPlayer);
       return validMove;
     }
-    ValidAttackAction move = this.getValidAttackMove(player);
+    ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
       validMove = move;
       return move;
     }
-    ValidMoveTroopsAction troopMove = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction troopMove = new ValidMoveTroopsAction(currPlayer,
+        board);
     if (troopMove.getReachableTerritores().size() != 0) {
       validMove = troopMove;
       return troopMove;
     }
-    validMove = null;
     return null;
   }
 
-  protected ValidAction getValidMoveAfterCardTurnIn(RiskPlayer player) {
-    ValidAttackAction move = this.getValidAttackMove(player);
+  /**
+   * Gets the next valid action after turning a card has been turned in. The next valid action is
+   * either an attack or moving a troops. If there is no valid action left for the current player,
+   * null is returned.
+   *
+   * @return next valid action after turning in a card
+   */
+  protected ValidAction getValidMoveAfterCardTurnIn() {
+    ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
       validMove = move;
       return validMove;
     }
-    ValidMoveTroopsAction troopMove = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction troopMove = new ValidMoveTroopsAction(currPlayer,
+        board);
     if (troopMove.actionAvailable()) {
       validMove = troopMove;
       return validMove;
     }
-    validMove = null;
     return null;
   }
 
-  protected ValidAction getValidMoveAfterAttack(AttackAction attack) {
-    TerritoryEnum defending = attack.getDefendingTerritory();
+  /**
+   * Gets the next valid action after an attack. After an attack, the only valid action is
+   * defending.
+   *
+   * @return next valid action after attacking
+   */
+  protected ValidAction getValidMoveAfterAttack() {
+    TerritoryEnum defending = lastAttack.getDefendingTerritory();
     RiskPlayer defender = board.getTerritory(defending).getOwner();
-    ValidDieDefendAction move = this.getValidDieDefendMove(defender,
-        attack.getDefendingTerritory());
+    ValidDieDefendAction move = new ValidDieDefendAction(defender, board,
+        lastAttack.getDefendingTerritory());
     validMove = move;
-    return validMove;
+    return null;
   }
 
-  protected ValidAction getValidMoveAfterDefend(RiskPlayer player,
-      DefendAction defend, AttackAction attack) {
+  /**
+   * Gets the next valid action after defending. If the the defender lost his territory, the next
+   * valid action is the attacker claiming the territory. Otherwise, the next valid action is either
+   * another attack or a moving troops. If no action is available for the current player, the method
+   * returns null.
+   *
+   * @param defend
+   *          - defend move
+   * @return next valid action after defending
+   */
+  protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
     if (defend.getDefenderLostTerritory()) {
-      validMove = this.getValidClaimTerritoryMove(player, attack);
+      validMove = new ValidClaimTerritoryAction(currPlayer, board, lastAttack);
+      lastAttack = null;
       return validMove;
     }
-    ValidAttackAction validAttack = this.getValidAttackMove(player);
+    ValidAttackAction validAttack = new ValidAttackAction(currPlayer, board);
     if (validAttack.actionAvailable()) {
+      lastAttack = null;
       validMove = validAttack;
       return validMove;
     }
-    ValidMoveTroopsAction moveTroops = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction moveTroops = new ValidMoveTroopsAction(currPlayer,
+        board);
     if (moveTroops.actionAvailable()) {
+      lastAttack = null;
       validMove = moveTroops;
       return validMove;
     }
-    validMove = null;
+    lastAttack = null;
     return null;
   }
 
-  protected ValidAction getValidMoveAfterClaimTerritory(RiskPlayer player) {
-    ValidAttackAction attack = this.getValidAttackMove(player);
+  /**
+   * Gets the next valid action after claiming a territory. If the current player can attack, a
+   * valid attack action is returned. If not, a valid move troops action is returned if the current
+   * player can move their troops. Otherwise, null is returned if the current player has no valid
+   * action.
+   *
+   * @return next valid action after claiming a territory
+   */
+  protected ValidAction getValidMoveAfterClaimTerritory() {
+    ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {
       validMove = attack;
       return validMove;
     }
-    ValidMoveTroopsAction moveTroops = this.getValidMoveTroopsMove(player);
+    ValidMoveTroopsAction moveTroops = new ValidMoveTroopsAction(currPlayer,
+        board);
     if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
     }
-    validMove = null;
-    return validMove;
+    return null;
   }
 
-  protected Action getValidDefendMoveAfterTroopMove(RiskPlayer player,
-      DefendAction move) {
-    return null;
+  protected boolean validSkipMove(RiskPlayer player) {
+    if (!player.equals(currPlayer)) {
+      return false;
+    }
+    MoveType type = validMove.getMoveType();
+    if (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
+        || type == MoveType.MOVE_TROOPS) {
+      return false;
+    }
+    return true;
   }
 
   protected Action getValidMoveAfterSetup(RiskPlayer player, SetupAction move) {
@@ -282,8 +388,12 @@ public class Referee {
         || validMove.getMoveType() != MoveType.CHOOSE_ATTACK_DIE) {
       return false;
     }
-    ValidAttackAction attack = (ValidAttackAction) validMove;
-    return attack.validAttackMove(move);
+    ValidAttackAction validAttack = (ValidAttackAction) validMove;
+    if (validAttack.validAttackMove(move)) {
+      lastAttack = move;
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -355,5 +465,12 @@ public class Referee {
     }
     ValidSetupReinforceAction setupReinforceMove = (ValidSetupReinforceAction) validMove;
     return setupReinforceMove.validSetupReinforceMove(move);
+  }
+
+  protected boolean playersTurn(RiskPlayer player) {
+    if (player.equals(currPlayer)) {
+      return true;
+    }
+    return false;
   }
 }
