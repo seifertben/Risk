@@ -560,7 +560,7 @@ let KAMCHATKADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "selectable": true,
       "title": "Kamchatka: Occupied by No One",
       "id": 31,
@@ -574,7 +574,7 @@ let YAKUTSKDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
       "id": 37,
@@ -1143,27 +1143,18 @@ let map = AmCharts.makeChart( "mapdiv", {
 function select_territory(event) {
 
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
-  console.log(availableForClaim);
-  console.log(availableForClaim[0]);
-  console.log(event.mapObject.id);
   if (availableForClaim.includes(event.mapObject.id)) {
-	  console.log("IMIN");
 	  conn.send(JSON.stringify(mess));
   }
 }
 
 function make_selection(player, territory) {
-  console.log(territory);
-  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[idToName[player]], colors[idToName[player]]);
+  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
   map.dataProvider.zoomLevel = map.zoomLevel();
   map.dataProvider.zoomLatitude = map.zoomLatitude();
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
 }
-
-// // changeLines("blue", ONTARIO_GREENLAND);
-// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
-// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
 
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
   let originalTitle = territory.title.split(":");
@@ -1176,9 +1167,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   //   }
   //   string += numSoldier.toString();
   // }
-  console.log(isNaN(parseInt(originalLabel[originalLabel.length-1])));
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
-    console.log("here");
     for (let i = 0; i <originalLabel.length; i++) {
       if (i + 1 !=originalLabel.length) {
         string += originalLabel[i] + " ";
