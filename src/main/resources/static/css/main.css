@@ -15,9 +15,17 @@
       background-color: blue;
       margin: 20px;
     }
-    .w3-card-4 {
-      /*background-color: blue;*/
-    }
+   #leftNav{
+    position: relative;
+   }
+   #messageList{
+    position: absolute;
+    overflow-y: scroll;
+   }
+   #messageForm {
+    position: absolute;
+    bottom: 0;
+   }
     .w3-container-w3-blue {
       background-color: blue;
     }
@@ -50,8 +58,11 @@
       background-color: #f1f1f1;
       height: 100%;
     }
-    
-    /* Set black background color, white text and some padding */
+  /* #messageField {
+      width: 30%;
+      text-indent: -100px;
+    }
+*/    /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
@@ -60,6 +71,7 @@
     .well-sm{
       float: left;
       width: 30%;
+      text-indent: 30
     }
   #dropdownbutton {
     width: 180px;

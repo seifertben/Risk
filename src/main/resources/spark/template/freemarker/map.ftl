@@ -1,8 +1,16 @@
 <#assign content>
 <div class="container-fluid text-center">
   <div class="row content">
-  	<div class="col-sm-2 sidenav"></div>
+  	<div class="col-sm-2 sidenav" id = "leftNav">
+    <ul id="messageList"></ul>
+    <form id = "messageForm">
+    <textarea name="message" value="" id="messageField"
+     placeholder="Enter Message!"></textarea>
+    <input type="submit" value="Send" id = "button" >
+    </form>
+    </div>
   	<div class="col-sm-8 text-left">
+
   	  <h1>Welcome to Risk</h1>
   	  <hr>
   	  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
