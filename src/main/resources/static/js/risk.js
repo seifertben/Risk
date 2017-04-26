@@ -239,7 +239,7 @@ function createPlayer(number) {
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
-		document.getElementById(string).style.backgroundColor = colors[players[i]];
+		document.getElementById(string).style.backgroundColor = colors[nameToId[players[i]]];
 	}
 }
 
