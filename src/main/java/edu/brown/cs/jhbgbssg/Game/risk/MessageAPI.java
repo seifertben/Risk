@@ -288,7 +288,7 @@ public class MessageAPI {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
-    jsonObject.addProperty("playerId",
+    jsonObject.addProperty("movePlayer",
         move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("territoryId", selected.ordinal());
     return jsonObject;
@@ -300,7 +300,7 @@ public class MessageAPI {
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
     jsonObject.addProperty("territoryId", selected.ordinal());
-    jsonObject.addProperty("playerId",
+    jsonObject.addProperty("movePlayer",
         action.getMovePlayer().getPlayerId().toString());
     return jsonObject;
   }
@@ -394,7 +394,7 @@ public class MessageAPI {
     int numberTroops = move.getNumberTroops();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("playerId", GSON.toJson(player));
+    jsonObject.addProperty("movePlayer", GSON.toJson(player));
     jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
     jsonObject.addProperty("claimedFrom", claimFrom.ordinal());
     jsonObject.addProperty("claimedTerritory", claimed.ordinal());
@@ -416,7 +416,7 @@ public class MessageAPI {
     int numberTroops = move.troopsMoved();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("playerId", GSON.toJson(player));
+    jsonObject.addProperty("movePlayer", GSON.toJson(player));
     jsonObject.addProperty("moveType", MoveType.MOVE_TROOPS.ordinal());
     jsonObject.addProperty("moveGrom", moveFrom.ordinal());
     jsonObject.addProperty("moveTo", moveTo.ordinal());
