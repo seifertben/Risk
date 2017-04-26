@@ -24,9 +24,12 @@ public class ValidSetupAction implements ValidAction {
   /**
    * Constructor.
    *
-   * @param player - player
-   * @param board - board
-   * @throws IllegalArgumentException if the input is null
+   * @param player
+   *          - player
+   * @param board
+   *          - board
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public ValidSetupAction(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
@@ -50,9 +53,11 @@ public class ValidSetupAction implements ValidAction {
   /**
    * Determines of the setup move is valid.
    *
-   * @param move - move to validate
+   * @param move
+   *          - move to validate
    * @return true if it is valid; false otherwise
-   * @throws IllegalArgumentException if the input is null
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public boolean validSetupMove(SetupAction move)
       throws IllegalArgumentException {
@@ -72,16 +77,25 @@ public class ValidSetupAction implements ValidAction {
     return true;
   }
 
+  /**
+   * Returns the move type.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.SETUP;
   }
 
+  /**
+   * Returns the player who owns the turn.
+   */
   @Override
   public UUID getMovePlayer() {
     return player.getPlayerId();
   }
 
+  /**
+   * Returns if the move can be made.
+   */
   @Override
   public boolean actionAvailable() {
     return moveAvailable;

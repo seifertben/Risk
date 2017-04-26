@@ -272,12 +272,7 @@ public class Match {
     TerritoryEnum selected = messageApi.getSelectedTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
-    System.out.println(selected);
-    System.out.println(playerId);
-    System.out.println(player);
-    SetupAction a = new SetupAction(player, board, selected);
-    System.out.println(a);
-    return a;
+    return new SetupAction(player, board, selected);
   }
 
   private AttackAction createAttackAction(JsonObject received) {

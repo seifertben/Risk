@@ -43,38 +43,37 @@ const TerritoryEnum = {
   WESTERN_AUSTRALIA: 41
 };
 let cardID = 0;
-const player = "Player 2";
 	
-	setUp();
-	activateDropDown(2);
-	replaceField();
-	replaceTransferListField();
-	//changePlayerImage(player2, "white", "blue");
-
-	addcard(2);
-	addcard(1);
-	  // populateTransferList(10);
-	// addcard();
-	// addcard();
-	// addcard();
-	$("#transferconfirm").on("click", confirmTransfer);
-	$("#diceconfirm").on("click", confirmDice);
-	$("#turnInCards").on( "click", turnInCards);
-	console.log($(".card"));
-	$('.card').click(function() {
-		console.log(this.style.borderColor);
-			console.log(this.style.borderStyle);
-	if (this.style.borderStyle !== "solid") {
-    this.style.borderStyle = "solid";
-   	this.style.borderColor = "black";
-   	console.log("if");
-   	   }
-   else {
-   		console.log("else");
-   		 this.style.borderStyle = "none";
-   		this.style.borderColor = "none";
-   }
-});
+//
+//	activateDropDown(2);
+//	replaceField();
+//	replaceTransferListField();
+//	//changePlayerImage(player2, "white", "blue");
+//
+//	addcard(2);
+//	addcard(1);
+//	  // populateTransferList(10);
+//	// addcard();
+//	// addcard();
+//	// addcard();
+//	$("#transferconfirm").on("click", confirmTransfer);
+//	$("#diceconfirm").on("click", confirmDice);
+//	$("#turnInCards").on( "click", turnInCards);
+//	console.log($(".card"));
+//	$('.card').click(function() {
+//		console.log(this.style.borderColor);
+//			console.log(this.style.borderStyle);
+//	if (this.style.borderStyle !== "solid") {
+//    this.style.borderStyle = "solid";
+//   	this.style.borderColor = "black";
+//   	console.log("if");
+//   	   }
+//   else {
+//   		console.log("else");
+//   		 this.style.borderStyle = "none";
+//   		this.style.borderColor = "none";
+//   }
+//});
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
@@ -106,7 +105,6 @@ function changePlayerImage(id, backgroundColor, color) {
 }
 
 function setUp () {
-	// createPlayer(3);
 	attackStatus();
 	createDropdown();
 	createConquestTransferTroopsList();
@@ -123,13 +121,13 @@ function setUp () {
 	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Success</button>"));
 
-	   // hideAll();
-	   changeAttackStatus("Player 1", "Player 2", "Russia");
-	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
-	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
-	   attackerLoss("Player 3", 2);
-	   defenderLoss("Player 3", 3);
-	   updateReinforcementMessage(10);
+	   hideAll();
+//	   changeAttackStatus("Player 1", "Player 2", "Russia");
+//	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
+//	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
+//	   attackerLoss("Player 3", 2);
+//	   defenderLoss("Player 3", 3);
+//	   updateReinforcementMessage(10);
 }
 function createConquestTransferTroopsList() {
 	const $parent = $("#n");
@@ -241,7 +239,7 @@ function createPlayer(number) {
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
-		document.getElementById(string).style.backgroundColor = colors[players[i]];
+		document.getElementById(string).style.backgroundColor = colors[nameToId[players[i]]];
 	}
 }
 

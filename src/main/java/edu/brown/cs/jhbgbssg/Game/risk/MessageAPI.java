@@ -32,6 +32,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidDieDefendAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -393,7 +394,7 @@ public class MessageAPI {
     int numberTroops = move.getNumberTroops();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", GSON.toJson(player));
+    jsonObject.addProperty("playerId", GSON.toJson(player));
     jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
     jsonObject.addProperty("claimedFrom", claimFrom.ordinal());
     jsonObject.addProperty("claimedTerritory", claimed.ordinal());
@@ -415,7 +416,7 @@ public class MessageAPI {
     int numberTroops = move.troopsMoved();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", GSON.toJson(player));
+    jsonObject.addProperty("playerId", GSON.toJson(player));
     jsonObject.addProperty("moveType", MoveType.MOVE_TROOPS.ordinal());
     jsonObject.addProperty("moveGrom", moveFrom.ordinal());
     jsonObject.addProperty("moveTo", moveTo.ordinal());
@@ -428,6 +429,8 @@ public class MessageAPI {
     switch (type) {
       case SETUP:
         return this.setUpMove((ValidSetupAction) action);
+      case SETUP_REINFORCE:
+        return this.setUpSetupReinforceMove((ValidSetupReinforceAction) action);
       case REINFORCE:
         return this.setUpReinforceMove((ValidReinforceAction) action);
       case TURN_IN_CARD:
@@ -441,6 +444,16 @@ public class MessageAPI {
       default:
         return this.setUpMoveTroops((ValidMoveTroopsAction) action);
     }
+  }
+
+  private JsonObject setUpSetupReinforceMove(ValidSetupReinforceAction move) {
+    Set<TerritoryEnum> terrs = move.getTerritories();
+    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
+    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
+    return jsonObject;
   }
 
   /**
@@ -509,7 +522,7 @@ public class MessageAPI {
         .getOrdinalCollectionMap(whoToAttack.asMap());
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
-    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("maxDieRoll", GSON.toJson(ordDie));
     jsonObject.addProperty("whoCanAttack", GSON.toJson(attackOrd));
     return jsonObject;

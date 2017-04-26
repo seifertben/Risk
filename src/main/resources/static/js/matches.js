@@ -94,36 +94,65 @@ const setup_matches = () => {
         players.push(data.player0name);
         idToName[data.player0id] = data.player0name;
         nameToId[data.player0name] = data.player0id;
-        colors[data.player0name] = "red";
+        colors[data.player0id] = "red";
         players.push(data.player1name);
         idToName[data.player1id] = data.player1name;
         nameToId[data.player1name] = data.player1id;
-        colors[data.player1name] = "blue";
+        colors[data.player1id] = "blue";
         if (data.player2id != null) {
             players.push(data.player2name);
             idToName[data.player2id] = data.player2name;
             nameToId[data.player2name] = data.player2id;
-            colors[data.player2name] = "green";
+            colors[data.player2id] = "green";
         }
         if (data.player3id != null) {
             players.push(data.player3name);
             idToName[data.player3id] = data.player3name;
             nameToId[data.player3name] = data.player3id;
-            colors[data.player3name] = "purple";
+            colors[data.player3id] = "purple";
         }
         if (data.player4id != null) {
             players.push(data.player4name);
             idToName[data.player4id] = data.player4name;
             nameToId[data.player4name] = data.player4id;
-            colors[data.player4name] = "orange";
+            colors[data.player4id] = "orange";
         }
         if (data.player5id != null) {
             players.push(data.player5);
             idToName[data.player5id] = data.player5name;
             nameToId[data.player5name] = data.player5id;
-            colors[data.player5name] = "yellow";
+            colors[data.player5id] = "yellow";
         }
         createPlayer(data.playerNum);
+    	setUp();
+
+//    	activateDropDown(2);
+//    	replaceField();
+//    	replaceTransferListField();
+//    	//changePlayerImage(player2, "white", "blue");
+//
+//    	  // populateTransferList(10);
+//    	// addcard();
+//    	// addcard();
+//    	// addcard();
+//    	$("#transferconfirm").on("click", confirmTransfer);
+//    	$("#diceconfirm").on("click", confirmDice);
+//    	$("#turnInCards").on( "click", turnInCards);
+//    	console.log($(".card"));
+//    	$('.card').click(function() {
+//    		console.log(this.style.borderColor);
+//    			console.log(this.style.borderStyle);
+//    	if (this.style.borderStyle !== "solid") {
+//        this.style.borderStyle = "solid";
+//       	this.style.borderColor = "black";
+//       	console.log("if");
+//       	   }
+//       else {
+//       		console.log("else");
+//       		 this.style.borderStyle = "none";
+//       		this.style.borderColor = "none";
+//       }
+//    });
         break;
 
       case MESSAGE_TYPE.DESTROY:
