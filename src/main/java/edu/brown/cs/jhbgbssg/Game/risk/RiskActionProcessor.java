@@ -320,7 +320,14 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     if (referee.validSkipMove(player)) {
-      return this.switchPlayers(null, player);
+      ValidAction action = referee.getActionAfterSkip();
+      if (action == null) {
+        return this.switchPlayers(null, player);
+      } else {
+        GameUpdate update = new GameUpdate();
+        update.setValidMoves(action, null, false);
+        return update;
+      }
     } else {
       GameUpdate update = new GameUpdate();
       update.setValidMoves(referee.getValidMove(), null, true);
