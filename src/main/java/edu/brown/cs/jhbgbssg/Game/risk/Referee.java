@@ -373,6 +373,22 @@ public class Referee {
     return true;
   }
 
+  protected ValidAction getActionAfterSkip() {
+    MoveType type = validMove.getMoveType();
+    if (type == MoveType.TURN_IN_CARD) {
+      return this.getValidMoveAfterCardTurnIn();
+    } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
+      ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
+      if (move.actionAvailable()) {
+        validMove = move;
+        return move;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
+
   protected ValidAction getValidMoveAfterSetup() {
     return null;
   }

@@ -15,15 +15,14 @@ public class ValidSetupReinforceAction implements ValidAction {
 
   private RiskPlayer player;
   private Set<TerritoryEnum> territories;
+  private int numberLeftToPlace;
   private boolean actionAvailable = true;
 
   /**
    * Constructor.
    *
-   * @param player
-   *          - player
-   * @throws IllegalArgumentException
-   *           if the input is null
+   * @param player - player
+   * @throws IllegalArgumentException if the input is null
    */
   public ValidSetupReinforceAction(RiskPlayer player)
       throws IllegalArgumentException {
@@ -32,7 +31,8 @@ public class ValidSetupReinforceAction implements ValidAction {
     }
     this.player = player;
     territories = player.getTerritories();
-    if (territories.size() == 0 || player.getInitialReinforcements() <= 0) {
+    this.numberLeftToPlace = player.getInitialReinforcements();
+    if (territories.size() == 0 || numberLeftToPlace <= 0) {
       actionAvailable = false;
     }
 
@@ -41,8 +41,7 @@ public class ValidSetupReinforceAction implements ValidAction {
   /**
    * Validates a move.
    *
-   * @param move
-   *          - move
+   * @param move - move
    * @return true or false.
    */
   public boolean validSetupReinforceMove(SetupReinforceAction move) {
@@ -73,6 +72,10 @@ public class ValidSetupReinforceAction implements ValidAction {
 
   public Set<TerritoryEnum> getTerritories() {
     return territories;
+  }
+
+  public int getTroopsLeftToPlace() {
+    return numberLeftToPlace;
   }
 
 }

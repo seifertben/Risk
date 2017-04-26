@@ -680,6 +680,6 @@ public class BoardTest {
     System.out.println(translateMap);
     System.out.println(translateMap.get(TerritoryEnum.AFGHANISTAN)
         .contains(TerritoryEnum.INDIA));
-
   }
+
 }
