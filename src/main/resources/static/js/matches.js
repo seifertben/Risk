@@ -178,8 +178,10 @@ const setup_matches = () => {
           	} else {
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
-            availableForClaim = JSON.parse(data.selectable);
-            map.addListener("clickMapObject", select_territory);
+          	if (data.playerId == myId) {
+              availableForClaim = JSON.parse(data.selectable);
+              map.addListener("clickMapObject", select_territory);
+          	}
             break;
         }
         break;

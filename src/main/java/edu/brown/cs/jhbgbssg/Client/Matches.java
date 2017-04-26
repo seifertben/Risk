@@ -124,15 +124,10 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
       for (int index = 0; index < response.size(); index++) {
-        if (response.get(index).has("playerId")) {
-          UUID playerId = UUID.fromString(response.get(index).get("playerId").getAsString());
-          playerToSession.get(playerId).getRemote().sendString(response.get(index).toString());
-        } else {
-          List<UUID> playerList = game.getPlayers();
-          for (int looper = 0; looper < game.playerNum(); looper++) {
-            UUID toAlert = playerList.get(looper);
-            playerToSession.get(toAlert).getRemote().sendString(response.get(index).toString());
-          }
+        List<UUID> playerList = game.getPlayers();
+        for (int looper = 0; looper < game.playerNum(); looper++) {
+          UUID toAlert = playerList.get(looper);
+          playerToSession.get(toAlert).getRemote().sendString(response.get(index).toString());
         }
       }
     }
@@ -261,15 +256,10 @@ public class Matches {
     }
 
     for (int index = 0; index < initials.size(); index++) {
-      if (initials.get(index).has("player")) {
-        UUID playerId = UUID.fromString(initials.get(index).get("player").getAsString());
-        playerToSession.get(playerId).getRemote().sendString(initials.get(index).toString());
-      } else {
-        List<UUID> playerList = toStart.getPlayers();
-        for (int looper = 0; looper < toStart.playerNum(); looper++) {
-          UUID toAlert = playerList.get(looper);
-          playerToSession.get(toAlert).getRemote().sendString(initials.get(index).toString());
-        }
+      List<UUID> playerList = toStart.getPlayers();
+      for (int looper = 0; looper < toStart.playerNum(); looper++) {
+        UUID toAlert = playerList.get(looper);
+        playerToSession.get(toAlert).getRemote().sendString(initials.get(index).toString());
       }
     }
   }

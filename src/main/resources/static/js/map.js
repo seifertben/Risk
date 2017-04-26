@@ -1093,7 +1093,9 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
   "mouseWheelZoomEnabled": true,
-
+  "listeners" : {
+	  
+  },
   "dataProvider": {
       "map": "continentsLow",
       images:game,
@@ -1144,6 +1146,7 @@ function select_territory(event) {
 
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
   if (availableForClaim.includes(event.mapObject.id)) {
+	  availableForClaim = [];
 	  conn.send(JSON.stringify(mess));
   }
 }
