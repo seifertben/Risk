@@ -50,8 +50,8 @@ let availableForClaim = [];
 
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -124,6 +124,35 @@ const setup_matches = () => {
             colors[data.player5name] = "yellow";
         }
         createPlayer(data.playerNum);
+    	setUp();
+
+//    	activateDropDown(2);
+//    	replaceField();
+//    	replaceTransferListField();
+//    	//changePlayerImage(player2, "white", "blue");
+//
+//    	  // populateTransferList(10);
+//    	// addcard();
+//    	// addcard();
+//    	// addcard();
+//    	$("#transferconfirm").on("click", confirmTransfer);
+//    	$("#diceconfirm").on("click", confirmDice);
+//    	$("#turnInCards").on( "click", turnInCards);
+//    	console.log($(".card"));
+//    	$('.card').click(function() {
+//    		console.log(this.style.borderColor);
+//    			console.log(this.style.borderStyle);
+//    	if (this.style.borderStyle !== "solid") {
+//        this.style.borderStyle = "solid";
+//       	this.style.borderColor = "black";
+//       	console.log("if");
+//       	   }
+//       else {
+//       		console.log("else");
+//       		 this.style.borderStyle = "none";
+//       		this.style.borderColor = "none";
+//       }
+//    });
         break;
 
       case MESSAGE_TYPE.DESTROY:

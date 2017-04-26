@@ -494,7 +494,7 @@ public class MessageAPI {
         .getOrdinalCollectionMap(whoToAttack.asMap());
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
-    jsonObject.addProperty("player", GSON.toJson(move.getMovePlayer()));
+    jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("maxDieRoll", GSON.toJson(ordDie));
     jsonObject.addProperty("whoCanAttack", GSON.toJson(attackOrd));
     return jsonObject;

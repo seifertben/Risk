@@ -124,8 +124,8 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
       for (int index = 0; index < response.size(); index++) {
-        if (response.get(index).has("player")) {
-          UUID playerId = UUID.fromString(response.get(index).get("player").getAsString());
+        if (response.get(index).has("playerId")) {
+          UUID playerId = UUID.fromString(response.get(index).get("playerId").getAsString());
           playerToSession.get(playerId).getRemote().sendString(response.get(index).toString());
         } else {
           List<UUID> playerList = game.getPlayers();

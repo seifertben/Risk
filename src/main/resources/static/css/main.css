@@ -82,19 +82,19 @@
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
-    width: 320px;
+      width: 320px;
       height: 500px;
       overflow-y: scroll;
       float: center;
   }
   div[id="enter"] {
-    display: inline-block;
+      display: inline-block;
       padding: 10px;
       border: 2px solid black;
       width: 320px;
       height: 500px;
       margin-right: 50px;
-    float: left;
+      float: left;
   }
   div[id="nameField"] {
       display: inline-block;
@@ -108,26 +108,26 @@
       margin: 0% 25%;
   }
   button[id="maker"] {
-    margin: 5px 0px;
+      margin: 5px 0px;
   }
   button {
       display: inline-block;
-        margin: 5px;
+      margin: 5px;
       background-color: #4CAF50; /* Green */
       color: white;
-        border: 2px solid black;
-        border-style: groove;
+      border: 2px solid black;
+      border-style: groove;
       padding: 15px 32px;
       text-align: center;
       text-decoration: none;
       font-size: 16px;
   }
   input {
-    margin: 5px 0px;
+      margin: 5px 0px;
       display: inline-block;
       background-color: white;
       color: black;
-        border: 2px solid black;
+      border: 2px solid black;
       padding: 15px 50px;
       text-align: center;
       text-decoration: none;

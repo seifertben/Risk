@@ -10,6 +10,7 @@
   	  <script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
   	  <div id="mapdiv" style="width: 1000ps; height: 400px;"></div></div>
   <div class="col-sm-2 sidenav" id="n">
+  <div id="playerList"></div>
   </div>
 </div>
 <footer class="container-fluid text-center" id="bottom">
