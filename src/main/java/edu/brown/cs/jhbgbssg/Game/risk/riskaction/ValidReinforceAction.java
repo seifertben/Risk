@@ -40,6 +40,9 @@ public class ValidReinforceAction implements ValidAction {
     Collection<ContinentInterface> conts = board.getContinents();
     for (ContinentInterface cont : conts) {
       Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
+      System.out.println(territories);
+      System.out.println(territoriesInCont);
+      System.out.println(cont.getContinentId());
       if (territories.containsAll(territoriesInCont)) {
         numberReinforce += cont.getBonusValue();
       }

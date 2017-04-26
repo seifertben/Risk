@@ -1,8 +1,8 @@
-$(window).keydown(function(evt){
-	if (event.keyCode == 13) {
-		event.preventDefault();
-		return false;
-	}
+$(window).keydown(function(event){
+  if (event.keyCode == 13) {
+    event.preventDefault();
+    return false;
+  }
 });
 
 const MESSAGE_TYPE = {
@@ -20,8 +20,8 @@ const MESSAGE_TYPE = {
   PREVIOUS_ACTION: 11,
   VALID_ACTIONS: 12,
   ERROR: 13,
-  MOVE: 14,
-}
+  MOVE: 14
+};
 
 const MOVE_TYPES = {
   SETUP: 0,
@@ -32,9 +32,8 @@ const MOVE_TYPES = {
   CHOOSE_DEFEND_DIE: 5,
   CLAIM_TERRITORY: 6,
   MOVE_TROOPS: 7,
-  SKIP: 8,
-}
-
+  SKIP: 8
+};
 
 document.getElementById("gameField").style.display = "none";
 document.getElementById("menuField").style.display = "none";
@@ -75,18 +74,18 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.REMOVE:
         document.getElementById(data.gameId).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-		break;
+    break;
 
       case MESSAGE_TYPE.CREATE:
-   		let game = document.createElement("BUTTON");
-   		game.id = data.gameId;
-   		game.name = data.matchName;
-   		document.getElementById("matches").appendChild(game);
-   		document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-   		document.getElementById(game.id).value = data.lobbySize;
+       let game = document.createElement("BUTTON");
+       game.id = data.gameId;
+       game.name = data.matchName;
+       document.getElementById("matches").appendChild(game);
+       document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
+       document.getElementById(game.id).value = data.lobbySize;
 
-   		game.onclick = join_match;
-    	break;
+       game.onclick = join_match;
+      break;
 
       case MESSAGE_TYPE.START:
         document.getElementById("gameField").style.display = "inline";
@@ -132,28 +131,28 @@ const setup_matches = () => {
         break;
 
 //      case MESSAGE_TYPE.SELECT:
-//    	  //PICK UP HERE
-//    	currentPlayer = data.playerId;
-//    	console.log(currentPlayer);
+//        //PICK UP HERE
+//      currentPlayer = data.playerId;
+//      console.log(currentPlayer);
 //        map.addListener("clickMapObject", select_territory);
 //        break;
 //        
 
       case MESSAGE_TYPE.PREVIOUS_ACTION:
-    	  switch(data.moveType){
-    	    case MOVE_TYPES.CLAIM_TERRITORY:
-    	      make_selection(data.playerId, data.territoryId);
-    		  break;
-    	    }
-    	  break;
+        switch(data.moveType){
+          case MOVE_TYPES.SETUP:
+            make_selection(data.playerId, data.territoryId);
+          break;
+          }
+        break;
       case MESSAGE_TYPE.VALID_ACTIONS:
-    	  switch(data.moveType) {
-      		case MOVE_TYPES.SETUP:
-      		  availableForClaim = JSON.parse(data.selectable);
-              map.addListener("clickMapObject", select_territory);
-              break;
-    	  }
-    	  break;
+        switch(data.moveType) {
+          case MOVE_TYPES.SETUP:
+            availableForClaim = JSON.parse(data.selectable);
+            map.addListener("clickMapObject", select_territory);
+            break;
+        }
+        break;
     }
   };
 }
@@ -169,28 +168,28 @@ function guid() {
 }
 
 window.onkeyup = function(e) {
-	var key = e.keyCode ? e.keyCode : e.which;
-	   if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
-	       myName = document.getElementById("nameInput").value;
-	       document.getElementById("nameField").style.display = "none";
-	       document.getElementById("menuField").style.display = "inline";
-	   }
-	}
+  var key = e.keyCode ? e.keyCode : e.which;
+     if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
+       myName = document.getElementById("nameInput").value;
+       document.getElementById("nameField").style.display = "none";
+       document.getElementById("menuField").style.display = "inline";
+     }
+  }
 
 const create_match = event => {
-	event.preventDefault();
-	let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
-			"lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
+  event.preventDefault();
+  let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
+      "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
 
-	document.getElementById("name").value = "";
-	conn.send(JSON.stringify(mess));
+  document.getElementById("name").value = "";
+  conn.send(JSON.stringify(mess));
 }
 
 const join_match = event => {
-	event.preventDefault();
-	let game = event.target;
-	let mess = {"type" : MESSAGE_TYPE.JOIN, "playerId" : myId, "gameId" : game.id, "playerName" : myName};
-	conn.send(JSON.stringify(mess));
+  event.preventDefault();
+  let game = event.target;
+  let mess = {"type" : MESSAGE_TYPE.JOIN, "playerId" : myId, "gameId" : game.id, "playerName" : myName};
+  conn.send(JSON.stringify(mess));
 }
 
 $(document).ready(function() {

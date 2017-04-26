@@ -2,6 +2,7 @@
   <head>
     <title>Risk</title>
     <link rel="shortcut icon" href="images/favicon.ico">
+         <script src="js/jquery-2.1.1.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -22,7 +23,7 @@
      ${content}
 
      <!-- Again, we're serving up the unminified source for clarity. -->
-     <script src="js/jquery-2.1.1.js"></script>
+
      <script src="js/map.js"></script>
      <script src="js/matches.js"></script>
      <script src="js/risk.js"></script>

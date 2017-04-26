@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.RiskWorld.continent;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -50,8 +51,7 @@ public class Africa implements ContinentInterface {
 
   @Override
   public Set<TerritoryEnum> getTerritories() {
-    // TODO Auto-generated method stub
-    return null;
+    return Collections.unmodifiableSet(territories);
   }
 
 }

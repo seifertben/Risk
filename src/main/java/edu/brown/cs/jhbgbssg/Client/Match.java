@@ -204,11 +204,8 @@ public class Match {
         GameUpdate update = null;
         switch (type) {
           case SETUP:
-            System.out.println("INSETUP");
             SetupAction setup = this.createSetupAction(received);
-            System.out.println("PAST");
             update = actionProcessor.processSetupAction(setup);
-            System.out.println(update);
             break;
           case SETUP_REINFORCE:
             // SetupReinforceAction action = this.crea

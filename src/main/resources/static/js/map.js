@@ -1,18 +1,18 @@
 const EUS = [38.392017, -85.047551];
-const WUS =  [41.187449, -114.449540];
-const QUEBEC =  [50.206416, -75.586515];
+const WUS = [41.187449, -114.449540];
+const QUEBEC = [50.206416, -75.586515];
 const ONTARIO = [50.899997,  -87.521976];
-const ALBERTA =   [55.279171,  -113.971396];
+const ALBERTA = [55.279171,  -113.971396];
 const NWTERRITORIES = [65.199589,   -119.253051];
-const ALASKA =  [65.903817,   -154.899950];
+const ALASKA = [65.903817,   -154.899950];
 const GREENLAND = [74.663742,  -41.234447]; 
-const CA =  [22.525567, -102.054754];
+const CA = [22.525567, -102.054754];
 const VZ = [ 1.683763, -73.050849];
 const PERU = [-15.185794,  -69.359442];
-const BRAZIL =[-11.423151,-51.781319];
-const ARGENTINA  = [-32.756957,  -65.492254];
+const BRAZIL = [-11.423151,-51.781319];
+const ARGENTINA = [-32.756957,  -65.492254];
 const ICELAND = [64.821171,  -18.807248];
-const GB =  [54.047766,  -1.398164];
+const GB = [54.047766,  -1.398164];
 const WEU = [ 43.295002,  -0.071574];
 const NEU = [53.111401, 15.536295];
 const SEU = [44.646422, 21.718624];
@@ -1153,15 +1153,12 @@ function select_territory(event) {
 }
 
 function make_selection(player, territory) {
-  console.log(myId);
-  console.log(currentPlayer);
-  if (myId == currentPlayer) {
-    changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[idToName[player]], colors[idToName[player]]);
-    map.dataProvider.zoomLevel = map.zoomLevel();
-    map.dataProvider.zoomLatitude = map.zoomLatitude();
-    map.dataProvider.zoomLongitude = map.zoomLongitude();
-    map.validateData();
-  }
+  console.log(territory);
+  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[idToName[player]], colors[idToName[player]]);
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
 }
 
 // // changeLines("blue", ONTARIO_GREENLAND);
