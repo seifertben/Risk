@@ -57,23 +57,28 @@ let cardID = 0;
 //	// addcard();
 //	// addcard();
 //	$("#transferconfirm").on("click", confirmTransfer);
-//	$("#diceconfirm").on("click", confirmDice);
-//	$("#turnInCards").on( "click", turnInCards);
-//	console.log($(".card"));
-//	$('.card').click(function() {
-//		console.log(this.style.borderColor);
-//			console.log(this.style.borderStyle);
-//	if (this.style.borderStyle !== "solid") {
-//    this.style.borderStyle = "solid";
-//   	this.style.borderColor = "black";
-//   	console.log("if");
-//   	   }
-//   else {
-//   		console.log("else");
-//   		 this.style.borderStyle = "none";
-//   		this.style.borderColor = "none";
-//   }
-//});
+	$("#diceconfirm").on("click", confirmDice);
+	$("#turnInCards").on( "click", turnInCards);
+	console.log($(".card"));
+	$('.card').click(function() {
+		console.log(this.style.borderColor);
+			console.log(this.style.borderStyle);
+	if (this.style.borderStyle !== "solid") {
+   this.style.borderStyle = "solid";
+  	this.style.borderColor = "black";
+  	console.log("if");
+  	   }
+  else {
+  		console.log("else");
+  		 this.style.borderStyle = "none";
+  		this.style.borderColor = "none";
+  }
+});
+	$("#messageForm").on('submit', function(e){
+    // validation code here
+      e.preventDefault();
+    sendMessage();
+  });
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
@@ -207,7 +212,8 @@ function hideAll() {
  	$("#attackerStatus").hide();
  	$("#dropdownbutton").hide();
  	$("#soldierOptions").hide();
- 	$("#transferbutton").hide();
+ 	$("#transfergroup").hide();
+ 	$("#dropdowngroup").hide();
 }
 
 function addcard(number) {
@@ -313,4 +319,25 @@ function defenderLoss(defendingPlayer, losses) {
  
 	}
 	$("#defendLoss").html(message);
+}
+function sendMessage() {
+    let  message = $('#messageField').val();
+    console.log("f");
+    console.log(message);
+    $('#messageField').val("");
+    getMessage(myId, message);
+    return {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
+
+}
+function getMessage(player, message) {
+	let string; 
+	if (player === myId) {
+		string = "Me: " + message;
+	}
+	else {
+		string = player + ": " + message;
+	}
+	$li = $("<li></li>");
+	$li.html(string);
+	$("#messageList").append($li); 
 }
