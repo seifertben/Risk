@@ -3,22 +3,21 @@ package edu.brown.cs.jhbgbbgssg.risk;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Test;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  * JUnit tests for RiskBoard.
@@ -630,56 +629,226 @@ public class BoardTest {
   }
 
   /**
+   * Tests that getTerritories returns a collection of unique Territories and
+   * that it returns all the possible territories on the board.
+   *
+   */
+  @Test
+  public void testGetTerritories() {
+    RiskBoard board = new RiskBoard();
+    Collection<Territory> terrs = board.getTerritories();
+    assertTrue(terrs.size() == 42);
+    Set<TerritoryEnum> ids = new HashSet<>();
+    for (TerritoryEnum id : TerritoryEnum.values()) {
+      ids.add(id);
+    }
+    for (Territory terr : terrs) {
+      assertTrue(ids.contains(terr.getTerritoryId()));
+      ids.remove(terr.getTerritoryId());
+    }
+    assertTrue(ids.size() == 0);
+  }
+
+  /**
+   * Tests that getTerritorIds returns all the territory ids.
+   */
+  @Test
+  public void testGetTerritoriesIds() {
+    RiskBoard board = new RiskBoard();
+    Collection<TerritoryEnum> ids = board.getTerritoryIds();
+    Set<TerritoryEnum> terrIds = new HashSet<>();
+    for (TerritoryEnum id : TerritoryEnum.values()) {
+      terrIds.add(id);
+    }
+    assertTrue(terrIds.containsAll(ids));
+    assertTrue(ids.containsAll(terrIds));
+  }
+
+  /**
+   * Tests that getContinents return the right Continents.
+   */
+  @Test
+  public void testGetContinents() {
+    RiskBoard board = new RiskBoard();
+    Collection<ContinentInterface> conts = board.getContinents();
+    assertTrue(conts.size() == 6);
+    Set<ContinentEnum> contIds = new HashSet<>();
+    for (ContinentEnum id : ContinentEnum.values()) {
+      contIds.add(id);
+    }
+    for (ContinentInterface cont : conts) {
+      assertTrue(contIds.contains(cont.getContinentId()));
+      contIds.remove(cont.getContinentId());
+    }
+    assertTrue(contIds.size() == 0);
+  }
+
+  /**
+   * Tests that getTerritory returns the right Territory.
+   */
+  @Test
+  public void testGetTerritory() {
+    RiskBoard board = new RiskBoard();
+    for (TerritoryEnum id : TerritoryEnum.values()) {
+      Territory terr = board.getTerritory(id);
+      assertTrue(terr.getTerritoryId() == id);
+    }
+  }
+
+  /**
+   * Tests that getTerritory throws an IllegalArgumentException if the territory
+   * given is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetTerritoryNullInput() {
+    RiskBoard board = new RiskBoard();
+    board.getTerritory(null);
+  }
+
+  /**
+   * Test that getContinent returns the right continent.
+   */
+  @Test
+  public void testGetContinent() {
+    RiskBoard board = new RiskBoard();
+    for (ContinentEnum id : ContinentEnum.values()) {
+      ContinentInterface cont = board.getContinent(id);
+      assertTrue(cont.getContinentId() == id);
+    }
+  }
+
+  /**
+   * Tests that getContinent throws an IllegalArgumentException if the continent
+   * given is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetContinentNullInput() {
+    RiskBoard board = new RiskBoard();
+    board.getContinent(null);
+  }
+
+  /**
+   * Tests getMoveableTroops throws an IllegalArgumentException if the player
+   * given is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetMoveableTroopsNullPlayer() {
+    RiskBoard board = new RiskBoard();
+    board.getMoveableTroops(null);
+  }
+
+  /**
+   * Tests getMoveableTroops returns an empty map if the player cannot move
+   * troops anywhere.
+   */
+  @Test
+  public void testGetMoveableTroopsCannotMove() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.ALBERTA);
+    player.conqueredTerritory(TerritoryEnum.NORTHWEST_TERRITORY);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
+    board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 1);
+    board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
+        1);
+    Multimap<TerritoryEnum, TerritoryEnum> map = board
+        .getMoveableTroops(player);
+    assertTrue(map.size() == 0);
+  }
+
+  /**
+   * Tests getMoveableTroops returns an empty map if the player can move troops.
+   */
+  @Test
+  public void testGetMoveableTroopsCanMove() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.ALBERTA);
+    player.conqueredTerritory(TerritoryEnum.NORTHWEST_TERRITORY);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
+    board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
+        1);
+    Multimap<TerritoryEnum, TerritoryEnum> map = board
+        .getMoveableTroops(player);
+    assertTrue(map.containsKey(TerritoryEnum.ALBERTA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+    assertTrue(map.keySet().size() == 1);
+    assertTrue(map.get(TerritoryEnum.ALBERTA).size() == 2);
+  }
+
+  /**
+   * Tests getMoveableTroops.
+   */
+  @Test
+  public void testGetMoveableTroopsCanDisconnectedTerritorySet() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.ALBERTA);
+    player.conqueredTerritory(TerritoryEnum.NORTHWEST_TERRITORY);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    player.conqueredTerritory(TerritoryEnum.GREAT_BRITIAN);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
+        1);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.GREAT_BRITIAN).changePlayer(player, 1);
+    Multimap<TerritoryEnum, TerritoryEnum> map = board
+        .getMoveableTroops(player);
+    assertTrue(map.containsKey(TerritoryEnum.ALBERTA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+
+    assertTrue(map.containsEntry(TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALASKA,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+    assertTrue(
+        map.containsEntry(TerritoryEnum.ICELAND, TerritoryEnum.GREAT_BRITIAN));
+    assertTrue(map.keySet().size() == 3);
+    assertTrue(map.get(TerritoryEnum.ALBERTA).size() == 2);
+    assertTrue(map.get(TerritoryEnum.ALASKA).size() == 2);
+    assertTrue(map.get(TerritoryEnum.ICELAND).size() == 1);
+
+  }
+
+  /**
    * 
    */
   @Test
-  public void test() {
-    JsonObject obj = new JsonObject();
-    Gson gson = new Gson();
-    List<MoveType> list = new ArrayList<>();
-    list.add(MoveType.CHOOSE_ATTACK_DIE);
-    list.add(MoveType.CLAIM_TERRITORY);
-    System.out.println(list);
-    java.lang.reflect.Type listType = new TypeToken<List<MoveType>>() {
-    }.getType();
-
-    obj.addProperty("list", gson.toJson(list)); // listType));
-    System.out.println(obj);
-    List<MoveType> after = gson.fromJson(obj.get("list").getAsString(),
-        listType);
-    System.out.println(after);
-    System.out.println(after.contains(MoveType.CLAIM_TERRITORY));
-    // List<MoveType> translate = gson.fromJson(obj.get("list"),
-    // new TypeToken<List<MoveType>>() {
-    // }.getType());
-    // System.out.println(list.get(0).ordinal());
-    // System.out.println(after.get(0).ordinal());
-
-    // obj.addProperty("terr", "ALASKA");
-    // System.out.println(obj.get("terr"));
-    // System.out.println(
-    // gson.fromJson(obj.get("terr").getAsString(), TerritoryEnum.class));
-    // TerritoryEnum x = gson.fromJson(obj.get("terr").getAsString(),
-    // TerritoryEnum.class);
-    // System.out.println(x == TerritoryEnum.ALASKA);
-
-    Multimap<TerritoryEnum, TerritoryEnum> map = HashMultimap.create();
-    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.ALASKA);
-    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA);
-    map.put(TerritoryEnum.AFGHANISTAN, TerritoryEnum.ONTARIO);
-    map.put(TerritoryEnum.ONTARIO, TerritoryEnum.ALASKA);
-    map.put(TerritoryEnum.ONTARIO, TerritoryEnum.INDIA);
-    map.put(TerritoryEnum.ALASKA, TerritoryEnum.AFGHANISTAN);
-    obj.addProperty("map", gson.toJson(map.asMap()));
-
-    java.lang.reflect.Type mapType = new TypeToken<Map<TerritoryEnum, Collection<TerritoryEnum>>>() {
-    }.getType();
-    System.out.println(obj);
-    Map<TerritoryEnum, Collection<TerritoryEnum>> translateMap = gson
-        .fromJson(obj.get("map").getAsString(), mapType);
-    System.out.println(translateMap);
-    System.out.println(translateMap.get(TerritoryEnum.AFGHANISTAN)
-        .contains(TerritoryEnum.INDIA));
+  public void testGetMoveableTroopsNotDirectNeighbors() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.ALBERTA);
+    player.conqueredTerritory(TerritoryEnum.NORTHWEST_TERRITORY);
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
+        1);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
+    Multimap<TerritoryEnum, TerritoryEnum> map = board
+        .getMoveableTroops(player);
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+    assertTrue(
+        map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.GREENLAND));
+    assertTrue(map.containsEntry(TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA));
+    assertTrue(map.containsEntry(TerritoryEnum.ALASKA,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+    assertTrue(
+        map.containsEntry(TerritoryEnum.ALASKA, TerritoryEnum.GREENLAND));
+    assertTrue(map.keySet().size() == 2);
+    assertTrue(map.get(TerritoryEnum.ALBERTA).size() == 3);
+    assertTrue(map.get(TerritoryEnum.ALASKA).size() == 3);
   }
 
 }

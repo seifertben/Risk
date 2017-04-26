@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -32,7 +31,6 @@ public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
   private Map<ContinentEnum, ContinentInterface> continentMap;
-  private Map<UUID, RiskPlayer> playerMap;
 
   /**
    * Constructor for RiskBoard.
@@ -207,7 +205,11 @@ public class RiskBoard {
    * @param terrId - territory id
    * @return territory
    */
-  public Territory getTerritory(TerritoryEnum terrId) {
+  public Territory getTerritory(TerritoryEnum terrId)
+      throws IllegalArgumentException {
+    if (terrId == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     return territoryMap.get(terrId);
   }
 
@@ -234,25 +236,46 @@ public class RiskBoard {
     return continentMap.values();
   }
 
-  public ContinentInterface getContinent(ContinentEnum contId) {
+  public ContinentInterface getContinent(ContinentEnum contId)
+      throws IllegalArgumentException {
+    if (contId == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     return continentMap.get(contId);
   }
 
   public Multimap<TerritoryEnum, TerritoryEnum> getMoveableTroops(
-      RiskPlayer player) {
-    Set<TerritoryEnum> terrs = player.getTerritories();
-    UUID playerId = player.getPlayerId();
+      RiskPlayer player) throws IllegalArgumentException {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     Multimap<TerritoryEnum, TerritoryEnum> canReach = HashMultimap.create();
-    for (TerritoryEnum id : terrs) {
-      Territory terr = territoryMap.get(id);
-      if (terr != null && terr.getNumberTroops() > 1) {
-        Deque<TerritoryEnum> visit = new ArrayDeque<>(board.adjacentNodes(id));
-        while (!visit.isEmpty()) {
-          TerritoryEnum pop = visit.pop();
-          Territory neighbor = territoryMap.get(pop);
-          if (neighbor.getOwner().equals(playerId)) {
-            visit.addAll(board.adjacentNodes(pop));
-            canReach.put(id, pop);
+    Set<TerritoryEnum> terrs = player.getTerritories();
+    for (TerritoryEnum playerTerrId : terrs) {
+      Territory terr = territoryMap.get(playerTerrId);
+      if (terr.getNumberTroops() > 1) {
+        Deque<TerritoryEnum> toVisit = new ArrayDeque<>(
+            board.adjacentNodes(playerTerrId));
+        Set<TerritoryEnum> visited = new HashSet<>();
+        visited.add(playerTerrId);
+        while (!toVisit.isEmpty()) {
+          TerritoryEnum currVisitTerrId = toVisit.pop();
+          visited.add(currVisitTerrId);
+          Territory currVisitTerr = territoryMap.get(currVisitTerrId);
+          RiskPlayer owner = currVisitTerr.getOwner();
+          if (owner != null && owner.equals(player)) {
+            canReach.put(playerTerrId, currVisitTerrId);
+            for (TerritoryEnum visitNeighbor : board
+                .adjacentNodes(currVisitTerrId)) {
+              if (!toVisit.contains(visitNeighbor)
+                  && !visited.contains(visitNeighbor)) {
+                RiskPlayer terrOwner = territoryMap.get(visitNeighbor)
+                    .getOwner();
+                if (terrOwner != null && terrOwner.equals(player)) {
+                  toVisit.add(visitNeighbor);
+                }
+              }
+            }
           }
         }
       }

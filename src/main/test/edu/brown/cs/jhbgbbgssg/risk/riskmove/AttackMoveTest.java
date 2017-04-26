@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -25,8 +27,11 @@ public class AttackMoveTest {
    */
   @Test
   public void testConstructor() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
-        TerritoryEnum.ALBERTA, 3);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
     assertNotNull(attack);
   }
 
@@ -62,8 +67,10 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ALASKA,
-        TerritoryEnum.ALBERTA, 3);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
     assertTrue(attack.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
   }
 
@@ -72,8 +79,8 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackFrom() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
-        TerritoryEnum.GREENLAND, 3);
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
     assertTrue(attack.getAttackFrom() == TerritoryEnum.ICELAND);
   }
 
@@ -82,8 +89,8 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackTo() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
-        TerritoryEnum.GREENLAND, 3);
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
     assertTrue(attack.getAttackTo() == TerritoryEnum.GREENLAND);
   }
 
@@ -92,8 +99,8 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetDieRolled() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
-        TerritoryEnum.GREENLAND, 2);
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 2);
     assertTrue(attack.getDieRolled() == 2);
   }
 
@@ -102,8 +109,8 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetRollResults() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(), TerritoryEnum.ICELAND,
-        TerritoryEnum.GREENLAND, 3);
+    AttackAction attack = new AttackAction(UUID.randomUUID(),
+        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
     List<Integer> roll = attack.getDieResults();
     assertTrue(roll.size() == 3);
     int val = Integer.MAX_VALUE;
