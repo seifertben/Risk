@@ -60,6 +60,7 @@ public class RiskActionProcessor {
       update.setValidMoves(validMove, null, true);
       return update;
     }
+    action.executeAction();
     ValidAction nextValidMove = referee.getValidMoveAfterSetup();
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());

@@ -47,12 +47,9 @@ public class Referee {
   /**
    * Constructor for Referee. It takes in the RiskBoard and a set of players.
    *
-   * @param board
-   *          - board
-   * @param playerSet
-   *          - set of risk players
-   * @throws IllegalArgumentException
-   *           - if the input is null
+   * @param board - board
+   * @param playerSet - set of risk players
+   * @throws IllegalArgumentException - if the input is null
    */
   public Referee(RiskBoard board, Collection<RiskPlayer> playerSet)
       throws IllegalArgumentException {
@@ -84,6 +81,7 @@ public class Referee {
 
   /**
    * Removes a player with the given UUID from the game.
+   *
    * @param playerId Id of player to remove.
    */
   public void removePlayer(UUID playerId) {
@@ -106,6 +104,7 @@ public class Referee {
 
   /**
    * Indicates whether the game has started.
+   * 
    * @return Started boolean.
    */
   public boolean gameStarted() {
@@ -133,8 +132,7 @@ public class Referee {
   /**
    * Determines if there the player is a winner and sets the winner field if so.
    *
-   * @param player
-   *          - player to determine winner
+   * @param player - player to determine winner
    * @return true if there is a winner; false otherwise
    */
   protected boolean isWinner(RiskPlayer player) {
@@ -149,11 +147,10 @@ public class Referee {
   }
 
   /**
-   * Determines if the player has lost the game. If so, the player is removed from the turnOrder
-   * list and the method returns true.
+   * Determines if the player has lost the game. If so, the player is removed
+   * from the turnOrder list and the method returns true.
    *
-   * @param player
-   *          - player to check for losing the game
+   * @param player - player to check for losing the game
    * @return true if the player lost the game; false otherwise
    */
   protected boolean playerLost(RiskPlayer player) {
@@ -168,7 +165,8 @@ public class Referee {
   }
 
   /**
-   * Hands out a card if the card pool is not empty. Otherwise, the method returns -1.
+   * Hands out a card if the card pool is not empty. Otherwise, the method
+   * returns -1.
    *
    * @return card value to hand out
    */
@@ -180,7 +178,8 @@ public class Referee {
   }
 
   /**
-   * Switches the current player and determines which the valid actions the player can do.
+   * Switches the current player and determines which the valid actions the
+   * player can do.
    *
    * @return valid action of the next player
    */
@@ -220,8 +219,9 @@ public class Referee {
   }
 
   /**
-   * Gets the current ValidAction. If the game has not been started, the gameStarted indicator
-   * variable is set to true and the first valid action is returned for the first player.
+   * Gets the current ValidAction. If the game has not been started, the
+   * gameStarted indicator variable is set to true and the first valid action is
+   * returned for the first player.
    *
    * @return the current valid action
    */
@@ -243,8 +243,8 @@ public class Referee {
   }
 
   /**
-   * Gets the next valid action after a player has reinforced. If current player does not have any
-   * valid moves left, the method returns null.
+   * Gets the next valid action after a player has reinforced. If current player
+   * does not have any valid moves left, the method returns null.
    *
    * @param player
    * @return ValidAction - next set of valid actions
@@ -269,9 +269,9 @@ public class Referee {
   }
 
   /**
-   * Gets the next valid action after turning a card has been turned in. The next valid action is
-   * either an attack or moving a troops. If there is no valid action left for the current player,
-   * null is returned.
+   * Gets the next valid action after turning a card has been turned in. The
+   * next valid action is either an attack or moving a troops. If there is no
+   * valid action left for the current player, null is returned.
    *
    * @return next valid action after turning in a card
    */
@@ -291,8 +291,8 @@ public class Referee {
   }
 
   /**
-   * Gets the next valid action after an attack. After an attack, the only valid action is
-   * defending.
+   * Gets the next valid action after an attack. After an attack, the only valid
+   * action is defending.
    *
    * @return next valid action after attacking
    */
@@ -306,13 +306,13 @@ public class Referee {
   }
 
   /**
-   * Gets the next valid action after defending. If the the defender lost his territory, the next
-   * valid action is the attacker claiming the territory. Otherwise, the next valid action is either
-   * another attack or a moving troops. If no action is available for the current player, the method
+   * Gets the next valid action after defending. If the the defender lost his
+   * territory, the next valid action is the attacker claiming the territory.
+   * Otherwise, the next valid action is either another attack or a moving
+   * troops. If no action is available for the current player, the method
    * returns null.
    *
-   * @param defend
-   *          - defend move
+   * @param defend - defend move
    * @return next valid action after defending
    */
   protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
@@ -339,10 +339,10 @@ public class Referee {
   }
 
   /**
-   * Gets the next valid action after claiming a territory. If the current player can attack, a
-   * valid attack action is returned. If not, a valid move troops action is returned if the current
-   * player can move their troops. Otherwise, null is returned if the current player has no valid
-   * action.
+   * Gets the next valid action after claiming a territory. If the current
+   * player can attack, a valid attack action is returned. If not, a valid move
+   * troops action is returned if the current player can move their troops.
+   * Otherwise, null is returned if the current player has no valid action.
    *
    * @return next valid action after claiming a territory
    */
@@ -384,8 +384,7 @@ public class Referee {
   /**
    * Checks that the ReinforceMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateReinforce(ReinforceAction move) {
@@ -399,8 +398,7 @@ public class Referee {
   /**
    * Checks that the CardTurnInMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateCardTurnIn(CardTurnInAction move) {
@@ -414,8 +412,7 @@ public class Referee {
   /**
    * Checks that the AttackMove is valid.
    *
-   * @param move
-   *          - move to check the validity of
+   * @param move - move to check the validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateAttackMove(AttackAction move) {
@@ -434,8 +431,7 @@ public class Referee {
   /**
    * Checks the the DefendMoveis valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateDefendMove(DefendAction move) {
@@ -450,8 +446,7 @@ public class Referee {
   /**
    * Checks that the ClaimTerritoryMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateClaimTerritory(ClaimTerritoryAction move) {
@@ -466,8 +461,7 @@ public class Referee {
   /**
    * Checks that the MoveTroopsMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateMoveTroopsMove(MoveTroopsAction move) {
@@ -481,8 +475,7 @@ public class Referee {
   /**
    * Checks that the SetupMove is valid.
    *
-   * @param move
-   *          - move to check validity of
+   * @param move - move to check validity of
    * @return true if valid; false otherwise
    */
   protected boolean validateSetupMove(SetupAction move) {

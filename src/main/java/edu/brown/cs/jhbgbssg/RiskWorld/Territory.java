@@ -79,7 +79,7 @@ public class Territory {
    */
   public void changePlayer(RiskPlayer newPlayer, int numTroops)
       throws IllegalArgumentException {
-    if (player != null && numberTroops != 0) {
+    if (player != null || numberTroops != 0) {
       throw new IllegalArgumentException(
           "ERROR: cannot change playeres if number of troops is not zero");
     } else if (newPlayer == null) {
