@@ -104,7 +104,7 @@ public class Referee {
 
   /**
    * Indicates whether the game has started.
-   * 
+   *
    * @return Started boolean.
    */
   public boolean gameStarted() {

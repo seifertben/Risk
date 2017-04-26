@@ -23,6 +23,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
@@ -259,7 +260,7 @@ public class MessageAPI {
       case SETUP:
         return this.prevSetupMove((SetupAction) prevAction);
       case SETUP_REINFORCE:
-        return null;
+        return this.prevSetupReinforce((SetupReinforceAction) prevAction);
       case REINFORCE:
         return this.prevReinforceMove((ReinforceAction) prevAction);
       case TURN_IN_CARD:
@@ -286,8 +287,20 @@ public class MessageAPI {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
-    jsonObject.addProperty("playerId", move.getMovePlayer().getPlayerId().toString());
+    jsonObject.addProperty("playerId",
+        move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("territoryId", selected.ordinal());
+    return jsonObject;
+  }
+
+  private JsonObject prevSetupReinforce(SetupReinforceAction action) {
+    TerritoryEnum selected = action.getSelectedTerritory();
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
+    jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
+    jsonObject.addProperty("territoryId", selected.ordinal());
+    jsonObject.addProperty("playerId",
+        action.getMovePlayer().getPlayerId().toString());
     return jsonObject;
   }
 
@@ -303,7 +316,8 @@ public class MessageAPI {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
-    jsonObject.addProperty("movePlayer", move.getMovePlayer().getPlayerId().toString());
+    jsonObject.addProperty("movePlayer",
+        move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));
     return jsonObject;
   }
@@ -314,7 +328,8 @@ public class MessageAPI {
     int card = move.getCard();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", move.getMovePlayer().getPlayerId().toString());
+    jsonObject.addProperty("movePlayer",
+        move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
     jsonObject.addProperty("card", card);
     jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));

@@ -23,6 +23,7 @@ public class RiskPlayer implements Player {
   private Set<TerritoryEnum> territories;
   private Multiset<Integer> cards;
   private int remainingSetupReinforcements;
+  private static final int INITIAL_NUMBER_TROOPS = 40;
 
   /**
    * Constructor for a RiskPlayer. Takes in the player's unique player id
@@ -156,15 +157,20 @@ public class RiskPlayer implements Player {
   public void setIntialReinforcement(int numPlayers) {
     switch (numPlayers) {
       case 2:
-        remainingSetupReinforcements = 40;
+        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS;
+        break;
       case 3:
-        remainingSetupReinforcements = 35;
+        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 5;
+        break;
       case 4:
-        remainingSetupReinforcements = 30;
+        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 10;
+        break;
       case 5:
-        remainingSetupReinforcements = 25;
+        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 15;
+        break;
       case 6:
-        remainingSetupReinforcements = 20;
+        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 20;
+        break;
     }
   }
 

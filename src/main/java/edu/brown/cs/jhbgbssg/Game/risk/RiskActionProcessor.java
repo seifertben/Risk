@@ -65,7 +65,6 @@ public class RiskActionProcessor {
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }
-    System.out.println("here in processor");
     update.setValidMoves(nextValidMove, action, false);
     return update;
   }
