@@ -106,10 +106,12 @@ function changePlayerImage(id, backgroundColor, color) {
 
 function setUp () {
 	attackStatus();
-	createDropdown();
-	createConquestTransferTroopsList();
+	//createDropdown();
+	//createConquestTransferTroopsList();
 	$sideNav = $('#n');
 	$sideNav.append("<br>");
+	$sideNav.append($("<p id = 'phase'></p>"));
+	$sideNav.append($("<p id = 'turn'></p>"));
 	$sideNav.append($("<p id = 'numReinforcements'></p>"));
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
 	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
@@ -234,12 +236,12 @@ function createPlayer(number) {
 		let text =  $("<span></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
-		let string = nameToId[players[i]];
-		text.html(players[i]);
+		let string = players[i];
+		text.html(idToName[players[i]]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
-		document.getElementById(string).style.backgroundColor = colors[nameToId[players[i]]];
+		document.getElementById(string).style.backgroundColor = colors[players[i]];
 	}
 }
 
