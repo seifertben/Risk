@@ -453,6 +453,7 @@ public class MessageAPI {
     jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
     jsonObject.addProperty("playerId", GSON.toJson(move.getMovePlayer()));
     jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
+    jsonObject.addProperty("troopsToPlace", move.getTroopsLeftToPlace());
     return jsonObject;
   }
 
