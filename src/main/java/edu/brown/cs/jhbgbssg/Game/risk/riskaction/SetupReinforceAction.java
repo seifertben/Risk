@@ -57,11 +57,17 @@ public class SetupReinforceAction implements Action {
     return territorySelected;
   }
 
+  /**
+   * Returns if the action has been executed.
+   */
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;
   }
 
+  /**
+   * Executes the reinforcement action.
+   */
   @Override
   public boolean executeAction() {
     if (!actionExecuted) {

@@ -20,8 +20,10 @@ public class ValidSetupReinforceAction implements ValidAction {
   /**
    * Constructor.
    *
-   * @param player - player
-   * @throws IllegalArgumentException if the input is null
+   * @param player
+   *          - player
+   * @throws IllegalArgumentException
+   *           if the input is null
    */
   public ValidSetupReinforceAction(RiskPlayer player)
       throws IllegalArgumentException {
@@ -39,7 +41,8 @@ public class ValidSetupReinforceAction implements ValidAction {
   /**
    * Validates a move.
    *
-   * @param move - move
+   * @param move
+   *          - move
    * @return true or false.
    */
   public boolean validSetupReinforceMove(SetupReinforceAction move) {
@@ -66,6 +69,10 @@ public class ValidSetupReinforceAction implements ValidAction {
   @Override
   public boolean actionAvailable() {
     return false;
+  }
+
+  public Set<TerritoryEnum> getTerritories() {
+    return territories;
   }
 
 }
