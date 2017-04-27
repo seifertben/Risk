@@ -61,6 +61,10 @@ public class Referee {
     this.board = board;
     turnOrder = new ArrayList<>(playerSet);
     Collections.shuffle(turnOrder);
+    int numberPlayers = playerSet.size();
+    for (RiskPlayer player : turnOrder) {
+      player.setIntialReinforcement(numberPlayers);
+    }
     currPlayer = turnOrder.get(0);
     cardPool = new RiskCardPool();
     validMove = new ValidSetupAction(turnOrder.get(0), board);

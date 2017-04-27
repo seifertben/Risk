@@ -32,6 +32,7 @@ public class ValidSetupReinforceAction implements ValidAction {
     this.player = player;
     territories = player.getTerritories();
     this.numberLeftToPlace = player.getInitialReinforcements();
+    System.out.println("number left to place + " + numberLeftToPlace);
     if (territories.size() == 0 || numberLeftToPlace <= 0) {
       actionAvailable = false;
     } else {

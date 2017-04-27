@@ -203,7 +203,6 @@ public class Match {
       try {
         MoveType type = messageApi.getMoveType(received);
         GameUpdate update = null;
-        System.out.println(received);
         switch (type) {
           case SETUP:
             SetupAction setup = this.createSetupAction(received);
