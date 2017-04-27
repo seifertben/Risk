@@ -57,23 +57,28 @@ let cardID = 0;
 //	// addcard();
 //	// addcard();
 //	$("#transferconfirm").on("click", confirmTransfer);
-//	$("#diceconfirm").on("click", confirmDice);
-//	$("#turnInCards").on( "click", turnInCards);
-//	console.log($(".card"));
-//	$('.card').click(function() {
-//		console.log(this.style.borderColor);
-//			console.log(this.style.borderStyle);
-//	if (this.style.borderStyle !== "solid") {
-//    this.style.borderStyle = "solid";
-//   	this.style.borderColor = "black";
-//   	console.log("if");
-//   	   }
-//   else {
-//   		console.log("else");
-//   		 this.style.borderStyle = "none";
-//   		this.style.borderColor = "none";
-//   }
-//});
+	$("#diceconfirm").on("click", confirmDice);
+	$("#turnInCards").on( "click", turnInCards);
+	console.log($(".card"));
+	$('.card').click(function() {
+		console.log(this.style.borderColor);
+			console.log(this.style.borderStyle);
+	if (this.style.borderStyle !== "solid") {
+   this.style.borderStyle = "solid";
+  	this.style.borderColor = "black";
+  	console.log("if");
+  	   }
+  else {
+  		console.log("else");
+  		 this.style.borderStyle = "none";
+  		this.style.borderColor = "none";
+  }
+});
+	$("#messageForm").on('submit', function(e){
+    // validation code here
+      e.preventDefault();
+    sendMessage();
+  });
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
@@ -106,10 +111,12 @@ function changePlayerImage(id, backgroundColor, color) {
 
 function setUp () {
 	attackStatus();
-	createDropdown();
-	createConquestTransferTroopsList();
+	//createDropdown();
+	//createConquestTransferTroopsList();
 	$sideNav = $('#n');
 	$sideNav.append("<br>");
+	$sideNav.append($("<p id = 'phase'></p>"));
+	$sideNav.append($("<p id = 'turn'></p>"));
 	$sideNav.append($("<p id = 'numReinforcements'></p>"));
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
 	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
@@ -205,7 +212,8 @@ function hideAll() {
  	$("#attackerStatus").hide();
  	$("#dropdownbutton").hide();
  	$("#soldierOptions").hide();
- 	$("#transferbutton").hide();
+ 	$("#transfergroup").hide();
+ 	$("#dropdowngroup").hide();
 }
 
 function addcard(number) {
@@ -234,12 +242,12 @@ function createPlayer(number) {
 		let text =  $("<span></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
-		let string = nameToId[players[i]];
-		text.html(players[i]);
+		let string = players[i];
+		text.html(idToName[players[i]]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
-		document.getElementById(string).style.backgroundColor = colors[nameToId[players[i]]];
+		document.getElementById(string).style.backgroundColor = colors[players[i]];
 	}
 }
 
@@ -311,4 +319,26 @@ function defenderLoss(defendingPlayer, losses) {
  
 	}
 	$("#defendLoss").html(message);
+}
+
+function sendMessage() {
+    let  message = $('#messageField').val();
+    console.log("f");
+    console.log(message);
+    $('#messageField').val("");
+    let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
+    conn.send(JSON.stringify(mess));
+}
+
+function getMessage(player, message) {
+	let string; 
+	if (player === myId) {
+		string = "Me: " + message;
+	}
+	else {
+		string = idToName[player] + ": " + message;
+	}
+	$li = $("<li></li>");
+	$li.html(string);
+	$("#chatting").append($li); 
 }

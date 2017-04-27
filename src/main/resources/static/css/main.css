@@ -15,9 +15,17 @@
       background-color: blue;
       margin: 20px;
     }
-    .w3-card-4 {
-      /*background-color: blue;*/
-    }
+   #leftNav{
+    position: relative;
+   }
+   #messageList{
+    position: absolute;
+    overflow-y: scroll;
+   }
+   #messageForm {
+    position: absolute;
+    bottom: 0;
+   }
     .w3-container-w3-blue {
       background-color: blue;
     }
@@ -50,8 +58,11 @@
       background-color: #f1f1f1;
       height: 100%;
     }
-    
-    /* Set black background color, white text and some padding */
+  /* #messageField {
+      width: 30%;
+      text-indent: -100px;
+    }
+*/    /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
@@ -60,6 +71,7 @@
     .well-sm{
       float: left;
       width: 30%;
+      text-indent: 30
     }
   #dropdownbutton {
     width: 180px;
@@ -77,8 +89,29 @@
   #transferDropDownText{
    font-size: 8pt; 
   }
-
-   div[id="matches"] {
+  div[id="leftNav"] {
+      padding: 10px;
+      border: 2px solid black;
+  }
+  div[id="n"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 280px;
+      height: 600px;
+      overflow-y: scroll;
+      float: center;
+  }
+  div[id="chatting"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 250px;
+      height: 450px;
+      overflow-y: scroll;
+      float: center;
+  }
+  div[id="matches"] {
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
@@ -121,6 +154,9 @@
       text-align: center;
       text-decoration: none;
       font-size: 16px;
+  }
+  div[id="#n"] { 	
+      border: 2px solid black;
   }
   input {
       margin: 5px 0px;

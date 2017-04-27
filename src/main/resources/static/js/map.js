@@ -69,6 +69,7 @@ let WUSDATA = {
       "scale": 0.5,
       "label": "W. US",
       "labelShiftY": 2,
+      "labelShiftX": -40,
       "title": "Western United States: Occupied by No One",
       "id": 4,
     };
@@ -96,7 +97,8 @@ let ONTARIODATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
-      "labelShiftY": 2,
+      "labelShiftY": -13,
+      "labelShiftX": -10,
       "title": "Ontario: Occupied by No One",
       "id": 1,
     };
@@ -151,7 +153,8 @@ let GREENLANDDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Greenland",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
+      "labelShiftX": -5,
       "selectable": true,
       "title": "Greenland: Occupied by No One",
       "id": 5,
@@ -194,6 +197,7 @@ let PERUDATA= {
       "scale": 0.5,
       "label": "Peru",
       "labelShiftY": 2,
+      "labelShiftX": -40,
       "selectable": true,
       "title": "Peru: Occupied by No One",
       "id": 10,
@@ -560,7 +564,7 @@ let KAMCHATKADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "selectable": true,
       "title": "Kamchatka: Occupied by No One",
       "id": 31,
@@ -574,7 +578,7 @@ let YAKUTSKDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
       "id": 37,
@@ -603,7 +607,8 @@ let SIBERIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Siberia",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
+      "labelShiftX": -10,
       "selectable": true,
       "title": "Siberia: Occupied by No One",
       "id": 35,
@@ -617,7 +622,8 @@ let URALDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ural",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
+      "labelShiftX": -10,
       "selectable": true,
       "title": "Ural: Occupied by No One",
       "id": 36,
@@ -1093,7 +1099,9 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
   "mouseWheelZoomEnabled": true,
-
+  "listeners" : {
+	  
+  },
   "dataProvider": {
       "map": "continentsLow",
       images:game,
@@ -1143,27 +1151,28 @@ let map = AmCharts.makeChart( "mapdiv", {
 function select_territory(event) {
 
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
-  console.log(availableForClaim);
-  console.log(availableForClaim[0]);
-  console.log(event.mapObject.id);
   if (availableForClaim.includes(event.mapObject.id)) {
-	  console.log("IMIN");
+	  availableForClaim = [];
+	  conn.send(JSON.stringify(mess));
+  }
+}
+
+function bolster_territory(event) {
+
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
+  if (availableForClaim.includes(event.mapObject.id)) {
+	  availableForClaim = [];
 	  conn.send(JSON.stringify(mess));
   }
 }
 
 function make_selection(player, territory) {
-  console.log(territory);
-  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[idToName[player]], colors[idToName[player]]);
+  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
   map.dataProvider.zoomLevel = map.zoomLevel();
   map.dataProvider.zoomLatitude = map.zoomLatitude();
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
 }
-
-// // changeLines("blue", ONTARIO_GREENLAND);
-// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
-// changeTerritoryStatus("Player 1", 5, NWTERRITORIESDATA, "blue");
 
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
   let originalTitle = territory.title.split(":");
@@ -1176,9 +1185,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   //   }
   //   string += numSoldier.toString();
   // }
-  console.log(isNaN(parseInt(originalLabel[originalLabel.length-1])));
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
-    console.log("here");
     for (let i = 0; i <originalLabel.length; i++) {
       if (i + 1 !=originalLabel.length) {
         string += originalLabel[i] + " ";

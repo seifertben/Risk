@@ -20,7 +20,8 @@ const MESSAGE_TYPE = {
   PREVIOUS_ACTION: 11,
   VALID_ACTIONS: 12,
   ERROR: 13,
-  MOVE: 14
+  MOVE: 14,
+  MESSAGE: 15
 };
 
 const MOVE_TYPES = {
@@ -74,58 +75,50 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.REMOVE:
         document.getElementById(data.gameId).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-    break;
+        break;
 
       case MESSAGE_TYPE.CREATE:
-       let game = document.createElement("BUTTON");
-       game.id = data.gameId;
-       game.name = data.matchName;
-       document.getElementById("matches").appendChild(game);
-       document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-       document.getElementById(game.id).value = data.lobbySize;
-
-       game.onclick = join_match;
-      break;
+        let game = document.createElement("BUTTON");
+        game.id = data.gameId;
+        game.name = data.matchName;
+        document.getElementById("matches").appendChild(game);
+        document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
+        document.getElementById(game.id).value = data.lobbySize;
+        game.onclick = join_match;
+        break;
 
       case MESSAGE_TYPE.START:
         document.getElementById("gameField").style.display = "inline";
         document.getElementById("menuField").style.display = "none";
         document.getElementById(data.gameId).remove();
-        players.push(data.player0name);
+        players.push(data.player0id);
         idToName[data.player0id] = data.player0name;
-        nameToId[data.player0name] = data.player0id;
         colors[data.player0id] = "red";
-        players.push(data.player1name);
+        players.push(data.player1id);
         idToName[data.player1id] = data.player1name;
-        nameToId[data.player1name] = data.player1id;
         colors[data.player1id] = "blue";
         if (data.player2id != null) {
-            players.push(data.player2name);
+            players.push(data.player2id);
             idToName[data.player2id] = data.player2name;
-            nameToId[data.player2name] = data.player2id;
             colors[data.player2id] = "green";
         }
         if (data.player3id != null) {
-            players.push(data.player3name);
+            players.push(data.player3id);
             idToName[data.player3id] = data.player3name;
-            nameToId[data.player3name] = data.player3id;
             colors[data.player3id] = "purple";
         }
         if (data.player4id != null) {
-            players.push(data.player4name);
+            players.push(data.player4id);
             idToName[data.player4id] = data.player4name;
-            nameToId[data.player4name] = data.player4id;
             colors[data.player4id] = "orange";
         }
         if (data.player5id != null) {
-            players.push(data.player5);
+            players.push(data.player5.id);
             idToName[data.player5id] = data.player5name;
-            nameToId[data.player5name] = data.player5id;
             colors[data.player5id] = "yellow";
         }
         createPlayer(data.playerNum);
     	setUp();
-
 //    	activateDropDown(2);
 //    	replaceField();
 //    	replaceTransferListField();
@@ -159,26 +152,48 @@ const setup_matches = () => {
         $("#" + data.gameId).remove();
         break;
 
-//      case MESSAGE_TYPE.SELECT:
-//        //PICK UP HERE
-//      currentPlayer = data.playerId;
-//      console.log(currentPlayer);
-//        map.addListener("clickMapObject", select_territory);
-//        break;
-//        
-
+      case MESSAGE_TYPE.MESSAGE:
+        getMessage(data.playerId, data.message);
+        break;
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
-            make_selection(data.playerId, data.territoryId);
-          break;
-          }
+            make_selection(data.movePlayer, data.territoryId);
+            break;
+          case MOVE_TYPES.SETUP_REINFORCE:
+            make_selection(data.movePlayer, data.territoryId);
+            break;
+        }
         break;
+
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:
-            availableForClaim = JSON.parse(data.selectable);
-            map.addListener("clickMapObject", select_territory);
+          	document.getElementById("phase").innerHTML = "Select Territories";
+          	if (data.playerId == myId) {
+          		document.getElementById("turn").innerHTML = "Your Turn";          		
+          	} else {
+          		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	}
+          	if (data.playerId == myId) {
+              availableForClaim = JSON.parse(data.selectable);
+              map.addListener("clickMapObject", select_territory);
+          	}
+            break;
+
+          case MOVE_TYPES.SETUP_REINFORCE:
+            document.getElementById("phase").innerHTML = "Reinforce Territories";
+          	if (data.playerId == myId) {
+          		document.getElementById("turn").innerHTML = "Your Turn";          		
+          	} else {
+          		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	}
+          	if (data.playerId == myId) {
+          	  console.log(data);
+              availableForClaim = JSON.parse(data.territories);
+              console.log(availableForClaim);
+              map.addListener("clickMapObject", bolster_territory);
+          	}
             break;
         }
         break;
