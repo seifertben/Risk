@@ -88,6 +88,7 @@ public class RiskActionProcessor {
       return update;
     }
     boolean isValidMove = referee.validateSetupReinforceMove(action);
+    System.out.println(isValidMove);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);

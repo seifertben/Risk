@@ -193,8 +193,7 @@ const setup_matches = () => {
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
           	if (data.playerId == myId) {
-          	  phase = "setup_reinforce"
-          	  console.log(data);
+          	  phase = "setup_reinforce";
               availableForClaim = JSON.parse(data.territories);
               console.log(availableForClaim);
               map.addListener("clickMapObject", bolster_territory);
