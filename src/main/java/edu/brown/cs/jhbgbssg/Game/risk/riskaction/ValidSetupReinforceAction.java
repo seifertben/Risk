@@ -16,7 +16,7 @@ public class ValidSetupReinforceAction implements ValidAction {
   private RiskPlayer player;
   private Set<TerritoryEnum> territories;
   private int numberLeftToPlace;
-  private boolean actionAvailable = true;
+  private boolean actionAvailable;
 
   /**
    * Constructor.
@@ -34,6 +34,8 @@ public class ValidSetupReinforceAction implements ValidAction {
     this.numberLeftToPlace = player.getInitialReinforcements();
     if (territories.size() == 0 || numberLeftToPlace <= 0) {
       actionAvailable = false;
+    } else {
+      actionAvailable = true;
     }
 
   }
@@ -67,7 +69,7 @@ public class ValidSetupReinforceAction implements ValidAction {
 
   @Override
   public boolean actionAvailable() {
-    return false;
+    return actionAvailable;
   }
 
   public Set<TerritoryEnum> getTerritories() {

@@ -819,7 +819,8 @@ public class BoardTest {
   }
 
   /**
-   * 
+   * Tests that getMoveableTroops returns the correct map when one territory can
+   * move troops to another territory that is not a direct neighbor.
    */
   @Test
   public void testGetMoveableTroopsNotDirectNeighbors() {
@@ -850,5 +851,4 @@ public class BoardTest {
     assertTrue(map.get(TerritoryEnum.ALBERTA).size() == 3);
     assertTrue(map.get(TerritoryEnum.ALASKA).size() == 3);
   }
-
 }

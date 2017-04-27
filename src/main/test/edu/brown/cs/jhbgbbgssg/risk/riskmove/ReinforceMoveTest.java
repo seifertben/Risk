@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -26,11 +28,14 @@ public class ReinforceMoveTest {
    */
   @Test
   public void testConstructor() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(, map);
     assertNotNull(reinforce);
   }
 

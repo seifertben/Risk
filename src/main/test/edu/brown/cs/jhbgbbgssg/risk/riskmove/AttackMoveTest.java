@@ -1,6 +1,8 @@
 package edu.brown.cs.jhbgbbgssg.risk.riskmove;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -8,7 +10,6 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
@@ -28,10 +29,8 @@ public class AttackMoveTest {
   @Test
   public void testConstructor() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    RiskBoard board = new RiskBoard();
-
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ALASKA,
+        TerritoryEnum.ALBERTA, 3);
     assertNotNull(attack);
   }
 
@@ -69,8 +68,8 @@ public class AttackMoveTest {
   public void testGetMoveType() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
 
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 3);
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ALASKA,
+        TerritoryEnum.ALBERTA, 3);
     assertTrue(attack.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
   }
 
@@ -79,9 +78,10 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackFrom() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
-    assertTrue(attack.getAttackFrom() == TerritoryEnum.ICELAND);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertTrue(attack.getAttackingTerritory() == TerritoryEnum.ICELAND);
   }
 
   /**
@@ -89,9 +89,10 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetAttackTo() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
-    assertTrue(attack.getAttackTo() == TerritoryEnum.GREENLAND);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertTrue(attack.getDefendingTerritory() == TerritoryEnum.GREENLAND);
   }
 
   /**
@@ -99,24 +100,89 @@ public class AttackMoveTest {
    */
   @Test
   public void testGetDieRolled() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 2);
-    assertTrue(attack.getDieRolled() == 2);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 2);
+    assertNull(attack.getRoll());
   }
 
   /**
-   * Tests that getAttackTo returns the correct Territory.
+   * Tests getRoll returns a valid roll once the action has been executed.
    */
   @Test
-  public void testGetRollResults() {
-    AttackAction attack = new AttackAction(UUID.randomUUID(),
-        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 3);
-    List<Integer> roll = attack.getDieResults();
+  public void testGetRollAfterExecutingAction() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    attack.executeAction();
+    List<Integer> roll = attack.getRoll();
     assertTrue(roll.size() == 3);
     int val = Integer.MAX_VALUE;
     for (int i = 0; i < 3; i++) {
       assertTrue(val >= roll.get(i));
       val = roll.get(i);
     }
+  }
+
+  /**
+   * Tests getRoll returns null if the action has not been executed.
+   */
+  @Test
+  public void testGetRollBeforeExecutingAction() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertNull(attack.getRoll());
+  }
+
+  /**
+   * Tests executeAction returns true on the first call.
+   */
+  @Test
+  public void testExecuteAction() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertTrue(attack.executeAction());
+  }
+
+  /**
+   * Tests that executeAction returns false after the first call and that the
+   * roll remains the same even after calling executeAction again.
+   */
+  @Test
+  public void testExecuteActionTwice() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertTrue(attack.executeAction());
+    List<Integer> roll = attack.getRoll();
+    assertFalse(attack.executeAction());
+    List<Integer> otherRoll = attack.getRoll();
+    assertTrue(roll.equals(otherRoll));
+  }
+
+  /**
+   * Test isActionExecuted returns false if the action has not been executed.
+   */
+  @Test
+  public void testActionExecutedFalse() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    assertFalse(attack.isActionExecuted());
+  }
+
+  /**
+   * Test isActionExecuted returns true if the action has been executed.
+   */
+  @Test
+  public void testActionExecutedTrue() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    AttackAction attack = new AttackAction(player, TerritoryEnum.ICELAND,
+        TerritoryEnum.GREENLAND, 3);
+    attack.executeAction();
+    assertTrue(attack.isActionExecuted());
   }
 }

@@ -1,12 +1,16 @@
 package edu.brown.cs.jhbgbbgssg.risk.riskmove;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -24,8 +28,12 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testConstructor() {
-    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
-        TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 1);
     assertNotNull(claim);
   }
 
@@ -33,9 +41,13 @@ public class ClaimTerritoryMoveTest {
    * Tests the constructor throws an IllegalArgumentException if the id is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullId() {
-    new ClaimTerritoryAction(null, TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA,
-        4);
+  public void testConstructorNullPlayer() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    new ClaimTerritoryAction(null, board, TerritoryEnum.ALASKA,
+        TerritoryEnum.ALBERTA, 1);
   }
 
   /**
@@ -43,8 +55,13 @@ public class ClaimTerritoryMoveTest {
    * user attacked with is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullClaimFromTerr() {
-    new ClaimTerritoryAction(UUID.randomUUID(), null, TerritoryEnum.INDIA, 4);
+  public void testConstructorNullBoard() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    new ClaimTerritoryAction(player, null, TerritoryEnum.ALASKA,
+        TerritoryEnum.ALBERTA, 1);
   }
 
   /**
@@ -52,9 +69,25 @@ public class ClaimTerritoryMoveTest {
    * the player is claiming is null.
    */
   @Test(expected = IllegalArgumentException.class)
+  public void testConstructorNullClaimFromTerr() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    new ClaimTerritoryAction(player, board, null, TerritoryEnum.ALBERTA, 1);
+  }
+
+  /**
+   * Tests that the constructor throws an IllegalArgumentException if the
+   * territory to claim is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullClaimTerr() {
-    new ClaimTerritoryAction(UUID.randomUUID(), TerritoryEnum.AFGHANISTAN, null,
-        4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    new ClaimTerritoryAction(player, board, TerritoryEnum.ALASKA, null, 1);
   }
 
   /**
@@ -62,8 +95,12 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
-        TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 1);
     assertTrue(claim.getMoveType() == MoveType.CLAIM_TERRITORY);
   }
 
@@ -72,9 +109,13 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetAttackTerritory() {
-    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
-        TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
-    assertTrue(claim.getTerritoryFrom() == TerritoryEnum.AFGHANISTAN);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 1);
+    assertTrue(claim.getAttackingTerritory() == TerritoryEnum.ALASKA);
   }
 
   /**
@@ -82,9 +123,14 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetTerritoryClaimed() {
-    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
-        TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
-    assertTrue(claim.getTerritoryClaimed() == TerritoryEnum.INDIA);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 1);
+
+    assertTrue(claim.getClaimingTerritory() == TerritoryEnum.ALBERTA);
   }
 
   /**
@@ -92,9 +138,100 @@ public class ClaimTerritoryMoveTest {
    */
   @Test
   public void testGetNumberTroops() {
-    ClaimTerritoryAction claim = new ClaimTerritoryAction(UUID.randomUUID(),
-        TerritoryEnum.AFGHANISTAN, TerritoryEnum.INDIA, 4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 5);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
     assertTrue(claim.getNumberTroops() == 4);
+  }
 
+  /**
+   * Tests executeAction executes the claim territory action.
+   */
+  @Test
+  public void testExecuteAction() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 5);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    assertFalse(player.hasTerritory(TerritoryEnum.ALBERTA));
+    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 5);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getNumberTroops() == 0);
+    assertNull(board.getTerritory(TerritoryEnum.ALBERTA).getOwner());
+    assertTrue(claim.executeAction());
+    assertTrue(player.hasTerritory(TerritoryEnum.ALBERTA));
+    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getNumberTroops() == 4);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getOwner().equals(player));
+
+  }
+
+  /**
+   * Tests that calling executeAction twice has no effect.
+   */
+  @Test
+  public void testExecuteActionTwice() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 5);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    assertFalse(player.hasTerritory(TerritoryEnum.ALBERTA));
+    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 5);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getNumberTroops() == 0);
+    assertNull(board.getTerritory(TerritoryEnum.ALBERTA).getOwner());
+    assertTrue(claim.executeAction());
+    assertTrue(player.hasTerritory(TerritoryEnum.ALBERTA));
+    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getNumberTroops() == 4);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getOwner().equals(player));
+    assertFalse(claim.executeAction());
+    assertTrue(player.hasTerritory(TerritoryEnum.ALBERTA));
+    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getNumberTroops() == 4);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ALBERTA).getOwner().equals(player));
+  }
+
+  /**
+   * Tests that isActionExecuted returns false if the action has not been
+   * executed.
+   */
+  @Test
+  public void testIsActionExecutedFalse() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 5);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    assertFalse(claim.isActionExecuted());
+  }
+
+  /**
+   * Tests that isActionExecuted returns true if the action has been executed.
+   */
+  @Test
+  public void testIsActionExecutedTrue() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 5);
+    ClaimTerritoryAction claim = new ClaimTerritoryAction(player, board,
+        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    claim.executeAction();
+    assertTrue(claim.isActionExecuted());
   }
 }

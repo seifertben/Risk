@@ -90,7 +90,10 @@ public class AttackAction implements Action {
    * @return list of integers representing the die roll.
    */
   public List<Integer> getRoll() {
-    return Collections.unmodifiableList(roll);
+    if (roll != null) {
+      return Collections.unmodifiableList(roll);
+    }
+    return null;
   }
 
   /**
@@ -106,7 +109,7 @@ public class AttackAction implements Action {
    */
   @Override
   public boolean executeAction() {
-    if (actionExecuted) {
+    if (!actionExecuted) {
       this.roll = new ArrayList<>();
       for (int i = 0; i < numberDiceRolled; i++) {
         roll.add(die.roll());
