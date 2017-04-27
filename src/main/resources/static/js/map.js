@@ -1174,13 +1174,8 @@ let map = AmCharts.makeChart( "mapdiv", {
 
 function select_territory(event) {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
-<<<<<<< HEAD
-  if (availableForClaim.includes(event.mapObject.id)) {
-        availableForClaim = [];
-=======
   if (availableForClaim.includes(event.mapObject.id) && phase == "setup") {
 	  availableForClaim = [];
->>>>>>> 1b2e34a0ad504dbedbd0b106c02f3b4f38ccdf33
 	  conn.send(JSON.stringify(mess));
   }
 }
