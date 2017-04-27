@@ -65,6 +65,7 @@ public class SetupAction implements Action {
     if (!actionExecuted) {
       player.conqueredTerritory(territorySelected);
       Territory terr = board.getTerritory(territorySelected);
+      player.decrementInitialReinforcements(1);
       terr.changePlayer(player, 1);
       actionExecuted = true;
       return actionExecuted;
