@@ -97,7 +97,7 @@
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
-      width: 280px;
+      width: 220px;
       height: 600px;
       overflow-y: scroll;
       float: center;
@@ -106,7 +106,7 @@
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
-      width: 250px;
+      width: 220px;
       height: 450px;
       overflow-y: scroll;
       float: center;
