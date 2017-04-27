@@ -68,8 +68,8 @@ let WUSDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. US",
-      "labelShiftY": 2,
-      "labelShiftX": -40,
+      "labelShiftY": 10,
+      "labelShiftX": -50,
       "title": "Western United States: Occupied by No One",
       "id": 4,
     };
@@ -97,8 +97,8 @@ let ONTARIODATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
-      "labelShiftY": -13,
-      "labelShiftX": -10,
+      "labelShiftY": -20,
+      "labelShiftX": -30,
       "title": "Ontario: Occupied by No One",
       "id": 1,
     };
@@ -113,6 +113,7 @@ let ALBERTADATA =  {
       "scale": 0.5,
       "label": "Alberta",
       "labelShiftY": 2,
+      "labelShiftX": -60,
       "title": "Alberta: Occupied by No One",
       "id": 7,
     };
@@ -139,7 +140,7 @@ let ALASKADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alaska",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
       "selectable": true,
       "title": "Alaska: Occupied by No One",
       "id": 0,
@@ -153,7 +154,7 @@ let GREENLANDDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Greenland",
-      "labelShiftY": -10,
+      "labelShiftY": 10,
       "labelShiftX": -5,
       "selectable": true,
       "title": "Greenland: Occupied by No One",
@@ -196,7 +197,7 @@ let PERUDATA= {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Peru",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "labelShiftX": -40,
       "selectable": true,
       "title": "Peru: Occupied by No One",
@@ -239,7 +240,7 @@ let ICELANDDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Iceland",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
       "selectable": true,
       "title": "Iceland: Occupied by No One",
       "id": 19,
@@ -253,7 +254,8 @@ let GBDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "GB",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
+      "labelShiftX": -40,
       "selectable": true,
       "title": "Great Britain: Occupied by No One",
       "id": 20,
@@ -268,7 +270,8 @@ let WEUDATA =  {
       "scale": 0.5,
       "label": "W EU",
       "selectable": true,
-      "labelShiftY": 2,
+      "labelShiftY": 10,
+      "labelShiftX": -50,
       "title": "Western Europe: Occupied by No One",
       "id": 21,
     };
@@ -339,6 +342,7 @@ let NAFDATA =  {
       "scale": 0.5,
       "label": "N. AF",
       "labelShiftY": 2,
+      "labelShiftX": -50,
       "title": "Northern Africa: Occupied by No One",
       "id": 13,
     };
@@ -365,7 +369,8 @@ let CAFDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. AF",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
+      "labelShiftX": -50,
       "selectable": true,
       "title": "Central Africa",
       "id": 16,
@@ -394,7 +399,8 @@ let SAFDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S. AF",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
+      "labelShiftX": -50,
       "selectable": true,
       "title": "Southern Africa: Occupied by No One",
       "id": 17,
@@ -422,7 +428,8 @@ let WAUDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. AU",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
+      "labelShiftX": -50,
       "selectable": true,
       "title": "Western Australia: Occupied by No One",
       "id": 41,
@@ -637,7 +644,7 @@ let AFGHANISTANDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Afghanistan",
-      "labelShiftY": 2,
+      "labelShiftY": -10,
       "selectable": true,
       "title": "Afghanistan: Occupied by No One",
       "id": 26,
@@ -1111,34 +1118,51 @@ let map = AmCharts.makeChart( "mapdiv", {
       "areas": [
       {
         "id": "europe",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       },
       {
         "id": "asia",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       },
       {
         "id": "africa",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       },
       {
         "id": "south_america",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       },
       {
         "id": "north_america",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       },
       {
         "id": "australia",
-        "color": "grey"
+        "color": "grey",
+        "outlineAlpha": "1",
+        "outlineColor": "black",
+        "outlineThickness": 1,
       }
     ]
   },
-   
 
   "areasSettings": {
-    "rollOverOutlineColor": 'grey',
+    "rollOverOutlineColor": 'black',
     "selectedColor": undefined
   },
 
@@ -1149,10 +1173,14 @@ let map = AmCharts.makeChart( "mapdiv", {
 } );
 
 function select_territory(event) {
-
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
+<<<<<<< HEAD
   if (availableForClaim.includes(event.mapObject.id)) {
         availableForClaim = [];
+=======
+  if (availableForClaim.includes(event.mapObject.id) && phase == "setup") {
+	  availableForClaim = [];
+>>>>>>> 1b2e34a0ad504dbedbd0b106c02f3b4f38ccdf33
 	  conn.send(JSON.stringify(mess));
   }
 }
@@ -1160,9 +1188,9 @@ function select_territory(event) {
 function bolster_territory(event) {
 
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
-  if (availableForClaim.includes(event.mapObject.id) && !setupDisabled) {
+  if (availableForClaim.includes(event.mapObject.id) && phase == "setup_reinforce") {
 	  availableForClaim = [];
-        console.log("here");
+	  console.log("SENDING BOLSTER");
 	  conn.send(JSON.stringify(mess));
   }
 }

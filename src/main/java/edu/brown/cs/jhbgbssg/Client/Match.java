@@ -203,16 +203,20 @@ public class Match {
       try {
         MoveType type = messageApi.getMoveType(received);
         GameUpdate update = null;
+        System.out.println(received);
         switch (type) {
           case SETUP:
             SetupAction setup = this.createSetupAction(received);
             update = actionProcessor.processSetupAction(setup);
             break;
           case SETUP_REINFORCE:
+            System.out.println("REINFORCING");
             SetupReinforceAction setupReinforce = this
                 .createSetupReinforceAction(received);
+            System.out.println("ACTION MADE");
             update = actionProcessor
                 .processSetupReinforceAction(setupReinforce);
+            System.out.println(update);
             break;
           case REINFORCE:
             ReinforceAction reinforce = this.createReinforceAction(received);

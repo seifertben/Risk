@@ -48,7 +48,7 @@ let nameToId = [];
 let colors = [];
 const $maker = $("#maker");
 let availableForClaim = [];
-
+let phase;
 const setup_matches = () => {
 
   //conn = new WebSocket("ws://107.170.49.223/matches");
@@ -119,6 +119,7 @@ const setup_matches = () => {
         }
         createPlayer(data.playerNum);
     	setUp();
+    	phase = "setup";
 //    	activateDropDown(2);
 //    	replaceField();
 //    	replaceTransferListField();
@@ -161,6 +162,7 @@ const setup_matches = () => {
             make_selection(data.movePlayer, data.territoryId);
             break;
           case MOVE_TYPES.SETUP_REINFORCE:
+        	console.log(data.movePlayer);
             make_selection(data.movePlayer, data.territoryId);
             break;
         }
@@ -178,6 +180,8 @@ const setup_matches = () => {
           	if (data.playerId == myId) {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+              conn.send(JSON.stringify(mess));
           	}
             break;
 
@@ -189,6 +193,7 @@ const setup_matches = () => {
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
           	if (data.playerId == myId) {
+          	  phase = "setup_reinforce"
           	  console.log(data);
               availableForClaim = JSON.parse(data.territories);
               console.log(availableForClaim);
