@@ -1,4 +1,4 @@
-﻿<assign content>
+﻿<#assign content>
 <div id="nameField">
   <form id="nameForm">
     <h2>Please Enter a Name</h2><br>
