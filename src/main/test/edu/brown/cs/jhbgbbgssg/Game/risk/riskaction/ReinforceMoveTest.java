@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.risk.riskmove;
+package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -295,5 +295,4 @@ public class ReinforceMoveTest {
     assertTrue(reinforce.executeAction());
     assertFalse(reinforce.executeAction());
   }
-
 }

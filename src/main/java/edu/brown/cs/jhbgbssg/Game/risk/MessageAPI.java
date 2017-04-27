@@ -448,7 +448,7 @@ public class MessageAPI {
 
   /**
    * Sets up the move options for setupReinforce.
-   * 
+   *
    * @param move
    * @return
    */
@@ -464,8 +464,8 @@ public class MessageAPI {
   }
 
   /**
-   * Sets up the move options for Reinforcce.
-   * 
+   * Sets up the move options for Reinforce.
+   *
    * @param move
    * @return
    */
@@ -493,23 +493,6 @@ public class MessageAPI {
     jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("selectable", GSON.toJson(ordTerrs));
-    return jsonObject;
-  }
-
-  /**
-   * Sets up the reinforce move options.
-   *
-   * @param move
-   * @return
-   */
-  private JsonObject setUpReinforceMove(ValidReinforceAction move) {
-    Set<TerritoryEnum> terrs = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
-    JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
-    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
-    jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
-    jsonObject.addProperty("numberTroops", move.getNumberToReinforce());
     return jsonObject;
   }
 

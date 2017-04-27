@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.risk;
+package edu.brown.cs.jhbgbbgssg.Game.risk;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +25,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  * @author sarahgilmore
  *
  */
-public class BoardTest {
+public class RiskBoardTest {
 
   /**
    * Tests constructor returns a non-null object.

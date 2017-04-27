@@ -39,14 +39,14 @@ public class DefendAction implements Action {
    */
   public DefendAction(RiskPlayer player, RiskBoard board, AttackAction attack,
       int defendDie) throws IllegalArgumentException {
-    if (defender == null || attack == null) {
+    if (player == null || attack == null || board == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.defender = player;
     this.attack = attack;
     this.defendDie = defendDie;
     this.board = board;
-    this.defenderRoll = new ArrayList<>();
+    this.defenderRoll = null;
     this.actionExecuted = false;
 
   }
@@ -103,6 +103,9 @@ public class DefendAction implements Action {
    * @return rolled die
    */
   public List<Integer> getRoll() {
+    if (defenderRoll == null) {
+      return null;
+    }
     return Collections.unmodifiableList(defenderRoll);
   }
 
@@ -166,13 +169,13 @@ public class DefendAction implements Action {
 
   @Override
   public boolean isActionExecuted() {
-    // TODO Auto-generated method stub
-    return false;
+    return actionExecuted;
   }
 
   @Override
   public boolean executeAction() {
     if (!actionExecuted) {
+      defenderRoll = new ArrayList<>();
       for (int i = 0; i < defendDie; i++) {
         defenderRoll.add(die.roll());
       }
@@ -192,6 +195,9 @@ public class DefendAction implements Action {
    * @return
    */
   private void attack() {
+    if (!attack.isActionExecuted()) {
+      attack.executeAction();
+    }
     List<Integer> attackRolls = attack.getRoll();
     int compare = Math.min(attackRolls.size(), defenderRoll.size());
     int defendTroopsLost = 0;
@@ -211,7 +217,7 @@ public class DefendAction implements Action {
     troopsDefendLost = Integer.valueOf(defendTroopsLost);
     troopsAttackLost = Integer.valueOf(attackTroopsLost);
     if (defenderLostTerritory) {
-      defender.lostTerritory(attack.getAttackingTerritory());
+      defender.lostTerritory(attack.getDefendingTerritory());
     }
   }
 }
