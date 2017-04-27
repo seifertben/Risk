@@ -21,7 +21,6 @@
   <body>
 
      ${content}
-
      <!-- Again, we're serving up the unminified source for clarity. -->
 
      <script src="js/map.js"></script>
