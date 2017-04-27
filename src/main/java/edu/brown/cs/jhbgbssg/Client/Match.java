@@ -209,10 +209,13 @@ public class Match {
             update = actionProcessor.processSetupAction(setup);
             break;
           case SETUP_REINFORCE:
+            System.out.println("REINFORCING");
             SetupReinforceAction setupReinforce = this
                 .createSetupReinforceAction(received);
+            System.out.println("ACTION MADE");
             update = actionProcessor
                 .processSetupReinforceAction(setupReinforce);
+            System.out.println(update);
             break;
           case REINFORCE:
             ReinforceAction reinforce = this.createReinforceAction(received);
