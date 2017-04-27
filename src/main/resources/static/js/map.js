@@ -55,6 +55,7 @@ let EUSDATA = {
       "scale": 0.5,
       "label": "E. US",
       "labelShiftY": 2,
+      "name": "Eastern United States", 
       "title": "Eastern United States: Occupied by No One",
       "id": 3,
     };
@@ -70,6 +71,7 @@ let WUSDATA = {
       "label": "W. US",
       "labelShiftY": 10,
       "labelShiftX": -50,
+      "name": "Western United States",
       "title": "Western United States: Occupied by No One",
       "id": 4,
     };
@@ -82,7 +84,8 @@ let QUEBECDATA =  {
       "color": "#000000",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
-      "label": "Quebec ",
+      "label": "Quebec",
+       "name": "Quebec",
       "labelShiftY": 2,
       "title": "Quebec: Occupied by No One",
       "id": 8,
@@ -97,6 +100,7 @@ let ONTARIODATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
+      "name": "Ontario",
       "labelShiftY": -20,
       "labelShiftX": -30,
       "title": "Ontario: Occupied by No One",
@@ -112,6 +116,7 @@ let ALBERTADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alberta",
+       "name": "Alberta",
       "labelShiftY": 2,
       "labelShiftX": -60,
       "title": "Alberta: Occupied by No One",
@@ -128,6 +133,7 @@ let NWTERRITORIESDATA =  {
       "scale": 0.5,
       "label": "NW Territories",
       "labelShiftY": 2,
+      "name": "Northwest Territories",
       "title": "Northwest Territories: Occupied by No One",
       "id": 6,
     };
@@ -140,8 +146,10 @@ let ALASKADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alaska",
+       "name": "Alaska",
       "labelShiftY": -10,
       "selectable": true,
+
       "title": "Alaska: Occupied by No One",
       "id": 0,
     };
@@ -154,6 +162,7 @@ let GREENLANDDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Greenland",
+      "name": "Greenland",
       "labelShiftY": 10,
       "labelShiftX": -5,
       "selectable": true,
@@ -171,6 +180,7 @@ let CADATA =  {
       "label": "C. America",
       "labelShiftY": 2,
       "selectable": true,
+       "name": "Central America",
       "title": "Central America: Occupied by No One",
       "id": 2,
     };
@@ -185,6 +195,7 @@ let VZDATA = {
       "label": "Venezuela",
       "labelShiftY": 2,
       "selectable": true,
+      "name": "Venezuela",
       "title": "Venezuela: Occupied by No One",
       "id": 9,
     };
@@ -196,10 +207,10 @@ let PERUDATA= {
       "color": "#000000",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
-      "label": "Peru",
       "labelShiftY": 10,
       "labelShiftX": -40,
       "selectable": true,
+      "name": "Peru",
       "title": "Peru: Occupied by No One",
       "id": 10,
     };
@@ -212,6 +223,7 @@ let BRAZILDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Brazil",
+      "name": "Brazil",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Brazil: Occupied by No One",
@@ -226,6 +238,7 @@ let ARGENTINADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Argentina",
+      "name": "Argentina",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Argentina: Occupied by No One",
@@ -240,6 +253,7 @@ let ICELANDDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Iceland",
+        "name": "Iceland",
       "labelShiftY": -10,
       "selectable": true,
       "title": "Iceland: Occupied by No One",
@@ -257,6 +271,7 @@ let GBDATA =  {
       "labelShiftY": 10,
       "labelShiftX": -40,
       "selectable": true,
+       "name": "Great Britain",
       "title": "Great Britain: Occupied by No One",
       "id": 20,
     };
@@ -272,6 +287,7 @@ let WEUDATA =  {
       "selectable": true,
       "labelShiftY": 10,
       "labelShiftX": -50,
+      "name": "Western Europe",
       "title": "Western Europe: Occupied by No One",
       "id": 21,
     };
@@ -286,6 +302,7 @@ let NEUDATA = {
       "scale": 0.5,
       "label": "N EU",
       "labelShiftY": 2,
+      "name": "Northern Europe",
       "title": "Northern Europe: Occupied by No One",
       "id": 22,
     };
@@ -300,6 +317,7 @@ let SEUDATA =    {
       "scale": 0.5,
       "label": "S EU",
       "labelShiftY": 2,
+      "name": "Southern Europe",
       "title": "Southern Europe: Occupied by No One",
       "id": 24,
     };
@@ -313,6 +331,7 @@ let SCANDINAVIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Scandinavia",
+      "name": "Scandinavia",
       "labelShiftY": 2,
       "title": "Scandinavia: Occupied by No One",
       "id": 23,
@@ -326,6 +345,7 @@ let RUSSIADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Russia",
+      "name": "Russia",
       "selectable": true,
       "labelShiftY": 2,
       "title": "Russia: Occupied by No One",
@@ -343,6 +363,7 @@ let NAFDATA =  {
       "label": "N. AF",
       "labelShiftY": 2,
       "labelShiftX": -50,
+      "name": "Northern Africa",
       "title": "Northern Africa: Occupied by No One",
       "id": 13,
     };
@@ -355,6 +376,7 @@ let EGYPTDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Egypt",
+      "name": "Egypt",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Egypt: Occupied by No One",
@@ -372,9 +394,9 @@ let CAFDATA =  {
       "labelShiftY": 10,
       "labelShiftX": -50,
       "selectable": true,
-      "title": "Central Africa",
+      "title": "Central Africa: Occupied by No One",
+      "name":  "Central Africa",
       "id": 16,
-      "description": "Occupied by No One"
     };
 idToData[16] = CAFDATA;
 let EAFDATA = {
@@ -385,6 +407,7 @@ let EAFDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. AF",
+      "name": "Eastern Africa",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Eastern Africa: Occupied by No One",
@@ -416,6 +439,7 @@ let MADAGASCARDATA =   {
       "label": "Madagascar",
       "labelShiftY": 2,
       "selectable": true,
+      "name": "Madagascar",
       "title": "Madagascar: Occupied by No One",
       "id": 18,
     };
@@ -431,6 +455,7 @@ let WAUDATA =  {
       "labelShiftY": 10,
       "labelShiftX": -50,
       "selectable": true,
+      "name": "Western Australia",
       "title": "Western Australia: Occupied by No One",
       "id": 41,
     };
@@ -445,6 +470,7 @@ let EAUDATA = {
       "label": "E. AU",
       "labelShiftY": 2,
       "selectable": true,
+      "name": "Eastern Australia", 
       "title": "Eastern Australia: Occupied by No One",
       "id": 38,
     };
@@ -457,6 +483,7 @@ let INDONESIADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Indonesia",
+       "name": "Indonesia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Indonesia: Occupied by No One",
@@ -471,6 +498,7 @@ let NEWGUINEADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "New Guinea",
+       "name": "New Guinea",
       "labelShiftY": 2,
       "selectable": true,
       "title": "New Guinea",
@@ -484,6 +512,7 @@ let MEDATA =  {
       "svgPath": targetSVG,
       "color": "#000000",  
       "labelRollOverColor": "#000000",
+      "name": "Middle East",
       "scale": 0.5,
       "label": "Middle East",
       "labelShiftY": 2,
@@ -500,6 +529,7 @@ let INDIADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "India",
+      "name": "India",
       "labelShiftY": 2,
       "selectable": true,
       "title": "India: Occupied by No One",
@@ -516,6 +546,7 @@ let SEASIADATA =   {
       "label": "SE Asia",
       "labelShiftY": 2,
       "selectable": true,
+      "name": "SouthEast Asia",
       "title": "SouthEast Asia: Occupied by No One",
       "id": 34,
     };
@@ -531,6 +562,7 @@ let CHINADATA =   {
       "labelShiftY": 2,
       "selectable": true,
       "title": "China",
+      "name": "China",
       "id": 27,
       "description": "Occupied by No One"
     };
@@ -543,6 +575,7 @@ let MONGOLIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Mongolia",
+       "name": "Mongolia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Mongolia: Occupied by No One",
@@ -557,6 +590,7 @@ let JAPANDATA =    {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Japan",
+      "name": "Japan",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Japan: Occupied by No One",
@@ -571,6 +605,7 @@ let KAMCHATKADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
+      "name": "Kamchatka",
       "labelShiftY": 10,
       "selectable": true,
       "title": "Kamchatka: Occupied by No One",
@@ -585,6 +620,7 @@ let YAKUTSKDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
+      "name": "Yakutsk",
       "labelShiftY": -10,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
@@ -600,6 +636,7 @@ let IRKUSTKDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Irkustk",
+      "name": "Irkustk",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Irkustk: Occupied by No One",
@@ -614,6 +651,7 @@ let SIBERIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Siberia",
+      "name": "Siberia",
       "labelShiftY": -10,
       "labelShiftX": -10,
       "selectable": true,
@@ -629,6 +667,7 @@ let URALDATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ural",
+      "name": "Ural",
       "labelShiftY": -10,
       "labelShiftX": -10,
       "selectable": true,
@@ -644,6 +683,7 @@ let AFGHANISTANDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Afghanistan",
+      "name": "Afghanistan",
       "labelShiftY": -10,
       "selectable": true,
       "title": "Afghanistan: Occupied by No One",
@@ -1171,7 +1211,7 @@ let map = AmCharts.makeChart( "mapdiv", {
    */
   "largeMap": {}
 } );
-
+console.log(EUSDATA.name);
 function select_territory(event) {
   if (phase == "setup") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
@@ -1244,7 +1284,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
     terToSol[territory.id] = 0;
   }
   terToSol[territory.id] = terToSol[territory.id] + numSoldier;
-  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
+  territory.title = territory.name + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
   let string = "";
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
     for (let i = 0; i <originalLabel.length; i++) {

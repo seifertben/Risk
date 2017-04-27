@@ -57,6 +57,7 @@ let cardID = 0;
 //	// addcard();
 //	// addcard();
 //	$("#transferconfirm").on("click", confirmTransfer);
+	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
 	$("#turnInCards").on( "click", turnInCards);
 	console.log($(".card"));
@@ -79,6 +80,9 @@ let cardID = 0;
       e.preventDefault();
     sendMessage();
   });
+	function resetTransfer() {
+		
+	}
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
@@ -146,7 +150,6 @@ function createConquestTransferTroopsList() {
 		$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
 
 	$parent.append($outer);
-	populateTransferList(10);
 
 }
 function replaceTransferListField() {
@@ -167,6 +170,18 @@ function populateTransferList(number) {
 	}
 	console.log($("transferOptions"));
 
+}
+function updateTransferMessage(stage) {
+	let $message = $("#end_of_turn_transfer");
+	if (stage ===1) {
+		$message.html("Select one territory if to transfer army from if you wish");
+	}
+	else if (stage == 2) {
+		$message.html("Select territory to transfer your army to");
+	}
+	else if (stage ===3) {
+		$message.hide();
+	}
 }
 function updateReinforcementMessage(number){
 	let string = "You have " + number + " soldiers to deploy";
@@ -215,6 +230,7 @@ function hideAll() {
  	$("#soldierOptions").hide();
  	$("#transfergroup").hide();
  	$("#dropdowngroup").hide();
+ 	$("#resetTransfer").hide();
 }
 
 function addcard(number) {

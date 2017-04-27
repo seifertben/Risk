@@ -252,8 +252,12 @@ const setup_matches = () => {
               map.addListener("clickMapObject", select_territory);
         	}
             break;
+
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             console.log("HI");
+            break;
+            case MOVE_TYPES.MOVE_TROOPS:
+            
             break;
         }
         break;
