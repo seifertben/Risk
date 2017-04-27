@@ -111,24 +111,23 @@ function changePlayerImage(id, backgroundColor, color) {
 
 function setUp () {
 	attackStatus();
-	//createDropdown();
-	//createConquestTransferTroopsList();
+	createDropdown();
+	createConquestTransferTroopsList();
 	$sideNav = $('#n');
 	$sideNav.append("<br>");
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn'></p>"));
 	$sideNav.append($("<p id = 'prevMove'></p>"));
 	$sideNav.append($("<p id = 'bolsters'></p>"));
-	$sideNav.append($("<p id = 'numReinforcements'></p>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
-	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
-	$sideNav.append($( "<ul id = 'blackRoll'>"));
-	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
-	 $sideNav.append($("<ul id = 'redRoll'>"));
-	 $sideNav.append("<br>");
-	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
-	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
-	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Success</button>"));
+//	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
+//	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
+//	$sideNav.append($( "<ul id = 'blackRoll'>"));
+//	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
+//	 $sideNav.append($("<ul id = 'redRoll'>"));
+//	 $sideNav.append("<br>");
+//	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
+//	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
+	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
 
 	   hideAll();
 //	   changeAttackStatus("Player 1", "Player 2", "Russia");

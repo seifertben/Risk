@@ -590,7 +590,7 @@ let YAKUTSKDATA = {
       "title": "Yakutsk: Occupied by No One",
       "id": 37,
       "description": "Occupied by No One"
-	};
+  };
 idToData[37] = YAKUTSKDATA;
 let IRKUSTKDATA =  {
       "latitude": IRKUSTK[0], 
@@ -1107,7 +1107,7 @@ let map = AmCharts.makeChart( "mapdiv", {
   "type": "map",
   "mouseWheelZoomEnabled": true,
   "listeners" : {
-	  
+    
   },
   "dataProvider": {
       "map": "continentsLow",
@@ -1162,7 +1162,7 @@ let map = AmCharts.makeChart( "mapdiv", {
   },
 
   "areasSettings": {
-    "rollOverOutlineColor": 'black',
+    "rollOverOutlineColor": 'white',
     "selectedColor": undefined
   },
 
@@ -1173,23 +1173,62 @@ let map = AmCharts.makeChart( "mapdiv", {
 } );
 
 function select_territory(event) {
-  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
-  if (availableForClaim.includes(event.mapObject.id) && phase == "setup") {
-	  availableForClaim = [];
-	  conn.send(JSON.stringify(mess));
+  if (phase == "setup") {
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
+    if (availableForClaim.includes(event.mapObject.id)) {
+      availableForClaim = [];
+      conn.send(JSON.stringify(mess));
+    }
+  } else if (phase == "setup_reinforce") {
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
+    if (availableForClaim.includes(event.mapObject.id)) {
+      availableForClaim = [];
+      conn.send(JSON.stringify(mess));
+    }
+  } else if (phase == "reinforce") {
+	if (availableForClaim.includes(event.mapObject.id)) {
+	  bolstering = event.mapObject.id;
+      document.getElementById("selecting").innerHTML = "Bolstering " + idToName[bolstering];
+	}
+  }  
+}
+
+const place_troop = event => {
+  event.preventDefault();
+  if (phase == "reinforce" && bolstering != null && placed < placeMax) {
+    if (terToPlace[bolstering] == null) {
+      terToPlace[bolstering] = 0;
+    }
+    terToPlace[bolstering] += 1;
+    placed++;
+    document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
+    changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
+    map.dataProvider.zoomLevel = map.zoomLevel();
+    map.dataProvider.zoomLatitude = map.zoomLatitude();
+    map.dataProvider.zoomLongitude = map.zoomLongitude();
+    map.validateData();
   }
 }
 
-function bolster_territory(event) {
-
-  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
-  if (availableForClaim.includes(event.mapObject.id) && phase == "setup_reinforce") {
-	  availableForClaim = [];
-	  conn.send(JSON.stringify(mess));
+const remove_troop = event => {
+  event.preventDefault();
+  if (phase == "reinforce" && bolstering != null && placed > 0) {
+    if (terToPlace[bolstering] == null) {
+      terToPlace[bolstering] = 0;
+    } else if (terToPlace[bolstering] == 0) {
+      return;
+    }
+    terToPlace[bolstering] -= 1;
+    placed--;
+    document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
+    changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
+    map.dataProvider.zoomLevel = map.zoomLevel();
+    map.dataProvider.zoomLatitude = map.zoomLatitude();
+    map.dataProvider.zoomLongitude = map.zoomLongitude();
+    map.validateData();
   }
 }
 
-terToSol = [];
 function make_selection(player, territory) {
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
   map.dataProvider.zoomLevel = map.zoomLevel();
@@ -1206,12 +1245,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   }
   terToSol[territory.id] = terToSol[territory.id] + numSoldier;
   territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
-   let string = "";
-  //   for (let i = 0; i <originalLabel.length-1; i++) {
-  //       string += originalLabel[i] + " ";
-  //   }
-  //   string += numSoldier.toString();
-  // }
+  let string = "";
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
     for (let i = 0; i <originalLabel.length; i++) {
       if (i + 1 !=originalLabel.length) {
