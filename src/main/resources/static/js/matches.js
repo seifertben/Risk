@@ -209,8 +209,11 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = data.troopsToPlace - 1 + " Troops Left to Place";  
           	}
             break;
-          case MOVE_TYPE.CHOOSE_ATTACK_DIE:
+          case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             console.log("HI");
+            break;
+            case MOVE_TYPES.MOVE_TROOPS:
+            
             break;
         }
         break;
