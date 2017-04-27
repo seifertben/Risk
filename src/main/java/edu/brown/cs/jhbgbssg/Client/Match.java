@@ -282,6 +282,8 @@ public class Match {
   private SetupReinforceAction createSetupReinforceAction(JsonObject received) {
     TerritoryEnum selected = messageApi.getSelectedTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
+    System.out.println(selected);
+    System.out.println(playerId);
     RiskPlayer player = riskPlayers.get(playerId);
     return new SetupReinforceAction(player, board, selected);
   }

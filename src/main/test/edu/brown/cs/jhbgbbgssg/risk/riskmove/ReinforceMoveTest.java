@@ -62,8 +62,28 @@ public class ReinforceMoveTest {
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    new ReinforceAction(player, board, map);
+    new ReinforceAction(null, board, map);
+  }
 
+  /**
+   * Tests that the constructor throws an IllegalArgumentException if the board
+   * is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorNullBoard() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
+    map.put(TerritoryEnum.ARGENTINA, 1);
+    map.put(TerritoryEnum.INDONESIA, 2);
+    new ReinforceAction(player, null, map);
   }
 
   /**
@@ -72,7 +92,19 @@ public class ReinforceMoveTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullMap() {
-    new ReinforceAction(UUID.randomUUID(), null);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
+    map.put(TerritoryEnum.ARGENTINA, 1);
+    map.put(TerritoryEnum.INDONESIA, 2);
+    new ReinforceAction(player, board, null);
   }
 
   /**
@@ -80,11 +112,19 @@ public class ReinforceMoveTest {
    */
   @Test
   public void testGetMoveType() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
     assertTrue(reinforce.getMoveType() == MoveType.REINFORCE);
   }
 
@@ -93,20 +133,117 @@ public class ReinforceMoveTest {
    */
   @Test
   public void testGetReinforcedTerritories() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceAction reinforce = new ReinforceAction(UUID.randomUUID(), map);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
     Map<TerritoryEnum, Integer> reinforceMap = reinforce
         .getReinforcedTerritories();
     assertTrue(reinforceMap.size() == 3);
     assertTrue(reinforceMap.containsKey(TerritoryEnum.SOUTHEAST_ASIA));
-    assertTrue(reinforceMap.get(TerritoryEnum.SOUTHEAST_ASIA) == 3);
     assertTrue(reinforceMap.containsKey(TerritoryEnum.ARGENTINA));
-    assertTrue(reinforceMap.get(TerritoryEnum.ARGENTINA) == 1);
     assertTrue(reinforceMap.containsKey(TerritoryEnum.INDONESIA));
+    assertTrue(reinforceMap.get(TerritoryEnum.SOUTHEAST_ASIA) == 3);
+    assertTrue(reinforceMap.get(TerritoryEnum.ARGENTINA) == 1);
     assertTrue(reinforceMap.get(TerritoryEnum.INDONESIA) == 2);
-
   }
+
+  /**
+   * Tests that getPlayer returns the correct player.
+   */
+  @Test
+  public void testGetPlayer() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
+    map.put(TerritoryEnum.ARGENTINA, 1);
+    map.put(TerritoryEnum.INDONESIA, 2);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
+    assertTrue(reinforce.getMovePlayer().equals(player));
+  }
+
+  /**
+   * Tests that executeAction returns true on the first call and that it
+   * reinforces the territories.
+   */
+  @Test
+  public void testExecuteAction() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
+    map.put(TerritoryEnum.ARGENTINA, 1);
+    map.put(TerritoryEnum.INDONESIA, 2);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
+    assertTrue(board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA)
+        .getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 2);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 6);
+    assertTrue(reinforce.executeAction());
+    assertTrue(board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA)
+        .getNumberTroops() == 6);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 8);
+  }
+
+  /**
+   * Tests that executeAction returns true on the first call and that it
+   * reinforces the territories.
+   */
+  @Test
+  public void testExecuteActionTrue() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
+    map.put(TerritoryEnum.ARGENTINA, 1);
+    map.put(TerritoryEnum.INDONESIA, 2);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
+    assertTrue(board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA)
+        .getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 2);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 6);
+    assertTrue(reinforce.executeAction());
+    assertTrue(board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA)
+        .getNumberTroops() == 6);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 8);
+  }
+
 }

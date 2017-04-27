@@ -226,4 +226,44 @@ public class CardTurnInMoveTest {
         board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 2);
     assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 2);
   }
+
+  /**
+   * Tests isActionExecuted returns false if the action has not been executed
+   * yet.
+   */
+  @Test
+  public void testIsActionExecutedFalse() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.addCard(2);
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    RiskBoard board = new RiskBoard();
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.ALASKA, 1);
+    map.put(TerritoryEnum.GREENLAND, 1);
+    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    assertFalse(cardMove.isActionExecuted());
+  }
+
+  /**
+   * Tests isActionExecuted returns false if the action has been executed yet.
+   */
+  @Test
+  public void testIsActionExecutedTrue() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.addCard(2);
+    player.conqueredTerritory(TerritoryEnum.ALASKA);
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    RiskBoard board = new RiskBoard();
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
+    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.ALASKA, 1);
+    map.put(TerritoryEnum.GREENLAND, 1);
+    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    cardMove.executeAction();
+    assertTrue(cardMove.isActionExecuted());
+  }
 }

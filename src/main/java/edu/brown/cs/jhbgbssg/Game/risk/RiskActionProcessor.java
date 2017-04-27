@@ -82,12 +82,14 @@ public class RiskActionProcessor {
     if (action == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
+    System.out.println(action);
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateSetupReinforceMove(action);
+    System.out.println(isValidMove);
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);

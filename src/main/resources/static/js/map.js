@@ -1152,7 +1152,7 @@ function select_territory(event) {
 
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
   if (availableForClaim.includes(event.mapObject.id)) {
-	  availableForClaim = [];
+        availableForClaim = [];
 	  conn.send(JSON.stringify(mess));
   }
 }
@@ -1162,6 +1162,7 @@ function bolster_territory(event) {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
   if (availableForClaim.includes(event.mapObject.id) && !setupDisabled) {
 	  availableForClaim = [];
+        console.log("here");
 	  conn.send(JSON.stringify(mess));
   }
 }
