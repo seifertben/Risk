@@ -30,12 +30,17 @@ public class ReinforceMoveTest {
   public void testConstructor() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    player.
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    ReinforceAction reinforce = new ReinforceAction(, map);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
     assertNotNull(reinforce);
   }
 
@@ -44,12 +49,21 @@ public class ReinforceMoveTest {
    * id is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullId() {
+  public void testConstructorNullPlayer() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.SOUTHEAST_ASIA);
+    player.conqueredTerritory(TerritoryEnum.ARGENTINA);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 2);
+    board.getTerritory(TerritoryEnum.INDONESIA).changePlayer(player, 6);
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.SOUTHEAST_ASIA, 3);
     map.put(TerritoryEnum.ARGENTINA, 1);
     map.put(TerritoryEnum.INDONESIA, 2);
-    new ReinforceAction(null, map);
+    new ReinforceAction(player, board, map);
+
   }
 
   /**

@@ -28,6 +28,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
@@ -208,7 +209,10 @@ public class Match {
             update = actionProcessor.processSetupAction(setup);
             break;
           case SETUP_REINFORCE:
-            // SetupReinforceAction action = this.crea
+            SetupReinforceAction setupReinforce = this
+                .createSetupReinforceAction(received);
+            update = actionProcessor
+                .processSetupReinforceAction(setupReinforce);
             break;
           case REINFORCE:
             ReinforceAction reinforce = this.createReinforceAction(received);
@@ -273,6 +277,13 @@ public class Match {
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     return new SetupAction(player, board, selected);
+  }
+
+  private SetupReinforceAction createSetupReinforceAction(JsonObject received) {
+    TerritoryEnum selected = messageApi.getSelectedTerritory(received);
+    UUID playerId = messageApi.getPlayerId(received);
+    RiskPlayer player = riskPlayers.get(playerId);
+    return new SetupReinforceAction(player, board, selected);
   }
 
   private AttackAction createAttackAction(JsonObject received) {
