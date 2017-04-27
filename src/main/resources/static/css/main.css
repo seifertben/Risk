@@ -89,8 +89,29 @@
   #transferDropDownText{
    font-size: 8pt; 
   }
-
-   div[id="matches"] {
+  div[id="leftNav"] {
+      padding: 10px;
+      border: 2px solid black;
+  }
+  div[id="n"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 280px;
+      height: 600px;
+      overflow-y: scroll;
+      float: center;
+  }
+  div[id="chatting"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 250px;
+      height: 450px;
+      overflow-y: scroll;
+      float: center;
+  }
+  div[id="matches"] {
       display: inline-block;
       padding: 10px;
       border: 2px solid black;

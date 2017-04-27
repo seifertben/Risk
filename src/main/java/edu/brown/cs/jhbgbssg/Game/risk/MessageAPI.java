@@ -55,7 +55,8 @@ public class MessageAPI {
   /**
    * Gets the player id.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return player id
    */
   public UUID getPlayerId(JsonObject object) {
@@ -65,7 +66,8 @@ public class MessageAPI {
   /**
    * Returns a pair of attacking and defending territories.
    *
-   * @param object - json object.
+   * @param object
+   *          - json object.
    * @return attacking and defending territory pair
    */
   public Pair<TerritoryEnum, TerritoryEnum> getAttackingDefendingTerritory(
@@ -86,7 +88,8 @@ public class MessageAPI {
   /**
    * Returns a pair of attacking and claiming territories.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return attacking and claiming territory
    */
   public Pair<TerritoryEnum, TerritoryEnum> getAttackClaimingTerritory(
@@ -106,7 +109,8 @@ public class MessageAPI {
   /**
    * Returns a pair territories that troops are moved to and from.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return pair of territories
    */
   public Pair<TerritoryEnum, TerritoryEnum> getMoveTroopsTerritories(
@@ -126,7 +130,8 @@ public class MessageAPI {
   /**
    * Gets number of die rolled.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return number of die to roll
    */
   public int getNumberDieToRoll(JsonObject object) {
@@ -141,7 +146,8 @@ public class MessageAPI {
   /**
    * Gets number of troops to move.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return number of troops to move
    */
   public int getNumberTroopsToMove(JsonObject object) {
@@ -156,7 +162,8 @@ public class MessageAPI {
   /**
    * Gets card turned in.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return card to turn in
    */
   public int getCardTurnedIn(JsonObject object) {
@@ -171,7 +178,8 @@ public class MessageAPI {
   /**
    * Gets the selected territory.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return selected territory
    */
   public TerritoryEnum getSelectedTerritory(JsonObject object) {
@@ -188,7 +196,8 @@ public class MessageAPI {
   /**
    * Gets the territories reinforced with their assocaited number of troops.
    *
-   * @param object - json object
+   * @param object
+   *          - json object
    * @return reinforced territories.
    */
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
@@ -258,29 +267,30 @@ public class MessageAPI {
   private JsonObject prevActionToJson(Action prevAction) {
     MoveType type = prevAction.getMoveType();
     switch (type) {
-      case SETUP:
-        return this.prevSetupMove((SetupAction) prevAction);
-      case SETUP_REINFORCE:
-        return this.prevSetupReinforce((SetupReinforceAction) prevAction);
-      case REINFORCE:
-        return this.prevReinforceMove((ReinforceAction) prevAction);
-      case TURN_IN_CARD:
-        return this.prevCardMove((CardTurnInAction) prevAction);
-      case CHOOSE_ATTACK_DIE:
-        return this.prevAttackMove((AttackAction) prevAction);
-      case CHOOSE_DEFEND_DIE:
-        return this.prevDefendMove((DefendAction) prevAction);
-      case CLAIM_TERRITORY:
-        return this.prevClaimMove((ClaimTerritoryAction) prevAction);
-      default:
-        return this.prevMoveTroops((MoveTroopsAction) prevAction);
+    case SETUP:
+      return this.prevSetupMove((SetupAction) prevAction);
+    case SETUP_REINFORCE:
+      return this.prevSetupReinforce((SetupReinforceAction) prevAction);
+    case REINFORCE:
+      return this.prevReinforceMove((ReinforceAction) prevAction);
+    case TURN_IN_CARD:
+      return this.prevCardMove((CardTurnInAction) prevAction);
+    case CHOOSE_ATTACK_DIE:
+      return this.prevAttackMove((AttackAction) prevAction);
+    case CHOOSE_DEFEND_DIE:
+      return this.prevDefendMove((DefendAction) prevAction);
+    case CLAIM_TERRITORY:
+      return this.prevClaimMove((ClaimTerritoryAction) prevAction);
+    default:
+      return this.prevMoveTroops((MoveTroopsAction) prevAction);
     }
   }
 
   /**
    * Sets up a JsonObject that represents a setup move.
    *
-   * @param move - set up move to convert to json
+   * @param move
+   *          - set up move to convert to json
    * @return json object
    */
   private JsonObject prevSetupMove(SetupAction move) {
@@ -308,7 +318,8 @@ public class MessageAPI {
   /**
    * Sets up a JsonObject that represents a reinforce move.
    *
-   * @param move - reinforce move
+   * @param move
+   *          - reinforce move
    * @return json object
    */
   private JsonObject prevReinforceMove(ReinforceAction move) {
@@ -354,7 +365,8 @@ public class MessageAPI {
   /**
    * Creates json object that contains information about the defend action.
    *
-   * @param move - defend action
+   * @param move
+   *          - defend action
    * @return json object
    */
   private JsonObject prevDefendMove(DefendAction move) {
@@ -381,10 +393,10 @@ public class MessageAPI {
   }
 
   /**
-   * Creates a json object that contains information about the claim territory
-   * action.
+   * Creates a json object that contains information about the claim territory action.
    *
-   * @param move - claim territory action
+   * @param move
+   *          - claim territory action
    * @return json object
    */
   private JsonObject prevClaimMove(ClaimTerritoryAction move) {
@@ -403,10 +415,10 @@ public class MessageAPI {
   }
 
   /**
-   * Creates a json object that contains information about the move troops
-   * action.
+   * Creates a json object that contains information about the move troops action.
    *
-   * @param move - move troops action
+   * @param move
+   *          - move troops action
    * @return json object
    */
   private JsonObject prevMoveTroops(MoveTroopsAction move) {
@@ -427,25 +439,31 @@ public class MessageAPI {
   private JsonObject validJsonMove(ValidAction action) {
     MoveType type = action.getMoveType();
     switch (type) {
-      case SETUP:
-        return this.setUpMove((ValidSetupAction) action);
-      case SETUP_REINFORCE:
-        return this.setUpSetupReinforceMove((ValidSetupReinforceAction) action);
-      case REINFORCE:
-        return this.setUpReinforceMove((ValidReinforceAction) action);
-      case TURN_IN_CARD:
-        return this.setUpTurnInCards((ValidCardAction) action);
-      case CHOOSE_ATTACK_DIE:
-        return this.setUpAttackMove((ValidAttackAction) action);
-      case CHOOSE_DEFEND_DIE:
-        return this.setUpDefendMove((ValidDieDefendAction) action);
-      case CLAIM_TERRITORY:
-        return this.setUpClaimTerritoryMove((ValidClaimTerritoryAction) action);
-      default:
-        return this.setUpMoveTroops((ValidMoveTroopsAction) action);
+    case SETUP:
+      return this.setUpMove((ValidSetupAction) action);
+    case SETUP_REINFORCE:
+      return this.setUpSetupReinforceMove((ValidSetupReinforceAction) action);
+    case REINFORCE:
+      return this.setUpReinforceMove((ValidReinforceAction) action);
+    case TURN_IN_CARD:
+      return this.setUpTurnInCards((ValidCardAction) action);
+    case CHOOSE_ATTACK_DIE:
+      return this.setUpAttackMove((ValidAttackAction) action);
+    case CHOOSE_DEFEND_DIE:
+      return this.setUpDefendMove((ValidDieDefendAction) action);
+    case CLAIM_TERRITORY:
+      return this.setUpClaimTerritoryMove((ValidClaimTerritoryAction) action);
+    default:
+      return this.setUpMoveTroops((ValidMoveTroopsAction) action);
     }
   }
 
+  /**
+   * Sets up the move options for setupReinforce.
+   * 
+   * @param move
+   * @return
+   */
   private JsonObject setUpSetupReinforceMove(ValidSetupReinforceAction move) {
     Set<TerritoryEnum> terrs = move.getTerritories();
     Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
@@ -566,10 +584,10 @@ public class MessageAPI {
   }
 
   /**
-   * This method sets up a JsonObject representing the ValidMoveTroopsMove
-   * object.
+   * This method sets up a JsonObject representing the ValidMoveTroopsMove object.
    *
-   * @param move - valid move troops move
+   * @param move
+   *          - valid move troops move
    * @return json object
    */
   private JsonObject setUpMoveTroops(ValidMoveTroopsAction move) {
