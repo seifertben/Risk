@@ -157,7 +157,6 @@
   }
   div[id="#n"] { 	
       border: 2px solid black;
-      position: relative;
   }
   input {
       margin: 5px 0px;
