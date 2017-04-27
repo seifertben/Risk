@@ -432,7 +432,7 @@ public class MessageAPI {
       case SETUP_REINFORCE:
         return this.setUpSetupReinforceMove((ValidSetupReinforceAction) action);
       case REINFORCE:
-        return this.setUpReinforceMove((ValidReinforceAction) action);
+        return this.setUpReinforceNormalMove((ValidReinforceAction) action);
       case TURN_IN_CARD:
         return this.setUpTurnInCards((ValidCardAction) action);
       case CHOOSE_ATTACK_DIE:
@@ -460,6 +460,23 @@ public class MessageAPI {
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
     jsonObject.addProperty("troopsToPlace", move.getTroopsLeftToPlace());
+    return jsonObject;
+  }
+
+  /**
+   * Sets up the move options for Reinforcce.
+   * 
+   * @param move
+   * @return
+   */
+  private JsonObject setUpReinforceNormalMove(ValidReinforceAction move) {
+    Set<TerritoryEnum> terrs = move.getTerritories();
+    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
+    jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
+    jsonObject.addProperty("troopsToPlace", move.getNumberToReinforce());
     return jsonObject;
   }
 

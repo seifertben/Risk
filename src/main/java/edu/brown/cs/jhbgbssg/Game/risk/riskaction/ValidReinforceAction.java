@@ -35,7 +35,9 @@ public class ValidReinforceAction implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;
+    System.out.println(player.getNumberTerritories());
     numberReinforce = player.getNumberTerritories() / 3;
+    System.out.println(numberReinforce);
     territories = player.getTerritories();
     Collection<ContinentInterface> conts = board.getContinents();
     for (ContinentInterface cont : conts) {
