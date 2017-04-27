@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbbgssg.risk.riskmove;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +8,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -24,36 +27,75 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testConstructor() {
-    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
     assertNotNull(move);
   }
 
   /**
-   * Tests constructor throws an IllegalArgumentExcetpion if the player id is
-   * null.
+   * Tests constructor throws an IllegalArgumentExcetpion if the player is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullId() {
-    new MoveTroopsAction(null, TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+  public void testConstructorNullPlayer() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    new MoveTroopsAction(null, board, TerritoryEnum.GREENLAND,
+        TerritoryEnum.ICELAND, 2);
   }
 
   /**
-   * Tests constructor throws an IllegalArgumentExcetpion if the from territory
+   * Tests constructor throws an IllegalArgumentExcetpion if the board is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorNullBoard() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    new MoveTroopsAction(player, null, TerritoryEnum.GREENLAND,
+        TerritoryEnum.ICELAND, 2);
+  }
+
+  /**
+   * Tests constructor throws an IllegalArgumentException if the from territory
    * is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullTerrFrom() {
-    new MoveTroopsAction(UUID.randomUUID(), null, TerritoryEnum.ALBERTA, 4);
+  public void testConstructorNullFromTerr() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    new MoveTroopsAction(player, board, null, TerritoryEnum.ICELAND, 2);
   }
 
   /**
-   * Tests constructor throws an IllegalArgumentExcetpion if the to territory is
-   * null.
+   * Tests constructor throws an IllegalArgumentException if the from territory
+   * is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullTerrTo() {
-    new MoveTroopsAction(UUID.randomUUID(), TerritoryEnum.ALASKA, null, 4);
+  public void testConstructorNullToTerr() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    new MoveTroopsAction(player, board, TerritoryEnum.GREENLAND, null, 2);
   }
 
   /**
@@ -61,8 +103,14 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetMoveType() {
-    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
     assertTrue(move.getMoveType() == MoveType.MOVE_TROOPS);
   }
 
@@ -71,9 +119,15 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetFromTerritory() {
-    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
-    assertTrue(move.getFromTerritory() == TerritoryEnum.ALASKA);
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertTrue(move.getFromTerritory() == TerritoryEnum.GREENLAND);
   }
 
   /**
@@ -81,9 +135,15 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetToTerritory() {
-    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
-    assertTrue(move.getToTerrtiory() == TerritoryEnum.ALBERTA);
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertTrue(move.getToTerrtiory() == TerritoryEnum.ICELAND);
   }
 
   /**
@@ -91,9 +151,102 @@ public class MoveTroopsMoveTest {
    */
   @Test
   public void testGetTroopsMoved() {
-    MoveTroopsAction move = new MoveTroopsAction(UUID.randomUUID(),
-        TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA, 4);
-    assertTrue(move.troopsMoved() == 4);
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertTrue(move.troopsMoved() == 2);
+  }
 
+  /**
+   * Tests that executeAction returns true and executes the action.
+   */
+  @Test
+  public void testExecuteAction() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ICELAND).getNumberTroops() == 1);
+    assertTrue(move.executeAction());
+    assertTrue(
+        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ICELAND).getNumberTroops() == 3);
+  }
+
+  /**
+   * Tests that executeAction has no effect after the first call.
+   */
+  @Test
+  public void testExecuteActionTwice() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 3);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ICELAND).getNumberTroops() == 1);
+    assertTrue(move.executeAction());
+    assertTrue(
+        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ICELAND).getNumberTroops() == 3);
+    assertFalse(move.executeAction());
+    assertTrue(
+        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 1);
+    assertTrue(
+        board.getTerritory(TerritoryEnum.ICELAND).getNumberTroops() == 3);
+  }
+
+  /**
+   * Tests that isActionExecuted returns false if the action has not been
+   * executed.
+   */
+  @Test
+  public void testIsActionExecutedFalse() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertFalse(move.isActionExecuted());
+  }
+
+  /**
+   * Tests that isActionExecuted returns true if the action has been executed.
+   */
+  @Test
+  public void testIsActionExecutedTrue() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    player.conqueredTerritory(TerritoryEnum.GREENLAND);
+    player.conqueredTerritory(TerritoryEnum.ICELAND);
+    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 3);
+    board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 1);
+    MoveTroopsAction move = new MoveTroopsAction(player, board,
+        TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND, 2);
+    assertFalse(move.isActionExecuted());
+    move.executeAction();
+    assertTrue(move.isActionExecuted());
   }
 }
