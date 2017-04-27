@@ -51,8 +51,8 @@ let availableForClaim = [];
 
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -75,18 +75,17 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.REMOVE:
         document.getElementById(data.gameId).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-    break;
+        break;
 
       case MESSAGE_TYPE.CREATE:
-       let game = document.createElement("BUTTON");
-       game.id = data.gameId;
-       game.name = data.matchName;
-       document.getElementById("matches").appendChild(game);
-       document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-       document.getElementById(game.id).value = data.lobbySize;
-
-       game.onclick = join_match;
-      break;
+        let game = document.createElement("BUTTON");
+        game.id = data.gameId;
+        game.name = data.matchName;
+        document.getElementById("matches").appendChild(game);
+        document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
+        document.getElementById(game.id).value = data.lobbySize;
+        game.onclick = join_match;
+        break;
 
       case MESSAGE_TYPE.START:
         document.getElementById("gameField").style.display = "inline";
@@ -153,26 +152,24 @@ const setup_matches = () => {
         $("#" + data.gameId).remove();
         break;
 
-//      case MESSAGE_TYPE.SELECT:
-//        //PICK UP HERE
-//      currentPlayer = data.playerId;
-//      console.log(currentPlayer);
-//        map.addListener("clickMapObject", select_territory);
-//        break;
-//        
-
+      case MESSAGE_TYPE.MESSAGE:
+        getMessage(data.playerId, data.message);
+        break;
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
             make_selection(data.movePlayer, data.territoryId);
-          break;
-          }
+            break;
+          case MOVE_TYPES.SETUP_REINFORCE:
+            make_selection(data.movePlayer, data.territoryId);
+            break;
+        }
         break;
+
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:
-
-          	document.getElementById("phase").innerHTML = "Select Terrirories";
+          	document.getElementById("phase").innerHTML = "Select Territories";
           	if (data.playerId == myId) {
           		document.getElementById("turn").innerHTML = "Your Turn";          		
           	} else {
@@ -181,6 +178,21 @@ const setup_matches = () => {
           	if (data.playerId == myId) {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
+          	}
+            break;
+
+          case MOVE_TYPES.SETUP_REINFORCE:
+            document.getElementById("phase").innerHTML = "Reinforce Territories";
+          	if (data.playerId == myId) {
+          		document.getElementById("turn").innerHTML = "Your Turn";          		
+          	} else {
+          		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	}
+          	if (data.playerId == myId) {
+          	  console.log(data);
+              availableForClaim = JSON.parse(data.territories);
+              console.log(availableForClaim);
+              map.addListener("clickMapObject", bolster_territory);
           	}
             break;
         }

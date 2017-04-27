@@ -320,24 +320,25 @@ function defenderLoss(defendingPlayer, losses) {
 	}
 	$("#defendLoss").html(message);
 }
+
 function sendMessage() {
     let  message = $('#messageField').val();
     console.log("f");
     console.log(message);
     $('#messageField').val("");
-    getMessage(myId, message);
-    return {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
-
+    let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
+    conn.send(JSON.stringify(mess));
 }
+
 function getMessage(player, message) {
 	let string; 
 	if (player === myId) {
 		string = "Me: " + message;
 	}
 	else {
-		string = player + ": " + message;
+		string = idToName[player] + ": " + message;
 	}
 	$li = $("<li></li>");
 	$li.html(string);
-	$("#messageList").append($li); 
+	$("#chatting").append($li); 
 }
