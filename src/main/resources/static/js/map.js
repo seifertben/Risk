@@ -1190,7 +1190,9 @@ function bolster_territory(event) {
   }
 }
 
+terToSol = {};
 function make_selection(player, territory) {
+
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
   map.dataProvider.zoomLevel = map.zoomLevel();
   map.dataProvider.zoomLatitude = map.zoomLatitude();
@@ -1201,8 +1203,11 @@ function make_selection(player, territory) {
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
-
-  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + numSoldier;
+  if (terToSol[territory] == null) {
+    terToSol[territory] = 0;
+  }
+  terToSol[territory] += numSoldier;
+  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + terToSol[territory];
    let string = "";
   //   for (let i = 0; i <originalLabel.length-1; i++) {
   //       string += originalLabel[i] + " ";
