@@ -117,6 +117,8 @@ function setUp () {
 	$sideNav.append("<br>");
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn'></p>"));
+	$sideNav.append($("<p id = 'prevMove'></p>"));
+	$sideNav.append($("<p id = 'bolsters'></p>"));
 	$sideNav.append($("<p id = 'numReinforcements'></p>"));
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
 	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));

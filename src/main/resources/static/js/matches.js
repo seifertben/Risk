@@ -156,13 +156,15 @@ const setup_matches = () => {
       case MESSAGE_TYPE.MESSAGE:
         getMessage(data.playerId, data.message);
         break;
+
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
+        	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Selected " + idToData[data.territoryId].label.split(":")[0];
             make_selection(data.movePlayer, data.territoryId);
             break;
           case MOVE_TYPES.SETUP_REINFORCE:
-        	console.log(data.movePlayer);
+            document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Reinforced " + idToData[data.territoryId].label.split(":")[0];
             make_selection(data.movePlayer, data.territoryId);
             break;
         }
@@ -182,6 +184,7 @@ const setup_matches = () => {
               map.addListener("clickMapObject", select_territory);
               let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
               conn.send(JSON.stringify(mess));
+              availableForClaim = [];
           	}
             break;
 
@@ -194,10 +197,20 @@ const setup_matches = () => {
           	}
           	if (data.playerId == myId) {
           	  phase = "setup_reinforce";
+              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
               availableForClaim = JSON.parse(data.territories);
-              console.log(availableForClaim);
               map.addListener("clickMapObject", bolster_territory);
+              if (data.troopsToPlace > 0) {
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
+              conn.send(JSON.stringify(mess));
+              availableForClaim = [];
+              }
+          	} else {
+              document.getElementById("bolsters").innerHTML = data.troopsToPlace - 1 + " Troops Left to Place";  
           	}
+            break;
+          case MOVE_TYPE.CHOOSE_ATTACK_DIE:
+            console.log("HI");
             break;
         }
         break;

@@ -18,14 +18,10 @@ public class SetupReinforceAction implements Action {
   /**
    * Constructor.
    *
-   * @param player
-   *          - player
-   * @param board
-   *          - board
-   * @param selected
-   *          - selected
-   * @throws IllegalArgumentException
-   *           if the input is null
+   * @param player - player
+   * @param board - board
+   * @param selected - selected
+   * @throws IllegalArgumentException if the input is null
    */
   public SetupReinforceAction(RiskPlayer player, RiskBoard board,
       TerritoryEnum selected) throws IllegalArgumentException {
@@ -35,7 +31,7 @@ public class SetupReinforceAction implements Action {
     this.player = player;
     this.board = board;
     territorySelected = selected;
-    actionExecuted = true;
+    actionExecuted = false;
   }
 
   @Override
@@ -78,5 +74,4 @@ public class SetupReinforceAction implements Action {
     }
     return false;
   }
-
 }

@@ -163,7 +163,7 @@ let GREENLANDDATA =   {
 idToData[5] = GREENLANDDATA;
 let CADATA =  {
       "latitude": CA[0],
-      "longitude":     CA[1],
+      "longitude": CA[1],
       "svgPath": targetSVG,
       "color": "#000000",  
       "labelRollOverColor": "#000000",
@@ -1185,14 +1185,12 @@ function bolster_territory(event) {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": event.mapObject.id};
   if (availableForClaim.includes(event.mapObject.id) && phase == "setup_reinforce") {
 	  availableForClaim = [];
-	  console.log("SENDING BOLSTER");
 	  conn.send(JSON.stringify(mess));
   }
 }
 
-terToSol = {};
+terToSol = [];
 function make_selection(player, territory) {
-
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
   map.dataProvider.zoomLevel = map.zoomLevel();
   map.dataProvider.zoomLatitude = map.zoomLatitude();
@@ -1203,11 +1201,11 @@ function make_selection(player, territory) {
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
-  if (terToSol[territory] == null) {
-    terToSol[territory] = 0;
+  if (terToSol[territory.id] == null) {
+    terToSol[territory.id] = 0;
   }
-  terToSol[territory] += numSoldier;
-  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + terToSol[territory];
+  terToSol[territory.id] = terToSol[territory.id] + numSoldier;
+  territory.title = originalTitle[0] + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
    let string = "";
   //   for (let i = 0; i <originalLabel.length-1; i++) {
   //       string += originalLabel[i] + " ";
@@ -1223,11 +1221,11 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
         string = string + originalLabel[i] + ": "
       }
     }
-    string += numSoldier.toString();
+    string += terToSol[territory.id];
   }
   else {
     let modified = territory.label.split(":");
-    string = modified[0] + ": " + numSoldier.toString();
+    string = modified[0] + ": " + terToSol[territory.id];
   } 
 
   territory.label = string;

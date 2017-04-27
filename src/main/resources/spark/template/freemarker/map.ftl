@@ -1,4 +1,4 @@
-<#assign content>
+
 <div class="container-fluid text-center">
   <div class="row content">
   	<div class="col-sm-2 sidenav" id = "leftNav">
@@ -26,5 +26,3 @@
 <ul id="cards">
 </ul>
 </footer>
-</#assign>
-<#include "main.ftl">

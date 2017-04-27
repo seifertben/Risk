@@ -49,15 +49,10 @@ public class ValidSetupReinforceAction implements ValidAction {
    */
   public boolean validSetupReinforceMove(SetupReinforceAction move) {
     move.getSelectedTerritory();
-    System.out.println(actionAvailable);
-    System.out.println(territories);
-    System.out.println(move.getSelectedTerritory());
-    System.out.println(move.getMovePlayer());
-    System.out.println(player.getPlayerId());
     if (!actionAvailable
         || !territories.contains(move.getSelectedTerritory())) {
       return false;
-    } else if (!move.getMovePlayer().getPlayerId().equals(player.getPlayerId())) {
+    } else if (!move.getMovePlayer().equals(player)) {
       return false;
     }
     return true;
