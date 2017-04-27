@@ -52,7 +52,7 @@ public class ValidSetupReinforceAction implements ValidAction {
     if (!actionAvailable
         || !territories.contains(move.getSelectedTerritory())) {
       return false;
-    } else if (!move.getMovePlayer().equals(player.getPlayerId())) {
+    } else if (!move.getMovePlayer().equals(player)) {
       return false;
     }
     return true;

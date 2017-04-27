@@ -209,6 +209,7 @@ public class Match {
             update = actionProcessor.processSetupAction(setup);
             break;
           case SETUP_REINFORCE:
+            System.out.println("received + " + received);
             System.out.println("REINFORCING");
             SetupReinforceAction setupReinforce = this
                 .createSetupReinforceAction(received);
