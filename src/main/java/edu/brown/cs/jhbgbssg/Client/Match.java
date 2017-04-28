@@ -133,7 +133,6 @@ public class Match {
       players.remove(playerId);
     }
 
-    // Remove this player's name
     names.put(playerId, null);
   }
 
@@ -202,6 +201,7 @@ public class Match {
     synchronized (this) {
       try {
         MoveType type = messageApi.getMoveType(received);
+        System.out.println(type);
         GameUpdate update = null;
         switch (type) {
           case SETUP:
@@ -213,9 +213,9 @@ public class Match {
                 .createSetupReinforceAction(received);
             update = actionProcessor
                 .processSetupReinforceAction(setupReinforce);
-            System.out.println(update.getValidMoves().actionAvailable());
             break;
           case REINFORCE:
+            System.out.println("INREINFORCE");
             ReinforceAction reinforce = this.createReinforceAction(received);
             update = actionProcessor.processReinforceAction(reinforce);
             break;
@@ -283,8 +283,6 @@ public class Match {
   private SetupReinforceAction createSetupReinforceAction(JsonObject received) {
     TerritoryEnum selected = messageApi.getSelectedTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
-    System.out.println(selected);
-    System.out.println(playerId);
     RiskPlayer player = riskPlayers.get(playerId);
     return new SetupReinforceAction(player, board, selected);
   }

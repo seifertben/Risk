@@ -172,7 +172,6 @@ public class RiskPlayer implements Player {
         remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 20;
         break;
     }
-    System.out.println(remainingSetupReinforcements);
   }
 
   public void decrementInitialReinforcements(int numToDecrement) {

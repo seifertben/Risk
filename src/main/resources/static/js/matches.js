@@ -36,9 +36,6 @@ const MOVE_TYPES = {
   SKIP: 8
 };
 
-document.getElementById("gameField").style.display = "none";
-document.getElementById("menuField").style.display = "none";
-
 let conn;
 let myId;
 let myName;
@@ -48,11 +45,16 @@ let nameToId = [];
 let colors = [];
 const $maker = $("#maker");
 let availableForClaim = [];
+let terToSol = [];
+let terToPlace = [];
 let phase;
+let bolstering;
+let placeMax;
+let placed;
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -120,33 +122,6 @@ const setup_matches = () => {
         createPlayer(data.playerNum);
     	setUp();
     	phase = "setup";
-//    	activateDropDown(2);
-//    	replaceField();
-//    	replaceTransferListField();
-//    	//changePlayerImage(player2, "white", "blue");
-//
-//    	  // populateTransferList(10);
-//    	// addcard();
-//    	// addcard();
-//    	// addcard();
-//    	$("#transferconfirm").on("click", confirmTransfer);
-//    	$("#diceconfirm").on("click", confirmDice);
-//    	$("#turnInCards").on( "click", turnInCards);
-//    	console.log($(".card"));
-//    	$('.card').click(function() {
-//    		console.log(this.style.borderColor);
-//    			console.log(this.style.borderStyle);
-//    	if (this.style.borderStyle !== "solid") {
-//        this.style.borderStyle = "solid";
-//       	this.style.borderColor = "black";
-//       	console.log("if");
-//       	   }
-//       else {
-//       		console.log("else");
-//       		 this.style.borderStyle = "none";
-//       		this.style.borderColor = "none";
-//       }
-//    });
         break;
 
       case MESSAGE_TYPE.DESTROY:
@@ -160,13 +135,15 @@ const setup_matches = () => {
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
-        	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Selected " + idToData[data.territoryId].label.split(":")[0];
+        	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Selected " + idToData[data.territoryId].name;
             make_selection(data.movePlayer, data.territoryId);
             break;
           case MOVE_TYPES.SETUP_REINFORCE:
-            document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Reinforced " + idToData[data.territoryId].label.split(":")[0];
+            document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Bolstered " + idToData[data.territoryId].name;
             make_selection(data.movePlayer, data.territoryId);
             break;
+          case MOVE_TYPES.REINFORCE:
+        	break;
         }
         break;
 
@@ -182,14 +159,14 @@ const setup_matches = () => {
           	if (data.playerId == myId) {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
+//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+//              conn.send(JSON.stringify(mess));
+//              availableForClaim = [];
           	}
             break;
 
           case MOVE_TYPES.SETUP_REINFORCE:
-            document.getElementById("phase").innerHTML = "Reinforce Territories";
+            document.getElementById("phase").innerHTML = "Bolster Territories";
           	if (data.playerId == myId) {
           		document.getElementById("turn").innerHTML = "Your Turn";          		
           	} else {
@@ -199,23 +176,79 @@ const setup_matches = () => {
           	  phase = "setup_reinforce";
               document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
               availableForClaim = JSON.parse(data.territories);
-              map.addListener("clickMapObject", bolster_territory);
-              if (data.troopsToPlace > 0) {
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
-              }
-          	} else {
-              document.getElementById("bolsters").innerHTML = data.troopsToPlace - 1 + " Troops Left to Place";  
+              map.addListener("clickMapObject", select_territory);
+//              if (data.troopsToPlace > 0) {
+//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
+//              conn.send(JSON.stringify(mess));
+//              availableForClaim = [];
+//              }
           	}
             break;
-          case MOVE_TYPE.CHOOSE_ATTACK_DIE:
+
+          case MOVE_TYPES.REINFORCE:
+
+        	if (data.playerId == myId) {
+        		document.getElementById("turn").innerHTML = "Your Turn";          		
+        	} else {
+        		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+        	}
+        	if (data.playerId == myId) {
+              document.getElementById("phase").innerHTML = "Prepare for Battle!";
+              let reinforcer = document.createElement("BUTTON");
+              let deinforcer = document.createElement("BUTTON");
+              let selecting = document.createElement("P");
+              let confirm = document.createElement("BUTTON");
+              selecting.innerHTML = "Select A Territory to Reinforce";
+              selecting.id = "selecting";
+              reinforcer.id = "reinforcer";
+              deinforcer.id = "deinforcer";
+              reinforcer.innerHTML = "Place a Troop";
+              deinforcer.innerHTML = "Recall a Troop";
+              confirm.id = "confirm";
+              confirm.innerHTML = "Confirm Placements";
+              document.getElementById("n").appendChild(selecting);
+           	  document.getElementById("n").appendChild(reinforcer);
+              document.getElementById("n").appendChild(deinforcer);
+              document.getElementById("n").appendChild(confirm);
+              reinforcer.onclick = place_troop;
+              deinforcer.onclick = remove_troop;
+              confirm.onclick = confirm_move;
+              terToPlace = [];
+              placeMax = data.troopsToPlace;
+              placed = 0;
+        	  phase = "reinforce";
+              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
+              availableForClaim = JSON.parse(data.territories);
+              map.addListener("clickMapObject", select_territory);
+        	} else {
+              document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";  
+        	}
+            break;
+
+          case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             console.log("HI");
+            break;
+            case MOVE_TYPES.MOVE_TROOPS:
+            
             break;
         }
         break;
     }
   };
+}
+
+const confirm_move = event => {
+  event.preventDefault();
+  if (placed == placeMax) {
+    console.log(Object.entries(terToPlace));
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Object.entries(terToPlace)};
+    document.getElementById("selecting").remove;
+    document.getElementById("reinforcer").remove();
+    document.getElementById("deinforcer").remove();
+    document.getElementById("confirm").remove();
+    conn.send(JSON.stringify(mess));
+    console.log("SENT");
+  }
 }
 
 function guid() {

@@ -57,6 +57,7 @@ let cardID = 0;
 //	// addcard();
 //	// addcard();
 //	$("#transferconfirm").on("click", confirmTransfer);
+	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
 	$("#turnInCards").on( "click", turnInCards);
 	console.log($(".card"));
@@ -74,11 +75,14 @@ let cardID = 0;
   		this.style.borderColor = "none";
   }
 });
-	$("#messageForm").on('submit', function(e){
-    // validation code here
-      e.preventDefault();
-    sendMessage();
-  });
+	// $("#messageForm").on('submit', function(e){
+ //    // validation code here
+ //      e.preventDefault();
+ //    sendMessage();
+ //  });
+	function resetTransfer() {
+		
+	}
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
@@ -111,24 +115,23 @@ function changePlayerImage(id, backgroundColor, color) {
 
 function setUp () {
 	attackStatus();
-	//createDropdown();
-	//createConquestTransferTroopsList();
+	createDropdown();
+	createConquestTransferTroopsList();
 	$sideNav = $('#n');
 	$sideNav.append("<br>");
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn'></p>"));
 	$sideNav.append($("<p id = 'prevMove'></p>"));
 	$sideNav.append($("<p id = 'bolsters'></p>"));
-	$sideNav.append($("<p id = 'numReinforcements'></p>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
-	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
-	$sideNav.append($( "<ul id = 'blackRoll'>"));
-	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
-	 $sideNav.append($("<ul id = 'redRoll'>"));
-	 $sideNav.append("<br>");
-	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
-	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
-	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Success</button>"));
+//	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
+//	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
+//	$sideNav.append($( "<ul id = 'blackRoll'>"));
+//	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
+//	 $sideNav.append($("<ul id = 'redRoll'>"));
+//	 $sideNav.append("<br>");
+//	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
+//	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
+	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
 
 	   hideAll();
 //	   changeAttackStatus("Player 1", "Player 2", "Russia");
@@ -147,7 +150,6 @@ function createConquestTransferTroopsList() {
 		$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
 
 	$parent.append($outer);
-	populateTransferList(10);
 
 }
 function replaceTransferListField() {
@@ -168,6 +170,18 @@ function populateTransferList(number) {
 	}
 	console.log($("transferOptions"));
 
+}
+function updateTransferMessage(stage) {
+	let $message = $("#end_of_turn_transfer");
+	if (stage ===1) {
+		$message.html("Select one territory if to transfer army from if you wish");
+	}
+	else if (stage == 2) {
+		$message.html("Select territory to transfer your army to");
+	}
+	else if (stage ===3) {
+		$message.hide();
+	}
 }
 function updateReinforcementMessage(number){
 	let string = "You have " + number + " soldiers to deploy";
@@ -216,6 +230,7 @@ function hideAll() {
  	$("#soldierOptions").hide();
  	$("#transfergroup").hide();
  	$("#dropdowngroup").hide();
+ 	$("#resetTransfer").hide();
 }
 
 function addcard(number) {
@@ -340,7 +355,7 @@ function getMessage(player, message) {
 	else {
 		string = idToName[player] + ": " + message;
 	}
-	$li = $("<li></li>");
+	$li = $("<li class = 'chat'></li>");
 	$li.html(string);
 	$("#chatting").append($li); 
 }
