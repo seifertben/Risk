@@ -154,14 +154,16 @@ public class MessageAPI {
   }
 
   /**
-   * Gets card turned in.
+   * Gets the cards turned in.
    *
    * @param object - json object
    * @return card to turn in
    */
-  public int getCardTurnedIn(JsonObject object) {
+  public List<Integer> getCardTurnedIn(JsonObject object) {
     try {
-      return object.get("card").getAsInt();
+      return GSON.fromJson(object.get("cards").getAsString(),
+          new TypeToken<List<Integer>>() {
+          }.getType());
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "ERROR: no property in the json object");
@@ -193,8 +195,7 @@ public class MessageAPI {
    */
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
     try {
-      List<List<Integer>> territories = GSON.fromJson(
-          object.get("territories"),
+      List<List<Integer>> territories = GSON.fromJson(object.get("territories"),
           new TypeToken<List<List<Integer>>>() {
           }.getType());
       Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();

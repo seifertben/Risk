@@ -267,12 +267,10 @@ public class Match {
   }
 
   private CardTurnInAction createCardAction(JsonObject received) {
-    Map<TerritoryEnum, Integer> reinforced = messageApi
-        .getNumberReinforced(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
-    int card = messageApi.getCardTurnedIn(received);
-    return new CardTurnInAction(player, board, card, reinforced);
+    List<Integer> cards = messageApi.getCardTurnedIn(received);
+    return new CardTurnInAction(cards, player);
   }
 
   private SetupAction createSetupAction(JsonObject received) {
