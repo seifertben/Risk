@@ -193,11 +193,17 @@ public class MessageAPI {
    */
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
     try {
-      Map<TerritoryEnum, Integer> territoryMap = GSON.fromJson(
-          object.get("territories"),
-          new TypeToken<Map<TerritoryEnum, Integer>>() {
+      Map<Integer, Integer> territories = GSON.fromJson(
+          object.get("territories").getAsString(),
+          new TypeToken<Map<Integer, Integer>>() {
           }.getType());
-      return territoryMap;
+      Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
+      for (java.util.Map.Entry<Integer, Integer> entry : territories
+          .entrySet()) {
+        toReinforce.put(TerritoryEnum.values()[entry.getKey()],
+            entry.getValue());
+      }
+      return toReinforce;
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "ERROR: no property in the json object");
@@ -622,5 +628,10 @@ public class MessageAPI {
       ordSet.add(terr.ordinal());
     }
     return ordSet;
+  }
+
+  private Map<TerritoryEnum, Integer> getTerritoryIntegerMap(
+      Map<Integer, Integer> map) {
+
   }
 }

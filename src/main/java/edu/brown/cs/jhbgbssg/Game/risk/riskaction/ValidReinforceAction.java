@@ -31,7 +31,7 @@ public class ValidReinforceAction implements ValidAction {
    */
   public ValidReinforceAction(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
-    if (player == null || player == null) {
+    if (player == null || board == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;

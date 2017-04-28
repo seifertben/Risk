@@ -129,4 +129,16 @@ public class ValidSetupActionTest {
     assertFalse(action.validSetupMove(setup));
     assertTrue(action.actionAvailable());
   }
+
+  /**
+   * Tests that validSetupAction throws an IllegalArgumentException if the input
+   * action is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testvalidSetupActionNullAction() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    ValidSetupAction action = new ValidSetupAction(player, board);
+    action.validSetupMove(null);
+  }
 }
