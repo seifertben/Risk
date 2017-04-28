@@ -213,6 +213,7 @@ public class Match {
                 .createSetupReinforceAction(received);
             update = actionProcessor
                 .processSetupReinforceAction(setupReinforce);
+            System.out.println(update.getErrors());
             break;
           case REINFORCE:
             System.out.println("INREINFORCE");
@@ -259,6 +260,7 @@ public class Match {
   private ReinforceAction createReinforceAction(JsonObject received) {
     Map<TerritoryEnum, Integer> reinforced = messageApi
         .getNumberReinforced(received);
+    System.out.println(reinforced);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     return new ReinforceAction(player, board, reinforced);

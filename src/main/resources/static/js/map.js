@@ -1240,10 +1240,10 @@ function select_territory(event) {
 const place_troop = event => {
   event.preventDefault();
   if (phase == "reinforce" && bolstering != null && placed < placeMax) {
-    if (terToPlace[bolstering] == null) {
-      terToPlace[bolstering] = 0;
+    if (terToPlace.get(bolstering) == null) {
+      terToPlace.set(bolstering, 0);
     }
-    terToPlace[bolstering] += 1;
+    terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
@@ -1257,12 +1257,12 @@ const place_troop = event => {
 const remove_troop = event => {
   event.preventDefault();
   if (phase == "reinforce" && bolstering != null && placed > 0) {
-    if (terToPlace[bolstering] == null) {
-      terToPlace[bolstering] = 0;
-    } else if (terToPlace[bolstering] == 0) {
+    if (terToPlace.get(bolstering) == null) {
+      terToPlace.set(bolstering, 0);
+    } else if (terToPlace.get(bolstering) == 0) {
       return;
     }
-    terToPlace[bolstering] -= 1;
+    terToPlace.set(bolstering, terToPlace.get(bolstering) - 1);
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);

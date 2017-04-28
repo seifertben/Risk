@@ -46,15 +46,15 @@ let colors = [];
 const $maker = $("#maker");
 let availableForClaim = [];
 let terToSol = [];
-let terToPlace = [];
+let terToPlace = new Map();
 let phase;
 let bolstering;
 let placeMax;
 let placed;
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -159,9 +159,9 @@ const setup_matches = () => {
           	if (data.playerId == myId) {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
-//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-//              conn.send(JSON.stringify(mess));
-//              availableForClaim = [];
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+              conn.send(JSON.stringify(mess));
+              availableForClaim = [];
           	}
             break;
 
@@ -177,11 +177,11 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
               availableForClaim = JSON.parse(data.territories);
               map.addListener("clickMapObject", select_territory);
-//              if (data.troopsToPlace > 0) {
-//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
-//              conn.send(JSON.stringify(mess));
-//              availableForClaim = [];
-//              }
+              if (data.troopsToPlace > 0) {
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
+              conn.send(JSON.stringify(mess));
+              availableForClaim = [];
+              }
           	}
             break;
 
@@ -213,7 +213,7 @@ const setup_matches = () => {
               reinforcer.onclick = place_troop;
               deinforcer.onclick = remove_troop;
               confirm.onclick = confirm_move;
-              terToPlace = [];
+              terToPlace = new Map();
               placeMax = data.troopsToPlace;
               placed = 0;
         	  phase = "reinforce";
@@ -240,8 +240,8 @@ const setup_matches = () => {
 const confirm_move = event => {
   event.preventDefault();
   if (placed == placeMax) {
-    console.log(Object.entries(terToPlace));
-    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Object.entries(terToPlace)};
+    console.log(Array.from(terToPlace));
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Array.from(terToPlace)};
     document.getElementById("selecting").remove;
     document.getElementById("reinforcer").remove();
     document.getElementById("deinforcer").remove();
