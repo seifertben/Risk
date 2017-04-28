@@ -136,7 +136,6 @@ public class Matches {
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
-      System.out.println(response);
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();
         for (int looper = 0; looper < game.playerNum(); looper++) {

@@ -425,6 +425,7 @@ let SAFDATA =   {
       "labelShiftY": 10,
       "labelShiftX": -50,
       "selectable": true,
+      "name": "Sourthern Africa",
       "title": "Southern Africa: Occupied by No One",
       "id": 17,
     };
@@ -1203,7 +1204,10 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "areasSettings": {
     "rollOverOutlineColor": 'white',
-    "selectedColor": undefined
+    "selectedColor": undefined,
+    zoomLevel: 0.5,
+    zoomLongitude: -20.1341, // from the alert box...
+    zoomLatitude: 49.1712 // here
   },
 
   /**
@@ -1228,7 +1232,7 @@ function select_territory(event) {
   } else if (phase == "reinforce") {
 	if (availableForClaim.includes(event.mapObject.id)) {
 	  bolstering = event.mapObject.id;
-      document.getElementById("selecting").innerHTML = "Bolstering " + idToName[bolstering];
+      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
 	}
   }  
 }
