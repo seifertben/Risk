@@ -117,7 +117,7 @@ let ALBERTADATA =  {
       "scale": 0.5,
       "label": "Alberta",
        "name": "Alberta",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "labelShiftX": -60,
       "title": "Alberta: Occupied by No One",
       "id": 7,
@@ -149,7 +149,6 @@ let ALASKADATA =  {
        "name": "Alaska",
       "labelShiftY": -10,
       "selectable": true,
-
       "title": "Alaska: Occupied by No One",
       "id": 0,
     };
@@ -200,9 +199,9 @@ let VZDATA = {
       "id": 9,
     };
 idToData[9] = VZDATA;
-let PERUDATA= {
+let PERUDATA = {
       "latitude": PERU[0],
-      "longitude":   PERU[1],
+      "longitude": PERU[1],
       "svgPath": targetSVG,
       "color": "#000000",  
       "labelRollOverColor": "#000000",
@@ -211,6 +210,7 @@ let PERUDATA= {
       "labelShiftX": -40,
       "selectable": true,
       "name": "Peru",
+      "label": "Peru",
       "title": "Peru: Occupied by No One",
       "id": 10,
     };
@@ -361,7 +361,7 @@ let NAFDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N. AF",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "labelShiftX": -50,
       "name": "Northern Africa",
       "title": "Northern Africa: Occupied by No One",
@@ -425,6 +425,7 @@ let SAFDATA =   {
       "labelShiftY": 10,
       "labelShiftX": -50,
       "selectable": true,
+      "name": "Sourthern Africa",
       "title": "Southern Africa: Occupied by No One",
       "id": 17,
     };
@@ -935,8 +936,8 @@ let VZ_PERU =  {
         "color": "black"
     };
 let ARGENTINA_PERU =  {
-      "latitudes": [PERU[0],  PERU[0]],
-      "longitudes": [ARGENTINA[1], ARGENTINA[1]],
+      "latitudes": [ARGENTINA[0],  PERU[0]],
+      "longitudes": [ARGENTINA[1], PERU[1]],
         "color": "black"
     };
 let ME_RUSSIA = {
@@ -1203,7 +1204,10 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "areasSettings": {
     "rollOverOutlineColor": 'white',
-    "selectedColor": undefined
+    "selectedColor": undefined,
+    zoomLevel: 0.5,
+    zoomLongitude: -20.1341, // from the alert box...
+    zoomLatitude: 49.1712 // here
   },
 
   /**
@@ -1211,7 +1215,7 @@ let map = AmCharts.makeChart( "mapdiv", {
    */
   "largeMap": {}
 } );
-console.log(EUSDATA.name);
+
 function select_territory(event) {
   if (phase == "setup") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
@@ -1228,7 +1232,7 @@ function select_territory(event) {
   } else if (phase == "reinforce") {
 	if (availableForClaim.includes(event.mapObject.id)) {
 	  bolstering = event.mapObject.id;
-      document.getElementById("selecting").innerHTML = "Bolstering " + idToName[bolstering];
+      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
 	}
   }  
 }
