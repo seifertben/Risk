@@ -75,11 +75,11 @@ let cardID = 0;
   		this.style.borderColor = "none";
   }
 });
-	$("#messageForm").on('submit', function(e){
-    // validation code here
-      e.preventDefault();
-    sendMessage();
-  });
+	// $("#messageForm").on('submit', function(e){
+ //    // validation code here
+ //      e.preventDefault();
+ //    sendMessage();
+ //  });
 	function resetTransfer() {
 		
 	}
@@ -355,7 +355,7 @@ function getMessage(player, message) {
 	else {
 		string = idToName[player] + ": " + message;
 	}
-	$li = $("<li></li>");
+	$li = $("<li class = 'chat'></li>");
 	$li.html(string);
 	$("#chatting").append($li); 
 }
