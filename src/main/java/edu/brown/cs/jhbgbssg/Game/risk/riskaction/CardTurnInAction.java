@@ -1,14 +1,11 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * Represents a Card Turn in move.
@@ -16,33 +13,23 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
+
 public class CardTurnInAction implements Action {
+  private List<Integer> cards;
   private RiskPlayer player;
-  private Integer card;
-  private RiskBoard board;
-  private Map<TerritoryEnum, Integer> cardTerrMap;
   private boolean actionExecuted;
 
-  /**
-   * Constructor for CardTurnInMove.
-   *
-   * @param player - player
-   * @param board - board
-   * @param card - card value
-   * @param territoriesReinforced - territory to integer map
-   * @throws IllegalArgumentException if the input is null
-   */
-  public CardTurnInAction(RiskPlayer player, RiskBoard board, int card,
-      Map<TerritoryEnum, Integer> territoriesReinforced)
-      throws IllegalArgumentException {
-    if (player == null || territoriesReinforced == null || board == null) {
+  public CardTurnInAction(Collection<Integer> cards, RiskPlayer player) {
+    if (cards == null || player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
+    this.cards = new ArrayList<>(cards);
     this.player = player;
-    this.board = board;
-    this.card = card;
-    this.cardTerrMap = new HashMap<>(territoriesReinforced);
-    this.actionExecuted = false;
+    actionExecuted = false;
+  }
+
+  public List<Integer> getCards() {
+    return Collections.unmodifiableList(cards);
   }
 
   @Override
@@ -55,25 +42,6 @@ public class CardTurnInAction implements Action {
     return player;
   }
 
-  /**
-   * Returns the card value.
-   *
-   * @return card value
-   */
-  public int getCard() {
-    return card;
-  }
-
-  /**
-   * Returns a map indicating relating territories to the number of troops
-   * reinforced.
-   *
-   * @return unmodifiable map
-   */
-  public Map<TerritoryEnum, Integer> getTerritoriesReinforced() {
-    return Collections.unmodifiableMap(cardTerrMap);
-  }
-
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;
@@ -82,10 +50,8 @@ public class CardTurnInAction implements Action {
   @Override
   public boolean executeAction() {
     if (!actionExecuted) {
-      player.removeCard(card);
-      for (Entry<TerritoryEnum, Integer> entry : cardTerrMap.entrySet()) {
-        Territory terr = board.getTerritory(entry.getKey());
-        terr.addTroops(entry.getValue());
+      for (Integer card : cards) {
+        player.removeCard(card);
       }
       actionExecuted = true;
       return actionExecuted;

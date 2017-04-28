@@ -331,16 +331,13 @@ public class MessageAPI {
   }
 
   private JsonObject prevCardMove(CardTurnInAction move) {
-    Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
-    Map<Integer, Integer> ordReinforced = this.getOrdinalMap(reinforced);
-    int card = move.getCard();
+    List<Integer> cards = move.getCards();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("movePlayer",
         move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
-    jsonObject.addProperty("card", card);
-    jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));
+    jsonObject.addProperty("cards", GSON.toJson(cards));
     return jsonObject;
   }
 
@@ -511,13 +508,10 @@ public class MessageAPI {
    */
   private JsonObject setUpTurnInCards(ValidCardAction move) {
     Multiset<Integer> cards = move.getCards();
-    Set<TerritoryEnum> terrs = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("cards", GSON.toJson(cards));
-    jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
     return jsonObject;
   }
 

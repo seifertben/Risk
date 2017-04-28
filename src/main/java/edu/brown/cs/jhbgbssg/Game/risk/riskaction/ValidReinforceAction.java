@@ -1,6 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -27,12 +28,13 @@ public class ValidReinforceAction implements ValidAction {
    *
    * @param player - player
    * @param board - board
+   * @param cards - cards turned in
    * @throws IllegalArgumentException - thrown if the input is null or if the
    *           numberReinforce is negative
    */
-  public ValidReinforceAction(RiskPlayer player, RiskBoard board)
-      throws IllegalArgumentException {
-    if (player == null || board == null) {
+  public ValidReinforceAction(RiskPlayer player, RiskBoard board,
+      List<Integer> cards) throws IllegalArgumentException {
+    if (player == null || board == null || cards == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;
@@ -44,6 +46,9 @@ public class ValidReinforceAction implements ValidAction {
       if (territories.containsAll(territoriesInCont)) {
         numberReinforce += cont.getBonusValue();
       }
+    }
+    for (Integer card : cards) {
+      numberReinforce += card;
     }
     numberReinforce = Math.max(3, numberReinforce);
     if (territories.size() == 0) {

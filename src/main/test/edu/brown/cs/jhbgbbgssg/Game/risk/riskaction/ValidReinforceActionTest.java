@@ -5,23 +5,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
@@ -42,7 +37,8 @@ public class ValidReinforceActionTest {
   public void testConstructor() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertNotNull(action);
   }
 
@@ -53,7 +49,7 @@ public class ValidReinforceActionTest {
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullPlayer() {
     RiskBoard board = new RiskBoard();
-    new ValidReinforceAction(null, board);
+    new ValidReinforceAction(null, board, new ArrayList<>());
   }
 
   /**
@@ -63,7 +59,7 @@ public class ValidReinforceActionTest {
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullBoard() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    new ValidReinforceAction(player, null);
+    new ValidReinforceAction(player, null, new ArrayList<>());
   }
 
   /**
@@ -73,7 +69,8 @@ public class ValidReinforceActionTest {
   public void testGetMoveType() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.getMoveType() == MoveType.REINFORCE);
   }
 
@@ -84,7 +81,8 @@ public class ValidReinforceActionTest {
   public void testGetPlayer() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.getMovePlayer().equals(player.getPlayerId()));
   }
 
@@ -101,7 +99,8 @@ public class ValidReinforceActionTest {
     board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.ONTARIO).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 3);
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().size() == 3);
     assertTrue(action.getTerritories().contains(TerritoryEnum.ALASKA));
@@ -122,7 +121,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -146,7 +146,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -170,7 +171,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -194,7 +196,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -218,7 +221,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -242,7 +246,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
@@ -268,7 +273,8 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(arr.get(i));
       board.getTerritory(arr.get(i)).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     int numberToReinforce = 0;
     for (ContinentInterface cont : board.getContinents()) {
       if (player.getTerritories().containsAll(cont.getTerritories())) {
@@ -290,7 +296,8 @@ public class ValidReinforceActionTest {
   public void testNoReinforcementActionAvailable() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     assertFalse(action.actionAvailable());
   }
 
@@ -306,34 +313,14 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    ValidReinforceAction action = new ValidReinforceAction(player, board,
+        new ArrayList<>());
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.CHINA, 5);
     map.put(TerritoryEnum.JAPAN, 5);
-    map.put(TerritoryEnum.MONGOLIA, 2);
-    // ReinforceAction reinforce = new ReinforceAction(player, board, player);
-  }
-
-  @Test
-  public void test() {
-    Gson gson = new Gson();
-    List<List<Integer>> list = new ArrayList<>();
-    list.add(Arrays.asList(1, 3));
-    list.add(Arrays.asList(3, 4));
-    JsonObject obj = new JsonObject();
-    obj.addProperty("list", gson.toJson(list));
-
-    List<List<Integer>> territories = gson.fromJson(
-        obj.get("list").getAsString(), new TypeToken<List<List<Integer>>>() {
-        }.getType());
-    System.out.println(territories);
-    Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
-    for (List<Integer> el : territories) {
-      if (el.size() == 2) {
-        TerritoryEnum key = TerritoryEnum.values()[el.get(0)];
-        toReinforce.put(key, el.get(1));
-      }
-    }
-    System.out.println(toReinforce);
+    map.put(TerritoryEnum.MONGOLIA, 5);
+    ReinforceAction reinforce = new ReinforceAction(player, board, map);
+    assertTrue(action.actionAvailable());
+    assertTrue(action.validReinforceMove(reinforce));
   }
 }

@@ -162,7 +162,8 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterCardTurnIn();
+    ValidAction nextValidMove = referee
+        .getValidMoveAfterCardTurnIn(action.getCards());
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }

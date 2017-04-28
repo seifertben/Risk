@@ -191,7 +191,11 @@ public class Referee {
     int index = turnOrder.indexOf(currPlayer);
     index = (index + 1) % turnOrder.size();
     currPlayer = turnOrder.get(index);
-    validMove = this.getValidReinforceMove(currPlayer);
+    validMove = new ValidCardAction(currPlayer);
+    if (!validMove.actionAvailable()) {
+      validMove = new ValidReinforceAction(currPlayer, board,
+          new ArrayList<>());
+    }
     if (prevMove.getMoveType() == MoveType.SETUP) {
       validMove = new ValidSetupAction(currPlayer, board);
       if (validMove.actionAvailable()) {
@@ -206,7 +210,8 @@ public class Referee {
         return validMove;
       } else {
         currPlayer = turnOrder.get(0);
-        validMove = this.getValidReinforceMove(currPlayer);
+        validMove = new ValidReinforceAction(currPlayer, board,
+            new ArrayList<>());
         return validMove;
       }
     }
@@ -237,16 +242,6 @@ public class Referee {
   }
 
   /**
-   * Sets the valid moves for reinforce.
-   *
-   * @return ValidReinforceMove
-   */
-  protected ValidReinforceAction getValidReinforceMove(RiskPlayer player) {
-    validMove = new ValidReinforceAction(player, board);
-    return (ValidReinforceAction) validMove;
-  }
-
-  /**
    * Gets the next valid action after a player has reinforced. If current player
    * does not have any valid moves left, the method returns null.
    *
@@ -254,10 +249,6 @@ public class Referee {
    * @return ValidAction - next set of valid actions
    */
   protected ValidAction getValidMoveAfterReinforce() {
-    if (currPlayer.getCards().size() != 0) {
-      validMove = new ValidCardAction(currPlayer);
-      return validMove;
-    }
     ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
       validMove = move;
@@ -272,26 +263,11 @@ public class Referee {
     return null;
   }
 
-  /**
-   * Gets the next valid action after turning a card has been turned in. The
-   * next valid action is either an attack or moving a troops. If there is no
-   * valid action left for the current player, null is returned.
-   *
-   * @return next valid action after turning in a card
-   */
-  protected ValidAction getValidMoveAfterCardTurnIn() {
-    ValidAttackAction move = new ValidAttackAction(currPlayer, board);
-    if (move.actionAvailable()) {
-      validMove = move;
-      return validMove;
-    }
-    ValidMoveTroopsAction troopMove = new ValidMoveTroopsAction(currPlayer,
-        board);
-    if (troopMove.actionAvailable()) {
-      validMove = troopMove;
-      return validMove;
-    }
-    return null;
+  protected ValidAction getValidMoveAfterCardTurnIn(List<Integer> cards) {
+    ValidReinforceAction move = new ValidReinforceAction(currPlayer, board,
+        cards);
+    validMove = move;
+    return validMove;
   }
 
   /**
@@ -380,7 +356,7 @@ public class Referee {
   protected ValidAction getActionAfterSkip() {
     MoveType type = validMove.getMoveType();
     if (type == MoveType.TURN_IN_CARD) {
-      return this.getValidMoveAfterCardTurnIn();
+      return new ValidReinforceAction(currPlayer, board, new ArrayList<>());
     } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
       ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
       if (move.actionAvailable()) {
