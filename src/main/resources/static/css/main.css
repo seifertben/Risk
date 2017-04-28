@@ -25,6 +25,7 @@
    #turnInCards {
     position: absolute;
     right: 0;
+    bottom: 0;
    }
   /* #messageForm {
     position: absolute;
@@ -41,7 +42,7 @@
      /*position: absolute;*/
      display: inline-block;
      width: 100%;
-     bottom: 20;
+     bottom: 10%;
    }
     .w3-container-w3-blue {
       background-color: blue;
