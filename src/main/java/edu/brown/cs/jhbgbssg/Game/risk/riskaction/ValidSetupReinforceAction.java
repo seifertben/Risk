@@ -38,7 +38,6 @@ public class ValidSetupReinforceAction implements ValidAction {
     } else {
       actionAvailable = true;
     }
-
   }
 
   /**
