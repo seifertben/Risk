@@ -36,9 +36,6 @@ const MOVE_TYPES = {
   SKIP: 8
 };
 
-document.getElementById("gameField").style.display = "none";
-document.getElementById("menuField").style.display = "none";
-
 let conn;
 let myId;
 let myName;
@@ -56,8 +53,8 @@ let placeMax;
 let placed;
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -243,7 +240,8 @@ const setup_matches = () => {
 const confirm_move = event => {
   event.preventDefault();
   if (placed == placeMax) {
-    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": terToPlace};
+    console.log(Object.entries(terToPlace));
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Object.entries(terToPlace)};
     document.getElementById("selecting").remove;
     document.getElementById("reinforcer").remove();
     document.getElementById("deinforcer").remove();

@@ -201,6 +201,7 @@ public class Match {
     synchronized (this) {
       try {
         MoveType type = messageApi.getMoveType(received);
+        System.out.println(type);
         GameUpdate update = null;
         switch (type) {
           case SETUP:
@@ -214,6 +215,7 @@ public class Match {
                 .processSetupReinforceAction(setupReinforce);
             break;
           case REINFORCE:
+            System.out.println("INREINFORCE");
             ReinforceAction reinforce = this.createReinforceAction(received);
             update = actionProcessor.processReinforceAction(reinforce);
             break;

@@ -206,7 +206,6 @@ public class Referee {
         return validMove;
       } else {
         currPlayer = turnOrder.get(0);
-        System.out.println("HERE");
         validMove = this.getValidReinforceMove(currPlayer);
         return validMove;
       }

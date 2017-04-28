@@ -169,6 +169,12 @@
       height: 400px;
       margin: 0% 25%;
   }
+  div[id="gameField"] {
+      display: none;
+  }
+  div[id="menuField"] {
+  	  display: none;
+  }
   button[id="maker"] {
       margin: 5px 0px;
   }
