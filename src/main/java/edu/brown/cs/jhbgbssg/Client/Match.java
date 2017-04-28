@@ -213,7 +213,6 @@ public class Match {
                 .createSetupReinforceAction(received);
             update = actionProcessor
                 .processSetupReinforceAction(setupReinforce);
-            System.out.println(update.getErrors());
             break;
           case REINFORCE:
             System.out.println("INREINFORCE");
