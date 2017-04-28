@@ -194,7 +194,7 @@ public class MessageAPI {
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
     try {
       List<List<Integer>> territories = GSON.fromJson(
-          object.get("territories").getAsString(),
+          object.get("territories"),
           new TypeToken<List<List<Integer>>>() {
           }.getType());
       Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
