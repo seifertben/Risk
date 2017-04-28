@@ -20,6 +20,7 @@ public class ValidReinforceAction implements ValidAction {
   private RiskPlayer player;
   private Set<TerritoryEnum> territories;
   private int numberReinforce;
+  private boolean actionAvailable;
 
   /**
    * Constructor for a ValidReinforceMove.
@@ -43,6 +44,11 @@ public class ValidReinforceAction implements ValidAction {
       if (territories.containsAll(territoriesInCont)) {
         numberReinforce += cont.getBonusValue();
       }
+    }
+    if (territories.size() == 0) {
+      actionAvailable = false;
+    } else {
+      actionAvailable = true;
     }
   }
 
@@ -103,6 +109,6 @@ public class ValidReinforceAction implements ValidAction {
 
   @Override
   public boolean actionAvailable() {
-    return true;
+    return actionAvailable;
   }
 }

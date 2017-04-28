@@ -1,8 +1,12 @@
 package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -21,7 +25,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  * @author sarahgilmore
  *
  */
-public class ValidReinforceMoveTest {
+public class ValidReinforceActionTest {
 
   /**
    * Tests the constructor returns a non-null object.
@@ -239,5 +243,46 @@ public class ValidReinforceMoveTest {
         board.getContinent(ContinentEnum.AUSTRALIA).getTerritories()));
     int troops = size / 3 + 2;
     assertTrue(troops == action.getNumberToReinforce());
+  }
+
+  /**
+   * Tests that for a random territory assignment, the action returns the
+   * correct number of troops to reinforce and the correct territory set.
+   */
+  @Test
+  public void testRandomTerritoryAssignment() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    Collection<TerritoryEnum> terrs = board.getTerritoryIds();
+    ArrayList<TerritoryEnum> arr = new ArrayList<>(terrs);
+    Collections.shuffle(arr);
+    for (int i = 0; i < 19; i++) {
+      player.conqueredTerritory(arr.get(i));
+      board.getTerritory(arr.get(i)).changePlayer(player, 2);
+    }
+    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    int numberToReinforce = 0;
+    for (ContinentInterface cont : board.getContinents()) {
+      if (player.getTerritories().containsAll(cont.getTerritories())) {
+        numberToReinforce += cont.getBonusValue();
+      }
+    }
+    numberToReinforce += 19 / 3;
+    assertTrue(action.getNumberToReinforce() == numberToReinforce);
+    assertTrue(player.getTerritories().containsAll(action.getTerritories()));
+    assertTrue(action.getTerritories().containsAll(player.getTerritories()));
+    assertTrue(action.actionAvailable());
+  }
+
+  /**
+   * Tests that if the player has no territories that can be reinforced,
+   * actionAvailable returns false.
+   */
+  @Test
+  public void testNoReinforcementActionAvailable() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    assertFalse(action.actionAvailable());
   }
 }

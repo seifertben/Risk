@@ -135,7 +135,7 @@ public class ValidSetupActionTest {
    * action is null.
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testvalidSetupActionNullAction() {
+  public void testValidSetupActionNullAction() {
     RiskBoard board = new RiskBoard();
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     ValidSetupAction action = new ValidSetupAction(player, board);

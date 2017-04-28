@@ -629,9 +629,4 @@ public class MessageAPI {
     }
     return ordSet;
   }
-
-  private Map<TerritoryEnum, Integer> getTerritoryIntegerMap(
-      Map<Integer, Integer> map) {
-
-  }
 }
