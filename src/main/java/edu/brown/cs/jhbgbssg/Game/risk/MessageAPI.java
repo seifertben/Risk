@@ -193,15 +193,16 @@ public class MessageAPI {
    */
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
     try {
-      Map<Integer, Integer> territories = GSON.fromJson(
+      List<List<Integer>> territories = GSON.fromJson(
           object.get("territories").getAsString(),
-          new TypeToken<Map<Integer, Integer>>() {
+          new TypeToken<List<List<Integer>>>() {
           }.getType());
       Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
-      for (java.util.Map.Entry<Integer, Integer> entry : territories
-          .entrySet()) {
-        toReinforce.put(TerritoryEnum.values()[entry.getKey()],
-            entry.getValue());
+      for (List<Integer> el : territories) {
+        if (el.size() == 2) {
+          TerritoryEnum key = TerritoryEnum.values()[el.get(0)];
+          toReinforce.put(key, el.get(1));
+        }
       }
       return toReinforce;
     } catch (NullPointerException e) {

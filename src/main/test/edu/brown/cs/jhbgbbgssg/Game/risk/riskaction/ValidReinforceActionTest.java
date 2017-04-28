@@ -5,11 +5,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
@@ -284,5 +292,48 @@ public class ValidReinforceActionTest {
     RiskBoard board = new RiskBoard();
     ValidReinforceAction action = new ValidReinforceAction(player, board);
     assertFalse(action.actionAvailable());
+  }
+
+  /**
+   * 
+   */
+  @Test
+  public void testValidReinforcementMove() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    ContinentInterface cont = board.getContinent(ContinentEnum.ASIA);
+    for (TerritoryEnum id : cont.getTerritories()) {
+      player.conqueredTerritory(id);
+      board.getTerritory(id).changePlayer(player, 2);
+    }
+    ValidReinforceAction action = new ValidReinforceAction(player, board);
+    Map<TerritoryEnum, Integer> map = new HashMap<>();
+    map.put(TerritoryEnum.CHINA, 5);
+    map.put(TerritoryEnum.JAPAN, 5);
+    map.put(TerritoryEnum.MONGOLIA, 2);
+    // ReinforceAction reinforce = new ReinforceAction(player, board, player);
+  }
+
+  @Test
+  public void test() {
+    Gson gson = new Gson();
+    List<List<Integer>> list = new ArrayList<>();
+    list.add(Arrays.asList(1, 3));
+    list.add(Arrays.asList(3, 4));
+    JsonObject obj = new JsonObject();
+    obj.addProperty("list", gson.toJson(list));
+
+    List<List<Integer>> territories = gson.fromJson(
+        obj.get("list").getAsString(), new TypeToken<List<List<Integer>>>() {
+        }.getType());
+    System.out.println(territories);
+    Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
+    for (List<Integer> el : territories) {
+      if (el.size() == 2) {
+        TerritoryEnum key = TerritoryEnum.values()[el.get(0)];
+        toReinforce.put(key, el.get(1));
+      }
+    }
+    System.out.println(toReinforce);
   }
 }

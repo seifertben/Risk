@@ -45,6 +45,7 @@ public class ValidReinforceAction implements ValidAction {
         numberReinforce += cont.getBonusValue();
       }
     }
+    numberReinforce = Math.max(3, numberReinforce);
     if (territories.size() == 0) {
       actionAvailable = false;
     } else {
