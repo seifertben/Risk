@@ -15,7 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
@@ -133,13 +132,10 @@ public class Matches {
     // If this message is a request to create a lobby...
     if (received.get("type").getAsInt() == RiskMessageType.MOVE.ordinal()) {
       System.out.println(received);
-      if(received.has("territories")) {
-        System.out.println(received.get("territories").getAsJsonObject());
-      }
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
-
+      System.out.println(response);
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();
         for (int looper = 0; looper < game.playerNum(); looper++) {
