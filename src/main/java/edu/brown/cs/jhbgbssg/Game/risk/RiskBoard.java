@@ -27,6 +27,12 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.Europe;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.NorthAmerica;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.SouthAmerica;
 
+/**
+ * Represents a Risk game board.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
@@ -204,6 +210,7 @@ public class RiskBoard {
    *
    * @param terrId - territory id
    * @return territory
+   * @throws IllegalArgumentException if the territory id is null
    */
   public Territory getTerritory(TerritoryEnum terrId)
       throws IllegalArgumentException {
@@ -228,14 +235,31 @@ public class RiskBoard {
     return neighbors;
   }
 
+  /**
+   * Returns the collection of territories on the board.
+   *
+   * @return collection of territories
+   */
   public Collection<Territory> getTerritories() {
     return territoryMap.values();
   }
 
+  /**
+   * Returns the collection of continents.
+   *
+   * @return continent sets
+   */
   public Collection<ContinentInterface> getContinents() {
     return continentMap.values();
   }
 
+  /**
+   * Returns the continent associated with the id.
+   *
+   * @param contId - id
+   * @return continent
+   * @throws IllegalArgumentException if the id is null
+   */
   public ContinentInterface getContinent(ContinentEnum contId)
       throws IllegalArgumentException {
     if (contId == null) {
@@ -244,6 +268,14 @@ public class RiskBoard {
     return continentMap.get(contId);
   }
 
+  /**
+   * Returns the multimap of territories representing which territories are
+   * reachable from another territories. and
+   *
+   * @param player - player
+   * @return multimap
+   * @throws IllegalArgumentException if the player given is null
+   */
   public Multimap<TerritoryEnum, TerritoryEnum> getMoveableTroops(
       RiskPlayer player) throws IllegalArgumentException {
     if (player == null) {
@@ -283,6 +315,11 @@ public class RiskBoard {
     return canReach;
   }
 
+  /**
+   * Gets the set of territory ids.
+   *
+   * @return set of territory ids
+   */
   public Set<TerritoryEnum> getTerritoryIds() {
     return Collections.unmodifiableSet(territoryMap.keySet());
   }

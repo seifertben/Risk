@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -14,9 +14,6 @@ import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAttackAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 public class ValidAttackActionTest {
