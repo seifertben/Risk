@@ -332,7 +332,7 @@ public class MessageAPI {
   }
 
   private JsonObject prevCardMove(CardTurnInAction move) {
-    List<Integer> cards = move.getCards();
+    List<Integer> cards = new ArrayList<>(move.getCards());
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("movePlayer",

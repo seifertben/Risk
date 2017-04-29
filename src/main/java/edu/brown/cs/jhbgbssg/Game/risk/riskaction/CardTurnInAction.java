@@ -1,9 +1,9 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
@@ -15,7 +15,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
  */
 
 public class CardTurnInAction implements Action {
-  private List<Integer> cards;
+  private Multiset<Integer> cards;
   private RiskPlayer player;
   private boolean actionExecuted;
 
@@ -23,13 +23,13 @@ public class CardTurnInAction implements Action {
     if (cards == null || player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    this.cards = new ArrayList<>(cards);
+    this.cards = HashMultiset.create(cards);
     this.player = player;
     actionExecuted = false;
   }
 
-  public List<Integer> getCards() {
-    return Collections.unmodifiableList(cards);
+  public Multiset<Integer> getCards() {
+    return cards;
   }
 
   @Override

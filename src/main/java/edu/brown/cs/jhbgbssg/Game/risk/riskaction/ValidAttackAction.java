@@ -48,6 +48,8 @@ public class ValidAttackAction implements ValidAction {
     }
     if (chooseDie.size() == 0) {
       canAttack = false;
+    } else {
+      canAttack = true;
     }
   }
 

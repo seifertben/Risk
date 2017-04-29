@@ -55,7 +55,7 @@ public class CardTurnInMoveTest {
     player.conqueredTerritory(TerritoryEnum.ALASKA);
     CardTurnInAction cardMove = new CardTurnInAction(Arrays.asList(2), player);
     assertTrue(cardMove.getCards().size() == 1);
-    assertTrue(cardMove.getCards().get(0) == 2);
+    assertTrue(cardMove.getCards().contains(2));
   }
 
   /**

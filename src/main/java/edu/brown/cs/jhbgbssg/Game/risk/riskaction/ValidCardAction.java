@@ -1,8 +1,8 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
-import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
@@ -28,7 +28,7 @@ public class ValidCardAction implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;
-    cards = player.getCards();
+    cards = HashMultiset.create(player.getCards());
     if (cards.size() == 0) {
       canTurnInCards = false;
     }
@@ -69,10 +69,14 @@ public class ValidCardAction implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     RiskPlayer currPlayer = move.getMovePlayer();
-    List<Integer> card = move.getCards();
+    Multiset<Integer> card = move.getCards();
     if (!currPlayer.equals(player)) {
       return false;
     } else if (!cards.containsAll(card)) {
+      return false;
+    } else if (cards.count(1) < card.count(1)) {
+      return false;
+    } else if (cards.count(2) < card.count(2)) {
       return false;
     }
     return true;
