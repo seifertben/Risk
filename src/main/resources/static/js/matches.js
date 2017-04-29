@@ -51,6 +51,8 @@ let phase;
 let bolstering;
 let placeMax;
 let placed;
+let myCards = [];
+
 const setup_matches = () => {
 
   //conn = new WebSocket("ws://107.170.49.223/matches");
@@ -144,6 +146,8 @@ const setup_matches = () => {
             break;
           case MOVE_TYPES.REINFORCE:
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
+            document.getElementById("bolsters").style.display = "none";
+        	make_bolster(data.movePlayer, JSON.parse(data.territories));
         	break;
         }
         break;
@@ -195,7 +199,7 @@ const setup_matches = () => {
         	}
         	if (data.playerId == myId) {
 
-        	    document.getElementById("bolsters").display = inline;  
+        	  document.getElementById("bolsters").display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
               let reinforcer = document.createElement("BUTTON");
               let deinforcer = document.createElement("BUTTON");
@@ -229,6 +233,12 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
+          	if (data.playerId == myId) {
+        		document.getElementById("turn").innerHTML = "Your Turn";          		
+        	} else {
+        		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+        	}
+        	
         	break;
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             break;
@@ -240,16 +250,23 @@ const setup_matches = () => {
   };
 }
 
+const skip_phase = event => {
+  event.preventDefault();
+  if (phase == "turnin" || phase == "moveTroops") {
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
+    conn.send(JSON.stringify(mess));
+  }
+}
+
 const confirm_move = event => {
   event.preventDefault();
   if (phase == "reinforce" && placed == placeMax) {
+	sparcify();
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Array.from(terToPlace)};
-    document.getElementById("selecting").remove;
+    document.getElementById("selecting").remove();
     document.getElementById("reinforcer").remove();
     document.getElementById("deinforcer").remove();
-    document.getElementById("confirm").remove();
-
-    document.getElementById("bolsters").display = none;  
+    document.getElementById("confirm").remove(); 
     conn.send(JSON.stringify(mess));
   }
 }

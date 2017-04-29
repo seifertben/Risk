@@ -327,7 +327,7 @@ public class MessageAPI {
     jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
     jsonObject.addProperty("movePlayer",
         move.getMovePlayer().getPlayerId().toString());
-    jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));
+    jsonObject.addProperty("territories", GSON.toJson(ordReinforced));
     return jsonObject;
   }
 
