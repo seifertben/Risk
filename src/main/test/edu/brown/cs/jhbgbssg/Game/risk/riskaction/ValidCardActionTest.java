@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,9 +10,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
 
 /**
  * JUnit tests for ValidCardAction.

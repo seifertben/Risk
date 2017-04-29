@@ -1234,7 +1234,29 @@ function select_territory(event) {
 	  bolstering = event.mapObject.id;
       document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
 	}
-  }  
+  } else if (phase == "attacking") {
+    if (availableForClaim.includes(event.mapObject.id.toString())) {
+      attackFrom = event.mapObject.id;
+      attackTo = null;
+      attackables = terToTar[attackFrom];
+      document.getElementById("attacking").style.display = "inline";
+
+      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
+    } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
+      attackTo = event.mapObject.id;
+      document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
+        + "!<br> Select a Dice Number and Attack!<br>";
+    }
+  }
+}
+
+function reset_attack() {
+  document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
+  document.getElementById("attacking").style.display = "none";
+  attackFrom = null;
+  attackTo = null;
+  attackables = null;
 }
 
 const place_troop = event => {

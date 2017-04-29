@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.RiskWorld;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

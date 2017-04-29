@@ -136,10 +136,18 @@ public class GameUpdate {
     return this.currPlayer;
   }
 
+  /**
+   * Sets the boolean playerChanged field to true.
+   */
   public void playerChanged() {
     playerChanged = true;
   }
 
+  /**
+   * Returns whether or not the player has changed.
+   *
+   * @return true if the player changed; false otherwise
+   */
   public boolean didPlayerChange() {
     return playerChanged;
   }

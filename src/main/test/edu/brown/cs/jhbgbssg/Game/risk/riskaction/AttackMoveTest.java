@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
