@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Multiset;
+
 import edu.brown.cs.jhbgbssg.Game.CardPool;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
@@ -263,9 +265,10 @@ public class Referee {
     return null;
   }
 
-  protected ValidAction getValidMoveAfterCardTurnIn(List<Integer> cards) {
+  protected ValidAction getValidMoveAfterCardTurnIn(Multiset<Integer> cards) {
+    List<Integer> cardList = new ArrayList<>(cards);
     ValidReinforceAction move = new ValidReinforceAction(currPlayer, board,
-        cards);
+        cardList);
     validMove = move;
     return validMove;
   }

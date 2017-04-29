@@ -3,9 +3,12 @@ package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import org.junit.Test;
+
+import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
@@ -77,6 +80,12 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.WESTERN_US).changePlayer(player, 2);
     board.getTerritory(TerritoryEnum.EASTERN_US).changePlayer(player, 2);
     ValidAttackAction action = new ValidAttackAction(player, board);
+    Multimap attackMap = action.whoToAttack();
+    assertTrue(attackMap.keySet().size() == 2);
+    assertTrue(attackMap.keySet().contains(TerritoryEnum.WESTERN_US));
+    assertTrue(attackMap.keySet().contains(TerritoryEnum.EASTERN_US));
+    Collection<TerritoryEnum> westernUSMap = attackMap
+        .get(TerritoryEnum.WESTERN_US);
     assertTrue(action.actionAvailable());
   }
 
