@@ -1,6 +1,5 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -9,7 +8,6 @@ import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
@@ -38,13 +36,10 @@ public class ValidAttackAction implements ValidAction {
     this.player = player;
     chooseDie = new HashMap<>();
     whoToAttack = board.getPlayerAttackMap(player);
-    Collection<Territory> territories = board.getTerritories();
-    for (Territory terr : territories) {
-      int numTroops = terr.getNumberTroops();
-      int maxDice = Math.min(3, numTroops - 1);
-      if (maxDice > 0) {
-        chooseDie.put(terr.getTerritoryId(), maxDice);
-      }
+    for (TerritoryEnum terrId : whoToAttack.keySet()) {
+      int numberTroops = board.getTerritory(terrId).getNumberTroops();
+      int maxDice = Math.min(3, numberTroops - 1);
+      chooseDie.put(terrId, maxDice);
     }
     if (chooseDie.size() == 0) {
       canAttack = false;
