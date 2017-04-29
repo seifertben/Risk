@@ -146,6 +146,8 @@ const setup_matches = () => {
             break;
           case MOVE_TYPES.REINFORCE:
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
+            document.getElementById("bolsters").style.display = "none";
+        	make_bolster(data.movePlayer, JSON.parse(data.territories));
         	break;
         }
         break;
@@ -236,9 +238,7 @@ const setup_matches = () => {
         	} else {
         		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
         	}
-        	if (myCards.length == 0) {
-        	  skip_phase;
-        	}
+        	
         	break;
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             break;
@@ -257,15 +257,16 @@ const skip_phase = event => {
     conn.send(JSON.stringify(mess));
   }
 }
+
 const confirm_move = event => {
   event.preventDefault();
   if (phase == "reinforce" && placed == placeMax) {
+	sparcify();
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Array.from(terToPlace)};
-    document.getElementById("selecting").remove;
+    document.getElementById("selecting").remove();
     document.getElementById("reinforcer").remove();
     document.getElementById("deinforcer").remove();
-    document.getElementById("confirm").remove();
-    document.getElementById("bolsters").display = "none";  
+    document.getElementById("confirm").remove(); 
     conn.send(JSON.stringify(mess));
   }
 }

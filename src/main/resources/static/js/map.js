@@ -1247,10 +1247,6 @@ const place_troop = event => {
     placed++;
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
-    map.dataProvider.zoomLevel = map.zoomLevel();
-    map.dataProvider.zoomLatitude = map.zoomLatitude();
-    map.dataProvider.zoomLongitude = map.zoomLongitude();
-    map.validateData();
   }
 }
 
@@ -1266,19 +1262,30 @@ const remove_troop = event => {
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
-    map.dataProvider.zoomLevel = map.zoomLevel();
-    map.dataProvider.zoomLatitude = map.zoomLatitude();
-    map.dataProvider.zoomLongitude = map.zoomLongitude();
-    map.validateData();
   }
 }
 
 function make_selection(player, territory) {
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
-  map.dataProvider.zoomLevel = map.zoomLevel();
-  map.dataProvider.zoomLatitude = map.zoomLatitude();
-  map.dataProvider.zoomLongitude = map.zoomLongitude();
-  map.validateData();
+}
+
+function sparcify() {
+  let placements = terToPlace.entries();
+  let currPlace = placements.next().value;
+  while (currPlace != null) {
+    if (currPlace[1] == 0) {
+      terToPlace.delete(currPlace[0]);
+    }
+    currPlace = placements.next().value;
+  }
+}
+
+function make_bolster(player, territories) {
+  if (myId != player) {
+    for (x in territories) {
+      changeTerritoryStatus(idToName[player], territories[x], idToData[x], colors[player], colors[player]);
+    }
+  }
 }
 
 function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
@@ -1309,11 +1316,12 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   territory.label = string;
   territory.color = color;
   territory.labelRollOverColor = color;
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
 }
 
-function mapClick() {
-
-}
 function changeLines(color, line) {
   line.color = color;
 }
