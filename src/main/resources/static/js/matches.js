@@ -183,7 +183,12 @@ const setup_matches = () => {
               availableForClaim = JSON.parse(data.territories);
               map.addListener("clickMapObject", select_territory);
               if (data.troopsToPlace > 0) {
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP_REINFORCE, "playerId": myId, "territoryId": availableForClaim[0]};
+              let mess = {"type": MESSAGE_TYPE.MOVE,
+                "moveType": MOVE_TYPES.SETUP_REINFORCE,
+                "playerId": myId, 
+                "territoryId": availableForClaim[0]
+              };
+              
               conn.send(JSON.stringify(mess));
               availableForClaim = [];
               }
@@ -191,14 +196,10 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.REINFORCE:
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
         	if (data.playerId == myId) {
-        		document.getElementById("turn").innerHTML = "Your Turn";          		
-        	} else {
-        		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
-        	}
-        	if (data.playerId == myId) {
-
+              document.getElementById("turn").innerHTML = "Your Turn";
         	  document.getElementById("bolsters").display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
               let reinforcer = document.createElement("BUTTON");
@@ -228,6 +229,7 @@ const setup_matches = () => {
               availableForClaim = JSON.parse(data.territories);
               map.addListener("clickMapObject", select_territory);
         	} else {
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
               document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";  
         	}
             break;
@@ -241,6 +243,12 @@ const setup_matches = () => {
         	
         	break;
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
+            if (data.playerId == myId) {
+              document.getElementById("turn").innerHTML = "Your Turn";          		
+            } else {
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+           	}
             break;
           case MOVE_TYPES.MOVE_TROOPS:
             break;
