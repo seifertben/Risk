@@ -154,14 +154,16 @@ public class MessageAPI {
   }
 
   /**
-   * Gets card turned in.
+   * Gets the cards turned in.
    *
    * @param object - json object
    * @return card to turn in
    */
-  public int getCardTurnedIn(JsonObject object) {
+  public List<Integer> getCardTurnedIn(JsonObject object) {
     try {
-      return object.get("card").getAsInt();
+      return GSON.fromJson(object.get("cards").getAsString(),
+          new TypeToken<List<Integer>>() {
+          }.getType());
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "ERROR: no property in the json object");
@@ -193,11 +195,17 @@ public class MessageAPI {
    */
   public Map<TerritoryEnum, Integer> getNumberReinforced(JsonObject object) {
     try {
-      Map<TerritoryEnum, Integer> territoryMap = GSON.fromJson(
-          object.get("reinforceMap"),
-          new TypeToken<Map<TerritoryEnum, Integer>>() {
+      List<List<Integer>> territories = GSON.fromJson(object.get("territories"),
+          new TypeToken<List<List<Integer>>>() {
           }.getType());
-      return territoryMap;
+      Map<TerritoryEnum, Integer> toReinforce = new HashMap<>();
+      for (List<Integer> el : territories) {
+        if (el.size() == 2) {
+          TerritoryEnum key = TerritoryEnum.values()[el.get(0)];
+          toReinforce.put(key, el.get(1));
+        }
+      }
+      return toReinforce;
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "ERROR: no property in the json object");
@@ -319,21 +327,18 @@ public class MessageAPI {
     jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
     jsonObject.addProperty("movePlayer",
         move.getMovePlayer().getPlayerId().toString());
-    jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));
+    jsonObject.addProperty("territories", GSON.toJson(ordReinforced));
     return jsonObject;
   }
 
   private JsonObject prevCardMove(CardTurnInAction move) {
-    Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
-    Map<Integer, Integer> ordReinforced = this.getOrdinalMap(reinforced);
-    int card = move.getCard();
+    List<Integer> cards = new ArrayList<>(move.getCards());
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
     jsonObject.addProperty("movePlayer",
         move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
-    jsonObject.addProperty("card", card);
-    jsonObject.addProperty("territoryId", GSON.toJson(ordReinforced));
+    jsonObject.addProperty("cards", GSON.toJson(cards));
     return jsonObject;
   }
 
@@ -504,13 +509,10 @@ public class MessageAPI {
    */
   private JsonObject setUpTurnInCards(ValidCardAction move) {
     Multiset<Integer> cards = move.getCards();
-    Set<TerritoryEnum> terrs = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.TURN_IN_CARD.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("cards", GSON.toJson(cards));
-    jsonObject.addProperty("territories", GSON.toJson(ordTerrs));
     return jsonObject;
   }
 

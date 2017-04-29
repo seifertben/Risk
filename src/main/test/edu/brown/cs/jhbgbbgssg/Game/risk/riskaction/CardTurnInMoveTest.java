@@ -4,13 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
@@ -30,12 +28,7 @@ public class CardTurnInMoveTest {
   public void testConstructor() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     player.addCard(1);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 1, map);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     assertNotNull(cardMove);
   }
 
@@ -46,44 +39,8 @@ public class CardTurnInMoveTest {
   public void testConstructorNullPlayer() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     player.addCard(1);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(null, board, 1, map);
-    assertNotNull(cardMove);
-  }
-
-  /**
-   * Tests constructor throws an IllegalArgumentException if the board is null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullBoard() {
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    player.addCard(1);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, null, 1, map);
-    assertNotNull(cardMove);
-  }
-
-  /**
-   * Tests constructor throws an IllegalArgumentException if the map is null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullMap() {
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    player.addCard(1);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 1, null);
+    player.addCard(2);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), null);
     assertNotNull(cardMove);
   }
 
@@ -94,38 +51,11 @@ public class CardTurnInMoveTest {
   public void testGetCard() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     player.addCard(2);
+    player.addCard(1);
     player.conqueredTerritory(TerritoryEnum.ALASKA);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 2);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 2);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
-    assertTrue(cardMove.getCard() == 2);
-  }
-
-  /**
-   * Tests getReinforcedTerritories returns the correct map.
-   */
-  @Test
-  public void testGetReinforcedTerritories() {
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    player.addCard(2);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
-    Map<TerritoryEnum, Integer> reinforced = cardMove
-        .getTerritoriesReinforced();
-    assertTrue(reinforced.size() == 2);
-    assertTrue(reinforced.containsKey(TerritoryEnum.ALASKA));
-    assertTrue(reinforced.containsKey(TerritoryEnum.GREENLAND));
-    assertTrue(reinforced.get(TerritoryEnum.ALASKA) == 1);
-    assertTrue(reinforced.get(TerritoryEnum.GREENLAND) == 1);
+    CardTurnInAction cardMove = new CardTurnInAction(Arrays.asList(2), player);
+    assertTrue(cardMove.getCards().size() == 1);
+    assertTrue(cardMove.getCards().contains(2));
   }
 
   /**
@@ -135,15 +65,7 @@ public class CardTurnInMoveTest {
   public void testExecuteActionTrue() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     player.addCard(2);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     assertTrue(cardMove.executeAction());
   }
 
@@ -156,13 +78,7 @@ public class CardTurnInMoveTest {
     player.addCard(2);
     player.conqueredTerritory(TerritoryEnum.ALASKA);
     player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     assertTrue(cardMove.executeAction());
     assertFalse(cardMove.executeAction());
   }
@@ -177,22 +93,10 @@ public class CardTurnInMoveTest {
     player.addCard(2);
     player.conqueredTerritory(TerritoryEnum.ALASKA);
     player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     assertTrue(player.hasCard(2));
-    assertTrue(
-        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 1);
-    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 1);
-    cardMove.executeAction();
+    assertTrue(cardMove.executeAction());
     assertFalse(player.hasCard(2));
-    assertTrue(
-        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 2);
-    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 2);
   }
 
   /**
@@ -204,27 +108,12 @@ public class CardTurnInMoveTest {
     player.addCard(2);
     player.conqueredTerritory(TerritoryEnum.ALASKA);
     player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     assertTrue(player.hasCard(2));
-    assertTrue(
-        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 1);
-    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 1);
-    cardMove.executeAction();
+    assertTrue(cardMove.executeAction());
     assertFalse(player.hasCard(2));
-    assertTrue(
-        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 2);
-    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 2);
     assertFalse(cardMove.executeAction());
     assertFalse(player.hasCard(2));
-    assertTrue(
-        board.getTerritory(TerritoryEnum.GREENLAND).getNumberTroops() == 2);
-    assertTrue(board.getTerritory(TerritoryEnum.ALASKA).getNumberTroops() == 2);
   }
 
   /**
@@ -237,13 +126,7 @@ public class CardTurnInMoveTest {
     player.addCard(2);
     player.conqueredTerritory(TerritoryEnum.ALASKA);
     player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    CardTurnInAction cardMove = new CardTurnInAction(Arrays.asList(2), player);
     assertFalse(cardMove.isActionExecuted());
   }
 
@@ -254,15 +137,8 @@ public class CardTurnInMoveTest {
   public void testIsActionExecutedTrue() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     player.addCard(2);
-    player.conqueredTerritory(TerritoryEnum.ALASKA);
-    player.conqueredTerritory(TerritoryEnum.GREENLAND);
-    RiskBoard board = new RiskBoard();
-    board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 1);
-    Map<TerritoryEnum, Integer> map = new HashMap<>();
-    map.put(TerritoryEnum.ALASKA, 1);
-    map.put(TerritoryEnum.GREENLAND, 1);
-    CardTurnInAction cardMove = new CardTurnInAction(player, board, 2, map);
+    player.addCard(2);
+    CardTurnInAction cardMove = new CardTurnInAction(player.getCards(), player);
     cardMove.executeAction();
     assertTrue(cardMove.isActionExecuted());
   }

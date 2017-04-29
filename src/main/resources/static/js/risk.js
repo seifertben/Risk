@@ -60,17 +60,12 @@ let cardID = 0;
 	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
 	$("#turnInCards").on( "click", turnInCards);
-	console.log($(".card"));
 	$('.card').click(function() {
-		console.log(this.style.borderColor);
-			console.log(this.style.borderStyle);
 	if (this.style.borderStyle !== "solid") {
    this.style.borderStyle = "solid";
   	this.style.borderColor = "black";
-  	console.log("if");
   	   }
   else {
-  		console.log("else");
   		 this.style.borderStyle = "none";
   		this.style.borderColor = "none";
   }

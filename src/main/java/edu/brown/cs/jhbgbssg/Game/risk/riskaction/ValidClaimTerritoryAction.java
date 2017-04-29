@@ -32,9 +32,10 @@ public class ValidClaimTerritoryAction implements ValidAction {
     if (player == null || board == null || attack == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    assert (board.getTerritory(attack.getAttackingTerritory())
+    assert (board.getTerritory(attack.getDefendingTerritory())
         .getNumberTroops() == 0);
-    assert (player.hasTerritory(attack.getDefendingTerritory()));
+    assert (player.hasTerritory(attack.getAttackingTerritory()));
+    assert (player.equals(attack.getMovePlayer()));
     this.player = player;
     this.fromTerritory = attack.getAttackingTerritory();
     this.territoryToClaim = attack.getDefendingTerritory();

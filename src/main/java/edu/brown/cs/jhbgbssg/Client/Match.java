@@ -201,6 +201,7 @@ public class Match {
     synchronized (this) {
       try {
         MoveType type = messageApi.getMoveType(received);
+        System.out.println(type);
         GameUpdate update = null;
         switch (type) {
           case SETUP:
@@ -214,6 +215,7 @@ public class Match {
                 .processSetupReinforceAction(setupReinforce);
             break;
           case REINFORCE:
+            System.out.println("INREINFORCE");
             ReinforceAction reinforce = this.createReinforceAction(received);
             update = actionProcessor.processReinforceAction(reinforce);
             break;
@@ -257,18 +259,17 @@ public class Match {
   private ReinforceAction createReinforceAction(JsonObject received) {
     Map<TerritoryEnum, Integer> reinforced = messageApi
         .getNumberReinforced(received);
+    System.out.println(reinforced);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     return new ReinforceAction(player, board, reinforced);
   }
 
   private CardTurnInAction createCardAction(JsonObject received) {
-    Map<TerritoryEnum, Integer> reinforced = messageApi
-        .getNumberReinforced(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
-    int card = messageApi.getCardTurnedIn(received);
-    return new CardTurnInAction(player, board, card, reinforced);
+    List<Integer> cards = messageApi.getCardTurnedIn(received);
+    return new CardTurnInAction(cards, player);
   }
 
   private SetupAction createSetupAction(JsonObject received) {

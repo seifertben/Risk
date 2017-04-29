@@ -33,6 +33,8 @@ public class ValidDieDefendAction implements ValidAction {
     this.player = player;
     this.toDefend = toDefend;
     Territory terr = board.getTerritory(toDefend);
+    assert (terr.getOwner().equals(player));
+    assert (player.hasTerritory(toDefend));
     int troops = terr.getNumberTroops();
     assert (troops > 0);
     if (troops >= 2) {
@@ -90,6 +92,8 @@ public class ValidDieDefendAction implements ValidAction {
     } else if (!toDefend.equals(move.getDefendedTerritory())) {
       return false;
     } else if (die < 1 || die > maxNumberDie) {
+      return false;
+    } else if (!move.getDefendedTerritory().equals(toDefend)) {
       return false;
     }
     return true;

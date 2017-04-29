@@ -82,14 +82,14 @@ public class RiskActionProcessor {
     if (action == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    System.out.println(action);
+
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateSetupReinforceMove(action);
-    System.out.println("i am here" + isValidMove);
+
     if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
@@ -162,7 +162,8 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterCardTurnIn();
+    ValidAction nextValidMove = referee
+        .getValidMoveAfterCardTurnIn(action.getCards());
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }

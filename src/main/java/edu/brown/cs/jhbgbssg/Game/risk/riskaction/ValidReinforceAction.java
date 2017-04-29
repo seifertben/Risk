@@ -1,6 +1,7 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -20,24 +21,24 @@ public class ValidReinforceAction implements ValidAction {
   private RiskPlayer player;
   private Set<TerritoryEnum> territories;
   private int numberReinforce;
+  private boolean actionAvailable;
 
   /**
    * Constructor for a ValidReinforceMove.
    *
    * @param player - player
    * @param board - board
+   * @param cards - cards turned in
    * @throws IllegalArgumentException - thrown if the input is null or if the
    *           numberReinforce is negative
    */
-  public ValidReinforceAction(RiskPlayer player, RiskBoard board)
-      throws IllegalArgumentException {
-    if (player == null || player == null) {
+  public ValidReinforceAction(RiskPlayer player, RiskBoard board,
+      List<Integer> cards) throws IllegalArgumentException {
+    if (player == null || board == null || cards == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;
-    System.out.println(player.getNumberTerritories());
     numberReinforce = player.getNumberTerritories() / 3;
-    System.out.println(numberReinforce);
     territories = player.getTerritories();
     Collection<ContinentInterface> conts = board.getContinents();
     for (ContinentInterface cont : conts) {
@@ -45,6 +46,15 @@ public class ValidReinforceAction implements ValidAction {
       if (territories.containsAll(territoriesInCont)) {
         numberReinforce += cont.getBonusValue();
       }
+    }
+    for (Integer card : cards) {
+      numberReinforce += card;
+    }
+    numberReinforce = Math.max(3, numberReinforce);
+    if (territories.size() == 0) {
+      actionAvailable = false;
+    } else {
+      actionAvailable = true;
     }
   }
 
@@ -105,6 +115,6 @@ public class ValidReinforceAction implements ValidAction {
 
   @Override
   public boolean actionAvailable() {
-    return true;
+    return actionAvailable;
   }
 }

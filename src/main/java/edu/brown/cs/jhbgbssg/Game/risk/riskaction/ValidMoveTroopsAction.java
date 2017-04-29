@@ -43,6 +43,8 @@ public class ValidMoveTroopsAction implements ValidAction {
     }
     if (whereToReach.size() == 0 || maxTroopsToMove.size() == 0) {
       canMove = false;
+    } else {
+      canMove = true;
     }
   }
 

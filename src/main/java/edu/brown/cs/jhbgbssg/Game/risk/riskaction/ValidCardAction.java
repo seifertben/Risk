@@ -1,14 +1,11 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  *
@@ -16,9 +13,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class ValidCardAction implements ValidAction {
-  private UUID playerId;
+  private RiskPlayer player;
   private Multiset<Integer> cards;
-  private Set<TerritoryEnum> terrs;
   private boolean canTurnInCards = true;
 
   /**
@@ -31,10 +27,8 @@ public class ValidCardAction implements ValidAction {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    this.playerId = player.getPlayerId();
-    playerId = player.getPlayerId();
-    cards = player.getCards();
-    terrs = player.getTerritories();
+    this.player = player;
+    cards = HashMultiset.create(player.getCards());
     if (cards.size() == 0) {
       canTurnInCards = false;
     }
@@ -64,20 +58,6 @@ public class ValidCardAction implements ValidAction {
   }
 
   /**
-   * Returns set of territories the player can reinforce by turning in the card.
-   *
-   * @return set of territory ids
-   */
-  public Set<TerritoryEnum> getTerritories() {
-    return terrs;
-  }
-
-  @Override
-  public UUID getMovePlayer() {
-    return playerId;
-  }
-
-  /**
    * Determines if a given CardTurnInMove is validate based on the bounds
    * defined by a ValidCardMove object.
    *
@@ -89,28 +69,26 @@ public class ValidCardAction implements ValidAction {
       throw new IllegalArgumentException("ERROR: null input");
     }
     RiskPlayer currPlayer = move.getMovePlayer();
-    int card = move.getCard();
-    Map<TerritoryEnum, Integer> reinforced = move.getTerritoriesReinforced();
-    if (!currPlayer.equals(playerId)) {
+    Multiset<Integer> card = move.getCards();
+    if (!currPlayer.equals(player)) {
       return false;
-    } else if (!cards.contains(card)) {
+    } else if (!cards.containsAll(card)) {
       return false;
-    } else if (!terrs.containsAll(reinforced.keySet())) {
+    } else if (cards.count(1) < card.count(1)) {
+      return false;
+    } else if (cards.count(2) < card.count(2)) {
       return false;
     }
-    Collection<Integer> values = reinforced.values();
-    int added = 0;
-    for (int val : values) {
-      if (val <= 0) {
-        return false;
-      }
-      added += val;
-    }
-    return added == card;
+    return true;
   }
 
   @Override
   public boolean actionAvailable() {
     return canTurnInCards;
+  }
+
+  @Override
+  public UUID getMovePlayer() {
+    return player.getPlayerId();
   }
 }
