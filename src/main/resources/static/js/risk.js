@@ -109,16 +109,17 @@ function changePlayerImage(id, backgroundColor, color) {
 }
 
 function setUp () {
-	attackStatus();
-	createDropdown();
-	createConquestTransferTroopsList();
 	$sideNav = $('#n');
-	$sideNav.append("<br>");
+	$sideNav.append("<br><br><br>");
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn'></p>"));
 	$sideNav.append($("<p id = 'prevMove'></p>"));
 	$sideNav.append($("<p id = 'bolsters'></p>"));
-//	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
+	$sideNav.append($("<p id = 'selecting'></p>"));
+	$sideNav.append($("<p id = 'attacking'></p>"));
+	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
+	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
+	document.getElementById("resetAttackMove").onclick = reset_attack;
 //	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 //	$sideNav.append($( "<ul id = 'blackRoll'>"));
 //	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
@@ -127,8 +128,8 @@ function setUp () {
 //	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 //	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
-
-	   hideAll();
+       
+ 	   hideAll();
 //	   changeAttackStatus("Player 1", "Player 2", "Russia");
 //	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
 //	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
@@ -136,17 +137,17 @@ function setUp () {
 //	   defenderLoss("Player 3", 3);
 //	   updateReinforcementMessage(10);
 }
+
 function createConquestTransferTroopsList() {
 	const $parent = $("#n");
 	const $outer = $("<div class='btn-group' id = 'transfergroup'></div>");
 	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferbutton'><span id = transferDropDownText>Select troops to move to conquered territory</span></button>"));
 	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='transferDropDown' data-toggle='dropdown'><span class='caret'></span></button>");
 	$outer.append($("<ul class='dropdown-menu' id = 'transferOptions' role='menu'></ul>"));
-		$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
-
+	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
 	$parent.append($outer);
-
 }
+
 function replaceTransferListField() {
 	$(".transferOption").click(function(){
 	    let id = "#" + "transferDropDownText";
@@ -164,8 +165,8 @@ function populateTransferList(number) {
 		$("#transferOptions").append(li); 
 	}
 	console.log($("transferOptions"));
-
 }
+
 function updateTransferMessage(stage) {
 	let $message = $("#end_of_turn_transfer");
 	if (stage ===1) {
@@ -178,10 +179,7 @@ function updateTransferMessage(stage) {
 		$message.hide();
 	}
 }
-function updateReinforcementMessage(number){
-	let string = "You have " + number + " soldiers to deploy";
-	$("#numReinforcements").html(string);
-}
+
 function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
 	let message  = attackingPlayer + " is attacking " + defendingPlayer  + " in " + territory;
 	if (attackingPlayer ===player) {
@@ -226,6 +224,7 @@ function hideAll() {
  	$("#transfergroup").hide();
  	$("#dropdowngroup").hide();
  	$("#resetTransfer").hide();
+ 	$("#resetAttackMove").hide();
 }
 
 function addcard(number) {
