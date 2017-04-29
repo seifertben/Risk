@@ -15,7 +15,7 @@ public interface ContinentInterface {
 
   UUID getOwner();
 
-  boolean containsTerritory(TerritoryEnum terr);
+  boolean containsTerritory(TerritoryEnum terr) throws IllegalArgumentException;
 
   Set<TerritoryEnum> getTerritories();
 

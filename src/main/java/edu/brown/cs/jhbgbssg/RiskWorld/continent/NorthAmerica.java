@@ -7,11 +7,20 @@ import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents the continent North America.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class NorthAmerica implements ContinentInterface {
   private static final int BONUS_VALUE = 5;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
+  /**
+   * Constructor for NorthAmerica.
+   */
   public NorthAmerica() {
     playerId = null;
     territories = new HashSet<>();
@@ -47,7 +56,11 @@ public class NorthAmerica implements ContinentInterface {
   }
 
   @Override
-  public boolean containsTerritory(TerritoryEnum terr) {
+  public boolean containsTerritory(TerritoryEnum terr)
+      throws IllegalArgumentException {
+    if (terr == null) {
+      throw new IllegalArgumentException("ERROR: null territory");
+    }
     return territories.contains(terr);
   }
 

@@ -154,30 +154,33 @@ public class RiskPlayer implements Player {
     return territories.size() != 0;
   }
 
+  /**
+   * Sets the initial number of reinforcements.
+   *
+   * @param numPlayers - number of players in the game
+   */
   public void setIntialReinforcement(int numPlayers) {
-    switch (numPlayers) {
-      case 2:
-        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS;
-        break;
-      case 3:
-        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 5;
-        break;
-      case 4:
-        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 10;
-        break;
-      case 5:
-        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 15;
-        break;
-      case 6:
-        remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 20;
-        break;
-    }
+    remainingSetupReinforcements = INITIAL_NUMBER_TROOPS - 5 * (numPlayers - 2);
   }
 
+  /**
+   * Decrements the initial number of reinforcements by the given number.
+   *
+   * @param numToDecrement - number to decrement by
+   * @throws IllegalArgumentException if the input is not positive.
+   */
   public void decrementInitialReinforcements(int numToDecrement) {
+    if (numToDecrement <= 0) {
+      throw new IllegalArgumentException("ERROR: bad input");
+    }
     remainingSetupReinforcements -= numToDecrement;
   }
 
+  /**
+   * Returns the number of reinforcements.
+   *
+   * @return number of initial reinforcements
+   */
   public int getInitialReinforcements() {
     return remainingSetupReinforcements;
   }

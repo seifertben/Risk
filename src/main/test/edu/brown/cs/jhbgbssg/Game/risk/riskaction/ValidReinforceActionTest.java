@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbbgssg.Game.risk.riskaction;
+package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,9 +15,6 @@ import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
-import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
