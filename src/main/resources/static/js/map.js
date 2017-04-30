@@ -502,9 +502,8 @@ let NEWGUINEADATA =   {
        "name": "New Guinea",
       "labelShiftY": 2,
       "selectable": true,
-      "title": "New Guinea",
-      "id": 40,
-      "description": "Occupied by No One"
+      "title": "New Guinea: Occupied by No One",
+      "id": 40
     };
 idToData[40] = NEWGUINEADATA;
 let MEDATA =  {
@@ -564,8 +563,7 @@ let CHINADATA =   {
       "selectable": true,
       "title": "China",
       "name": "China",
-      "id": 27,
-      "description": "Occupied by No One"
+      "id": 27
     };
 idToData[27] = CHINADATA;
 let MONGOLIADATA =   {
@@ -625,8 +623,7 @@ let YAKUTSKDATA = {
       "labelShiftY": -10,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
-      "id": 37,
-      "description": "Occupied by No One"
+      "id": 37
   };
 idToData[37] = YAKUTSKDATA;
 let IRKUSTKDATA =  {
@@ -1234,7 +1231,29 @@ function select_territory(event) {
 	  bolstering = event.mapObject.id;
       document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
 	}
-  }  
+  } else if (phase == "attacking") {
+    if (availableForClaim.includes(event.mapObject.id.toString())) {
+      attackFrom = event.mapObject.id;
+      attackTo = null;
+      attackables = terToTar[attackFrom];
+      document.getElementById("attacking").style.display = "inline";
+
+      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
+    } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
+      attackTo = event.mapObject.id;
+      document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
+        + "!<br> Select a Dice Number and Attack!<br>";
+    }
+  }
+}
+
+function reset_attack() {
+  document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
+  document.getElementById("attacking").style.display = "none";
+  attackFrom = null;
+  attackTo = null;
+  attackables = null;
 }
 
 const place_troop = event => {
