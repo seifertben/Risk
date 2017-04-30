@@ -68,7 +68,6 @@ public class GameUpdate {
 
   protected void setValidMoves(ValidAction validMoves, Action previousMove,
       boolean error) {
-    System.out.println(validMoves);
     this.currPlayer = validMoves.getMovePlayer();
     this.availableMoves = validMoves;
     this.prevMove = previousMove;

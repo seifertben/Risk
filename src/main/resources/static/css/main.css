@@ -214,26 +214,3 @@
       }
       .row.content {height:auto;} 
     }
-    .alert {
-    animation-duration: 1200ms;
-    animation-name: blink;
-    animation-iteration-count: 2;
-    animation-direction: alternate;
-    -webkit-animation:blink 1200ms 2; /* Safari and Chrome */
-}
-@keyframes blink {
-    from {
-        color:black;
-    }
-    to {
-        color:white;
-    }
-}
-@-webkit-keyframes blink {
-    from {
-        color:black;
-    }
-    to {
-        color:white;
-    }
-}
