@@ -88,10 +88,16 @@ public class MessageAPI {
   public Pair<TerritoryEnum, TerritoryEnum> getAttackingDefendingTerritory(
       JsonObject object) {
     try {
-      TerritoryEnum attack = GSON.fromJson(
-          object.get("attackTerritory").getAsString(), TerritoryEnum.class);
-      TerritoryEnum claim = GSON.fromJson(
-          object.get("defendTerritory").getAsString(), TerritoryEnum.class);
+      int index = object.get("attackTerritory").getAsInt();
+      TerritoryEnum attack = TerritoryEnum.values()[index];
+      index = object.get("defendTerritory").getAsInt();
+      TerritoryEnum claim = TerritoryEnum.values()[index];
+//      TerritoryEnum attack = GSON.fromJson(
+//          object.get("attackTerritory").getAsString(), TerritoryEnum.class);
+//      TerritoryEnum claim = GSON.fromJson(
+//          object.get("defendTerritory").getAsString(), TerritoryEnum.class);
+      System.out.println(attack);
+      System.out.println(claim);
       return new Pair<>(attack, claim);
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
