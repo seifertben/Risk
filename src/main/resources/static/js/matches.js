@@ -47,6 +47,7 @@ const $maker = $("#maker");
 let availableForClaim = [];
 let terToSol = [];
 let terToPlace = new Map();
+let colorMap = new Map();
 let phase;
 let bolstering;
 let placeMax;
@@ -128,6 +129,12 @@ const setup_matches = () => {
         }
         createPlayer(data.playerNum);
     	setUp();
+
+      //set colors for chat.
+      for(i=0; i<players.length; i++){
+        colorMap.set(players[i], colors[players[i]]);
+      }
+
     	phase = "setup";
         break;
 
@@ -270,6 +277,7 @@ const setup_matches = () => {
             break;
         }
         break;
+   
     }
   };
 }
@@ -333,6 +341,8 @@ const join_match = event => {
 
 $(document).ready(function() {
   setup_matches();
+  
+
 });
 
 $maker.click(create_match);

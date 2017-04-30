@@ -43,7 +43,7 @@ const TerritoryEnum = {
   WESTERN_AUSTRALIA: 41
 };
 let cardID = 0;
-	
+let prevMessage = undefined;
 //
 //	activateDropDown(2);
 //	replaceField();
@@ -333,15 +333,36 @@ function defenderLoss(defendingPlayer, losses) {
 }
 
 function sendMessage() {
+	
+
+
     let  message = $('#messageField').val();
     console.log("f");
     console.log(message);
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
+
+
 }
 
+let count = 0;
+function blink(selector){
+	while(count<6) {
+	$(selector).fadeOut('slow', function(){
+	    $(this).fadeIn('slow', function(){
+	        blink(this);
+	    });
+	});
+	count++;
+}
+}
+
+
 function getMessage(player, message) {
+	//assign color to message box.
+   
+
 	let string; 
 	if (player === myId) {
 		string = "Me: " + message;
@@ -351,5 +372,25 @@ function getMessage(player, message) {
 	}
 	$li = $("<li class = 'chat'></li>");
 	$li.html(string);
-	$("#chatting").append($li); 
+
+	$("#chatting").append($li);
+
+
+	console.log(colorMap.get(myId).toString());
+
+	$("li:last-child").css("border", "1px solid " + colorMap.get(player).toString());
+    $("li:last-child").css("border-left", "6px solid " + colorMap.get(player).toString());
+    count = 0;
+    blink("li:last-child");
+    prevMessage = $li;
 }
+
+//listen for enter on messaging.
+document.querySelector("#messageField").addEventListener("keyup", function (e) {
+	console.log("Hi");
+    let key = e.keyCode;
+    console.log(key);
+    if (key === 13) { 
+      sendMessage();
+    }
+});
