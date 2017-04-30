@@ -111,12 +111,12 @@ function changePlayerImage(id, backgroundColor, color) {
 function setUp () {
 	$sideNav = $('#n');
 	$sideNav.append("<br><br><br>");
-	$sideNav.append($("<p id = 'phase'></p>"));
-	$sideNav.append($("<p id = 'turn'></p>"));
-	$sideNav.append($("<p id = 'prevMove'></p>"));
-	$sideNav.append($("<p id = 'bolsters'></p>"));
-	$sideNav.append($("<p id = 'selecting'></p>"));
-	$sideNav.append($("<p id = 'attacking'></p>"));
+	$sideNav.append($("<p id = 'phase' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'turn' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'prevMove' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'bolsters' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'selecting' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'attacking' class = 'alert'></p>"));
 	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
@@ -188,6 +188,7 @@ function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
 	 else if (defendingPlayer === player) {
 		message = attackingPlayer + " is attacking you in " + territory;
 	}
+	$("#attackingWho").style.fontWeight = "bold";
 	$("#attackingWho").html(message);
 }
 
@@ -266,17 +267,16 @@ function attackStatus() {
 	const $div = $("#n");
 	let $br = $("<br><br><br>");
 	$div.append($br);
-	let $attack = $("<p></p>");
-	$attack.attr("id", "attackingWho");
-	$attack.html("You are attacking Player 2 in China!");
+	let $attack = $("<p  id = 'attackingWho' class = 'alert'></p>");
+	
+	// $attack.html("You are attacking Player 2 in China!");
 	$div.append($attack);
-	let $attackerStatus = $("<p></p>");
-	$attackerStatus.html("You have 5 soldiers in Russia");
-	$attackerStatus.attr("id", "attackerStatus");
+	let $attackerStatus = $("<p id = 'attackerStatus' class = 'alert'></p>");
+	// $attackerStatus.html("You have 5 soldiers in Russia")
 	$div.append($attackerStatus);
 	let $defenderStatus = $("<p></p>");
-	$defenderStatus.html("Player 2 has 3 soldiers in China");
-	$defenderStatus.attr("id", "defenderStatus");
+	// $defenderStatus.html("Player 2 has 3 soldiers in China");
+	// $defenderStatus.attr("id", "defenderStatus");
 	$div.append($defenderStatus);
 }
 
@@ -317,7 +317,7 @@ function replaceField() {
 function attackerLoss(attackingPlayer, losses) {
 	let message = attackingPlayer + " lost " + losses + " soldiers."
 	if (attackingPlayer === player) {
-			message = "You lost " + losses + " soldiers."
+		message = "You lost " + losses + " soldiers."
  
 	}
 	$("#attackLoss").html(message);

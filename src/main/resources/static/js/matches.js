@@ -162,8 +162,10 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP:
           	document.getElementById("phase").innerHTML = "Select Territories";
           	if (data.playerId == myId) {
+              document.getElementById("turn").style.fontWeight = "bold";
           		document.getElementById("turn").innerHTML = "Your Turn";          		
           	} else {
+               document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
           	if (data.playerId == myId) {
@@ -178,8 +180,10 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
           	if (data.playerId == myId) {
+                document.getElementById("turn").style.fontWeight = "bold";
           		document.getElementById("turn").innerHTML = "Your Turn";          		
           	} else {
+                document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
           	if (data.playerId == myId) {
@@ -204,6 +208,7 @@ const setup_matches = () => {
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
         	if (data.playerId == myId) {
+              document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";
         	  document.getElementById("bolsters").style.display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
@@ -240,8 +245,10 @@ const setup_matches = () => {
 
           case MOVE_TYPES.TURN_IN_CARD:
           	if (data.playerId == myId) {
+                document.getElementById("turn").style.fontWeight = "bold";
         		document.getElementById("turn").innerHTML = "Your Turn";          		
         	} else {
+              document.getElementById("turn").style.fontWeight = "normal";
         		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
         	}
         	
@@ -249,6 +256,7 @@ const setup_matches = () => {
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
+                document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";        
               phase = "attacking";
               attackables = [];
