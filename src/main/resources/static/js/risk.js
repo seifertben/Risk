@@ -100,7 +100,6 @@ function turnInCards() {
     //this now refers to each li
     //do stuff to each
 });
-	console.log("click!");
 
 }
 function changePlayerImage(id, backgroundColor, color) { 
@@ -226,6 +225,8 @@ function hideAll() {
  	$("#dropdowngroup").hide();
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
+
+    document.getElementById("attacking").style.display = "inline";
 }
 
 function addcard(number) {

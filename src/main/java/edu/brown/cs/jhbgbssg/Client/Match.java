@@ -214,7 +214,6 @@ public class Match {
                 .processSetupReinforceAction(setupReinforce);
             break;
           case REINFORCE:
-            System.out.println("INREINFORCE");
             ReinforceAction reinforce = this.createReinforceAction(received);
             update = actionProcessor.processReinforceAction(reinforce);
             break;

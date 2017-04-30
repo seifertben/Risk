@@ -1238,12 +1238,12 @@ function select_territory(event) {
       attackables = terToTar[attackFrom];
       document.getElementById("attacking").style.display = "inline";
 
-      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
+      document.getElementById("attacking").innerHTML = "What territory are you attacking?";
+      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
-        + "!<br> Select a Dice Number and Attack!<br>";
+        + "! Select a Dice Number and Attack!";
       let sideNav = $("#n");
       let dice = "";
       for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {

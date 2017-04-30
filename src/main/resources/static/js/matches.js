@@ -285,8 +285,9 @@ const setup_matches = () => {
 
 function attack_territory() {
   if (attackFrom != null && attackTo != null) {
-    console.log(document.getElementById("diceChoice").value);
-    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, "playerId": myId, "attackingTerritory": attackFrom, "defendingTerritory": attackTo};
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, 
+    		"playerId": myId, "attackTerritory": attackFrom, "defendTerritory": attackTo, 
+    		"numberDieToRoll": document.getElementById("diceChoice").value};
     conn.send(JSON.stringify(mess));
   }
 }

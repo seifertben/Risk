@@ -2,12 +2,12 @@
 <div id="nameField">
   <form id="nameForm">
     <h2>Please Enter a Name</h2><br>
-    <input type="text" id="nameInput"></text>
+    <input type="text" autocomplete="off" id="nameInput"></text>
   </form>
 </div>
 <div id="menuField">
   <div id="wrapper">
-  <form id="game" class="well well-sm">
+  <form id="game" autocomplete="off" class="well well-sm">
     <div id="enter">
     <h2>Enter a Match Name and a Number of Players</h2><br>
     <input id="name" type="text" autocomplete="off"></input>
