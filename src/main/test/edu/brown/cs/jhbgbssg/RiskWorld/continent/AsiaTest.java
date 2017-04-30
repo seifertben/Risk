@@ -35,7 +35,7 @@ public class AsiaTest {
   public void testGetTerritories() {
     Asia cont = new Asia();
     Set<TerritoryEnum> terrs = cont.getTerritories();
-    assertTrue(terrs.size() == 11);
+    assertTrue(terrs.size() == 12);
     assertTrue(terrs.contains(TerritoryEnum.MIDDLE_EAST));
     assertTrue(terrs.contains(TerritoryEnum.AFGHANISTAN));
     assertTrue(terrs.contains(TerritoryEnum.INDIA));

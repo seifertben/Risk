@@ -189,7 +189,7 @@ public class RiskActionProcessor {
       return update;
     }
     boolean isValidMove = referee.validateAttackMove(action);
-    if (isValidMove) {
+    if (!isValidMove) {
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
