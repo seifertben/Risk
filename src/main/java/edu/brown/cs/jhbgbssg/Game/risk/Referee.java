@@ -285,7 +285,7 @@ public class Referee {
     ValidDieDefendAction move = new ValidDieDefendAction(defender, board,
         lastAttack.getDefendingTerritory());
     validMove = move;
-    return null;
+    return validMove;
   }
 
   /**
