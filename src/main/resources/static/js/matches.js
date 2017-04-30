@@ -136,6 +136,11 @@ const setup_matches = () => {
         colorMap.set(players[i], colors[players[i]]);
       }
 
+      //Set name message for header.
+      let h1 = document.getElementsByTagName('h1').item(0);
+      h1.innerHTML += ", " + myName;
+
+
     	phase = "setup";
         break;
 
