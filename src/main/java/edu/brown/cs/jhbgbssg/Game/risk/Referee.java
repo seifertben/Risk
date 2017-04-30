@@ -289,6 +289,8 @@ public class Referee {
   protected ValidAction getValidMoveAfterAttack() {
     TerritoryEnum defending = lastAttack.getDefendingTerritory();
     RiskPlayer defender = board.getTerritory(defending).getOwner();
+    System.out.println("defender  " + defender.getPlayerId());
+    System.out.println(lastAttack.getMovePlayer().getPlayerId());
     ValidDieDefendAction move = new ValidDieDefendAction(defender, board,
         lastAttack.getDefendingTerritory());
     validMove = move;
