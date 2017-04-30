@@ -12,8 +12,6 @@ import org.junit.Test;
 
 import com.google.common.collect.Multimap;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
@@ -26,6 +24,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  *
  */
 public class RiskBoardTest {
+  private static final int NUMBER_TERRITORIES = 42;
 
   /**
    * Tests constructor returns a non-null object.
@@ -637,7 +636,7 @@ public class RiskBoardTest {
   public void testGetTerritories() {
     RiskBoard board = new RiskBoard();
     Collection<Territory> terrs = board.getTerritories();
-    assertTrue(terrs.size() == 42);
+    assertTrue(terrs.size() == NUMBER_TERRITORIES);
     Set<TerritoryEnum> ids = new HashSet<>();
     for (TerritoryEnum id : TerritoryEnum.values()) {
       ids.add(id);

@@ -12,6 +12,12 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * JUnit tests for ValidClaimTerritory.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class ValidClaimTerritoryActionTest {
 
   /**
@@ -105,6 +111,9 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.getMovePlayer().equals(player.getPlayerId()));
   }
 
+  /**
+   * Tests getClaimedTerritory returns the right territory.
+   */
   @Test
   public void testGetTerritoryToClaim() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -118,6 +127,9 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.getClaimedTerritory() == TerritoryEnum.EASTERN_AUSTRALIA);
   }
 
+  /**
+   * Tests getFromTerritory returns the right territory.
+   */
   @Test
   public void testGetFromTerritory() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -131,6 +143,10 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.getFromTerritory() == TerritoryEnum.WESTERN_AUSTRALIA);
   }
 
+  /**
+   * Tests getMaxNumberTroops returns the max number of troops that can be
+   * moved.
+   */
   @Test
   public void testGetMaxNumberTroops() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -189,6 +205,10 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests that validClaimTerritory returns false if the claim action has the
+   * wrong from territory.
+   */
   @Test
   public void testInvalidFromTerritory() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -205,6 +225,10 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests that validClaimTerritory returns false if the claim action has the
+   * wrong claimed territory.
+   */
   @Test
   public void testInvalidClaimTerritory() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -221,6 +245,10 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests that validClaimTerritory returns false if the claim action has an
+   * invalid number of troops to move.
+   */
   @Test
   public void testInvalidNumberofTroops() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -246,6 +274,10 @@ public class ValidClaimTerritoryActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validClaimTerritory throws an IllegalArgumentException if the claim
+   * action given is null.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testValidateClaimTerritoryMoveNullMove() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());

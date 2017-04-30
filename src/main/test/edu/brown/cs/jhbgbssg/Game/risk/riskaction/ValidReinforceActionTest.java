@@ -26,6 +26,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  *
  */
 public class ValidReinforceActionTest {
+  private static final int ASIA_BONUS = 5;
+  private static final int NUMBER_TERRS = 19;
 
   /**
    * Tests the constructor returns a non-null object.
@@ -226,7 +228,7 @@ public class ValidReinforceActionTest {
     int size = player.getNumberTerritories();
     assertTrue(player.getTerritories()
         .containsAll(board.getContinent(ContinentEnum.ASIA).getTerritories()));
-    int troops = size / 3 + 11;
+    int troops = size / 3 + ASIA_BONUS;
     assertTrue(troops == action.getNumberToReinforce());
   }
 
@@ -266,7 +268,7 @@ public class ValidReinforceActionTest {
     Collection<TerritoryEnum> terrs = board.getTerritoryIds();
     ArrayList<TerritoryEnum> arr = new ArrayList<>(terrs);
     Collections.shuffle(arr);
-    for (int i = 0; i < 19; i++) {
+    for (int i = 0; i < NUMBER_TERRS; i++) {
       player.conqueredTerritory(arr.get(i));
       board.getTerritory(arr.get(i)).changePlayer(player, 2);
     }
@@ -278,7 +280,7 @@ public class ValidReinforceActionTest {
         numberToReinforce += cont.getBonusValue();
       }
     }
-    numberToReinforce += 19 / 3;
+    numberToReinforce += NUMBER_TERRS / 3;
     assertTrue(action.getNumberToReinforce() == numberToReinforce);
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
@@ -299,7 +301,8 @@ public class ValidReinforceActionTest {
   }
 
   /**
-   * 
+   * Tests that validReinforceMove returns true if the reinforce action given is
+   * valid.
    */
   @Test
   public void testValidReinforcementMove() {

@@ -21,6 +21,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class ReinforceMoveTest {
+  private static final int NUMBER_TROOPS = 8;
 
   /**
    * Tests that the constructor returns a non-null object.
@@ -207,8 +208,8 @@ public class ReinforceMoveTest {
         .getNumberTroops() == 6);
     assertTrue(
         board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 3);
-    assertTrue(
-        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 8);
+    assertTrue(board.getTerritory(TerritoryEnum.INDONESIA)
+        .getNumberTroops() == NUMBER_TROOPS);
   }
 
   /**
@@ -240,15 +241,15 @@ public class ReinforceMoveTest {
         .getNumberTroops() == 6);
     assertTrue(
         board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 3);
-    assertTrue(
-        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 8);
+    assertTrue(board.getTerritory(TerritoryEnum.INDONESIA)
+        .getNumberTroops() == NUMBER_TROOPS);
     assertFalse(reinforce.executeAction());
     assertTrue(board.getTerritory(TerritoryEnum.SOUTHEAST_ASIA)
         .getNumberTroops() == 6);
     assertTrue(
         board.getTerritory(TerritoryEnum.ARGENTINA).getNumberTroops() == 3);
-    assertTrue(
-        board.getTerritory(TerritoryEnum.INDONESIA).getNumberTroops() == 8);
+    assertTrue(board.getTerritory(TerritoryEnum.INDONESIA)
+        .getNumberTroops() == NUMBER_TROOPS);
   }
 
   /**

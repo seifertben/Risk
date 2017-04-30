@@ -16,6 +16,12 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * JUnit tests for ValidAttackAction.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class ValidAttackActionTest {
 
   /**
@@ -71,6 +77,10 @@ public class ValidAttackActionTest {
     assertTrue(action.getMovePlayer().equals(player.getPlayerId()));
   }
 
+  /**
+   * Tests that whoToAttack returns a multimap of territory keys to territory
+   * values that can be attacked by the key.
+   */
   @Test
   public void testGetAttackableTerritories() {
     RiskBoard board = new RiskBoard();
@@ -121,6 +131,10 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests that the action is not available if the player's territories only
+   * have one troop each.
+   */
   @Test
   public void testNotEnoughTroops() {
     RiskBoard board = new RiskBoard();
@@ -162,6 +176,10 @@ public class ValidAttackActionTest {
     assertFalse(action.actionAvailable());
   }
 
+  /**
+   * Tests that for a territory that has over 3 troops, the player can attack
+   * with 3, 2 or 1 die.
+   */
   @Test
   public void testValidateAttackMoveRollMaxDie() {
     RiskBoard board = new RiskBoard();
@@ -184,6 +202,10 @@ public class ValidAttackActionTest {
 
   }
 
+  /**
+   * Tests that for a territory with 3 troops, the player can attack with 2 or 1
+   * die.
+   */
   @Test
   public void testValidateAttackMoveRollTwoDie() {
     RiskBoard board = new RiskBoard();
@@ -206,6 +228,10 @@ public class ValidAttackActionTest {
 
   }
 
+  /**
+   * Tests that for a territory with 2 troops, the player can attack with only 1
+   * die.
+   */
   @Test
   public void testValidateAttackMoveRollOneDie() {
     RiskBoard board = new RiskBoard();
@@ -228,6 +254,11 @@ public class ValidAttackActionTest {
 
   }
 
+  /**
+   * Tests validAttackMove returns false if the player attacking does not equal
+   * the player whose potential attack actions are described by this
+   * ValidAttackAction.
+   */
   @Test
   public void testInvalidPlayer() {
     RiskBoard board = new RiskBoard();
@@ -246,6 +277,11 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validAttackMove returns false if the number of die to roll is greater
+   * than the max number of die a player can roll when attacking from a
+   * specified territory.
+   */
   @Test
   public void testInvalidDieRoll() {
     RiskBoard board = new RiskBoard();
@@ -267,6 +303,10 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validAttackMove returns false if the attacking territory in
+   * AttackAction is invalid.
+   */
   @Test
   public void testAttackingTerritory() {
     RiskBoard board = new RiskBoard();
@@ -284,6 +324,11 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validAttackMove returns false if the defending territory in
+   * AttackAction for the given attacking territory is invalid/ the player's own
+   * territory.
+   */
   @Test
   public void testInvalidDefendingTerritory() {
     RiskBoard board = new RiskBoard();
@@ -301,6 +346,10 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validAttackMove returns false if the defending territory in
+   * AttackAction for the given attacking territory is not reachable.
+   */
   @Test
   public void testCannotReachTerritory() {
     RiskBoard board = new RiskBoard();
@@ -318,6 +367,10 @@ public class ValidAttackActionTest {
     assertTrue(action.actionAvailable());
   }
 
+  /**
+   * Tests validAttackMove throws an IlleggalArgumentException if the
+   * AttackAction given is null.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testValidateAttackMoveNullMove() {
     RiskBoard board = new RiskBoard();

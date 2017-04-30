@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskCardPool;
-
 /**
  * JUnit tests for RiskCardPool.
  *
@@ -14,6 +12,9 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskCardPool;
  *
  */
 public class RiskCardPoolTest {
+  private static final int NUMBER_CARDS = 42;
+  private static final int NUMBER_ONE_STAR_CARDS = 30;
+  private static final int NUMBER_TWO_STAR_CARDS = 12;
 
   /**
    * Tests the constructor returns a non-null object.
@@ -30,7 +31,7 @@ public class RiskCardPoolTest {
   @Test
   public void testNumberCards() {
     RiskCardPool cardPool = new RiskCardPool();
-    for (int i = 0; i < 42; i++) {
+    for (int i = 0; i < NUMBER_CARDS; i++) {
       cardPool.handOutCard();
     }
     assertTrue(cardPool.isEmpty());
@@ -43,13 +44,13 @@ public class RiskCardPoolTest {
   public void testNumberOfOneStarCards() {
     RiskCardPool cardPool = new RiskCardPool();
     int number = 0;
-    for (int i = 0; i < 42; i++) {
+    for (int i = 0; i < NUMBER_CARDS; i++) {
       if (cardPool.handOutCard() == 1) {
         number++;
       }
     }
     assertTrue(cardPool.isEmpty());
-    assertTrue(number == 30);
+    assertTrue(number == NUMBER_ONE_STAR_CARDS);
   }
 
   /**
@@ -59,13 +60,13 @@ public class RiskCardPoolTest {
   public void testNumberOfOneTwoCards() {
     RiskCardPool cardPool = new RiskCardPool();
     int number = 0;
-    for (int i = 0; i < 42; i++) {
+    for (int i = 0; i < NUMBER_CARDS; i++) {
       if (cardPool.handOutCard() == 2) {
         number++;
       }
     }
     assertTrue(cardPool.isEmpty());
-    assertTrue(number == 12);
+    assertTrue(number == NUMBER_TWO_STAR_CARDS);
   }
 
   /**
@@ -74,7 +75,7 @@ public class RiskCardPoolTest {
   @Test
   public void testCardsNumbers() {
     RiskCardPool cardPool = new RiskCardPool();
-    for (int i = 0; i < 42; i++) {
+    for (int i = 0; i < NUMBER_CARDS; i++) {
       int card = cardPool.handOutCard();
       assertTrue(card == 1 || card == 2);
     }
