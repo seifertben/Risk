@@ -7,11 +7,20 @@ import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents the continent Asia.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class Asia implements ContinentInterface {
   private static final int BONUS_VALUE = 11;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
+  /**
+   * Constructor for Asia.
+   */
   public Asia() {
     playerId = null;
     territories = new HashSet<>();
@@ -51,7 +60,11 @@ public class Asia implements ContinentInterface {
   }
 
   @Override
-  public boolean containsTerritory(TerritoryEnum terr) {
+  public boolean containsTerritory(TerritoryEnum terr)
+      throws IllegalArgumentException {
+    if (terr == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     return territories.contains(terr);
   }
 

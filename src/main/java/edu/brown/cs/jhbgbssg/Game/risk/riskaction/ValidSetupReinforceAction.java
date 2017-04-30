@@ -1,5 +1,6 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -71,10 +72,20 @@ public class ValidSetupReinforceAction implements ValidAction {
     return actionAvailable;
   }
 
+  /**
+   * Returns an unmodifiable set of territories that can be reinforced.
+   *
+   * @return set of territories
+   */
   public Set<TerritoryEnum> getTerritories() {
-    return territories;
+    return Collections.unmodifiableSet(territories);
   }
 
+  /**
+   * Returns the number of troops to place.
+   *
+   * @return number of troops
+   */
   public int getTroopsLeftToPlace() {
     return numberLeftToPlace;
   }
