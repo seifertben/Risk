@@ -223,7 +223,6 @@ public class Match {
             break;
           case CHOOSE_ATTACK_DIE:
             AttackAction attack = this.createAttackAction(received);
-            System.out.println("here");
             update = actionProcessor.processAttackAction(attack);
             break;
           case CHOOSE_DEFEND_DIE:
@@ -258,7 +257,6 @@ public class Match {
   private ReinforceAction createReinforceAction(JsonObject received) {
     Map<TerritoryEnum, Integer> reinforced = messageApi
         .getNumberReinforced(received);
-    System.out.println(reinforced);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     return new ReinforceAction(player, board, reinforced);
@@ -291,8 +289,6 @@ public class Match {
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberDie = messageApi.getNumberDieToRoll(received);
-    System.out.println(playerId + " " + " " + numberDie + " "
-        + attackPair.getFirstElement() + " " + attackPair.getSecondElement());
     return new AttackAction(player, attackPair.getFirstElement(),
         attackPair.getSecondElement(), numberDie);
   }

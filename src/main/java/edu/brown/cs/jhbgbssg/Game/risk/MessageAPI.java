@@ -92,12 +92,6 @@ public class MessageAPI {
       TerritoryEnum attack = TerritoryEnum.values()[index];
       index = object.get("defendTerritory").getAsInt();
       TerritoryEnum claim = TerritoryEnum.values()[index];
-//      TerritoryEnum attack = GSON.fromJson(
-//          object.get("attackTerritory").getAsString(), TerritoryEnum.class);
-//      TerritoryEnum claim = GSON.fromJson(
-//          object.get("defendTerritory").getAsString(), TerritoryEnum.class);
-      System.out.println(attack);
-      System.out.println(claim);
       return new Pair<>(attack, claim);
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
@@ -373,7 +367,7 @@ public class MessageAPI {
     List<Integer> roll = move.getRoll();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
     jsonObject.addProperty("attackFrom", attackFrom.ordinal());
     jsonObject.addProperty("attackTo", attacking.ordinal());
@@ -573,7 +567,7 @@ public class MessageAPI {
     int maxDie = move.getMaxNumberDie();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CHOOSE_DEFEND_DIE.ordinal());
-    jsonObject.addProperty("player", move.getMovePlayer().toString());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("defendTerritory", toDefend.ordinal());
     jsonObject.addProperty("maxDieRoll", maxDie);
     return jsonObject;
@@ -591,7 +585,7 @@ public class MessageAPI {
     int maxTroops = move.getMaxNumberTroops();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
-    jsonObject.addProperty("player", move.getMovePlayer().toString());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("territoryToClaim", claimed.ordinal());
     jsonObject.addProperty("territoryClaimingFrom", attacker.ordinal());
     jsonObject.addProperty("maxNumberTroops", maxTroops);

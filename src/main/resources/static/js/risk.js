@@ -117,7 +117,9 @@ function setUp () {
 	$sideNav.append($("<p id = 'selecting' class = 'alert'></p>"));
 	$sideNav.append($("<p id = 'attacking' class = 'alert'></p>"));
 	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack</button>"));
+	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
+	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
+	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 //	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 //	$sideNav.append($( "<ul id = 'blackRoll'>"));
@@ -210,6 +212,8 @@ function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers )
 
 function hideAll() {
 	$("#attack").hide();
+	$("#defend").hide();
+	$("#skip").hide();
  	$("#attackerRollText").hide();
 	$("#defenderRollText").hide();
  	$("#blackRoll").hide();
@@ -226,7 +230,7 @@ function hideAll() {
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
 
-    document.getElementById("attacking").style.display = "inline";
+    document.getElementById("attacking").style.display = "none";
 }
 
 function addcard(number) {

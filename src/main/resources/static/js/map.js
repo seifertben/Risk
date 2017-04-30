@@ -1238,16 +1238,20 @@ function select_territory(event) {
       attackables = terToTar[attackFrom];
       document.getElementById("attacking").style.display = "inline";
 
-      document.getElementById("attacking").innerHTML = "What territory are you attacking?";
-      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!";
+      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+      document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
-        + "! Select a Dice Number and Attack!";
+        + "!<br> Select a Dice Number and Attack!<br>";
       let sideNav = $("#n");
       let dice = "";
       for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
-        dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+        if (index == terToDie[attackFrom.toString()]) {
+          dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+        } else {
+          dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+        }
       }
       sideNav.append("<select id='diceChoice'>" + dice + "</select>");
     }

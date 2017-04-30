@@ -57,6 +57,7 @@ let attackTo;
 let terToDie;
 let terToTar;
 let attackables;
+let defending;
 
 const setup_matches = () => {
 
@@ -152,8 +153,36 @@ const setup_matches = () => {
           case MOVE_TYPES.REINFORCE:
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
             document.getElementById("bolsters").style.display = "none";
+            document.getElementById("selecting").style.display = "none";
         	make_bolster(data.movePlayer, JSON.parse(data.territories));
         	break;
+          case MOVE_TYPES.CHOOSE_ATTACK_DIE:
+            document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Is Attacking <b>" 
+            + idToData[data.attackTo].name + "</b> from <b>" + idToData[data.attackFrom].name + "</b>";
+          	let result = " ";
+          	let roll = JSON.parse(data.roll);
+          	for (let index = 0; index < roll.length; index++) {
+          	  result += roll[index] + " ";
+          	}
+            document.getElementById("bolsters").innerHTML = idToName[data.movePlayer] + " Rolled " + result + "<br>";
+        	break;
+          case MOVE_TYPES.CHOOSE_DEFEND_DIE:
+        	let def = " ";
+        	let stall = JSON.parse(data.roll);
+          	for (let index = 0; index < stall.length; index++) {
+              def += stall[index] + " ";
+            }
+            document.getElementById("bolsters").innerHTML += idToName[data.defender] + "</b> Rolled " + def + "<br><b>"
+            + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost + " Troops<br><b>"
+            + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + " Troops<br>";
+            if (data.defenderLostTerritory) {
+              document.getElementById("prevMove").innerHTML = 
+            	  "<b>" + idToName[data.attacker] + "</b> has Claimed " + idToData[data.defendTerritory].name + "!<br>";
+            }
+            changeTerritoryStatus(data.attacker, -1 * data.attackerTroopsLost,
+                    idToData[data.defendTerritory], colors[data.attacker], colors[data.attacker]);
+            changeTerritoryStatus(data.defender, -1 * data.defenderTroopsLost,
+                    idToData[data.defendTerritory], colors[data.attacker], colors[data.attacker]);
         }
         break;
 
@@ -256,7 +285,7 @@ const setup_matches = () => {
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
-                document.getElementById("turn").style.fontWeight = "bold";
+              document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";        
               phase = "attacking";
               attackables = [];
@@ -275,7 +304,30 @@ const setup_matches = () => {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
            	}
             break;
+          case MOVE_TYPES.CHOOSE_DEFEND_DIE:
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
+            if (data.playerId == myId) {
+              document.getElementById("phase").innerHTML = "Defend Yourself!";
+              defending = data.defendTerritory;
+              document.getElementById("bolsters").style.display = "inline";
+              document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
+              document.getElementById("attacking").style.display = "inline";
+              document.getElementById("defend").style.display = "inline";
+              let sideNav = $("#n");
+              let dice = "";
+              for (let index = 1; index <= data.maxDieRoll; index++) {
+            	if (index == data.maxDieRoll) {
+                  dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+            	} else {
+                  dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+            	}
+              }
+              sideNav.append("<select id='diceChoice'>" + dice + "</select>");
+              document.getElementById("defend").onclick = defend_territory;
+            }
+        	break;
           case MOVE_TYPES.MOVE_TROOPS:
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
             break;
         }
         break;
@@ -283,11 +335,24 @@ const setup_matches = () => {
   };
 }
 
+function defend_territory() {
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_DEFEND_DIE,
+		  "playerId": myId, "numberDieToRoll": document.getElementById("diceChoice").value};
+  document.getElementById("diceChoice").remove();
+  document.getElementById("defend").style.display = "none";
+  document.getElementById("attacking").style.display = "none";
+  conn.send(JSON.stringify(mess));
+}
+
 function attack_territory() {
   if (attackFrom != null && attackTo != null) {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, 
     		"playerId": myId, "attackTerritory": attackFrom, "defendTerritory": attackTo, 
     		"numberDieToRoll": document.getElementById("diceChoice").value};
+    document.getElementById("attack").style.display = "none";
+    document.getElementById("attacking").style.display = "none";
+    document.getElementById("resetAttackMove").style.display = "none";
+    document.getElementById("diceChoice").remove();
     conn.send(JSON.stringify(mess));
   }
 }
@@ -305,7 +370,7 @@ const confirm_move = event => {
   if (phase == "reinforce" && placed == placeMax) {
 	sparcify();
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Array.from(terToPlace)};
-    document.getElementById("selecting").remove();
+    document.getElementById("selecting").style.display = "none";
     document.getElementById("reinforcer").remove();
     document.getElementById("deinforcer").remove();
     document.getElementById("confirm").remove(); 
