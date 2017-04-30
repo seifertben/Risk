@@ -1247,6 +1247,12 @@ function select_territory(event) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
+      let sideNav = $("#n");
+      let dice = "";
+      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
+        dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+      }
+      sideNav.append("<select id='diceChoice'>" + dice + "</select>");
     }
   }
 }
@@ -1254,6 +1260,7 @@ function select_territory(event) {
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
   document.getElementById("attacking").style.display = "none";
+  document.getElementById("diceChoice").remove();
   attackFrom = null;
   attackTo = null;
   attackables = null;

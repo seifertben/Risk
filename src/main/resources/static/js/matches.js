@@ -260,6 +260,7 @@ const setup_matches = () => {
                 availableForClaim.push(ter);
               }
               $("#attack").show();
+              document.getElementById("attack").onclick = attack_territory;
               $("#resetAttackMove").show();
               map.addListener("clickMapObject", select_territory);
             } else {
@@ -272,6 +273,14 @@ const setup_matches = () => {
         break;
     }
   };
+}
+
+function attack_territory() {
+  if (attackFrom != null && attackTo != null) {
+    console.log(document.getElementById("diceChoice").value);
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, "playerId": myId, "attackingTerritory": attackFrom, "defendingTerritory": attackTo};
+    conn.send(JSON.stringify(mess));
+  }
 }
 
 const skip_phase = event => {
