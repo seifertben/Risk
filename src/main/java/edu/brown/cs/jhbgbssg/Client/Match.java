@@ -201,7 +201,6 @@ public class Match {
     synchronized (this) {
       try {
         MoveType type = messageApi.getMoveType(received);
-        System.out.println(type);
         GameUpdate update = null;
         switch (type) {
           case SETUP:
@@ -225,6 +224,7 @@ public class Match {
             break;
           case CHOOSE_ATTACK_DIE:
             AttackAction attack = this.createAttackAction(received);
+            System.out.println("here");
             update = actionProcessor.processAttackAction(attack);
             break;
           case CHOOSE_DEFEND_DIE:
@@ -292,13 +292,13 @@ public class Match {
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberDie = messageApi.getNumberDieToRoll(received);
+    System.out.println(playerId + " " + " " + numberDie + " "
+        + attackPair.getFirstElement() + " " + attackPair.getSecondElement());
     return new AttackAction(player, attackPair.getFirstElement(),
         attackPair.getSecondElement(), numberDie);
   }
 
   private DefendAction createDefendAction(JsonObject received) {
-    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
-        .getAttackingDefendingTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberDie = messageApi.getNumberDieToRoll(received);

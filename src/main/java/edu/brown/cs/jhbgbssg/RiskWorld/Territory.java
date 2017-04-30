@@ -54,16 +54,17 @@ public class Territory {
    * Adds troops to territory.
    *
    * @param troopsToAdd - number of troops to add
+   * @return boolean - true if the troops were added; false otherwise
    * @throws IllegalArgumentException if the input is non-positive.
    */
-  public void addTroops(int troopsToAdd) throws IllegalArgumentException {
+  public boolean addTroops(int troopsToAdd) throws IllegalArgumentException {
     if (troopsToAdd <= 0) {
       throw new IllegalArgumentException("ERROR: invalid troop number");
     } else if (player == null) {
-      throw new IllegalArgumentException(
-          "ERROR: cannot add troops to a territory with no player");
+      return false;
     }
     numberTroops += troopsToAdd;
+    return true;
   }
 
   /**

@@ -19,6 +19,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class NorthAmericaTest {
+  private static final int NUMBER_TERRITORIES = 9;
 
   /**
    * Tests the constructor returns a non-null object.
@@ -36,7 +37,7 @@ public class NorthAmericaTest {
   public void testGetTerritories() {
     NorthAmerica cont = new NorthAmerica();
     Set<TerritoryEnum> terrs = cont.getTerritories();
-    assertTrue(terrs.size() == 9);
+    assertTrue(terrs.size() == NUMBER_TERRITORIES);
     assertTrue(terrs.contains(TerritoryEnum.ALASKA));
     assertTrue(terrs.contains(TerritoryEnum.ALBERTA));
     assertTrue(terrs.contains(TerritoryEnum.NORTHWEST_TERRITORY));
