@@ -19,7 +19,16 @@ public class CardTurnInAction implements Action {
   private RiskPlayer player;
   private boolean actionExecuted;
 
-  public CardTurnInAction(Collection<Integer> cards, RiskPlayer player) {
+  /**
+   * Constructor for CardTurnInAction. It takes in a collection of cards to turn
+   * in and the player turning in the cards.
+   *
+   * @param cards - cards to turn in
+   * @param player - player
+   * @throws IllegalArgumentException if the input is null
+   */
+  public CardTurnInAction(Collection<Integer> cards, RiskPlayer player)
+      throws IllegalArgumentException {
     if (cards == null || player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
@@ -28,6 +37,11 @@ public class CardTurnInAction implements Action {
     actionExecuted = false;
   }
 
+  /**
+   * Returns the multiset of cards to turn in.
+   *
+   * @return multiset of integer
+   */
   public Multiset<Integer> getCards() {
     return cards;
   }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,13 +37,29 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
+/**
+ *
+ * API for Risk.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class MessageAPI {
   private static final Gson GSON = new Gson();
 
+  /**
+   * Constructor for MessageAPI.
+   */
   public MessageAPI() {
 
   }
 
+  /**
+   * Returns the type of move encoded by the JsonObject.
+   *
+   * @param received - json object
+   * @return the MoveType
+   */
   public MoveType getMoveType(JsonObject received) {
     try {
       int type = received.get("moveType").getAsInt();
@@ -213,9 +230,11 @@ public class MessageAPI {
   }
 
   /**
+   * Returns a list of JsonObjects that represents messages to send to the
+   * frontend.
    *
-   * @param update
-   * @return
+   * @param update - gameupdate that contains the information to send
+   * @return list of messages
    */
   public List<JsonObject> getUpdateMessages(GameUpdate update) {
     List<JsonObject> messages = new ArrayList<>();
@@ -606,8 +625,7 @@ public class MessageAPI {
   private Map<Integer, Collection<Integer>> getOrdinalCollectionMap(
       Map<TerritoryEnum, Collection<TerritoryEnum>> map) {
     Map<Integer, Collection<Integer>> ordMap = new HashMap<>();
-
-    for (java.util.Map.Entry<TerritoryEnum, Collection<TerritoryEnum>> entry : map
+    for (Entry<TerritoryEnum, Collection<TerritoryEnum>> entry : map
         .entrySet()) {
       Collection<Integer> collection = new ArrayList<>();
       for (TerritoryEnum terr : entry.getValue()) {
