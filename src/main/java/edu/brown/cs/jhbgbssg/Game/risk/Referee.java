@@ -98,6 +98,13 @@ public class Referee {
     }
   }
 
+  /**
+   * This method starts the game. It returns the first GameUpdate and sets the
+   * gameStarted method to true. It can be called only once. After the first
+   * call, it returns null.
+   *
+   * @return first game update
+   */
   public GameUpdate startGame() {
     if (!gameStarted) {
       gameStarted = true;
@@ -129,7 +136,7 @@ public class Referee {
   /**
    * Returns the winner if there is one.
    *
-   * @return
+   * @return winner of the game
    */
   public RiskPlayer getWinner() {
     return winner;
@@ -195,8 +202,8 @@ public class Referee {
     currPlayer = turnOrder.get(index);
     validMove = new ValidCardAction(currPlayer);
     if (!validMove.actionAvailable()) {
-      validMove = new ValidReinforceAction(currPlayer, board,
-          new ArrayList<>());
+      validMove =
+          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
     }
     if (prevMove.getMoveType() == MoveType.SETUP) {
       validMove = new ValidSetupAction(currPlayer, board);
@@ -212,8 +219,8 @@ public class Referee {
         return validMove;
       } else {
         currPlayer = turnOrder.get(0);
-        validMove = new ValidReinforceAction(currPlayer, board,
-            new ArrayList<>());
+        validMove =
+            new ValidReinforceAction(currPlayer, board, new ArrayList<>());
         return validMove;
       }
     }
@@ -256,8 +263,8 @@ public class Referee {
       validMove = move;
       return move;
     }
-    ValidMoveTroopsAction troopMove = new ValidMoveTroopsAction(currPlayer,
-        board);
+    ValidMoveTroopsAction troopMove =
+        new ValidMoveTroopsAction(currPlayer, board);
     if (troopMove.getReachableTerritores().size() != 0) {
       validMove = troopMove;
       return troopMove;
@@ -267,8 +274,8 @@ public class Referee {
 
   protected ValidAction getValidMoveAfterCardTurnIn(Multiset<Integer> cards) {
     List<Integer> cardList = new ArrayList<>(cards);
-    ValidReinforceAction move = new ValidReinforceAction(currPlayer, board,
-        cardList);
+    ValidReinforceAction move =
+        new ValidReinforceAction(currPlayer, board, cardList);
     validMove = move;
     return validMove;
   }
@@ -285,7 +292,7 @@ public class Referee {
     ValidDieDefendAction move = new ValidDieDefendAction(defender, board,
         lastAttack.getDefendingTerritory());
     validMove = move;
-    return null;
+    return validMove;
   }
 
   /**
@@ -310,8 +317,8 @@ public class Referee {
       validMove = validAttack;
       return validMove;
     }
-    ValidMoveTroopsAction moveTroops = new ValidMoveTroopsAction(currPlayer,
-        board);
+    ValidMoveTroopsAction moveTroops =
+        new ValidMoveTroopsAction(currPlayer, board);
     if (moveTroops.actionAvailable()) {
       lastAttack = null;
       validMove = moveTroops;
@@ -335,8 +342,8 @@ public class Referee {
       validMove = attack;
       return validMove;
     }
-    ValidMoveTroopsAction moveTroops = new ValidMoveTroopsAction(currPlayer,
-        board);
+    ValidMoveTroopsAction moveTroops =
+        new ValidMoveTroopsAction(currPlayer, board);
     if (moveTroops.actionAvailable()) {
       validMove = moveTroops;
       return validMove;
@@ -376,6 +383,11 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Returns null.
+   *
+   * @return null
+   */
   public ValidAction getValidMoveAfterReinforceSetup() {
     return null;
   }
@@ -490,7 +502,8 @@ public class Referee {
         || validMove.getMoveType() != MoveType.SETUP_REINFORCE) {
       return false;
     }
-    ValidSetupReinforceAction setupReinforceMove = (ValidSetupReinforceAction) validMove;
+    ValidSetupReinforceAction setupReinforceMove =
+        (ValidSetupReinforceAction) validMove;
     return setupReinforceMove.validSetupReinforceMove(move);
   }
 

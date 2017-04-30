@@ -13,20 +13,21 @@ import org.junit.Test;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * JUnit tests for NorthAmerica.
+ * JUnit tests for Asia.
  *
  * @author sarahgilmore
  *
  */
-public class NorthAmericaTest {
-  private static final int NUMBER_TERRITORIES = 9;
+public class AsiaTest {
+  private static final int NUMBER_TERRITORIES = 12;
+  private static final int BONUS = 11;
 
   /**
    * Tests the constructor returns a non-null object.
    */
   @Test
   public void testConstructor() {
-    NorthAmerica cont = new NorthAmerica();
+    Asia cont = new Asia();
     assertNotNull(cont);
   }
 
@@ -35,37 +36,40 @@ public class NorthAmericaTest {
    */
   @Test
   public void testGetTerritories() {
-    NorthAmerica cont = new NorthAmerica();
+    Asia cont = new Asia();
     Set<TerritoryEnum> terrs = cont.getTerritories();
     assertTrue(terrs.size() == NUMBER_TERRITORIES);
-    assertTrue(terrs.contains(TerritoryEnum.ALASKA));
-    assertTrue(terrs.contains(TerritoryEnum.ALBERTA));
-    assertTrue(terrs.contains(TerritoryEnum.NORTHWEST_TERRITORY));
-    assertTrue(terrs.contains(TerritoryEnum.ONTARIO));
-    assertTrue(terrs.contains(TerritoryEnum.QUEBEC));
-    assertTrue(terrs.contains(TerritoryEnum.WESTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.EASTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.CENTRAL_AMERICA));
-    assertTrue(terrs.contains(TerritoryEnum.GREENLAND));
+    assertTrue(terrs.contains(TerritoryEnum.MIDDLE_EAST));
+    assertTrue(terrs.contains(TerritoryEnum.AFGHANISTAN));
+    assertTrue(terrs.contains(TerritoryEnum.INDIA));
+    assertTrue(terrs.contains(TerritoryEnum.CHINA));
+    assertTrue(terrs.contains(TerritoryEnum.MONGOLIA));
+    assertTrue(terrs.contains(TerritoryEnum.IRKUTSK));
+    assertTrue(terrs.contains(TerritoryEnum.JAPAN));
+    assertTrue(terrs.contains(TerritoryEnum.URAL));
+    assertTrue(terrs.contains(TerritoryEnum.KAMACHATKA));
+    assertTrue(terrs.contains(TerritoryEnum.SOUTHEAST_ASIA));
+    assertTrue(terrs.contains(TerritoryEnum.SIBERIA));
+    assertTrue(terrs.contains(TerritoryEnum.YAKUTSK));
 
   }
 
   /**
-   * Tests that getBonusValue returns 5.
+   * Tests that getBonusValue returns 11.
    */
   @Test
   public void testGetBonusValue() {
-    NorthAmerica cont = new NorthAmerica();
-    assertTrue(cont.getBonusValue() == 5);
+    Asia cont = new Asia();
+    assertTrue(cont.getBonusValue() == BONUS);
   }
 
   /**
-   * Tests getContinentId returns NORTH_AMERICA.
+   * Tests getContinentId returns ASIA.
    */
   @Test
   public void testGetContinentId() {
-    NorthAmerica cont = new NorthAmerica();
-    assertTrue(cont.getContinentId() == ContinentEnum.NORTH_AMERICA);
+    Asia cont = new Asia();
+    assertTrue(cont.getContinentId() == ContinentEnum.ASIA);
   }
 
   /**
@@ -74,13 +78,13 @@ public class NorthAmericaTest {
    */
   @Test
   public void testContainsTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Asia cont = new Asia();
     Set<TerritoryEnum> territories = new HashSet<>();
-    territories.addAll(
-        Arrays.asList(TerritoryEnum.ALASKA, TerritoryEnum.NORTHWEST_TERRITORY,
-            TerritoryEnum.ALBERTA, TerritoryEnum.ONTARIO, TerritoryEnum.QUEBEC,
-            TerritoryEnum.WESTERN_US, TerritoryEnum.EASTERN_US,
-            TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.GREENLAND));
+    territories.addAll(Arrays.asList(TerritoryEnum.MIDDLE_EAST,
+        TerritoryEnum.AFGHANISTAN, TerritoryEnum.CHINA, TerritoryEnum.INDIA,
+        TerritoryEnum.IRKUTSK, TerritoryEnum.JAPAN, TerritoryEnum.KAMACHATKA,
+        TerritoryEnum.MONGOLIA, TerritoryEnum.SOUTHEAST_ASIA,
+        TerritoryEnum.SIBERIA, TerritoryEnum.URAL, TerritoryEnum.YAKUTSK));
     TerritoryEnum[] terrs = TerritoryEnum.values();
     for (int i = 0; i < terrs.length; i++) {
       if (territories.contains(terrs[i])) {
@@ -97,7 +101,7 @@ public class NorthAmericaTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testContainsTerritoryNullTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Asia cont = new Asia();
     cont.containsTerritory(null);
   }
 }

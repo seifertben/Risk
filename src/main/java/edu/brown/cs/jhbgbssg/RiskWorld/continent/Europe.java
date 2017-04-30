@@ -7,11 +7,20 @@ import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * Represents the continent Europe.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class Europe implements ContinentInterface {
   private static final int BONUS_VALUE = 5;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
+  /**
+   * Constructor for Europe.
+   */
   public Europe() {
     playerId = null;
     territories = new HashSet<>();

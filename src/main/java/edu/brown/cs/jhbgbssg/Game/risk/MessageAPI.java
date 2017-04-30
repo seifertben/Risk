@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,13 +37,29 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
+/**
+ *
+ * API for Risk.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class MessageAPI {
   private static final Gson GSON = new Gson();
 
+  /**
+   * Constructor for MessageAPI.
+   */
   public MessageAPI() {
 
   }
 
+  /**
+   * Returns the type of move encoded by the JsonObject.
+   *
+   * @param received - json object
+   * @return the MoveType
+   */
   public MoveType getMoveType(JsonObject received) {
     try {
       int type = received.get("moveType").getAsInt();
@@ -71,10 +88,10 @@ public class MessageAPI {
   public Pair<TerritoryEnum, TerritoryEnum> getAttackingDefendingTerritory(
       JsonObject object) {
     try {
-      TerritoryEnum attack = GSON.fromJson(
-          object.get("attackTerritory").getAsString(), TerritoryEnum.class);
-      TerritoryEnum claim = GSON.fromJson(
-          object.get("defendTerritory").getAsString(), TerritoryEnum.class);
+      int index = object.get("attackTerritory").getAsInt();
+      TerritoryEnum attack = TerritoryEnum.values()[index];
+      index = object.get("defendTerritory").getAsInt();
+      TerritoryEnum claim = TerritoryEnum.values()[index];
       return new Pair<>(attack, claim);
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
@@ -213,9 +230,11 @@ public class MessageAPI {
   }
 
   /**
+   * Returns a list of JsonObjects that represents messages to send to the
+   * frontend.
    *
-   * @param update
-   * @return
+   * @param update - gameupdate that contains the information to send
+   * @return list of messages
    */
   public List<JsonObject> getUpdateMessages(GameUpdate update) {
     List<JsonObject> messages = new ArrayList<>();
@@ -348,7 +367,7 @@ public class MessageAPI {
     List<Integer> roll = move.getRoll();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", move.getMovePlayer().toString());
+    jsonObject.addProperty("movePlayer", move.getMovePlayer().getPlayerId().toString());
     jsonObject.addProperty("moveType", MoveType.CHOOSE_ATTACK_DIE.ordinal());
     jsonObject.addProperty("attackFrom", attackFrom.ordinal());
     jsonObject.addProperty("attackTo", attacking.ordinal());
@@ -548,7 +567,7 @@ public class MessageAPI {
     int maxDie = move.getMaxNumberDie();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CHOOSE_DEFEND_DIE.ordinal());
-    jsonObject.addProperty("player", move.getMovePlayer().toString());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("defendTerritory", toDefend.ordinal());
     jsonObject.addProperty("maxDieRoll", maxDie);
     return jsonObject;
@@ -566,7 +585,7 @@ public class MessageAPI {
     int maxTroops = move.getMaxNumberTroops();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.CLAIM_TERRITORY.ordinal());
-    jsonObject.addProperty("player", move.getMovePlayer().toString());
+    jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("territoryToClaim", claimed.ordinal());
     jsonObject.addProperty("territoryClaimingFrom", attacker.ordinal());
     jsonObject.addProperty("maxNumberTroops", maxTroops);
@@ -606,8 +625,7 @@ public class MessageAPI {
   private Map<Integer, Collection<Integer>> getOrdinalCollectionMap(
       Map<TerritoryEnum, Collection<TerritoryEnum>> map) {
     Map<Integer, Collection<Integer>> ordMap = new HashMap<>();
-
-    for (java.util.Map.Entry<TerritoryEnum, Collection<TerritoryEnum>> entry : map
+    for (Entry<TerritoryEnum, Collection<TerritoryEnum>> entry : map
         .entrySet()) {
       Collection<Integer> collection = new ArrayList<>();
       for (TerritoryEnum terr : entry.getValue()) {

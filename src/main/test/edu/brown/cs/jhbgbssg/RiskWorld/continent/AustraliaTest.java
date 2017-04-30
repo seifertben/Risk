@@ -13,20 +13,19 @@ import org.junit.Test;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * JUnit tests for NorthAmerica.
+ * JUnit tests for Australia.
  *
  * @author sarahgilmore
  *
  */
-public class NorthAmericaTest {
-  private static final int NUMBER_TERRITORIES = 9;
+public class AustraliaTest {
 
   /**
    * Tests the constructor returns a non-null object.
    */
   @Test
   public void testConstructor() {
-    NorthAmerica cont = new NorthAmerica();
+    Australia cont = new Australia();
     assertNotNull(cont);
   }
 
@@ -35,52 +34,44 @@ public class NorthAmericaTest {
    */
   @Test
   public void testGetTerritories() {
-    NorthAmerica cont = new NorthAmerica();
+    Australia cont = new Australia();
     Set<TerritoryEnum> terrs = cont.getTerritories();
-    assertTrue(terrs.size() == NUMBER_TERRITORIES);
-    assertTrue(terrs.contains(TerritoryEnum.ALASKA));
-    assertTrue(terrs.contains(TerritoryEnum.ALBERTA));
-    assertTrue(terrs.contains(TerritoryEnum.NORTHWEST_TERRITORY));
-    assertTrue(terrs.contains(TerritoryEnum.ONTARIO));
-    assertTrue(terrs.contains(TerritoryEnum.QUEBEC));
-    assertTrue(terrs.contains(TerritoryEnum.WESTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.EASTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.CENTRAL_AMERICA));
-    assertTrue(terrs.contains(TerritoryEnum.GREENLAND));
-
+    assertTrue(terrs.size() == 4);
+    assertTrue(terrs.contains(TerritoryEnum.INDONESIA));
+    assertTrue(terrs.contains(TerritoryEnum.NEW_GUINEA));
+    assertTrue(terrs.contains(TerritoryEnum.WESTERN_AUSTRALIA));
+    assertTrue(terrs.contains(TerritoryEnum.EASTERN_AUSTRALIA));
   }
 
   /**
-   * Tests that getBonusValue returns 5.
+   * Tests that getBonusValue returns 2.
    */
   @Test
   public void testGetBonusValue() {
-    NorthAmerica cont = new NorthAmerica();
-    assertTrue(cont.getBonusValue() == 5);
+    Australia cont = new Australia();
+    assertTrue(cont.getBonusValue() == 2);
   }
 
   /**
-   * Tests getContinentId returns NORTH_AMERICA.
+   * Tests getContinentId returns AUSTRALIA.
    */
   @Test
   public void testGetContinentId() {
-    NorthAmerica cont = new NorthAmerica();
-    assertTrue(cont.getContinentId() == ContinentEnum.NORTH_AMERICA);
+    Australia cont = new Australia();
+    assertTrue(cont.getContinentId() == ContinentEnum.AUSTRALIA);
   }
 
   /**
    * Test containsTerritory returns true only for Territories that are within
-   * North America and false otherwise.
+   * Africa and false otherwise.
    */
   @Test
   public void testContainsTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Australia cont = new Australia();
     Set<TerritoryEnum> territories = new HashSet<>();
-    territories.addAll(
-        Arrays.asList(TerritoryEnum.ALASKA, TerritoryEnum.NORTHWEST_TERRITORY,
-            TerritoryEnum.ALBERTA, TerritoryEnum.ONTARIO, TerritoryEnum.QUEBEC,
-            TerritoryEnum.WESTERN_US, TerritoryEnum.EASTERN_US,
-            TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.GREENLAND));
+    territories
+        .addAll(Arrays.asList(TerritoryEnum.INDONESIA, TerritoryEnum.NEW_GUINEA,
+            TerritoryEnum.WESTERN_AUSTRALIA, TerritoryEnum.EASTERN_AUSTRALIA));
     TerritoryEnum[] terrs = TerritoryEnum.values();
     for (int i = 0; i < terrs.length; i++) {
       if (territories.contains(terrs[i])) {
@@ -97,7 +88,7 @@ public class NorthAmericaTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testContainsTerritoryNullTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Australia cont = new Australia();
     cont.containsTerritory(null);
   }
 }

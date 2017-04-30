@@ -22,6 +22,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class ValidSetupReinforceActionTest {
+  private static final int NUMBER_TROOPS = 40;
+  private static final int NUMBER_TROOPS_AFTER_SELECT = 19;
 
   /**
    * Tests the constructor returns a non-null object.
@@ -57,22 +59,30 @@ public class ValidSetupReinforceActionTest {
     this.initializeRandomGame(player1, player2, board);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     assertTrue(action.actionAvailable());
-    assertTrue(action.getTroopsLeftToPlace() == 19);
+    assertTrue(action.getTroopsLeftToPlace() == NUMBER_TROOPS_AFTER_SELECT);
     assertTrue(player1.getTerritories().containsAll(action.getTerritories()));
     assertTrue(action.getTerritories().containsAll(player1.getTerritories()));
   }
 
+  /**
+   * Tests that the initial number of troops to place is 40 given that no
+   * territories have been claimed.
+   */
   @Test
   public void testInvalidFirstReinforceNoTerritories() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
     player1.setIntialReinforcement(2);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     assertFalse(action.actionAvailable());
-    assertTrue(action.getTroopsLeftToPlace() == 40);
+    assertTrue(action.getTroopsLeftToPlace() == NUMBER_TROOPS);
     assertTrue(action.getTerritories().size() == 0);
     assertTrue(player1.getTerritories().size() == 0);
   }
 
+  /**
+   * Tests that the action is not available if the player has no troops left to
+   * place.
+   */
   @Test
   public void testInvalidFirstReinforceNoTroops() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -86,6 +96,10 @@ public class ValidSetupReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player1.getTerritories()));
   }
 
+  /**
+   * Tests that the action is not available if the player has no territories to
+   * place troops on.
+   */
   @Test
   public void testValidSetupReinforceAction() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -99,6 +113,10 @@ public class ValidSetupReinforceActionTest {
     assertTrue(action.validSetupReinforceMove(reinforce));
   }
 
+  /**
+   * Tests validSetupReinforceMove returns false if the territory given is not
+   * owned by the player.
+   */
   @Test
   public void testInvalidTerritorySetupReinforceAction() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -112,6 +130,10 @@ public class ValidSetupReinforceActionTest {
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
+  /**
+   * Tests validSetupReinforceMove returns false if the wrong player is trying
+   * to reinforce.
+   */
   @Test
   public void testInvalidPlayerSetupReinforceAction() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -125,6 +147,10 @@ public class ValidSetupReinforceActionTest {
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
+  /**
+   * Tests validSetupReinforceMove returns false if the player has no
+   * territories to reinforce.
+   */
   @Test
   public void testValidSetupReinforceActionNotAvailableNoTerrs() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -138,6 +164,10 @@ public class ValidSetupReinforceActionTest {
     assertFalse(action.actionAvailable());
   }
 
+  /**
+   * Tests validSetupReinforceMove returns false if the wrong player has no more
+   * troops to place.
+   */
   @Test
   public void testValidSetupReinforceActionNotAvailableNoTroops() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
@@ -151,6 +181,9 @@ public class ValidSetupReinforceActionTest {
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
+  /**
+   * Tests validSetupReinforceMove returns true if the reinforce move is valid.
+   */
   @Test
   public void testValidSetupReinforceActionAllTerritories() {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());

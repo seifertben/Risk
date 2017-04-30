@@ -21,6 +21,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
  *
  */
 public class DefendMoveTest {
+  private static final int ITERATE = 100;
 
   /**
    * Tests constructor returns a non-null object.
@@ -271,7 +272,7 @@ public class DefendMoveTest {
    */
   @Test
   public void testExecuteActionDefenderCannotLoseTerritory() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < ITERATE; i++) {
       RiskPlayer attacker = new RiskPlayer(UUID.randomUUID());
       RiskPlayer defender = new RiskPlayer(UUID.randomUUID());
       RiskBoard board = new RiskBoard();

@@ -101,6 +101,9 @@ public class ValidDieDefendActionTest {
     assertTrue(action.getMovePlayer().equals(player.getPlayerId()));
   }
 
+  /**
+   * Tests getMaxNumberDie returns the max number of die a player can roll.
+   */
   @Test
   public void testGetNumberDie() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -112,6 +115,9 @@ public class ValidDieDefendActionTest {
     assertTrue(action.getMaxNumberDie() == 2);
   }
 
+  /**
+   * Tests getMaxNumberDie returns the max number of die a player can roll.
+   */
   @Test
   public void testGetNumberDieMoreThanTwoTroops() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -123,6 +129,9 @@ public class ValidDieDefendActionTest {
     assertTrue(action.getMaxNumberDie() == 2);
   }
 
+  /**
+   * Tests getMaxNumberDie returns the max number of die a player can roll.
+   */
   @Test
   public void testGetNumberDieOneTroop() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -134,6 +143,10 @@ public class ValidDieDefendActionTest {
     assertTrue(action.getMaxNumberDie() == 1);
   }
 
+  /**
+   * Tests validateDefendMove returns true if a player chooses to roll 2 or 1
+   * die if possible.
+   */
   @Test
   public void testValidateDefendMoveCanRollTwoOrOneDie() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -153,6 +166,10 @@ public class ValidDieDefendActionTest {
     assertTrue(action.validateDefendMove(defend));
   }
 
+  /**
+   * Tests validateDefendMove returns true only if the player chooses to roll 1
+   * die.
+   */
   @Test
   public void testValidateDefendMoveCanRollOneDie() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -172,6 +189,10 @@ public class ValidDieDefendActionTest {
     assertTrue(action.validateDefendMove(defend));
   }
 
+  /**
+   * Tests validateDefendMove returns false if the player trying to defend is
+   * not the player the ValidDieDefendAction is defined for.
+   */
   @Test
   public void testInvalidPlayer() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
@@ -189,6 +210,10 @@ public class ValidDieDefendActionTest {
     assertFalse(action.validateDefendMove(defend));
   }
 
+  /**
+   * Tests validateDefendMove returns false if the territory the player is
+   * trying to defend is not the one the ValidDieDefendAction is defined for.
+   */
   @Test
   public void testInvalidTerritory() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());

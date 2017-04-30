@@ -502,9 +502,8 @@ let NEWGUINEADATA =   {
        "name": "New Guinea",
       "labelShiftY": 2,
       "selectable": true,
-      "title": "New Guinea",
-      "id": 40,
-      "description": "Occupied by No One"
+      "title": "New Guinea: Occupied by No One",
+      "id": 40
     };
 idToData[40] = NEWGUINEADATA;
 let MEDATA =  {
@@ -564,8 +563,7 @@ let CHINADATA =   {
       "selectable": true,
       "title": "China",
       "name": "China",
-      "id": 27,
-      "description": "Occupied by No One"
+      "id": 27
     };
 idToData[27] = CHINADATA;
 let MONGOLIADATA =   {
@@ -625,8 +623,7 @@ let YAKUTSKDATA = {
       "labelShiftY": -10,
       "selectable": true,
       "title": "Yakutsk: Occupied by No One",
-      "id": 37,
-      "description": "Occupied by No One"
+      "id": 37
   };
 idToData[37] = YAKUTSKDATA;
 let IRKUSTKDATA =  {
@@ -1247,6 +1244,16 @@ function select_territory(event) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
+      let sideNav = $("#n");
+      let dice = "";
+      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
+        if (index == terToDie[attackFrom.toString()]) {
+          dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+        } else {
+          dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+        }
+      }
+      sideNav.append("<select id='diceChoice'>" + dice + "</select>");
     }
   }
 }
@@ -1254,6 +1261,7 @@ function select_territory(event) {
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
   document.getElementById("attacking").style.display = "none";
+  document.getElementById("diceChoice").remove();
   attackFrom = null;
   attackTo = null;
   attackables = null;

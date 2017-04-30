@@ -12,6 +12,12 @@ import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
+/**
+ * JUnit tests for Africa.
+ *
+ * @author sarahgilmore
+ *
+ */
 public class AfricaTest {
   /**
    * Tests the constructor returns a non-null object.
@@ -29,12 +35,13 @@ public class AfricaTest {
   public void testGetTerritories() {
     Africa cont = new Africa();
     Set<TerritoryEnum> terrs = cont.getTerritories();
-    assertTrue(terrs.size() == 7);
+    assertTrue(terrs.size() == 6);
     assertTrue(terrs.contains(TerritoryEnum.EGYPT));
     assertTrue(terrs.contains(TerritoryEnum.EAST_AFRICA));
     assertTrue(terrs.contains(TerritoryEnum.CENTRAL_AFRICA));
     assertTrue(terrs.contains(TerritoryEnum.SOUTH_AFRICA));
     assertTrue(terrs.contains(TerritoryEnum.MADAGASCAR));
+    assertTrue(terrs.contains(TerritoryEnum.NORTH_AFRICA));
     assertTrue(terrs.contains(TerritoryEnum.NORTH_AFRICA));
 
   }
@@ -45,16 +52,16 @@ public class AfricaTest {
   @Test
   public void testGetBonusValue() {
     Africa cont = new Africa();
-    assertTrue(cont.getBonusValue() == 2);
+    assertTrue(cont.getBonusValue() == 3);
   }
 
   /**
-   * Tests getContinentId returns SOUTH_AMERICA.
+   * Tests getContinentId returns AFRICA.
    */
   @Test
   public void testGetContinentId() {
     Africa cont = new Africa();
-    assertTrue(cont.getContinentId() == ContinentEnum.SOUTH_AMERICA);
+    assertTrue(cont.getContinentId() == ContinentEnum.AFRICA);
   }
 
   /**
@@ -65,8 +72,10 @@ public class AfricaTest {
   public void testContainsTerritory() {
     Africa cont = new Africa();
     Set<TerritoryEnum> territories = new HashSet<>();
-    territories.addAll(Arrays.asList(TerritoryEnum.VENEZUELA,
-        TerritoryEnum.BRAZIL, TerritoryEnum.PERU, TerritoryEnum.ARGENTINA));
+    territories
+        .addAll(Arrays.asList(TerritoryEnum.EGYPT, TerritoryEnum.NORTH_AFRICA,
+            TerritoryEnum.EAST_AFRICA, TerritoryEnum.SOUTH_AFRICA,
+            TerritoryEnum.CENTRAL_AFRICA, TerritoryEnum.MADAGASCAR));
     TerritoryEnum[] terrs = TerritoryEnum.values();
     for (int i = 0; i < terrs.length; i++) {
       if (territories.contains(terrs[i])) {
