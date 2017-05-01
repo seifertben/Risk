@@ -145,8 +145,8 @@ function slideshow(){
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
         body.css('background-image', imageList[now]);
-        body.fadeIn(3000);
-        body.fadeOut(3000);
+        body.fadeIn(1000);
+        setTimeout(function(){body.fadeOut(1000)}, 4000);
         //$("#nameField").fadeIn(6000);
     }
 }   
@@ -313,7 +313,23 @@ function createPlayer(number) {
 		currDiv.append(text);
 		$("#n").append(currDiv);
 		document.getElementById(string).style.backgroundColor = colors[players[i]];
+    document.getElementById(string).style.font = "bold 12px/30px Georgia, serif";
+    document.getElementById(string).style.color = "white";
+    document.getElementById(string).style.cursor = "pointer";
+
+    document.getElementById(string).onmouseover = function() {
+      document.getElementById(string).style.backgroundColor = "black";
+      document.getElementById(string).style.transition = "all 1s";
+    }
+    document.getElementById(string).onmouseout = function() {
+      document.getElementById(string).style.backgroundColor = colors[players[i]];
+      document.getElementById(string).style.transition = "all 1s";
 	}
+
+  document.getElementById(string).onclick = function() {
+      window.alert("sometext");
+  }
+}
 }
 
 function attackStatus() {
