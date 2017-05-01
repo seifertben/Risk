@@ -136,8 +136,11 @@ function confirmDice() {
 	}
 }
 function turnInCards() {
+	console.log("here");
 	$('#cards li').each(function() {
 		if (this.style.borderStyle === "solid") {
+			console.log(this.attr("class"));
+			console.log("in loop");
 			this.remove();
 		}
     //this now refers to each li
@@ -294,14 +297,14 @@ function hideAll() {
 function addcard(number) {
 	let card;
 	if (number ===1) {
-		card = $("<li class = 'card'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+		card = $("<li class = 'card one'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 		card.attr("id", cardID.toString());
 		cardID++;		
 	  $('#cards').append(card);
 	  console.log(card.attr('id'));
     }
     if (number ===2) {
-    	card = $("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+    	card = $("<li class = 'card two' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 			card.attr("id", cardID.toString());
 			  console.log(card.attr('id'));
 		cardID++;  
