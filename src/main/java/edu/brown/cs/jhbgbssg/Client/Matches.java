@@ -48,7 +48,7 @@ public class Matches {
 
   /**
    * Connect a player and update their match list.
-   * 
+   *
    * @param session Player session.
    * @throws IOException When there is a connection error.
    */
@@ -242,8 +242,9 @@ public class Matches {
   }
 
   /**
-   * Starts the match that a given player is in
-   * 
+   * Starts the match that a given player is in.
+   *
+   * @param match - game match
    * @throws IOException When there is an error sending an update message to
    *           players.
    */
