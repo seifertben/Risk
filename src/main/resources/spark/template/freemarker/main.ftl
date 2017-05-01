@@ -19,8 +19,11 @@
 
   </head>
   <body>
-
+  <div id = 'background'>
+  <div id = 'white'>
      ${content}
+     </div>
+       </div>
      <!-- Again, we're serving up the unminified source for clarity. -->
 
      <script src="js/map.js"></script>
