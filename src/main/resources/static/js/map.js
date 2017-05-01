@@ -1278,7 +1278,7 @@ function select_territory(event) {
       }
     }
   }
-}
+
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
