@@ -46,6 +46,9 @@ let cardID = 0;
 let start = false;
 let prevMessage = undefined;
 let body = $('#background');
+addcard(1);
+addcard(2);
+addcard();
 
  // "url('')"
  let now = 0;
@@ -84,8 +87,7 @@ setInterval(slideshow, 6000);
 //	replaceTransferListField();
 //	//changePlayerImage(player2, "white", "blue");
 //
-//	addcard(2);
-//	addcard(1);
+	
 //	  // populateTransferList(10);
 //	// addcard();
 //	// addcard();
@@ -93,7 +95,6 @@ setInterval(slideshow, 6000);
 //	$("#transferconfirm").on("click", confirmTransfer);
 	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
-	$("#turnInCards").on( "click", turnInCards);
 	$('.card').click(function() {
 	if (this.style.borderStyle !== "solid") {
    this.style.borderStyle = "solid";
@@ -127,7 +128,9 @@ function confirmDice() {
 	}
 }
 function turnInCards() {
+	console.log("Hi");
 	$('#cards li').each(function() {
+		console.log(this.className);
 		if (this.style.borderStyle === "solid") {
 			this.remove();
 		}
@@ -178,6 +181,7 @@ function setUp () {
 //	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 //	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+	   	$("#turnInCards").on( "click", turnInCards);
        
  	   hideAll();
 //	   changeAttackStatus("Player 1", "Player 2", "Russia");
@@ -285,14 +289,14 @@ function hideAll() {
 function addcard(number) {
 	let card;
 	if (number ===1) {
-		card = $("<li class = 'card'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+		card = $("<li class = 'card one'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 		card.attr("id", cardID.toString());
 		cardID++;		
 	  $('#cards').append(card);
 	  console.log(card.attr('id'));
     }
     if (number ===2) {
-    	card = $("<li class = 'card' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+    	card = $("<li class = 'card two' ><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 			card.attr("id", cardID.toString());
 			  console.log(card.attr('id'));
 		cardID++;  
