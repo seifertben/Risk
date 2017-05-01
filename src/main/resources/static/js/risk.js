@@ -150,6 +150,7 @@ function setUp () {
 	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
 	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
+	document.getElementById("skip").onclick = skip_phase;
 //	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 //	$sideNav.append($( "<ul id = 'blackRoll'>"));
 //	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
