@@ -358,9 +358,9 @@ public class Referee {
     MoveType type = validMove.getMoveType();
     if (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
         || type == MoveType.MOVE_TROOPS) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   protected ValidAction getActionAfterSkip() {
