@@ -396,6 +396,11 @@ const setup_matches = () => {
               document.getElementById("confirm").onclick = claim_terr;
             }
             break;
+          case MOVE_TYPES.MOVE_TROOPS:
+        	document.getElementById("phase").innerHTML = "Prepare for Battle!";
+        	if (data.playerId == myId) {
+        	  document.getElementById("phase").innerHTML = "Move Your Troops!";
+        	}
         }
         break;
     }
