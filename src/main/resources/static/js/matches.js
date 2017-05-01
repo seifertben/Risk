@@ -130,6 +130,8 @@ const setup_matches = () => {
             idToName[data.player5id] = data.player5name;
             colors[data.player5id] = "yellow";
         }
+        start = true;
+        $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
 
