@@ -157,7 +157,7 @@
       /*position: absolute;*/
   }
   div[id="enter"] {
-      /*position: absolute;*/
+      position: relative;
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
@@ -173,9 +173,8 @@
       margin: 0% 40%;
   }
   div[id="wrapper"] {
-      display: inline-block;
+      /*display: inline-block;*/
       width: 2400px;
-      height: 400px;
       margin: 0% 25%;
   }
   div[id="gameField"] {
