@@ -1293,10 +1293,12 @@ function reset_attack() {
 }
 
 function reset_move_troops() {
-  document.getElementById("numberTroopsToMove").remove();
+  if (document.getElementById("numberTroopsToMove") != null) { 
+      document.getElementById("numberTroopsToMove").remove();
+  }
   moveFrom = null;
   moveTo = null;
-  moveables = null;
+  moveables = [];
 }
 
 
