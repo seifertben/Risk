@@ -64,13 +64,22 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 , "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')"];
 slideshow();
 const sendMessage = event => {
-	console.log(event);
 	if (event !==undefined) {
-	event.preventDefault();
-}
+	  event.preventDefault();
+    }
     let  message = $('#messageField').val();
-    console.log("f");
-    console.log(message);
+    if (message.includes("<script>") || message.includes("</script>")) {
+      message = "HAXORZ";
+    }
+    if (message.includes("fuck")) {
+      message.replace("fuck", "****")
+    }
+    if (message.includes("shit")) {
+      message.replace("shit", "****")
+    }
+    if (message.includes("ass")) {
+      message.replace("ass", "***")
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
