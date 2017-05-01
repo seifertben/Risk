@@ -212,7 +212,7 @@ public class DefendAction implements Action {
     }
     Territory attackTerr = board.getTerritory(attack.getAttackingTerritory());
     Territory defendTerr = board.getTerritory(attack.getDefendingTerritory());
-    assert (!attackTerr.removeTroops(attackTroopsLost));
+    attackTerr.removeTroops(attackTroopsLost);
     defenderLostTerritory = defendTerr.removeTroops(defendTroopsLost);
     troopsDefendLost = Integer.valueOf(defendTroopsLost);
     troopsAttackLost = Integer.valueOf(attackTroopsLost);

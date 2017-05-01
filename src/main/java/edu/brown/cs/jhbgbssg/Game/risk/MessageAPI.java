@@ -55,7 +55,7 @@ public class MessageAPI {
   }
 
   /**
-   * Returns the type of move encoded by the JsonObject.
+   * Determines and returns the MoveType encoded by the JsonObject.
    *
    * @param received - json object
    * @return the MoveType
@@ -70,7 +70,7 @@ public class MessageAPI {
   }
 
   /**
-   * Gets the player id.
+   * Determines and returns the player id encoded by the JsonObject.
    *
    * @param object - json object
    * @return player id
@@ -80,7 +80,8 @@ public class MessageAPI {
   }
 
   /**
-   * Returns a pair of attacking and defending territories.
+   * Determines and returns as a pair the attacking and defending territories
+   * encoded by the JsonObject.
    *
    * @param object - json object.
    * @return attacking and defending territory pair
@@ -101,7 +102,8 @@ public class MessageAPI {
   }
 
   /**
-   * Returns a pair of attacking and claiming territories.
+   * Determines and returns as a pair the attacking and claiming territories
+   * encoded by the JsonObject.
    *
    * @param object - json object
    * @return attacking and claiming territory
@@ -121,7 +123,8 @@ public class MessageAPI {
   }
 
   /**
-   * Returns a pair territories that troops are moved to and from.
+   * Determines and returns as a pair of the territories troops are moved from
+   * and to encoded by the JsonObject.
    *
    * @param object - json object
    * @return pair of territories
@@ -141,7 +144,7 @@ public class MessageAPI {
   }
 
   /**
-   * Gets number of die rolled.
+   * Determines and returns the number of die to roll.
    *
    * @param object - json object
    * @return number of die to roll
@@ -156,7 +159,7 @@ public class MessageAPI {
   }
 
   /**
-   * Gets number of troops to move.
+   * Determines and returns the number of troops to move.
    *
    * @param object - json object
    * @return number of troops to move
@@ -171,7 +174,7 @@ public class MessageAPI {
   }
 
   /**
-   * Gets the cards turned in.
+   * Determines and returns the cards handed in.
    *
    * @param object - json object
    * @return card to turn in
@@ -188,7 +191,7 @@ public class MessageAPI {
   }
 
   /**
-   * Gets the selected territory.
+   * Determines and returns the selected territory.
    *
    * @param object - json object
    * @return selected territory
@@ -480,7 +483,7 @@ public class MessageAPI {
    */
   private JsonObject setUpSetupReinforceMove(ValidSetupReinforceAction move) {
     Set<TerritoryEnum> terrs = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
+    Collection<Integer> ordTerrs = this.getOrdinalCollection(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.SETUP_REINFORCE.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
@@ -497,7 +500,7 @@ public class MessageAPI {
    */
   private JsonObject setUpReinforceNormalMove(ValidReinforceAction move) {
     Set<TerritoryEnum> terrs = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(terrs);
+    Collection<Integer> ordTerrs = this.getOrdinalCollection(terrs);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.REINFORCE.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
@@ -514,7 +517,7 @@ public class MessageAPI {
    */
   private JsonObject setUpMove(ValidSetupAction move) {
     List<TerritoryEnum> territories = move.getTerritories();
-    Collection<Integer> ordTerrs = this.getOrdinalSet(territories);
+    Collection<Integer> ordTerrs = this.getOrdinalCollection(territories);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("moveType", MoveType.SETUP.ordinal());
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
@@ -625,6 +628,14 @@ public class MessageAPI {
     return ordMap;
   }
 
+  /**
+   * Converts a Map with TerritoryEnum keys and Collection of TerritoryEnums as
+   * values into a Map of of Integer keys and Collection of Integers keys in
+   * which the integers are the ordinal values of the TerritoryEnums.
+   *
+   * @param map - map to convert
+   * @return - converted map
+   */
   private Map<Integer, Collection<Integer>> getOrdinalCollectionMap(
       Map<TerritoryEnum, Collection<TerritoryEnum>> map) {
     Map<Integer, Collection<Integer>> ordMap = new HashMap<>();
@@ -639,11 +650,19 @@ public class MessageAPI {
     return ordMap;
   }
 
-  private Collection<Integer> getOrdinalSet(Collection<TerritoryEnum> set) {
-    List<Integer> ordSet = new ArrayList<>();
-    for (TerritoryEnum terr : set) {
-      ordSet.add(terr.ordinal());
+  /**
+   * Converts a collection of TerritoryEnums into a collection of Integers where
+   * each integer is an ordinal value of the territory.
+   *
+   * @param set
+   * @return
+   */
+  private Collection<Integer> getOrdinalCollection(
+      Collection<TerritoryEnum> terrCollection) {
+    List<Integer> ordCollection = new ArrayList<>();
+    for (TerritoryEnum terr : terrCollection) {
+      ordCollection.add(terr.ordinal());
     }
-    return ordSet;
+    return ordCollection;
   }
 }
