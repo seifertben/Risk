@@ -146,7 +146,7 @@ const setup_matches = () => {
       }
 
       //Set name message for header.
-      let h1 = document.getElementsByTagName('h1').item(0);
+      let h1 = document.getElementById("inGame");
       h1.innerHTML += ", " + myName;
 
 
@@ -413,6 +413,7 @@ const setup_matches = () => {
              confirm.id = "confirm";
              confirm.innerHTML = "Confirm Troop Movements";;
              document.getElementById("n").appendChild(confirm);
+             phase = "move_troops";
              $("#resetMoveTroops").show();
              $("#skip").show();
              terrToReachableTerrs = JSON.parse(data.canMove);

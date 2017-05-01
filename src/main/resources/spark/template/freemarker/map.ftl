@@ -10,7 +10,7 @@
     </div>
   	<div id="centerDiv" class="col-sm-8 text-left">
 
-  	  <h1>Welcome to Risk</h1>
+  	  <h1 id="inGame">Welcome to Risk</h1>
   	  <hr>
   	  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
   	  <script src="https://www.amcharts.com/lib/3/ammap.js"></script>

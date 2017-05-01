@@ -278,7 +278,6 @@ function hideAll() {
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
  	$("#resetMoveTroops").hide();
-
     document.getElementById("attacking").style.display = "none";
 }
 

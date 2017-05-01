@@ -18,7 +18,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-//import edu.brown.cs.jhbgbssg.Game.risk.RiskGame;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -197,6 +196,12 @@ public class Match {
     }
   }
 
+  /**
+   * Given a move made by a player in this match,
+   * return a 
+   * @param received
+   * @return
+   */
   public List<JsonObject> getUpdate(JsonObject received) {
     synchronized (this) {
       try {
