@@ -18,7 +18,8 @@
 </style>
 </head>
 <body>
-<audio autoplay="true" src="https://ia801000.us.archive.org/21/items/RichardWagnerTheRideOfTheValkyriesFromApocalypseNow/Richard%20Wagner%20-%20The%20Ride%20of%20the%20Valkyries%20(From%20Apocalypse%20Now).mp3">
+<button type = 'button' id = 'homeMute' class='btn btn-success'> Mute</button>
+<audio  id = "mainMenuMusic" loop autoplay="true" src="https://ia801000.us.archive.org/21/items/RichardWagnerTheRideOfTheValkyriesFromApocalypseNow/Richard%20Wagner%20-%20The%20Ride%20of%20the%20Valkyries%20(From%20Apocalypse%20Now).mp3">
 </audio>
 
 
