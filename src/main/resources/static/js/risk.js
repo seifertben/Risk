@@ -115,8 +115,11 @@ function slideshow(){
 	console.log('in!');
 	let body = $('#background');
 	console.log(imageList.length);
-	 now = (now+1) % (imageList.length) ;
-        body.css('background-image', imageList[now]);
+	now = (now+1) % (imageList.length);
+	body.fadeOut(6000);
+    body.css('background-image', imageList[now]);
+   	body.fadeIn(6000);
+
 }   
 
 function setUp () {
