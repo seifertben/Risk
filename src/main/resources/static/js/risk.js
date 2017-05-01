@@ -61,7 +61,8 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 "url('http://www.britishbattles.com/wp-content/uploads/2017/02/Charge_of_the_French_Cuirassiers_at_Waterloo-Henri-F%C3%A9lix-Emmanuel-Philippoteaux.jpg')", 
 , ,"url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://francoprussianwar.com/prus-cav-charge.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
 "url('http://i.imgur.com/raE3EQw.jpg')", "url('http://i2.cdn.cnn.com/cnnnext/dam/assets/140828132531-01-world-war-ii-0828-horizontal-large-gallery.jpg')"
-, "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')"];
+, "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')", "url('https://vignette1.wikia.nocookie.net/fallout/images/0/03/Vietnam_War.jpg/revision/latest?cb=20150425225428')", "url('https://upload.wikimedia.org/wikipedia/commons/0/04/USAF_F-16A_F-15C_F-15E_Desert_Storm_edit2.jpg')"
+, "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
 slideshow();
 const sendMessage = event => {
 	if (event !==undefined) {
@@ -155,8 +156,8 @@ function slideshow(){
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
         body.css('background-image', imageList[now]);
-        //body.fadeIn(3000);
-        //body.fadeOut(3000);
+        body.fadeIn(3000);
+        body.fadeOut(3000);
         //$("#nameField").fadeIn(6000);
     }
 }   
