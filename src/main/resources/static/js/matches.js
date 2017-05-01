@@ -418,9 +418,11 @@ const setup_matches = () => {
              $("#skip").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
-              for (ter in terrToMaxTroopsMove) {
-                availableForClaim.push(ter);
+             for (ter in terrToMaxTroopsMove) {
+              availableForClaim.push(ter);
               }
+              console.log(availableForClaim);
+            document.getElementById("confirm").onclick = move_troops;
         	}
         }
         break;
@@ -461,7 +463,10 @@ function attack_territory() {
 }
 
 function move_troops() {
+  console.log(moveFrom);
+  console.log(moveTo);
   if (moveFrom != null && moveTo & null) {
+    console.log("here");
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
       "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
       "troopsToMove": document.getElementById("numberTroopsToMove").value};

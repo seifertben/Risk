@@ -1263,6 +1263,7 @@ function select_territory(event) {
           let sideNav = $("#n");
           let troops = "";
           let maxTroops = 0;
+          console.log(moveFrom);
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
               maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
@@ -1273,9 +1274,10 @@ function select_territory(event) {
           sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
+           console.log(moveTo);
         }
       } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
-        moveFrom = event.mapObject.id;
+        moveTo = event.mapObject.id;
       }
     }
   }
