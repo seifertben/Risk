@@ -1269,7 +1269,7 @@ function select_territory(event) {
               maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
             }
           }
-          sideNav.append(<"select id='numberTroopsToMove'>" + maxTroops + "</select>");
+          sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
         }
