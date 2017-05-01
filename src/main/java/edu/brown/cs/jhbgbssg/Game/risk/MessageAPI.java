@@ -547,9 +547,9 @@ public class MessageAPI {
    * @return
    */
   private JsonObject setUpAttackMove(ValidAttackAction move) {
-    move.whoToAttack();
-    Map<TerritoryEnum, Integer> numberDie = move.getAttackableTerritories();
-    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack = move.whoToAttack();
+    Map<TerritoryEnum, Integer> numberDie = move.getTerrioryMaxDie();
+    Multimap<TerritoryEnum, TerritoryEnum> whoToAttack =
+        move.getTerritoriesCanAttack();
     Map<Integer, Integer> ordDie = this.getOrdinalMap(numberDie);
     Map<Integer, Collection<Integer>> attackOrd =
         this.getOrdinalCollectionMap(whoToAttack.asMap());

@@ -432,7 +432,7 @@ public class Referee {
       return false;
     }
     ValidAttackAction validAttack = (ValidAttackAction) validMove;
-    if (validAttack.validAttackMove(move)) {
+    if (validAttack.isValidAttackAction(move)) {
       lastAttack = move;
       return true;
     }
