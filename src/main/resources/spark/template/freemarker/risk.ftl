@@ -1,6 +1,7 @@
-<#assign content>
+﻿<#assign content>
 <div id="nameField">
   <form id="nameForm">
+    <h1>Welcome to Risk!</h1><br>
     <h2>Please Enter a Name</h2><br>
     <input type="text" autocomplete="off" id="nameInput"></text>
   </form>
