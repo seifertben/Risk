@@ -45,6 +45,8 @@ const TerritoryEnum = {
 let cardID = 0;
 let start = false;
 let prevMessage = undefined;
+let body = $('#background');
+
  // "url('')"
  let now = 0;
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')", "url('http://www.imgbase.info/images/safe-wallpapers/miscellaneous/historical/42834_historical_medieval_battle.jpg')",
@@ -128,14 +130,14 @@ function changePlayerImage(id, backgroundColor, color) {
 }
 function slideshow(){
 	console.log('in!');
-	let body = $('#background');
 	console.log(imageList.length);
 	if (!start) {
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
-	 	// body.fadeOut(6000);
         body.css('background-image', imageList[now]);
-        // body.fadeIn(6000);
+        body.fadeIn(3000);
+        body.fadeOut(3000);
+        //$("#nameField").fadeIn(6000);
     }
 }   
 
