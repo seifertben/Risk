@@ -400,11 +400,12 @@ function getMessage(player, message) {
     count = 0;
     blink("li:last-child");
     prevMessage = $li;
+
+    $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
 }
 
 //listen for enter on messaging.
 document.querySelector("#messageField").addEventListener("keyup", function (e) {
-	console.log("Hi");
     let key = e.keyCode;
     console.log(key);
     if (key === 13) { 

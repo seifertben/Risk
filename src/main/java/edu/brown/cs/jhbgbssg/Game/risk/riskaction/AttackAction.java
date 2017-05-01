@@ -9,7 +9,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Represents an attack.
+ * Represents a risk attack action.
  *
  * @author sarahgilmore
  *
