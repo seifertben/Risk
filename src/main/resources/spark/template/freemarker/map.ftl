@@ -19,6 +19,20 @@
   <div class="col-sm-2 sidenav" id="n">
   <div id="playerList"></div>
   </div>
+
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" id = "closer">&times;</span>
+    <p id = "datadump"></p>
+    <p id = "territories"></p><br />
+    <p id = "continents"></p><br />
+    <p id = "totaltroops"></p><br />
+  </div>
+
+</div>
 </div>
 <footer class="container-fluid text-center" id="bottom">
 <ul id="cards">
