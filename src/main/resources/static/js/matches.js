@@ -411,16 +411,18 @@ const setup_matches = () => {
         	   document.getElementById("phase").innerHTML = "Move Your Troops!";            
              let confirm = document.createElement("BUTTON");
              confirm.id = "confirm";
-             confirm.innerHTML = "Confirm Troop Movements";;
+             confirm.innerHTML = "Confirm Troop Movements";
              document.getElementById("n").appendChild(confirm);
              phase = "move_troops";
              $("#resetMoveTroops").show();
              $("#skip").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
-              for (ter in terrToMaxTroopsMove) {
-                availableForClaim.push(ter);
+             for (ter in terrToMaxTroopsMove) {
+              availableForClaim.push(ter);
               }
+              console.log(availableForClaim);
+            document.getElementById("confirm").onclick = move_troops;
         	}
         }
         break;
@@ -461,7 +463,10 @@ function attack_territory() {
 }
 
 function move_troops() {
-  if (moveFrom != null && moveTo & null) {
+  console.log(moveFrom);
+  console.log(moveTo);
+  if (moveFrom != null && moveTo != null) {
+    console.log("here");
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
       "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
       "troopsToMove": document.getElementById("numberTroopsToMove").value};
@@ -477,6 +482,7 @@ function move_troops() {
 const skip_phase = event => {
   event.preventDefault();
   if (phase == "turnin" || phase == "moveTroops" || phase == "attacking") {
+	availableForClaim = [];
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
     if (document.getElementById("attack") != null) {
