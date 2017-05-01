@@ -192,14 +192,29 @@ const setup_matches = () => {
             + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost + " Troop(s)<br> <b>"
             + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + " Troop(s)<br>";
             if (data.defenderLostTerritory) {
-              document.getElementById("prevMove").innerHTML = 
-            	  "<b>" + idToName[data.attacker] + "</b> has Claimed " + idToData[data.defendTerritory].name + "!<br>";
+              if (data.attacker == myId) {
+                document.getElementById("prevMove").innerHTML = 
+                  "<b>You</b> have Claimed " + idToData[data.defendTerritory].name + "!<br>";
+              } else {
+                document.getElementById("prevMove").innerHTML = 
+                  "<b>" + idToName[data.attacker] + "</b> has Claimed " + idToData[data.defendTerritory].name + "!<br>";
+              }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
-              document.getElementById("prevMove").innerHTML = 
-              	  "<b>" + idToName[data.attacker] + "</b> Lost the Battle!<br>";
+              if (data.attacker == myId) {
+                document.getElementById("prevMove").innerHTML = 
+                    "<b>You</b> Lost the Battle!<br>";
+              } else {
+                document.getElementById("prevMove").innerHTML = 
+                    "<b>" + idToName[data.attacker] + "</b> Lost the Battle!<br>";
+              }
             } else {
-              document.getElementById("prevMove").innerHTML = 
-                  "<b>" + idToName[data.attacker] + "</b> Won the Battle!<br>";
+                if (data.attacker == myId) {
+                    document.getElementById("prevMove").innerHTML = 
+                        "<b>You</b> Won the Battle!<br>";
+                  } else {
+                    document.getElementById("prevMove").innerHTML = 
+                        "<b>" + idToName[data.attacker] + "</b> Won the Battle!<br>";
+                  }
             }
             changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
                     idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);
@@ -328,6 +343,7 @@ const setup_matches = () => {
               $("#attack").show();
               document.getElementById("attack").onclick = attack_territory;
               $("#resetAttackMove").show();
+              $("#skip").show();
               map.addListener("clickMapObject", select_territory);
             } else {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -380,6 +396,11 @@ const setup_matches = () => {
               document.getElementById("confirm").onclick = claim_terr;
             }
             break;
+          case MOVE_TYPES.MOVE_TROOPS:
+        	document.getElementById("phase").innerHTML = "Prepare for Battle!";
+        	if (data.playerId == myId) {
+        	  document.getElementById("phase").innerHTML = "Move Your Troops!";
+        	}
         }
         break;
     }
@@ -413,13 +434,14 @@ function attack_territory() {
     document.getElementById("attacking").style.display = "none";
     document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("diceChoice").remove();
+    availableForClaim = [];
     conn.send(JSON.stringify(mess));
   }
 }
 
 const skip_phase = event => {
   event.preventDefault();
-  if (phase == "turnin" || phase == "moveTroops") {
+  if (phase == "turnin" || phase == "moveTroops" || phase == "attacking") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     conn.send(JSON.stringify(mess));
   }

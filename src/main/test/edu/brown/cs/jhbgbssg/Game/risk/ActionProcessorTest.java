@@ -27,10 +27,11 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import java.util.UUID;
 
 public class ActionProcessorTest {
-  
+
   private RiskActionProcessor processor;
-  private RiskPLayer player;
+  private RiskPlayer player;
   private RiskBoard board;
+
   /**
    * Construct the ActionProcessorTest.
    */
@@ -38,24 +39,24 @@ public class ActionProcessorTest {
    processor = new RiskActionProcessor();
    board = new RiskBoard();
    UUID id = new UUID(0, 1);
-   pkayer = new RiskPlayer(id)
+   player = new RiskPlayer(id)
   }
-  
+
   @Test
   public void testSetupAction() {
-   SetupAction action = new SetupAction(player, board,
-       TerritoryEnum.NORTHWEST_TERRITORY);
-   ValidSetupAction validAction = new ValidSetupAction(player, board);
-   GameUpdate update = processor.processSetupAction(action);
-   boolean test = validAction.validSetupMove(action);
-   assertTrue(test);
-   SetupAction actionAfter = new SetupAction(player, board,
-       TerritoryEnum.NORTHWEST_TERRITORY);
-   boolean test = validAction.validSetupMove(actionAfter);
-   assertFalse(test);
-   assertNotNull(update.getPrevMove());
+    SetupAction action =
+        new SetupAction(player, board, TerritoryEnum.NORTHWEST_TERRITORY);
+    ValidSetupAction validAction = new ValidSetupAction(player, board);
+    GameUpdate update = processor.processSetupAction(action);
+    boolean test = validAction.validSetupMove(action);
+    assertTrue(test);
+    SetupAction actionAfter =
+        new SetupAction(player, board, TerritoryEnum.NORTHWEST_TERRITORY);
+    boolean test = validAction.validSetupMove(actionAfter);
+    assertFalse(test);
+    assertNotNull(update.getPrevMove());
   }
-  
+
   @Test
   public void testSetupReinforceAction() {
     SetupReinforceAction action = new SetupReinforceAction(player, board,
@@ -70,67 +71,71 @@ public class ActionProcessorTest {
     test = validAction.validSetupReinforceMove(actionAfter);
     assertFalse(test);
   }
-  
+
   @Test
   public void testReinforceAction() {
     Map<TerritoryEnum, Integer> reinforcedTerritories = new HashMap<>();
     reinforcedTerritories.put(TerritoryEnum.ARGENTINA, 1);
-    ReinforceAction action = new ReinforceAction(player, board, reinforcedTerritories);
-    ValidReinforceAction validAction = new ValidReinforceAction(player, board, null);
+    ReinforceAction action =
+        new ReinforceAction(player, board, reinforcedTerritories);
+    ValidReinforceAction validAction =
+        new ValidReinforceAction(player, board, null);
     boolean test = validAction.validReinforceMove(action);
     assertTrue(test);
     GameUpdate update = processor.processReinforceAction(action);
   }
-  
+
   @Test
   public void testCardTurnIn() {
     Map<TerritoryEnum, Integer> territoriesReinforced = new HashMap<>();
     territoriesReinforced.put(TerritoryEnum.ALASKA, 1);
-    CardTurnInAction action = new CardTurnInAction(player, board, 1,
-        territories);
+    CardTurnInAction action =
+        new CardTurnInAction(player, board, 1, territories);
     ValidCardAction validAction = new ValidCardAction(player);
     boolean test = validAction.validateCardMove(action);
     assertTrue(test);
-    GameUpdate update = processor.processCardTurnInAction(action); 
+    GameUpdate update = processor.processCardTurnInAction(action);
   }
-  
+
   @Test
   public void testAttackAction() {
-    AttackAction action = new AttackAction(player, TerritoryEnum.CHINA,
-        TerritoryEnum.JAPAN, 1);
+    AttackAction action =
+        new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
     ValidAttackAction validAttack = new ValidAttackAction(player, board);
     boolean test = validAttack.validAttackMove(action);
     assertTrue(test);
     GameUpdate update = processor.processAttackAction(action);
   }
-  
+
   @Test
   public void testDefendAction() {
-    AttackAction attack = new AttackAction(player, TerritoryEnum.CHINA,
-        TerritoryEnum.JAPAN, 1);
-    DefendAction action = new DefendAction(player, board, attack,
-        2);
+    AttackAction attack =
+        new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
+    DefendAction action = new DefendAction(player, board, attack, 2);
     ValidAttackAction validAttack = new ValidAttackAction(player, board);
-    ValidDieDefendAction validDefend = new ValidDieDefendAction(player, board, TerritoryEnum.MONGOLIA);
+    ValidDieDefendAction validDefend =
+        new ValidDieDefendAction(player, board, TerritoryEnum.MONGOLIA);
     GameUpdate update = processor.processDefendAction(action);
   }
-  
+
   @Test
   public void testClaimTerritory() {
-    AttackAction attack = new AttackAction(player, TerritoryEnum.CHINA,
-        TerritoryEnum.JAPAN, 1);
+    AttackAction attack =
+        new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
     ClaimTerritoryAction action = new ClaimTerritoryAction(player, board,
         TerritoryEnum.BRAZIL, TerritoryEnum.CENTRAL_AMERICA, 1);
-    ValidCalimTerritoryAction validAction = new ValidClaimTerritoryAction(player, board, attack);
+    ValidCalimTerritoryAction validAction =
+        new ValidClaimTerritoryAction(player, board, attack);
     GameUpdate update = processor.processClaimTerritoryAction(action);
   }
-  
+
   @Test
   public void testMoveTroops() {
-    MoveTroopsAction action = new MoveTroopsAction(player, board, TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 1);
+    MoveTroopsAction action = new MoveTroopsAction(player, board,
+        TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 1);
     GameUpdate update = processor.processMoveTroopsAction(action);
   }
-  
+
   @Test
   public void testSkipAction() {
     processor.processSkipAction(player);
