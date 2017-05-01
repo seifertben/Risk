@@ -378,6 +378,12 @@ z-indexwebkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   background: rgba(0, 0, 0, 0.5);
 }
 
+#nameField {
+    position:relative;
+    z-index:1;
+    opacity: 1;
+}
+
 
 
 
