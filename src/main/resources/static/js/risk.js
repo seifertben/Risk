@@ -51,7 +51,7 @@ addcard(1);
 addcard(2);
 // addcard();
  let now = -1;
-=
+
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/53/2c/22/532c224459ada029dfb2db7be6165cde.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
@@ -106,7 +106,7 @@ setInterval(slideshow, 6000);
 	changeMusicStatus();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
-<<<<<<< HEAD
+
 	$('.card').click(function() {
 	if (this.style.borderStyle !== "solid") {
    this.style.borderStyle = "solid";
@@ -134,10 +134,8 @@ setInterval(slideshow, 6000);
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
-=======
 	$('.card').on("click", clickOnCard);
 	
->>>>>>> 13eada874ef91f723bb119d7f0d40c0ab68016b2
 	function resetTransfer() {
 		
 	}
