@@ -194,6 +194,12 @@ const setup_matches = () => {
             if (data.defenderLostTerritory) {
               document.getElementById("prevMove").innerHTML = 
             	  "<b>" + idToName[data.attacker] + "</b> has Claimed " + idToData[data.defendTerritory].name + "!<br>";
+            } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
+              document.getElementById("prevMove").innerHTML = 
+              	  "<b>" + idToName[data.attacker] + "</b> Lost the Battle!<br>";
+            } else {
+              document.getElementById("prevMove").innerHTML = 
+                  "<b>" + idToName[data.attacker] + "</b> Won the Battle!<br>";
             }
             changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
                     idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);

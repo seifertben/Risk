@@ -34,11 +34,11 @@
     display: block;
    }*/
    #messageField {
-   /*position: absolute;*/
+   position: relative;
    display: inline-block;
    width: 100%;
    }
-   
+
     .w3-container-w3-blue {
       background-color: blue;
     }
@@ -122,7 +122,6 @@
       padding: 10px;
       border: 2px solid black;
       overflow-y: scroll;
-      float: center;
   }
   div[id="chatting"] {
       display: inline-block;
@@ -175,6 +174,7 @@
   }
   div[id="gameField"] {
       display: none;
+      width: 100%;
   }
   div[id="menuField"] {
   	  display: none;

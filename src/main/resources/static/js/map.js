@@ -1285,7 +1285,8 @@ const remove_troop = event => {
   if (phase == "reinforce" && bolstering != null && placed > 0) {
     if (terToPlace.get(bolstering) == null) {
       terToPlace.set(bolstering, 0);
-    } else if (terToPlace.get(bolstering) == 0) {
+    } 
+    if (terToPlace.get(bolstering) == 0) {
       return;
     }
     terToPlace.set(bolstering, terToPlace.get(bolstering) - 1);
