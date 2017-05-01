@@ -24,10 +24,12 @@
 
 <div style="z-index: 2;">
 ${content}
+
 </div>
 </div>
 
 </div>
+
 
 <script src="js/map.js"></script>
 <script src="js/matches.js"></script>

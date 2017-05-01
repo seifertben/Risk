@@ -351,7 +351,12 @@ public class RiskActionProcessor {
           referee.emptyCardDeck());
       cardToHandOut = -1;
     }
-    ValidAction action = referee.switchPlayer(prevMove);
+    ValidAction action;
+    if (prevMove == null) {
+      action = referee.switchPlayersAfterSkip();
+    } else {
+      action = referee.switchPlayer(prevMove);
+    }
     update.setValidMoves(action, prevMove, false);
     update.playerChanged();
     return update;

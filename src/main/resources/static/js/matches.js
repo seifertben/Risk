@@ -58,9 +58,14 @@ let attackTo;
 let terToDie;
 let terToTar;
 let attackables;
+let moveables;
 let defending;
 let claimed;
 let claimedFrom;
+let terrToReachableTerrs;
+let terrToMaxTroopsMove;
+let moveFrom;
+let moveTo;
 
 const setup_matches = () => {
 
@@ -141,7 +146,7 @@ const setup_matches = () => {
       }
 
       //Set name message for header.
-      let h1 = document.getElementsByTagName('h1').item(0);
+      let h1 = document.getElementById("inGame");
       h1.innerHTML += ", " + myName;
 
 
@@ -227,6 +232,11 @@ const setup_matches = () => {
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
         			idToData[data.claimedFrom], colors[data.movePlayer], colors[data.movePlayer]);
         	break;
+          case MOVE_TYPES.MOVE_TROOPS:
+            changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
+              idToData[data.moveFrom], colors[data.movePlayer], colors[data.movePlayer]);
+            changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
+              idToData[data.moveTo], colors[data.movePlayer], colors[data.movePlayer]);
         }
         break;
 
@@ -281,51 +291,50 @@ const setup_matches = () => {
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
         	if (data.playerId == myId) {
-              document.getElementById("turn").style.fontWeight = "bold";
-              document.getElementById("turn").innerHTML = "Your Turn";
+            document.getElementById("turn").style.fontWeight = "bold";
+            document.getElementById("turn").innerHTML = "Your Turn";
         	  document.getElementById("bolsters").style.display = "inline";  
-              document.getElementById("phase").innerHTML = "Prepare for Battle!";
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	  document.getElementById("bolsters").style.display = "inline";  
-              let reinforcer = document.createElement("BUTTON");
-              let deinforcer = document.createElement("BUTTON");
-              let confirm = document.createElement("BUTTON");
-              selecting.innerHTML = "Select A Territory to Reinforce";
-              reinforcer.id = "reinforcer";
-              deinforcer.id = "deinforcer";
-              reinforcer.innerHTML = "Place a Troop";
-              deinforcer.innerHTML = "Recall a Troop";
-              confirm.id = "confirm";
-              confirm.innerHTML = "Confirm Placements";
-              document.getElementById("n").appendChild(selecting);
-           	  document.getElementById("n").appendChild(reinforcer);
-              document.getElementById("n").appendChild(deinforcer);
-              document.getElementById("n").appendChild(confirm);
-              reinforcer.onclick = place_troop;
-              deinforcer.onclick = remove_troop;
-              confirm.onclick = confirm_move;
-              terToPlace = new Map();
-              placeMax = data.troopsToPlace;
-              placed = 0;
+            let reinforcer = document.createElement("BUTTON");
+            let deinforcer = document.createElement("BUTTON");
+            let confirm = document.createElement("BUTTON");
+            selecting.innerHTML = "Select A Territory to Reinforce";
+            reinforcer.id = "reinforcer";
+            deinforcer.id = "deinforcer";
+            reinforcer.innerHTML = "Place a Troop";
+            deinforcer.innerHTML = "Recall a Troop";
+            confirm.id = "confirm";
+            confirm.innerHTML = "Confirm Placements";
+            document.getElementById("n").appendChild(selecting);
+         	  document.getElementById("n").appendChild(reinforcer);
+            document.getElementById("n").appendChild(deinforcer);
+            document.getElementById("n").appendChild(confirm);
+            reinforcer.onclick = place_troop;
+            deinforcer.onclick = remove_troop;
+            confirm.onclick = confirm_move;
+            terToPlace = new Map();
+            placeMax = data.troopsToPlace;
+            placed = 0;
         	  phase = "reinforce";
-              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
-              availableForClaim = JSON.parse(data.territories);
-              map.addListener("clickMapObject", select_territory);
+            document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
+            availableForClaim = JSON.parse(data.territories);
+            map.addListener("clickMapObject", select_territory);
         	} else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
-              document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";  
+            document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+            document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";  
         	}
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-          	if (data.playerId == myId) {
-                document.getElementById("turn").style.fontWeight = "bold";
-        		document.getElementById("turn").innerHTML = "Your Turn";          		
-        	} else {
-              document.getElementById("turn").style.fontWeight = "normal";
-        		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
-        	}
-        	
-        	break;
+            if (data.playerId == myId) {
+             document.getElementById("turn").style.fontWeight = "bold";
+        	   document.getElementById("turn").innerHTML = "Your Turn";          		
+        	  } else {
+             document.getElementById("turn").style.fontWeight = "normal";
+        	   document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+        	  }
+        	  break;
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
@@ -333,7 +342,7 @@ const setup_matches = () => {
               document.getElementById("turn").innerHTML = "Your Turn";        
               phase = "attacking";
               attackables = [];
-        	  document.getElementById("bolsters").style.display = "inline";
+        	    document.getElementById("bolsters").style.display = "inline";
               document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
               terToDie = JSON.parse(data.maxDieRoll);
               terToTar = JSON.parse(data.whoCanAttack);
@@ -399,7 +408,19 @@ const setup_matches = () => {
           case MOVE_TYPES.MOVE_TROOPS:
         	document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	if (data.playerId == myId) {
-        	  document.getElementById("phase").innerHTML = "Move Your Troops!";
+        	   document.getElementById("phase").innerHTML = "Move Your Troops!";            
+             let confirm = document.createElement("BUTTON");
+             confirm.id = "confirm";
+             confirm.innerHTML = "Confirm Troop Movements";;
+             document.getElementById("n").appendChild(confirm);
+             phase = "move_troops";
+             $("#resetMoveTroops").show();
+             $("#skip").show();
+             terrToReachableTerrs = JSON.parse(data.canMove);
+             terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
+              for (ter in terrToMaxTroopsMove) {
+                availableForClaim.push(ter);
+              }
         	}
         }
         break;
@@ -439,10 +460,46 @@ function attack_territory() {
   }
 }
 
+function move_troops() {
+  if (moveFrom != null && moveTo & null) {
+    let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
+      "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
+      "troopsToMove": document.getElementById("numberTroopsToMove").value};
+    document.getElementById("confirm").remove();
+    document.getElementById("numberTroopsToMove").remove();
+    document.getElementById("resetMoveTroops").style.display = "none";
+   $("#skip").hide();
+    availableForClaim = [];
+    conn.send(JSON.stringify(mess));
+  }
+}
+
 const skip_phase = event => {
   event.preventDefault();
   if (phase == "turnin" || phase == "moveTroops" || phase == "attacking") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
+    $("#skip").hide();
+    if (document.getElementById("attack") != null) {
+      document.getElementById("attack").style.display = "none";
+    }
+    if (document.getElementById("attacking") != null) {
+      document.getElementById("attacking").style.display = "none";
+    }
+    if (document.getElementById("resetAttackMove") != null) {
+      document.getElementById("resetAttackMove").style.display = "none";
+    }
+    if (document.getElementById("diceChoice") != null) {
+      document.getElementById("diceChoice").remove();
+    }
+    if (document.getElementById("reinforcer") != null) {
+      document.getElementById("reinforcer").remove();
+    }
+    if (document.getElementById("deinforcer") != null) {
+      document.getElementById("deinforcer").remove();
+    }
+    if (document.getElementById("confirm")!= null) {
+      document.getElementById("confirm").remove();
+    }
     conn.send(JSON.stringify(mess));
   }
 }

@@ -45,6 +45,8 @@ const TerritoryEnum = {
 let cardID = 0;
 let start = false;
 let prevMessage = undefined;
+let body = $('#background');
+
  // "url('')"
  let now = 0;
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')",
@@ -140,14 +142,14 @@ function changePlayerImage(id, backgroundColor, color) {
 }
 function slideshow(){
 	console.log('in!');
-	let body = $('#background');
 	console.log(imageList.length);
 	if (!start) {
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
-	 	// body.fadeOut(6000);
         body.css('background-image', imageList[now]);
-        // body.fadeIn(6000);
+        //body.fadeIn(3000);
+        //body.fadeOut(3000);
+        //$("#nameField").fadeIn(6000);
     }
 }   
 
@@ -164,8 +166,10 @@ function setUp () {
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
 	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
 	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
+	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
+	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
 //	$sideNav.append($("<p id = 'attackerRollText'>Attacker's roll</p>"));
 //	$sideNav.append($( "<ul id = 'blackRoll'>"));
 //	$sideNav.append($( "<p id = 'defenderRollText'>Defender's roll</p>"));
@@ -274,7 +278,7 @@ function hideAll() {
  	$("#dropdowngroup").hide();
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
-
+ 	$("#resetMoveTroops").hide();
     document.getElementById("attacking").style.display = "none";
 }
 
