@@ -46,9 +46,6 @@ let cardID = 0;
 let start = false;
 let prevMessage = undefined;
 let body = $('#background');
-addcard(1);
-addcard(2);
-addcard();
 
  // "url('')"
  let now = 0;
@@ -104,21 +101,8 @@ setInterval(slideshow, 6000);
 //	$("#transferconfirm").on("click", confirmTransfer);
 	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
-	$('.card').click(function() {
-	if (this.style.borderStyle !== "solid") {
-   this.style.borderStyle = "solid";
-  	this.style.borderColor = "black";
-  	   }
-  else {
-  		 this.style.borderStyle = "none";
-  		this.style.borderColor = "none";
-  }
-});
-	// $("#messageForm").on('submit', function(e){
- //    // validation code here
- //      e.preventDefault();
- //    sendMessage();
- //  });
+	$('.card').on("click", clickOnCard);
+	
 	function resetTransfer() {
 		
 	}
@@ -136,19 +120,20 @@ function confirmDice() {
 
 	}
 }
-function turnInCards() {
-	$('#cards li').each(function() {
-		console.log(this.className);
-		if (this.style.borderStyle === "solid") {
-			console.log(this.attr("class"));
-			console.log("in loop");
-			this.remove();
-		}
-    //this now refers to each li
-    //do stuff to each
-});
 
+function clickOnCard() {
+	if (canClick) {
+		if (this.style.borderStyle !== "solid") {
+  		this.style.borderStyle = "solid";
+  		this.style.borderColor = "black";
+  	} else {
+  		this.style.borderStyle = "none";
+  		this.style.borderColor = "none";
+  	}
+  }
 }
+
+
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;

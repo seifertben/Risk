@@ -66,6 +66,7 @@ let terrToReachableTerrs;
 let terrToMaxTroopsMove;
 let moveFrom;
 let moveTo;
+let canClick = false;
 
 const setup_matches = () => {
 
@@ -161,6 +162,14 @@ const setup_matches = () => {
         getMessage(data.playerId, data.message);
         break;
 
+
+      case MESSAGE_TYPE.HANDOUT_CARD:
+        if (data.playerId == myId) {
+          let card = data.card;
+          addCard(card);
+        }
+        break;
+
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
@@ -178,7 +187,7 @@ const setup_matches = () => {
         	  make_bolster(data.movePlayer, JSON.parse(data.territories));
         	  break;
           case MOVE_TYPES.TURN_IN_CARD:
-            
+
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Is Attacking <b>" 
@@ -298,13 +307,11 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Hand in Cards";             
               ("#skip").show();
               ("#turnInCards").show();
-
+              canClick = true;
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
            }
-
-
 
           break;
 
@@ -346,16 +353,6 @@ const setup_matches = () => {
             document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";  
         	}
             break;
-
-          // case MOVE_TYPES.TURN_IN_CARD:
-          //   if (data.playerId == myId) {
-          //    document.getElementById("turn").style.fontWeight = "bold";
-        	 //   document.getElementById("turn").innerHTML = "Your Turn";          		
-        	 //  } else {
-          //    document.getElementById("turn").style.fontWeight = "normal";
-        	 //   document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
-        	 //  }
-        	 //  break;
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
@@ -446,9 +443,31 @@ const setup_matches = () => {
             document.getElementById("confirm").onclick = move_troops;
         	}
         }
-        break;
+        break;   
     }
   };
+}
+
+
+function turnInCards() {
+  $('#cards li').each(function() {
+    if (this.style.borderStyle === "solid") {
+      let arr = this.className.split(" ");
+      if (arr[1] == "one") {
+        myCards.push(1);
+      } else {
+        myCards.push(2);
+      }
+      this.remove();
+    }
+    if (myCards.length != 0) {
+      ("#turnInCards").hide();
+      canClick = false;
+      let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
+        "playerId": myId, "cards": myCards}; 
+      conn.send(JSON.stringify(mess));
+    }
+  });
 }
 
 function claim_terr() {
@@ -479,6 +498,8 @@ function attack_territory() {
     document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("diceChoice").remove();
     availableForClaim = [];
+    attackFrom = null;
+    attackTo = null;
     conn.send(JSON.stringify(mess));
   }
 }
@@ -496,6 +517,9 @@ function move_troops() {
     document.getElementById("resetMoveTroops").style.display = "none";
    $("#skip").hide();
     availableForClaim = [];
+    moveables = [];
+    moveFrom = null;
+    moveTo = null;
     conn.send(JSON.stringify(mess));
   }
 }
@@ -506,6 +530,8 @@ const skip_phase = event => {
 	availableForClaim = [];
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
+    $("#turnInCards").hide();
+
     if (document.getElementById("attack") != null) {
       document.getElementById("attack").style.display = "none";
     }
