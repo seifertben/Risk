@@ -465,7 +465,7 @@ function attack_territory() {
 function move_troops() {
   console.log(moveFrom);
   console.log(moveTo);
-  if (moveFrom != null && moveTo & null) {
+  if (moveFrom != null && moveTo != null) {
     console.log("here");
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
       "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
