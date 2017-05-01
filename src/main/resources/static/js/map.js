@@ -1227,10 +1227,10 @@ function select_territory(event) {
       conn.send(JSON.stringify(mess));
     }
   } else if (phase == "reinforce") {
-	if (availableForClaim.includes(event.mapObject.id)) {
-	  bolstering = event.mapObject.id;
-      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
-	}
+	 if (availableForClaim.includes(event.mapObject.id)) {
+	   bolstering = event.mapObject.id;
+    document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
+	 }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
       attackFrom = event.mapObject.id;
