@@ -1227,10 +1227,10 @@ function select_territory(event) {
       conn.send(JSON.stringify(mess));
     }
   } else if (phase == "reinforce") {
-	if (availableForClaim.includes(event.mapObject.id)) {
-	  bolstering = event.mapObject.id;
-      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
-	}
+	 if (availableForClaim.includes(event.mapObject.id)) {
+	   bolstering = event.mapObject.id;
+    document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
+	 }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
       attackFrom = event.mapObject.id;
@@ -1262,6 +1262,7 @@ function select_territory(event) {
           moveables = terrToReachableTerrs[moveFrom];
           let sideNav = $("#n");
           let troops = "";
+          let maxTroops = 0;
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
               maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
@@ -1278,7 +1279,7 @@ function select_territory(event) {
       }
     }
   }
-}
+
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
