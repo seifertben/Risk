@@ -11,20 +11,21 @@ import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageType;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-
 /**
- * This class handles lobbies, player connections,
- * starting matches, and relaying messages to matches.
+ * This class handles lobbies, player connections, starting matches, and
+ * relaying messages to matches.
+ * 
  * @author bgabinet
  */
 @WebSocket
@@ -36,13 +37,18 @@ public class Matches {
 
   // Caching
   private List<Match> matches = Collections.synchronizedList(new ArrayList<>());
-  private Map<UUID, Match> matchIdToClass = Collections.synchronizedMap(new HashMap<>());
-  private Map<UUID, Session> playerToSession = Collections.synchronizedMap(new HashMap<>());
-  private Map<Session, UUID> sessionToPlayer = Collections.synchronizedMap(new HashMap<>());
-  private Map<UUID, UUID> playerToGame = Collections.synchronizedMap(new HashMap<>());
+  private Map<UUID, Match> matchIdToClass =
+      Collections.synchronizedMap(new HashMap<>());
+  private Map<UUID, Session> playerToSession =
+      Collections.synchronizedMap(new HashMap<>());
+  private Map<Session, UUID> sessionToPlayer =
+      Collections.synchronizedMap(new HashMap<>());
+  private Map<UUID, UUID> playerToGame =
+      Collections.synchronizedMap(new HashMap<>());
 
   /**
    * Connect a player and update their match list.
+   * 
    * @param session Player session.
    * @throws IOException When there is a connection error.
    */
@@ -54,7 +60,7 @@ public class Matches {
     sessions.add(session);
 
     UUID playerId = UUID.randomUUID();
- 
+
     JsonObject jj = new JsonObject();
     jj.addProperty("type", RiskMessageType.CONNECT.ordinal());
     jj.addProperty("id", playerId.toString());
@@ -78,14 +84,15 @@ public class Matches {
 
   /**
    * Handle a player disconnect or reload.
+   * 
    * @param session The disconnecting player.
    * @param statusCode Exit code.
    * @param reason Exit reason.
-   * @throws IOException When there is an error
-   *     updating the lobby menu.
+   * @throws IOException When there is an error updating the lobby menu.
    */
   @OnWebSocketClose
-  public void closed(Session session, int statusCode, String reason) throws IOException {
+  public void closed(Session session, int statusCode, String reason)
+      throws IOException {
     // Update the lobbies and remove
     // this player from our list
     remove_player(session);
@@ -94,11 +101,12 @@ public class Matches {
 
   /**
    * Handle lobby and game related messages.
+   * 
    * @param session Player who is sending a message.
-   * @param message Stringified JsonObject with information
-   *     on the player and what they want to do.
-   * @throws IOException When there is an error sending a
-   *     response message to players.
+   * @param message Stringified JsonObject with information on the player and
+   *          what they want to do.
+   * @throws IOException When there is an error sending a response message to
+   *           players.
    */
   @OnWebSocketMessage
   public void message(Session session, String message) throws IOException {
@@ -131,16 +139,17 @@ public class Matches {
 
     // If this message is a request to create a lobby...
     if (received.get("type").getAsInt() == RiskMessageType.MOVE.ordinal()) {
-      System.out.println(received);
+      System.out.println(" received " + received);
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
-      System.out.println(response);
+      System.out.println("to send " + response);
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();
         for (int looper = 0; looper < game.playerNum(); looper++) {
           UUID toAlert = playerList.get(looper);
-          playerToSession.get(toAlert).getRemote().sendString(response.get(index).toString());
+          playerToSession.get(toAlert).getRemote()
+              .sendString(response.get(index).toString());
         }
       }
     }
@@ -148,11 +157,12 @@ public class Matches {
 
   /**
    * Add a player to a game lobby.
+   *
    * @param session The player joining a lobby.
-   * @param message Stringified JsonObject with info
-   *     on the player and the lobby being joined.
-   * @throws IOException When there is an error sending
-   *     a response message to the menu.
+   * @param message Stringified JsonObject with info on the player and the lobby
+   *          being joined.
+   * @throws IOException When there is an error sending a response message to
+   *           the menu.
    */
   private void join_player(Session session, String message) throws IOException {
 
@@ -173,7 +183,7 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       game.removePlayer(playerUUID);
       JsonObject remove = new JsonObject();
-      remove.addProperty("type", RiskMessageType.REMOVE.ordinal());   
+      remove.addProperty("type", RiskMessageType.REMOVE.ordinal());
       remove.addProperty("gameId", game.getId());
       remove.addProperty("playerNum", game.playerNum());
       remove.addProperty("lobbySize", game.lobbySize());
@@ -233,8 +243,9 @@ public class Matches {
 
   /**
    * Starts the match that a given player is in
-   * @throws IOException When there is an error sending
-   *     an update message to players.
+   * 
+   * @throws IOException When there is an error sending an update message to
+   *           players.
    */
   private void start_game(Match toStart) throws IOException {
 
@@ -245,16 +256,19 @@ public class Matches {
     update.addProperty("type", RiskMessageType.START.ordinal());
     update.addProperty("gameId", toStart.getId());
     for (int index = 0; index < toStart.playerNum(); index++) {
-      update.addProperty("player" + index + "name", toStart.getPlayerName(index));
-      update.addProperty("player" + index + "id", toStart.getPlayerId(index).toString());
+      update.addProperty("player" + index + "name",
+          toStart.getPlayerName(index));
+      update.addProperty("player" + index + "id",
+          toStart.getPlayerId(index).toString());
     }
     update.addProperty("playerNum", toStart.playerNum());
-    
+
     // Update all players in this match, displaying the risk map
     // and hiding the lobby menu
     List<UUID> players = toStart.getPlayers();
     for (int index = 0; index < players.size(); index++) {
-      playerToSession.get(players.get(index)).getRemote().sendString(update.toString());
+      playerToSession.get(players.get(index)).getRemote()
+          .sendString(update.toString());
     }
 
     // Make a new update to remove this lobby from the menu,
@@ -272,20 +286,23 @@ public class Matches {
       List<UUID> playerList = toStart.getPlayers();
       for (int looper = 0; looper < toStart.playerNum(); looper++) {
         UUID toAlert = playerList.get(looper);
-        playerToSession.get(toAlert).getRemote().sendString(initials.get(index).toString());
+        playerToSession.get(toAlert).getRemote()
+            .sendString(initials.get(index).toString());
       }
     }
   }
 
   /**
    * Create a new lobby on the menu.
+   * 
    * @param session Player who requested a new lobby.
-   * @param message Stringified JsonObject about the lobby
-   *     the player wanted to make.
-   * @throws IOException When there is an error sending a
-   *     response message to players.
+   * @param message Stringified JsonObject about the lobby the player wanted to
+   *          make.
+   * @throws IOException When there is an error sending a response message to
+   *           players.
    */
-  private void create_lobby(Session session, String message) throws IOException {
+  private void create_lobby(Session session, String message)
+      throws IOException {
 
     // Get received message
     JsonObject received = GSON.fromJson(message, JsonObject.class);
@@ -304,7 +321,7 @@ public class Matches {
     // Update the menu of all players
     // with the existence of this lobby
     JsonObject update = new JsonObject();
-    update.addProperty("type", RiskMessageType.CREATE.ordinal());   
+    update.addProperty("type", RiskMessageType.CREATE.ordinal());
     update.addProperty("gameId", gameId.toString());
     update.addProperty("playerNum", 0);
     update.addProperty("lobbySize", lobbySize);
@@ -317,9 +334,10 @@ public class Matches {
 
   /**
    * Remove a player from any lobbies they are in.
+   * 
    * @param session Player who has disconnected.
-   * @throws IOException When there is an error sending
-   *     update messages to players.
+   * @throws IOException When there is an error sending update messages to
+   *           players.
    */
   private void remove_player(Session session) throws IOException {
 
@@ -335,7 +353,7 @@ public class Matches {
 
         // Update the lobby menu for all remaining players
         JsonObject remove = new JsonObject();
-        remove.addProperty("type", RiskMessageType.REMOVE.ordinal());   
+        remove.addProperty("type", RiskMessageType.REMOVE.ordinal());
         remove.addProperty("gameId", game.getId());
         remove.addProperty("playerNum", game.playerNum());
         remove.addProperty("lobbySize", game.lobbySize());
