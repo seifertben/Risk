@@ -133,15 +133,16 @@ function confirmDice() {
 }
 
 function clickOnCard() {
+	console.log(canClick);
 	if (canClick) {
 		if (this.style.borderStyle !== "solid") {
-  		this.style.borderStyle = "solid";
-  		this.style.borderColor = "black";
-  	} else {
-  		this.style.borderStyle = "none";
-  		this.style.borderColor = "none";
+  			this.style.borderStyle = "solid";
+  			this.style.borderColor = "black";
+  		} else {
+  			this.style.borderStyle = "none";
+  			this.style.borderColor = "none";
+  		}
   	}
-  }
 }
 
 

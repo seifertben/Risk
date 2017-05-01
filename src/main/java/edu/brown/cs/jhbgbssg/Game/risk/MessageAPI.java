@@ -264,11 +264,12 @@ public class MessageAPI {
     }
 
     if (update.getCardHandOut() != null) {
+      System.out.println("need to handout card");
       JsonObject obj = new JsonObject();
       int card = update.getCardHandOut().getSecondElement();
       UUID player = update.getCardHandOut().getFirstElement();
       obj.addProperty("type", RiskMessageType.HANDOUT_CARD.ordinal());
-      obj.addProperty("playerId", GSON.toJson(player));
+      obj.addProperty("playerId", player.toString());
       obj.addProperty("cardValue", card);
       messages.add(obj);
     }

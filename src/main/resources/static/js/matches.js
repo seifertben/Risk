@@ -165,8 +165,9 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.HANDOUT_CARD:
         if (data.playerId == myId) {
-          let card = data.card;
-          addCard(card);
+          let card = data.cardValue;
+          addcard(card);
+          console.log("added card");
         }
         break;
 
@@ -304,8 +305,8 @@ const setup_matches = () => {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
-              ("#skip").show();
-              ("#turnInCards").show();
+              $("#skip").show();
+              $("#turnInCards").show();
               canClick = true;
               phase = "turnin";
             } else {
