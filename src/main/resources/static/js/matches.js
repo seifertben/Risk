@@ -462,7 +462,7 @@ function attack_territory() {
 function move_troops() {
   if (moveFrom != null && moveTo & null) {
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
-      "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory", 
+      "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
       "troopsToMove": document.getElementById("numberTroopsToMove").value};
     document.getElementById("confirm").remove();
     document.getElementById("numberTroopsToMove").remove();
