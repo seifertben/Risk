@@ -48,21 +48,19 @@ let prevMessage = undefined;
 let body = $('#background');
 addcard(1);
 addcard(2);
-addcard();
-
- // "url('')"
- let now = 0;
+// addcard();
+ let now = -1;
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/53/2c/22/532c224459ada029dfb2db7be6165cde.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
-, , "url('https://fthmb.tqn.com/toprD0AfngOnFREScDpSg-5bl-g=/1172x796/filters:no_upscale():fill(FFCC00,1)/about/battle-of-ascalon-large-56a61c243df78cf7728b63a7.jpg')", 
+,"url('https://fthmb.tqn.com/toprD0AfngOnFREScDpSg-5bl-g=/1172x796/filters:no_upscale():fill(FFCC00,1)/about/battle-of-ascalon-large-56a61c243df78cf7728b63a7.jpg')", 
 "url('https://s-media-cache-ak0.pinimg.com/originals/cc/f0/11/ccf011df7a8f59a31efc28e35ec0a655.jpg')",
 , "url('http://www.museumofthecity.org/wp-content/uploads/2013/07/history_timeline_photo_09_1.jpg')", "url('http://www.imgbase.info/images/safe-wallpapers/miscellaneous/historical/42834_historical_medieval_battle.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/736x/4f/3f/49/4f3f49b4b8945fe107d68163df14be7a.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/7e/5d/a8/7e5da8f7f966ec2e946e205fcdfe5d02.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/91/c2/ad/91c2adff774b415f4cd3f7204efff1a9.jpg')", 
 "url('http://www.rmg.co.uk/sites/default/files/styles/slider/public/Loutherbourg-Spanish_Armada.jpg?itok=_-MaaV38')", "url('https://i.ytimg.com/vi/GvPXCnrAtMo/maxresdefault.jpg')", 
 "url('http://s3.amazonaws.com/mtv-main-assets/files/resources/surrender_of_lord_cornwallis-capitol-web.jpg')",  "url('http://www.hms-victory.com/sites/default/files/images/D.jpg')",
 "url('http://www.britishbattles.com/wp-content/uploads/2017/02/Charge_of_the_French_Cuirassiers_at_Waterloo-Henri-F%C3%A9lix-Emmanuel-Philippoteaux.jpg')", 
-, ,"url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://francoprussianwar.com/prus-cav-charge.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
+"url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://francoprussianwar.com/prus-cav-charge.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
 "url('http://i.imgur.com/raE3EQw.jpg')", "url('http://i2.cdn.cnn.com/cnnnext/dam/assets/140828132531-01-world-war-ii-0828-horizontal-large-gallery.jpg')"
 , "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')", "url('https://vignette1.wikia.nocookie.net/fallout/images/0/03/Vietnam_War.jpg/revision/latest?cb=20150425225428')", "url('https://upload.wikimedia.org/wikipedia/commons/0/04/USAF_F-16A_F-15C_F-15E_Desert_Storm_edit2.jpg')"
 , "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
@@ -103,6 +101,8 @@ setInterval(slideshow, 6000);
 //	// addcard();
 //	$("#transferconfirm").on("click", confirmTransfer);
 	$("#resetTransfer").on("click", resetTransfer);
+	changeMusicStatus();
+	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 	$('.card').click(function() {
 	if (this.style.borderStyle !== "solid") {
@@ -119,6 +119,18 @@ setInterval(slideshow, 6000);
  //      e.preventDefault();
  //    sendMessage();
  //  });
+ function changeMusicStatus() {
+ 	console.log($("#homeMute").text());
+ 	if ($("#homeMute").text() == "Mute") {
+ 		$("#homeMute").text("Unmute");
+ 		document.getElementById('mainMenuMusic').pause();
+ 		// document.getElementById('mainMenuMusic').currentTime = 0;
+ 	}
+ 	else {
+ 		$("#homeMute").text("Mute");
+ 		document.getElementById('mainMenuMusic').play();	
+ 	}
+ }
 	function resetTransfer() {
 		
 	}
