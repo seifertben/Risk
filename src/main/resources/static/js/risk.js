@@ -147,8 +147,8 @@ function slideshow(){
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
         body.css('background-image', imageList[now]);
-        //body.fadeIn(3000);
-        //body.fadeOut(3000);
+        body.fadeIn(3000);
+        body.fadeOut(3000);
         //$("#nameField").fadeIn(6000);
     }
 }   
