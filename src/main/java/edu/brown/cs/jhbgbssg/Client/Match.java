@@ -45,8 +45,8 @@ public class Match {
   // and actual risk game
   private final UUID id;
   private List<UUID> players = Collections.synchronizedList(new ArrayList<>());
-  private Map<UUID, String> names = Collections
-      .synchronizedMap(new HashMap<>());
+  private Map<UUID, String> names =
+      Collections.synchronizedMap(new HashMap<>());
   private boolean started = false;
   private final String matchName;
   private final Integer lobbySize;
@@ -208,10 +208,10 @@ public class Match {
             update = actionProcessor.processSetupAction(setup);
             break;
           case SETUP_REINFORCE:
-            SetupReinforceAction setupReinforce = this
-                .createSetupReinforceAction(received);
-            update = actionProcessor
-                .processSetupReinforceAction(setupReinforce);
+            SetupReinforceAction setupReinforce =
+                this.createSetupReinforceAction(received);
+            update =
+                actionProcessor.processSetupReinforceAction(setupReinforce);
             break;
           case REINFORCE:
             ReinforceAction reinforce = this.createReinforceAction(received);
@@ -230,8 +230,8 @@ public class Match {
             update = actionProcessor.processDefendAction(defend);
             break;
           case CLAIM_TERRITORY:
-            ClaimTerritoryAction claim = this
-                .createClaimTerritoryAction(received);
+            ClaimTerritoryAction claim =
+                this.createClaimTerritoryAction(received);
             update = actionProcessor.processClaimTerritoryAction(claim);
             break;
           case SKIP:
@@ -255,8 +255,8 @@ public class Match {
   }
 
   private ReinforceAction createReinforceAction(JsonObject received) {
-    Map<TerritoryEnum, Integer> reinforced = messageApi
-        .getNumberReinforced(received);
+    Map<TerritoryEnum, Integer> reinforced =
+        messageApi.getNumberReinforced(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     return new ReinforceAction(player, board, reinforced);
@@ -284,8 +284,8 @@ public class Match {
   }
 
   private AttackAction createAttackAction(JsonObject received) {
-    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
-        .getAttackingDefendingTerritory(received);
+    Pair<TerritoryEnum, TerritoryEnum> attackPair =
+        messageApi.getAttackingDefendingTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberDie = messageApi.getNumberDieToRoll(received);
@@ -302,8 +302,8 @@ public class Match {
   }
 
   private ClaimTerritoryAction createClaimTerritoryAction(JsonObject received) {
-    Pair<TerritoryEnum, TerritoryEnum> attackPair = messageApi
-        .getAttackClaimingTerritory(received);
+    Pair<TerritoryEnum, TerritoryEnum> attackPair =
+        messageApi.getAttackClaimingTerritory(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberTroops = messageApi.getNumberTroopsToMove(received);
@@ -312,8 +312,8 @@ public class Match {
   }
 
   private MoveTroopsAction createMoveTroopsAction(JsonObject received) {
-    Pair<TerritoryEnum, TerritoryEnum> movePair = messageApi
-        .getMoveTroopsTerritories(received);
+    Pair<TerritoryEnum, TerritoryEnum> movePair =
+        messageApi.getMoveTroopsTerritories(received);
     UUID playerId = messageApi.getPlayerId(received);
     RiskPlayer player = riskPlayers.get(playerId);
     int numberTroops = messageApi.getNumberTroopsToMove(received);

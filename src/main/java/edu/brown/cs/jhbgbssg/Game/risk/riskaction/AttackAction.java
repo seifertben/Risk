@@ -57,20 +57,10 @@ public class AttackAction implements Action {
     return player;
   }
 
-  /**
-   * Returns territory attacking from.
-   *
-   * @return territory id being attacked
-   */
   public TerritoryEnum getAttackingTerritory() {
     return attackingTerritory;
   }
 
-  /**
-   * Returns territory attacking.
-   *
-   * @return territory attacking
-   */
   public TerritoryEnum getDefendingTerritory() {
     return defendingTerritory;
   }

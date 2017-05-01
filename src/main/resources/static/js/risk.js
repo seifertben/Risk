@@ -120,9 +120,10 @@ function slideshow(){
 	console.log(imageList.length);
 	if (!start) {
 	 now = (now+1) % (imageList.length) ;
-	 	body.fadeOut(6000);
+	 console.log(imageList[now]);
+	 	// body.fadeOut(6000);
         body.css('background-image', imageList[now]);
-        body.fadeIn(6000);
+        // body.fadeIn(6000);
     }
 }   
 
