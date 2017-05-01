@@ -51,7 +51,10 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"];
 slideshow();
 const sendMessage = event => {
+	console.log(event);
+	if (event !==undefined) {
 	event.preventDefault();
+}
     let  message = $('#messageField').val();
     console.log("f");
     console.log(message);
