@@ -65,13 +65,22 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 , "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
 slideshow();
 const sendMessage = event => {
-	console.log(event);
 	if (event !==undefined) {
-	event.preventDefault();
-}
+	  event.preventDefault();
+    }
     let  message = $('#messageField').val();
-    console.log("f");
-    console.log(message);
+    if (message.includes("<script>") || message.includes("</script>")) {
+      message = "HAXORZ";
+    }
+    if (message.includes("fuck")) {
+      message.replace("fuck", "****")
+    }
+    if (message.includes("shit")) {
+      message.replace("shit", "****")
+    }
+    if (message.includes("ass")) {
+      message.replace("ass", "***")
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));

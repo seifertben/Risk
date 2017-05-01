@@ -124,7 +124,7 @@ public class Matches {
       create_lobby(session, message);
     }
 
-    // Handdle a chat message
+    // Handle a chat message
     if (received.get("type").getAsInt() == RiskMessageType.MESSAGE.ordinal()) {
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
