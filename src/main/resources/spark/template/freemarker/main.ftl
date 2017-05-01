@@ -23,11 +23,12 @@
 <div id='white'>
 
 <div style="z-index: 2;">
+${content}
+
 </div>
 </div>
 
 </div>
-${content}
 
 
 <script src="js/map.js"></script>
