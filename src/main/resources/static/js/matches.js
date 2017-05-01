@@ -378,7 +378,7 @@ const setup_matches = () => {
 }
 
 function move_troops() {
-  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY,
 		  "playerId": myId, "troopsToMove": document.getElementById("troopChoice").value,
 		  "claimTerritory": claimed, "attackTerritory": claimedFrom};
   conn.send(JSON.stringify(mess));
