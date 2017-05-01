@@ -43,13 +43,16 @@ const TerritoryEnum = {
   WESTERN_AUSTRALIA: 41
 };
 let cardID = 0;
+let start = false;
 let prevMessage = undefined;
  // "url('')"
  let now = 0;
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')", "url('http://www.imgbase.info/images/safe-wallpapers/miscellaneous/historical/42834_historical_medieval_battle.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"];
 slideshow();
+
 setInterval(slideshow, 6000);
+
 //	activateDropDown(2);
 //	replaceField();
 //	replaceTransferListField();
@@ -115,11 +118,12 @@ function slideshow(){
 	console.log('in!');
 	let body = $('#background');
 	console.log(imageList.length);
-	now = (now+1) % (imageList.length);
-	body.fadeOut(6000);
-    body.css('background-image', imageList[now]);
-   	body.fadeIn(6000);
-
+	if (!start) {
+	 now = (now+1) % (imageList.length) ;
+	 	body.fadeOut(6000);
+        body.css('background-image', imageList[now]);
+        body.fadeIn(6000);
+    }
 }   
 
 function setUp () {
