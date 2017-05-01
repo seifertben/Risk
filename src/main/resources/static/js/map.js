@@ -1255,6 +1255,28 @@ function select_territory(event) {
       }
       sideNav.append("<select id='diceChoice'>" + dice + "</select>");
     }
+  } else if (phase = "move_troops") {
+      if (availableForClaim.includes(event.mapObject.id.toString())) {
+        if (moveFrom == null) {
+          moveFrom = event.mapObject.id;
+          moveables = terrToReachableTerrs[moveFrom];
+          let sideNav = $("#n");
+          let troops = "";
+          for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
+            if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
+              maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+            } else {
+              maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+            }
+          }
+          sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
+        } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
+          moveTo = event.mapObject.id;
+        }
+      } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
+        moveFrom = event.mapObject.id;
+      }
+    }
   }
 }
 
@@ -1266,6 +1288,14 @@ function reset_attack() {
   attackTo = null;
   attackables = null;
 }
+
+function reset_move_troops() {
+  document.getElementById("numberTroopsToMove").remove();
+  moveFrom = null;
+  moveTo = null;
+  moveables = null;
+}
+
 
 const place_troop = event => {
   event.preventDefault();

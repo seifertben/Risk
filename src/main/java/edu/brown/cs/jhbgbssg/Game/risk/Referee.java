@@ -379,6 +379,18 @@ public class Referee {
     return null;
   }
 
+  protected ValidAction switchPlayersAfterSkip() {
+    int index = turnOrder.indexOf(currPlayer);
+    index = (index + 1) % turnOrder.size();
+    currPlayer = turnOrder.get(index);
+    validMove = new ValidCardAction(currPlayer);
+    if (!validMove.actionAvailable()) {
+      validMove =
+          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+    }
+    return validMove;
+  }
+
   protected ValidAction getValidMoveAfterSetup() {
     return null;
   }
