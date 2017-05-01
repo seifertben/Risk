@@ -1,4 +1,4 @@
-﻿<#assign content>
+<#assign content>
 <div id="nameField">
   <form id="nameForm">
     <h1>Welcome to Risk!</h1><br>
@@ -8,20 +8,19 @@
 </div>
 <div id="menuField">
   <div id="wrapper">
-  <form id="game" autocomplete="off" class="well well-sm">
-    <div id="enter">
-    <h2>Enter a Match Name and a Number of Players</h2><br>
-    <input id="name" type="text" autocomplete="off"></input>
-    <input id="playerNum" type="number" min="2" max="6" value="2"></input>
-    <button id="maker">Make a game</button>
-    </div>
+    <form id="game" autocomplete="off" class="well well-sm">
+      <div id="enter">
+        <h2>Enter a Match Name and a Number of Players</h2><br>
+        <input id="name" type="text" autocomplete="off"></input>
+        <input id="playerNum" type="number" min="2" max="6" value="2"></input>
+        <button id="maker">Make a game</button>
+      </div>
     <div id="matches" class="list-group">
     </div>
-  </form>
   </div>
 </div>
 <div id="gameField">
-  <#include "map.ftl">
+<#include "map.ftl">
 </div>
 </#assign>
 <#include "main.ftl">

@@ -101,7 +101,7 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.START:
-        document.getElementById("gameField").style.display = "inline";
+        document.getElementById("gameField").style.display = "inline-block";
         document.getElementById("menuField").style.display = "none";
         document.getElementById(data.gameId).remove();
         players.push(data.player0id);
@@ -130,6 +130,8 @@ const setup_matches = () => {
             idToName[data.player5id] = data.player5name;
             colors[data.player5id] = "yellow";
         }
+        start = true;
+        $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
 
