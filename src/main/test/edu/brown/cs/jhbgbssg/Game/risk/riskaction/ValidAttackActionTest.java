@@ -90,18 +90,19 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.WESTERN_US).changePlayer(player, 2);
     board.getTerritory(TerritoryEnum.EASTERN_US).changePlayer(player, 2);
     ValidAttackAction action = new ValidAttackAction(player, board);
-    Multimap<TerritoryEnum, TerritoryEnum> attackMap = action.whoToAttack();
+    Multimap<TerritoryEnum, TerritoryEnum> attackMap =
+        action.getTerritoriesCanAttack();
     assertTrue(attackMap.keySet().size() == 2);
     assertTrue(attackMap.keySet().contains(TerritoryEnum.WESTERN_US));
     assertTrue(attackMap.keySet().contains(TerritoryEnum.EASTERN_US));
-    Collection<TerritoryEnum> westernUSMap = attackMap
-        .get(TerritoryEnum.WESTERN_US);
+    Collection<TerritoryEnum> westernUSMap =
+        attackMap.get(TerritoryEnum.WESTERN_US);
     assertTrue(westernUSMap.size() == 3);
     assertTrue(westernUSMap.contains(TerritoryEnum.CENTRAL_AMERICA));
     assertTrue(westernUSMap.contains(TerritoryEnum.ALBERTA));
     assertTrue(westernUSMap.contains(TerritoryEnum.ONTARIO));
-    Collection<TerritoryEnum> easternUSMap = attackMap
-        .get(TerritoryEnum.EASTERN_US);
+    Collection<TerritoryEnum> easternUSMap =
+        attackMap.get(TerritoryEnum.EASTERN_US);
     assertTrue(easternUSMap.size() == 3);
     assertTrue(easternUSMap.contains(TerritoryEnum.CENTRAL_AMERICA));
     assertTrue(easternUSMap.contains(TerritoryEnum.QUEBEC));
@@ -122,7 +123,7 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.WESTERN_US).changePlayer(player, 5);
     board.getTerritory(TerritoryEnum.EASTERN_US).changePlayer(player, 3);
     ValidAttackAction action = new ValidAttackAction(player, board);
-    Map<TerritoryEnum, Integer> dieMap = action.getAttackableTerritories();
+    Map<TerritoryEnum, Integer> dieMap = action.getTerrioryMaxDie();
     assertTrue(dieMap.containsKey(TerritoryEnum.WESTERN_US));
     assertTrue(dieMap.containsKey(TerritoryEnum.EASTERN_US));
     assertTrue(dieMap.size() == 2);
@@ -144,9 +145,9 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.WESTERN_US).changePlayer(player, 1);
     board.getTerritory(TerritoryEnum.EASTERN_US).changePlayer(player, 1);
     ValidAttackAction action = new ValidAttackAction(player, board);
-    Map<TerritoryEnum, Integer> dieMap = action.getAttackableTerritories();
+    Map<TerritoryEnum, Integer> dieMap = action.getTerrioryMaxDie();
     assertTrue(dieMap.size() == 0);
-    assertTrue(action.whoToAttack().size() == 0);
+    assertTrue(action.getTerritoriesCanAttack().size() == 0);
     assertFalse(action.actionAvailable());
   }
 
@@ -170,9 +171,9 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 1);
     board.getTerritory(TerritoryEnum.ONTARIO).changePlayer(player, 1);
     ValidAttackAction action = new ValidAttackAction(player, board);
-    Map<TerritoryEnum, Integer> dieMap = action.getAttackableTerritories();
+    Map<TerritoryEnum, Integer> dieMap = action.getTerrioryMaxDie();
     assertTrue(dieMap.size() == 0);
-    assertTrue(action.whoToAttack().size() == 0);
+    assertTrue(action.getTerritoriesCanAttack().size() == 0);
     assertFalse(action.actionAvailable());
   }
 
@@ -191,13 +192,13 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.WESTERN_US,
         TerritoryEnum.ALBERTA, 3);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.WESTERN_US,
         TerritoryEnum.ALBERTA, 2);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.WESTERN_US,
         TerritoryEnum.ALBERTA, 1);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
 
   }
@@ -217,13 +218,13 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 3);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 2);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 1);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
 
   }
@@ -243,20 +244,20 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 3);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 2);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 1);
-    assertTrue(action.validAttackMove(attack));
+    assertTrue(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
 
   }
 
   /**
-   * Tests validAttackMove returns false if the player attacking does not equal
-   * the player whose potential attack actions are described by this
+   * Tests isValidAttackAction returns false if the player attacking does not
+   * equal the player whose potential attack actions are described by this
    * ValidAttackAction.
    */
   @Test
@@ -273,13 +274,13 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player2, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 1);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
   }
 
   /**
-   * Tests validAttackMove returns false if the number of die to roll is greater
-   * than the max number of die a player can roll when attacking from a
+   * Tests isValidAttackAction returns false if the number of die to roll is
+   * greater than the max number of die a player can roll when attacking from a
    * specified territory.
    */
   @Test
@@ -296,15 +297,15 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, 0);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.QUEBEC, -1);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
   }
 
   /**
-   * Tests validAttackMove returns false if the attacking territory in
+   * Tests isValidAttackAction returns false if the attacking territory in
    * AttackAction is invalid.
    */
   @Test
@@ -320,12 +321,12 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.ALBERTA,
         TerritoryEnum.ONTARIO, 1);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
   }
 
   /**
-   * Tests validAttackMove returns false if the defending territory in
+   * Tests isValidAttackAction returns false if the defending territory in
    * AttackAction for the given attacking territory is invalid/ the player's own
    * territory.
    */
@@ -342,12 +343,12 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.WESTERN_US, 1);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
   }
 
   /**
-   * Tests validAttackMove returns false if the defending territory in
+   * Tests isValidAttackAction returns false if the defending territory in
    * AttackAction for the given attacking territory is not reachable.
    */
   @Test
@@ -363,12 +364,12 @@ public class ValidAttackActionTest {
     ValidAttackAction action = new ValidAttackAction(player, board);
     AttackAction attack = new AttackAction(player, TerritoryEnum.EASTERN_US,
         TerritoryEnum.GREENLAND, 1);
-    assertFalse(action.validAttackMove(attack));
+    assertFalse(action.isValidAttackAction(attack));
     assertTrue(action.actionAvailable());
   }
 
   /**
-   * Tests validAttackMove throws an IlleggalArgumentException if the
+   * Tests isValidAttackAction throws an IlleggalArgumentException if the
    * AttackAction given is null.
    */
   @Test(expected = IllegalArgumentException.class)
@@ -382,6 +383,6 @@ public class ValidAttackActionTest {
     board.getTerritory(TerritoryEnum.EASTERN_US).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 1);
     ValidAttackAction action = new ValidAttackAction(player, board);
-    action.validAttackMove(null);
+    action.isValidAttackAction(null);
   }
 }

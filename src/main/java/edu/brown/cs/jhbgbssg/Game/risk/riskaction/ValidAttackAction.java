@@ -74,7 +74,7 @@ public class ValidAttackAction implements ValidAction {
    *
    * @return map of territoryEnum to integers.
    */
-  public Map<TerritoryEnum, Integer> getAttackableTerritories() {
+  public Map<TerritoryEnum, Integer> getTerrioryMaxDie() {
     return chooseDie;
   }
 
@@ -84,26 +84,26 @@ public class ValidAttackAction implements ValidAction {
    *
    * @return collection of TerritoryEnum-TerritoryEnum entries
    */
-  public Multimap<TerritoryEnum, TerritoryEnum> whoToAttack() {
+  public Multimap<TerritoryEnum, TerritoryEnum> getTerritoriesCanAttack() {
     return whoToAttack;
   }
 
   /**
-   * Returns true or false if the AttackMove is valid according to the bounds
+   * Returns true or false if the AttackAction is valid according to the bounds
    * defined by a ValidAttackMove object.
    *
-   * @param move - move user is trying to execute
+   * @param action - action user is trying to execute
    * @return true if the move is valid; false otherwise
    */
-  public boolean validAttackMove(AttackAction move) {
-    if (move == null) {
+  public boolean isValidAttackAction(AttackAction action) {
+    if (action == null) {
       throw new IllegalArgumentException("ERROR: null move");
     }
-    RiskPlayer currPlayer = move.getMovePlayer();
-    TerritoryEnum attackFrom = move.getAttackingTerritory();
-    TerritoryEnum attackTo = move.getDefendingTerritory();
-    int die = move.getNumberDiceRolled();
-    if (!currPlayer.equals(player)) { // right player trying to attack
+    RiskPlayer currPlayer = action.getMovePlayer();
+    TerritoryEnum attackFrom = action.getAttackingTerritory();
+    TerritoryEnum attackTo = action.getDefendingTerritory();
+    int die = action.getNumberDiceRolled();
+    if (!currPlayer.equals(player)) {
       return false;
     } else if (!whoToAttack.containsEntry(attackFrom, attackTo)) {
       return false;
