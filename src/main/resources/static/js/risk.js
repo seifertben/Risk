@@ -46,6 +46,9 @@ let cardID = 0;
 let start = false;
 let prevMessage = undefined;
 let body = $('#background');
+addcard(1);
+addcard(2);
+addcard();
 
  // "url('')"
  let now = 0;
@@ -93,8 +96,7 @@ setInterval(slideshow, 6000);
 //	replaceTransferListField();
 //	//changePlayerImage(player2, "white", "blue");
 //
-//	addcard(2);
-//	addcard(1);
+	
 //	  // populateTransferList(10);
 //	// addcard();
 //	// addcard();
@@ -102,7 +104,6 @@ setInterval(slideshow, 6000);
 //	$("#transferconfirm").on("click", confirmTransfer);
 	$("#resetTransfer").on("click", resetTransfer);
 	$("#diceconfirm").on("click", confirmDice);
-	$("#turnInCards").on( "click", turnInCards);
 	$('.card').click(function() {
 	if (this.style.borderStyle !== "solid") {
    this.style.borderStyle = "solid";
@@ -136,8 +137,8 @@ function confirmDice() {
 	}
 }
 function turnInCards() {
-	console.log("here");
 	$('#cards li').each(function() {
+		console.log(this.className);
 		if (this.style.borderStyle === "solid") {
 			console.log(this.attr("class"));
 			console.log("in loop");
@@ -190,6 +191,7 @@ function setUp () {
 //	  $sideNav.append($("<p id = 'attackLoss'>You lost 1 soldier</p>"));
 //	   $sideNav.append($(" <p id = 'defendLoss'>Player 2 lost 1 soldier</p>"));
 	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+	   	$("#turnInCards").on( "click", turnInCards);
        
  	   hideAll();
 //	   changeAttackStatus("Player 1", "Player 2", "Russia");
