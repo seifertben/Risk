@@ -19,10 +19,16 @@
 </head>
 <body>
 <div id='background'>
+
 <div id='white'>
+
+<div style="z-index: 2;">
 ${content}
 </div>
 </div>
+
+</div>
+
 <script src="js/map.js"></script>
 <script src="js/matches.js"></script>
 <script src="js/risk.js"></script>

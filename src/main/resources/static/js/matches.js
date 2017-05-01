@@ -195,13 +195,16 @@ const setup_matches = () => {
               document.getElementById("prevMove").innerHTML = 
             	  "<b>" + idToName[data.attacker] + "</b> has Claimed " + idToData[data.defendTerritory].name + "!<br>";
             }
-            changeTerritoryStatus(data.attacker, -1 * data.attackerTroopsLost,
+            changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
                     idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);
-            changeTerritoryStatus(data.defender, -1 * data.defenderTroopsLost,
+            changeTerritoryStatus(idToName[data.defender], -1 * data.defenderTroopsLost,
                     idToData[data.defendTerritory], colors[data.defender], colors[data.defender]);
             break;
           case MOVE_TYPES.CLAIM_TERRITORY:
-        	console.log("CLAIMED");
+          	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
+        			idToData[data.claimedTerritory], colors[data.movePlayer], colors[data.movePlayer]);
+        	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
+        			idToData[data.claimedFrom], colors[data.movePlayer], colors[data.movePlayer]);
         	break;
         }
         break;
@@ -368,7 +371,7 @@ const setup_matches = () => {
               confirm.id = "confirm";
               confirm.innerHTML = "Confirm Placements";
               document.getElementById("n").appendChild(confirm);
-              document.getElementById("confirm").onclick = move_troops;
+              document.getElementById("confirm").onclick = claim_terr;
             }
             break;
         }
@@ -377,10 +380,12 @@ const setup_matches = () => {
   };
 }
 
-function move_troops() {
+function claim_terr() {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY,
 		  "playerId": myId, "troopsToMove": document.getElementById("troopChoice").value,
 		  "claimTerritory": claimed, "attackTerritory": claimedFrom};
+  document.getElementById("troopChoice").remove();
+  document.getElementById("confirm").remove();
   conn.send(JSON.stringify(mess));
 }
 
@@ -465,8 +470,6 @@ const join_match = event => {
 
 $(document).ready(function() {
   setup_matches();
-  
-
 });
 
 $maker.click(create_match);

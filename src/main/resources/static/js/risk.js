@@ -50,7 +50,16 @@ let prevMessage = undefined;
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')", "url('http://www.imgbase.info/images/safe-wallpapers/miscellaneous/historical/42834_historical_medieval_battle.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"];
 slideshow();
-
+const sendMessage = event => {
+	event.preventDefault();
+    let  message = $('#messageField').val();
+    console.log("f");
+    console.log(message);
+    $('#messageField').val("");
+    let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
+    conn.send(JSON.stringify(mess));
+}
+document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
 
 //	activateDropDown(2);
@@ -130,12 +139,12 @@ function slideshow(){
 function setUp () {
 	$sideNav = $('#n');
 	$sideNav.append("<br><br><br>");
-	$sideNav.append($("<p id = 'phase' class = 'alert'></p>"));
-	$sideNav.append($("<p id = 'turn' class = 'alert'></p>"));
-	$sideNav.append($("<p id = 'prevMove' class = 'alert'></p>"));
-	$sideNav.append($("<p id = 'bolsters' class = 'alert'></p>"));
-	$sideNav.append($("<p id = 'selecting' class = 'alert'></p>"));
-	$sideNav.append($("<p id = 'attacking' class = 'alert'></p>"));
+	$sideNav.append($("<p id = 'phase' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'turn' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'prevMove' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
 	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
 	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
 	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
@@ -357,20 +366,6 @@ function defenderLoss(defendingPlayer, losses) {
 	$("#defendLoss").html(message);
 }
 
-function sendMessage() {
-	
-
-
-    let  message = $('#messageField').val();
-    console.log("f");
-    console.log(message);
-    $('#messageField').val("");
-    let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
-    conn.send(JSON.stringify(mess));
-
-
-}
-
 let count = 0;
 function blink(selector){
 	while(count<6) {
@@ -380,7 +375,7 @@ function blink(selector){
 	    });
 	});
 	count++;
-}
+  }
 }
 
 

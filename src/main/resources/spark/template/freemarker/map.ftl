@@ -6,7 +6,7 @@
     </div>
     <textarea name="message" value="" id="messageField"
      placeholder="Enter Message!"></textarea>
-    <input type="submit" value="Send" id = "chatButton" onclick = "sendMessage()" >
+    <Button id = "chatButton">Send</Button>
     </div>
   	<div class="col-sm-8 text-left">
 
