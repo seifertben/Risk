@@ -1262,6 +1262,7 @@ function select_territory(event) {
           moveables = terrToReachableTerrs[moveFrom];
           let sideNav = $("#n");
           let troops = "";
+          let maxTroops = 0;
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
               maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";

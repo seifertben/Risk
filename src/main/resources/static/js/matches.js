@@ -467,6 +467,7 @@ function move_troops() {
     document.getElementById("confirm").remove();
     document.getElementById("numberTroopsToMove").remove();
     document.getElementById("resetMoveTroops").style.display = "none";
+   $("#skip").hide();
     availableForClaim = [];
     conn.send(JSON.stringify(mess));
   }
