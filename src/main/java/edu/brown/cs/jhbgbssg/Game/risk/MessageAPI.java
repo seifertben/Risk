@@ -445,9 +445,9 @@ public class MessageAPI {
     int numberTroops = move.troopsMoved();
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
-    jsonObject.addProperty("movePlayer", GSON.toJson(player));
+    jsonObject.addProperty("movePlayer", player.toString());
     jsonObject.addProperty("moveType", MoveType.MOVE_TROOPS.ordinal());
-    jsonObject.addProperty("moveGrom", moveFrom.ordinal());
+    jsonObject.addProperty("moveFrom", moveFrom.ordinal());
     jsonObject.addProperty("moveTo", moveTo.ordinal());
     jsonObject.addProperty("numberTroops", numberTroops);
     return jsonObject;
