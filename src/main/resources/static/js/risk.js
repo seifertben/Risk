@@ -69,17 +69,17 @@ const sendMessage = event => {
 	  event.preventDefault();
     }
     let  message = $('#messageField').val();
-    if (message.includes("<script>") || message.includes("</script>")) {
+    if (message.toLowerCase().includes("<script>") || message.toLowerCase().includes("</script>")) {
       message = "HAXORZ";
     }
-    if (message.includes("fuck")) {
-      message.replace("fuck", "****")
+    if (message.toLowerCase().includes("fuck")) {
+      message = "Wishing you the best!";
     }
-    if (message.includes("shit")) {
-      message.replace("shit", "****")
+    if (message.toLowerCase().includes("shit")) {
+      message = "Mommy says I shouldn't say swears...";
     }
-    if (message.includes("ass")) {
-      message.replace("ass", "***")
+    if (message.toLowerCase().includes("ass")) {
+      message = "Wow! GG.";
     }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
