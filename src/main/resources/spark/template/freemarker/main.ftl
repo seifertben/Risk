@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-<title><Risk></title>
+<title>Risk</title>
 <link rel="shortcut icon" href="images/favicon.ico">
 <script src="js/jquery-2.1.1.js"></script>
   <meta charset="utf-8">

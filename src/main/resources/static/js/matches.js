@@ -101,7 +101,7 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.START:
-        document.getElementById("gameField").style.display = "inline";
+        document.getElementById("gameField").style.display = "inline-block";
         document.getElementById("menuField").style.display = "none";
         document.getElementById(data.gameId).remove();
         players.push(data.player0id);
