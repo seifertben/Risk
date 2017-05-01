@@ -138,9 +138,7 @@ function changePlayerImage(id, backgroundColor, color) {
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
 }
-function slideshow(){
-	console.log('in!');
-	console.log(imageList.length);
+function slideshow() {
 	if (!start) {
 	 now = (now+1) % (imageList.length) ;
 	 console.log(imageList[now]);
