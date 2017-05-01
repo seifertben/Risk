@@ -413,6 +413,7 @@ const setup_matches = () => {
              confirm.id = "confirm";
              confirm.innerHTML = "Confirm Troop Movements";;
              document.getElementById("n").appendChild(confirm);
+             phase = "move_troops";
              $("#resetMoveTroops").show();
              $("#skip").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
