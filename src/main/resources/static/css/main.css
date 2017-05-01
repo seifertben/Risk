@@ -197,8 +197,8 @@
 
   button:focus {
     outline:none;
-    background-color: #204721;
   }
+  
   div[id="#n"] { 	
       border: 2px solid black;
       position: relative;
