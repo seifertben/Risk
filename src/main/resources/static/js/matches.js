@@ -21,7 +21,8 @@ const MESSAGE_TYPE = {
   VALID_ACTIONS: 12,
   ERROR: 13,
   MOVE: 14,
-  MESSAGE: 15
+  MESSAGE: 15,
+  PLAYER_INFORMATION: 16
 };
 
 const MOVE_TYPES = {
@@ -171,6 +172,12 @@ const setup_matches = () => {
         }
         break;
 
+
+      case MESSAGE_TYPE.PLAYER_INFORMATION:
+        console.log(data);
+
+        break;
+
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         switch(data.moveType){
           case MOVE_TYPES.SETUP:
@@ -308,6 +315,7 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Hand in Cards";             
               $("#skip").show();
               $("#turnInCards").show();
+              document.getElementById("attack").onclick = turnInCards;
               canClick = true;
               phase = "turnin";
             } else {

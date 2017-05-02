@@ -14,8 +14,6 @@ import com.google.common.collect.Multimap;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  * JUnit tests for RiskBoard.
@@ -140,6 +138,21 @@ public class RiskBoardTest {
   }
 
   /**
+   * Tests neighbors for Greenland.
+   */
+  @Test
+  public void testGreenlandNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.QUEBEC));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ONTARIO));
+    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND,
+        TerritoryEnum.NORTHWEST_TERRITORY));
+  }
+
+  /**
    * Tests neighbors for Central America.
    */
   @Test
@@ -217,6 +230,8 @@ public class RiskBoardTest {
         TerritoryEnum.WESTERN_EUROPE));
     assertTrue(board.isNeighbor(TerritoryEnum.NORTH_AFRICA,
         TerritoryEnum.SOUTHERN_EUROPE));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.NORTH_AFRICA, TerritoryEnum.BRAZIL));
   }
 
   /**
@@ -284,18 +299,15 @@ public class RiskBoardTest {
   }
 
   /**
-   * Tests neighbors for Greenland.
+   * Tests neighbors for Madagascar.
    */
   @Test
-  public void testGreenlandNeighbors() {
+  public void testMadagascarNeighbors() {
     RiskBoard board = new RiskBoard();
     assertTrue(
-        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ICELAND));
-    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.QUEBEC));
+        board.isNeighbor(TerritoryEnum.MADAGASCAR, TerritoryEnum.EAST_AFRICA));
     assertTrue(
-        board.isNeighbor(TerritoryEnum.GREENLAND, TerritoryEnum.ONTARIO));
-    assertTrue(board.isNeighbor(TerritoryEnum.GREENLAND,
-        TerritoryEnum.NORTHWEST_TERRITORY));
+        board.isNeighbor(TerritoryEnum.MADAGASCAR, TerritoryEnum.SOUTH_AFRICA));
   }
 
   /**
@@ -339,6 +351,8 @@ public class RiskBoardTest {
         TerritoryEnum.SOUTHERN_EUROPE));
     assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
         TerritoryEnum.NORTH_AFRICA));
+    assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
+        TerritoryEnum.NORTH_AFRICA));
   }
 
   /**
@@ -353,14 +367,30 @@ public class RiskBoardTest {
         TerritoryEnum.NORTHERN_EUROPE));
     assertTrue(
         board.isNeighbor(TerritoryEnum.SOUTHERN_EUROPE, TerritoryEnum.RUSSIA));
-    assertTrue(
-        board.isNeighbor(TerritoryEnum.SOUTHERN_EUROPE, TerritoryEnum.RUSSIA));
     assertTrue(board.isNeighbor(TerritoryEnum.SOUTHERN_EUROPE,
         TerritoryEnum.NORTH_AFRICA));
     assertTrue(
         board.isNeighbor(TerritoryEnum.SOUTHERN_EUROPE, TerritoryEnum.EGYPT));
     assertTrue(board.isNeighbor(TerritoryEnum.SOUTHERN_EUROPE,
         TerritoryEnum.MIDDLE_EAST));
+  }
+
+  /**
+   * Tests neighbors for Northern Europe.
+   */
+  @Test
+  public void testNorthernEuropeNeighbors() {
+    RiskBoard board = new RiskBoard();
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTHERN_EUROPE,
+        TerritoryEnum.WESTERN_EUROPE));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTHERN_EUROPE,
+        TerritoryEnum.SOUTHERN_EUROPE));
+    assertTrue(
+        board.isNeighbor(TerritoryEnum.NORTHERN_EUROPE, TerritoryEnum.RUSSIA));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTHERN_EUROPE,
+        TerritoryEnum.GREAT_BRITIAN));
+    assertTrue(board.isNeighbor(TerritoryEnum.NORTHERN_EUROPE,
+        TerritoryEnum.SCANDINAVIA));
   }
 
   /**
@@ -377,8 +407,6 @@ public class RiskBoardTest {
         board.isNeighbor(TerritoryEnum.SCANDINAVIA, TerritoryEnum.RUSSIA));
     assertTrue(
         board.isNeighbor(TerritoryEnum.SCANDINAVIA, TerritoryEnum.ICELAND));
-    assertTrue(
-        board.isNeighbor(TerritoryEnum.SCANDINAVIA, TerritoryEnum.RUSSIA));
   }
 
   /**
@@ -662,25 +690,25 @@ public class RiskBoardTest {
     assertTrue(terrIds.containsAll(ids));
     assertTrue(ids.containsAll(terrIds));
   }
-
-  /**
-   * Tests that getContinents return the right Continents.
-   */
-  @Test
-  public void testGetContinents() {
-    RiskBoard board = new RiskBoard();
-    Collection<ContinentInterface> conts = board.getContinents();
-    assertTrue(conts.size() == 6);
-    Set<ContinentEnum> contIds = new HashSet<>();
-    for (ContinentEnum id : ContinentEnum.values()) {
-      contIds.add(id);
-    }
-    for (ContinentInterface cont : conts) {
-      assertTrue(contIds.contains(cont.getContinentId()));
-      contIds.remove(cont.getContinentId());
-    }
-    assertTrue(contIds.size() == 0);
-  }
+  //
+  // /**
+  // * Tests that getContinents return the right Continents.
+  // */
+  // @Test
+  // public void testGetContinents() {
+  // RiskBoard board = new RiskBoard();
+  // Collection<ContinentInterface> conts = board.getContinents();
+  // assertTrue(conts.size() == 6);
+  // Set<ContinentEnum> contIds = new HashSet<>();
+  // for (ContinentEnum id : ContinentEnum.values()) {
+  // contIds.add(id);
+  // }
+  // for (ContinentInterface cont : conts) {
+  // assertTrue(contIds.contains(cont.getContinentId()));
+  // contIds.remove(cont.getContinentId());
+  // }
+  // assertTrue(contIds.size() == 0);
+  // }
 
   /**
    * Tests that getTerritory returns the right Territory.
@@ -704,27 +732,28 @@ public class RiskBoardTest {
     board.getTerritory(null);
   }
 
-  /**
-   * Test that getContinent returns the right continent.
-   */
-  @Test
-  public void testGetContinent() {
-    RiskBoard board = new RiskBoard();
-    for (ContinentEnum id : ContinentEnum.values()) {
-      ContinentInterface cont = board.getContinent(id);
-      assertTrue(cont.getContinentId() == id);
-    }
-  }
-
-  /**
-   * Tests that getContinent throws an IllegalArgumentException if the continent
-   * given is null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetContinentNullInput() {
-    RiskBoard board = new RiskBoard();
-    board.getContinent(null);
-  }
+  // /**
+  // * Test that getContinent returns the right continent.
+  // */
+  // @Test
+  // public void testGetContinent() {
+  // RiskBoard board = new RiskBoard();
+  // for (ContinentEnum id : ContinentEnum.values()) {
+  // ContinentInterface cont = board.getContinent(id);
+  // assertTrue(cont.getContinentId() == id);
+  // }
+  // }
+  //
+  // /**
+  // * Tests that getContinent throws an IllegalArgumentException if the
+  // continent
+  // * given is null.
+  // */
+  // @Test(expected = IllegalArgumentException.class)
+  // public void testGetContinentNullInput() {
+  // RiskBoard board = new RiskBoard();
+  // board.getContinent(null);
+  // }
 
   /**
    * Tests getMoveableTroops throws an IllegalArgumentException if the player
@@ -751,8 +780,8 @@ public class RiskBoardTest {
     board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 1);
     board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
         1);
-    Multimap<TerritoryEnum, TerritoryEnum> map = board
-        .getMoveableTroops(player);
+    Multimap<TerritoryEnum, TerritoryEnum> map =
+        board.getMoveableTroops(player);
     assertTrue(map.size() == 0);
   }
 
@@ -770,8 +799,8 @@ public class RiskBoardTest {
     board.getTerritory(TerritoryEnum.ALBERTA).changePlayer(player, 2);
     board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
         1);
-    Multimap<TerritoryEnum, TerritoryEnum> map = board
-        .getMoveableTroops(player);
+    Multimap<TerritoryEnum, TerritoryEnum> map =
+        board.getMoveableTroops(player);
     assertTrue(map.containsKey(TerritoryEnum.ALBERTA));
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
@@ -798,8 +827,8 @@ public class RiskBoardTest {
         1);
     board.getTerritory(TerritoryEnum.ICELAND).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.GREAT_BRITIAN).changePlayer(player, 1);
-    Multimap<TerritoryEnum, TerritoryEnum> map = board
-        .getMoveableTroops(player);
+    Multimap<TerritoryEnum, TerritoryEnum> map =
+        board.getMoveableTroops(player);
     assertTrue(map.containsKey(TerritoryEnum.ALBERTA));
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
@@ -834,8 +863,8 @@ public class RiskBoardTest {
     board.getTerritory(TerritoryEnum.NORTHWEST_TERRITORY).changePlayer(player,
         1);
     board.getTerritory(TerritoryEnum.GREENLAND).changePlayer(player, 1);
-    Multimap<TerritoryEnum, TerritoryEnum> map = board
-        .getMoveableTroops(player);
+    Multimap<TerritoryEnum, TerritoryEnum> map =
+        board.getMoveableTroops(player);
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA, TerritoryEnum.ALASKA));
     assertTrue(map.containsEntry(TerritoryEnum.ALBERTA,
         TerritoryEnum.NORTHWEST_TERRITORY));

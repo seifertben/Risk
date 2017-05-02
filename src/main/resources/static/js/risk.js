@@ -95,11 +95,7 @@ setInterval(slideshow, 6000);
 	changeMusicStatus();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
-	// $("#messageForm").on('submit', function(e){
- //    // validation code here
- //      e.preventDefault();
- //    sendMessage();
- //  });
+
  function changeMusicStatus() {
  	console.log($("#homeMute").text());
  	if ($("#homeMute").text() == "Mute") {
@@ -112,6 +108,10 @@ setInterval(slideshow, 6000);
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
+<<<<<<< HEAD
+=======
+	
+>>>>>>> acf1c017e5c4d7e6a8d693f4352d1695261feadf
 	
 	
 function confirmTransfer() {
@@ -129,7 +129,24 @@ function confirmDice() {
 	}
 }
 
+<<<<<<< HEAD
 
+=======
+$('.card').on("click", clickOnCard);
+
+function clickOnCard() {
+	console.log(canClick);
+	if (canClick) {
+		if ($(this).style.borderStyle !== "solid") {
+  			$(this).style.borderStyle = "solid";
+  			$(this).style.borderColor = "black";
+  		} else {
+  			$(this).style.borderStyle = "none";
+  			$(this).style.borderColor = "none";
+  		}
+  	}
+}
+>>>>>>> acf1c017e5c4d7e6a8d693f4352d1695261feadf
 
 
 function changePlayerImage(id, backgroundColor, color) { 
