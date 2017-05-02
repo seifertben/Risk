@@ -68,7 +68,6 @@ let terrToMaxTroopsMove;
 let moveFrom;
 let moveTo;
 let canClick = false;
-
 const setup_matches = () => {
 
   //conn = new WebSocket("ws://107.170.49.223/matches");
@@ -168,6 +167,7 @@ const setup_matches = () => {
         if (data.playerId == myId) {
           let card = data.cardValue;
           addcard(card);
+          console.log(card);
           console.log("added card");
         }
         break;
@@ -308,6 +308,7 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
+            console.log("turn in cards");
             if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
@@ -458,10 +459,24 @@ const setup_matches = () => {
     }
   };
 }
-
+function clickOnCard() {
+  console.log("Hi");
+  console.log(canClick);
+  if (canClick) {
+    if (this.style.borderStyle !== "solid") {
+        this.style.borderStyle = "solid";
+        this.style.borderColor = "black";
+      } else {
+        this.style.borderStyle = "none";
+        this.style.borderColor = "none";
+      }
+    }
+}
 
 function turnInCards() {
+  console.log("enter turn in cards function");
   $('#cards li').each(function() {
+    console.log("Hi");
     if (this.style.borderStyle === "solid") {
       let arr = this.className.split(" ");
       if (arr[1] == "one") {
