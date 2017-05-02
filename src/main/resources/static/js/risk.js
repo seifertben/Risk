@@ -108,11 +108,7 @@ setInterval(slideshow, 6000);
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
-<<<<<<< HEAD
-=======
-	
->>>>>>> acf1c017e5c4d7e6a8d693f4352d1695261feadf
-	
+
 	
 function confirmTransfer() {
 	console.log($("#transferDropDownText").text());
@@ -129,24 +125,6 @@ function confirmDice() {
 	}
 }
 
-<<<<<<< HEAD
-
-=======
-$('.card').on("click", clickOnCard);
-
-function clickOnCard() {
-	console.log(canClick);
-	if (canClick) {
-		if ($(this).style.borderStyle !== "solid") {
-  			$(this).style.borderStyle = "solid";
-  			$(this).style.borderColor = "black";
-  		} else {
-  			$(this).style.borderStyle = "none";
-  			$(this).style.borderColor = "none";
-  		}
-  	}
-}
->>>>>>> acf1c017e5c4d7e6a8d693f4352d1695261feadf
 
 
 function changePlayerImage(id, backgroundColor, color) { 
