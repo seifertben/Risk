@@ -404,7 +404,7 @@ public class Referee {
    * @return next valid action after claiming a territory
    */
   protected ValidAction getValidMoveAfterClaimTerritory() {
-    assert (validMove.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
+    assert (validMove.getMoveType() == MoveType.CLAIM_TERRITORY);
     ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {
       validMove = attack;
@@ -456,7 +456,8 @@ public class Referee {
     assert (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
         || type == MoveType.MOVE_TROOPS);
     if (type == MoveType.TURN_IN_CARD) {
-      return new ValidReinforceAction(currPlayer, new ArrayList<>());
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
+      return validMove;
     } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
       ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
       if (move.actionAvailable()) {
