@@ -522,7 +522,7 @@ function attack_territory() {
     document.getElementById("attacking").style.display = "none";
     document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("diceChoice").remove();
-    $("#sip").hide();
+    $("#skip").hide();
     availableForClaim = [];
     attackFrom = null;
     attackTo = null;
