@@ -86,6 +86,10 @@ public class Referee {
     return Collections.unmodifiableList(playerOrder);
   }
 
+  public List<RiskPlayer> getPlayers() {
+    return Collections.unmodifiableList(turnOrder);
+  }
+
   /**
    * Removes a player with the given UUID from the game.
    *

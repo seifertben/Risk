@@ -35,6 +35,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -665,5 +666,33 @@ public class MessageAPI {
       ordCollection.add(terr.ordinal());
     }
     return ordCollection;
+  }
+
+  public List<JsonObject> getPlayerInformation(List<RiskPlayer> players,
+      RiskBoard board) {
+    List<JsonObject> infoList = new ArrayList<>();
+    for (RiskPlayer player : players) {
+      JsonObject object = new JsonObject();
+      object.addProperty("type", RiskMessageType.PLAYER_INFORMATION.ordinal());
+      object.addProperty("playerId", player.getPlayerId().toString());
+      int troopTotal = 0;
+      Map<String, Integer> terrsToTroops = new HashMap<>();
+      for (TerritoryEnum terrId : player.getTerritories()) {
+        int numTroops = board.getTerritory(terrId).getNumberTroops();
+        terrsToTroops.put(terrId.toString(), numTroops);
+        troopTotal += board.getTerritory(terrId).getNumberTroops();
+      }
+      object.addProperty("terrsTroops", GSON.toJson(terrsToTroops));
+      object.addProperty("totalNumberTroops", troopTotal);
+      List<String> continents = new ArrayList<>();
+      for (ContinentInterface cont : board.getContinents()) {
+        if (player.getTerritories().containsAll(cont.getTerritories())) {
+          continents.add(cont.toString());
+        }
+      }
+      object.addProperty("continents", GSON.toJson(continents));
+      infoList.add(object);
+    }
+    return infoList;
   }
 }

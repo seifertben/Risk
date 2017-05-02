@@ -178,6 +178,7 @@ public class Match {
 
   /**
    * Initiate this match and create our risk game.
+   * 
    * @return
    */
   public List<JsonObject> start() {
@@ -198,8 +199,8 @@ public class Match {
   }
 
   /**
-   * Given a move made by a player in this match,
-   * return a 
+   * Given a move made by a player in this match, return a
+   * 
    * @param received
    * @return
    */
@@ -252,6 +253,8 @@ public class Match {
             break;
         }
         List<JsonObject> messages = messageApi.getUpdateMessages(update);
+        messages.addAll(
+            messageApi.getPlayerInformation(referee.getPlayers(), board));
         return messages;
       } catch (IllegalArgumentException e) {
         if (referee.getWinner() != null) {
