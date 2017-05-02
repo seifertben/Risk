@@ -404,7 +404,7 @@ public class Referee {
    * @return next valid action after claiming a territory
    */
   protected ValidAction getValidMoveAfterClaimTerritory() {
-    assert (validMove.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
+    assert (validMove.getMoveType() == MoveType.CLAIM_TERRITORY);
     ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {
       validMove = attack;
