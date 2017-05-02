@@ -156,7 +156,7 @@ function slideshow() {
 	 console.log(imageList[now]);
         body.css('background-image', imageList[now]);
         body.fadeIn(1000);
-        setTimeout(function(){body.fadeOut(1000)}, 4000);
+        setTimeout(function(){body.fadeOut(1000)}, 5000);
         //$("#nameField").fadeIn(6000);
     }
 }   
