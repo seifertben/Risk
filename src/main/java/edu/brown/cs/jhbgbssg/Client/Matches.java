@@ -140,12 +140,10 @@ public class Matches {
 
     // If this message is a risk move...
     if (received.get("type").getAsInt() == RiskMessageType.MOVE.ordinal()) {
-      System.out.println(" received " + received);
       // Verify and enact that move on the back end
       UUID playerUUID = UUID.fromString(received.get("playerId").getAsString());
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
-      System.out.println("to send " + response);
       // Send the response messages to all players in that match
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();

@@ -165,8 +165,9 @@ const setup_matches = () => {
 
       case MESSAGE_TYPE.HANDOUT_CARD:
         if (data.playerId == myId) {
-          let card = data.card;
-          addCard(card);
+          let card = data.cardValue;
+          addcard(card);
+          console.log("added card");
         }
         break;
 
@@ -300,14 +301,14 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-            phase = "card_turn_in";
             if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
-              ("#skip").show();
-              ("#turnInCards").show();
+              $("#skip").show();
+              $("#turnInCards").show();
               canClick = true;
+              phase = "turnin";
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -424,16 +425,17 @@ const setup_matches = () => {
             }
             break;
           case MOVE_TYPES.MOVE_TROOPS:
-        	document.getElementById("phase").innerHTML = "Prepare for Battle!";
-        	if (data.playerId == myId) {
-        	   document.getElementById("phase").innerHTML = "Move Your Troops!";            
+        	 document.getElementById("phase").innerHTML = "Prepare for Battle!";
+        	 if (data.playerId == myId) {
+             phase = "move_troops";
+             document.getElementById("phase").innerHTML = "Move Your Troops!";            
              let confirm = document.createElement("BUTTON");
              confirm.id = "confirm";
              confirm.innerHTML = "Confirm Troop Movements";
              document.getElementById("n").appendChild(confirm);
-             phase = "move_troops";
-             $("#resetMoveTroops").show();
+
              $("#skip").show();
+             $("#resetMoveTroops").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
              for (ter in terrToMaxTroopsMove) {
@@ -497,6 +499,7 @@ function attack_territory() {
     document.getElementById("attacking").style.display = "none";
     document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("diceChoice").remove();
+    $("#sip").hide();
     availableForClaim = [];
     attackFrom = null;
     attackTo = null;
@@ -508,7 +511,6 @@ function move_troops() {
   console.log(moveFrom);
   console.log(moveTo);
   if (moveFrom != null && moveTo != null) {
-    console.log("here");
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
       "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
       "troopsToMove": document.getElementById("numberTroopsToMove").value};
@@ -526,12 +528,17 @@ function move_troops() {
 
 const skip_phase = event => {
   event.preventDefault();
-  if (phase == "turnin" || phase == "moveTroops" || phase == "attacking") {
-	availableForClaim = [];
+  if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
+	  availableForClaim = [];
+    moveables = [];
+    moveFrom = null;
+    moveTo = null;
+    attackFrom = null;
+    attackTo = null;
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
     $("#turnInCards").hide();
-
+    $("#resetMoveTroops").hide();
     if (document.getElementById("attack") != null) {
       document.getElementById("attack").style.display = "none";
     }
@@ -552,6 +559,9 @@ const skip_phase = event => {
     }
     if (document.getElementById("confirm")!= null) {
       document.getElementById("confirm").remove();
+    }
+    if (document.getElementById("numberTroopsToMove") != null) {
+      document.getElementById("numberTroopsToMove").remove();
     }
     conn.send(JSON.stringify(mess));
   }

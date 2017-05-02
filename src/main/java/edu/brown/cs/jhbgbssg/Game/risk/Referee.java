@@ -45,6 +45,7 @@ public class Referee {
   private RiskPlayer currPlayer;
   private AttackAction lastAttack;
   private boolean gameStarted = false;
+  private boolean handoutCard = false;
 
   /**
    * Constructor for Referee. It takes in the RiskBoard and a set of players.
@@ -83,6 +84,10 @@ public class Referee {
       playerOrder.add(turnOrder.get(i).getPlayerId());
     }
     return Collections.unmodifiableList(playerOrder);
+  }
+
+  public List<RiskPlayer> getPlayers() {
+    return Collections.unmodifiableList(turnOrder);
   }
 
   /**
@@ -178,13 +183,14 @@ public class Referee {
   }
 
   /**
-   * Hands out a card if the card pool is not empty. Otherwise, the method
-   * returns -1.
+   * Hands out a card if the card pool is not empty and a card needs to be
+   * handed out. Otherwise, the method returns -1.
    *
    * @return card value to hand out
    */
   protected int handOutCard() {
-    if (!cardPool.isEmpty()) {
+    if (!cardPool.isEmpty() && handoutCard) {
+      handoutCard = false;
       return cardPool.handOutCard();
     }
     return -1;
@@ -308,6 +314,9 @@ public class Referee {
   protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
     if (defend.getDefenderLostTerritory()) {
       validMove = new ValidClaimTerritoryAction(currPlayer, board, lastAttack);
+      if (!cardPool.isEmpty()) {
+        handoutCard = true;
+      }
       lastAttack = null;
       return validMove;
     }

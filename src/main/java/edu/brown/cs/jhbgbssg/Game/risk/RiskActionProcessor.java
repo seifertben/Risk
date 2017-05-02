@@ -20,7 +20,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 public class RiskActionProcessor {
 
   private Referee referee;
-  private int cardToHandOut = -1;
 
   /**
    * Constructor for RiskActionProcessor. It takes in a referee it uses to
@@ -346,10 +345,11 @@ public class RiskActionProcessor {
    */
   private GameUpdate switchPlayers(Action prevMove, RiskPlayer player) {
     GameUpdate update = new GameUpdate();
-    if (cardToHandOut > 0) {
-      update.setCardToHandOut(player.getPlayerId(), cardToHandOut,
-          referee.emptyCardDeck());
-      cardToHandOut = -1;
+    int card = referee.handOutCard();
+    if (card > 0) {
+      player.addCard(card);
+      update.setCardToHandOut(player.getPlayerId(), card,
+          !referee.emptyCardDeck());
     }
     ValidAction action;
     if (prevMove == null) {
