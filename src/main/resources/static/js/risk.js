@@ -282,14 +282,14 @@ function hideAll() {
 function addcard(number) {
 	let card;
 	if (number ===1) {
-		card = $("<li class ='card one' onclick = 'clickOnCard()'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+		card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 		card.attr("id", cardID.toString());
 		cardID++;		
 	  $('#cards').append(card);
 	  console.log(card.attr('id'));
     }
     if (number ===2) {
-    	card = $("<li class ='card two' onclick = 'clickOnCard()'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+    	card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 			card.attr("id", cardID.toString());
 			  console.log(card.attr('id'));
 		cardID++;  

@@ -457,16 +457,16 @@ const setup_matches = () => {
     }
   };
 }
-function clickOnCard() {
+function clickOnCard(element) {
   console.log("Hi");
   console.log(canClick);
   if (canClick) {
-    if (this.style.borderStyle !== "solid") {
-        this.style.borderStyle = "solid";
-        this.style.borderColor = "black";
+    if (element.style.borderStyle !== "solid") {
+        element.style.borderStyle = "solid";
+        element.style.borderColor = "black";
       } else {
-        this.style.borderStyle = "none";
-        this.style.borderColor = "none";
+        element.style.borderStyle = "none";
+        element.style.borderColor = "none";
       }
     }
 }
@@ -485,7 +485,7 @@ function turnInCards() {
       this.remove();
     }
     if (myCards.length != 0) {
-      ("#turnInCards").hide();
+      $("#turnInCards").hide();
       canClick = false;
       let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
         "playerId": myId, "cards": myCards}; 
