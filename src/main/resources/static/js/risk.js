@@ -94,7 +94,7 @@ setInterval(slideshow, 6000);
 	changeMusicStatus();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
-	$("#turnInCards").on( "click", turnInCards);
+	//$("#turnInCards").on( "click", turnInCards);
 	// $("#messageForm").on('submit', function(e){
  //    // validation code here
  //      e.preventDefault();
@@ -112,7 +112,7 @@ setInterval(slideshow, 6000);
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
-	$('.card').on("click", clickOnCard);
+	
 	
 	function resetTransfer() {
 		
@@ -132,15 +132,17 @@ function confirmDice() {
 	}
 }
 
+$('.card').on("click", clickOnCard);
+
 function clickOnCard() {
 	console.log(canClick);
 	if (canClick) {
-		if (this.style.borderStyle !== "solid") {
-  			this.style.borderStyle = "solid";
-  			this.style.borderColor = "black";
+		if ($(this).style.borderStyle !== "solid") {
+  			$(this).style.borderStyle = "solid";
+  			$(this).style.borderColor = "black";
   		} else {
-  			this.style.borderStyle = "none";
-  			this.style.borderColor = "none";
+  			$(this).style.borderStyle = "none";
+  			$(this).style.borderColor = "none";
   		}
   	}
 }

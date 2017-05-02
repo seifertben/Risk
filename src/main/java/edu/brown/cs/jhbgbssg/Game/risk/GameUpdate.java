@@ -12,7 +12,6 @@ import edu.brown.cs.jhbgbssh.tuple.Pair;
  * @author sarahgilmore
  */
 public class GameUpdate {
-  private UUID currPlayer;
   private UUID lostGame;
   private UUID wonGame;
   private Action prevMove;
@@ -20,7 +19,6 @@ public class GameUpdate {
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
-  private boolean playerChanged;
 
   /**
    * Constructor of GameUpdate.
@@ -68,7 +66,6 @@ public class GameUpdate {
 
   protected void setValidMoves(ValidAction validMoves, Action previousMove,
       boolean error) {
-    this.currPlayer = validMoves.getMovePlayer();
     this.availableMoves = validMoves;
     this.prevMove = previousMove;
     this.errors = error;
@@ -96,6 +93,8 @@ public class GameUpdate {
   protected void setLostGame(UUID lostGame) {
     if (lostGame == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (this.lostGame != null) {
+      throw new IllegalArgumentException("ERROR: already set a loser");
     }
     this.lostGame = lostGame;
   }
@@ -125,30 +124,5 @@ public class GameUpdate {
    */
   public boolean getErrors() {
     return this.errors;
-  }
-
-  /**
-   * Returns the id of the current player in control of the game.
-   *
-   * @return unique UUID
-   */
-  public UUID getCurrentPlayer() {
-    return this.currPlayer;
-  }
-
-  /**
-   * Sets the boolean playerChanged field to true.
-   */
-  public void playerChanged() {
-    playerChanged = true;
-  }
-
-  /**
-   * Returns whether or not the player has changed.
-   *
-   * @return true if the player changed; false otherwise
-   */
-  public boolean didPlayerChange() {
-    return playerChanged;
   }
 }

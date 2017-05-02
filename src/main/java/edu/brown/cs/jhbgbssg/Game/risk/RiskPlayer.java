@@ -136,7 +136,10 @@ public class RiskPlayer implements Player {
     if (lostTerritory == null) {
       throw new IllegalArgumentException("ERROR: null territory");
     }
-
+    ContinentEnum cont = ContinentEnum.getContinent(lostTerritory);
+    if (conts.contains(cont)) {
+      conts.remove(cont);
+    }
     return territories.remove(lostTerritory);
   }
 

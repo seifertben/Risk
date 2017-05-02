@@ -60,11 +60,7 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterSetup();
-    if (nextValidMove == null) {
-      return this.switchPlayers(action, action.getMovePlayer());
-    }
-    update.setValidMoves(nextValidMove, action, false);
+    update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
@@ -81,7 +77,6 @@ public class RiskActionProcessor {
     if (action == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -95,11 +90,7 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterReinforceSetup();
-    if (nextValidMove == null) {
-      return this.switchPlayers(action, action.getMovePlayer());
-    }
-    update.setValidMoves(nextValidMove, action, false);
+    update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
@@ -358,7 +349,6 @@ public class RiskActionProcessor {
       action = referee.switchPlayer(prevMove);
     }
     update.setValidMoves(action, prevMove, false);
-    update.playerChanged();
     return update;
   }
 }
