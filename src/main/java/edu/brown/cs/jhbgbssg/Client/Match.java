@@ -4,6 +4,7 @@ package edu.brown.cs.jhbgbssg.Client;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -190,7 +191,8 @@ public class Match {
         riskPlayers.put(playerId, new RiskPlayer(playerId));
       }
       board = new RiskBoard();
-      referee = new Referee(board, riskPlayers.values());
+      Set<RiskPlayer> playerSet = new HashSet<>(riskPlayers.values());
+      referee = new Referee(board, playerSet);
       actionProcessor = new RiskActionProcessor(referee);
       players = referee.getPlayerOrder();
       GameUpdate initial = referee.startGame();

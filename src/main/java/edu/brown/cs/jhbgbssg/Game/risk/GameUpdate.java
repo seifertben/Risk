@@ -19,6 +19,7 @@ public class GameUpdate {
   private boolean errors;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
+  private UUID currPlayer;
 
   /**
    * Constructor of GameUpdate.
@@ -66,6 +67,9 @@ public class GameUpdate {
 
   protected void setValidMoves(ValidAction validMoves, Action previousMove,
       boolean error) {
+    if (validMoves != null) {
+      this.currPlayer = validMoves.getMovePlayer();
+    }
     this.availableMoves = validMoves;
     this.prevMove = previousMove;
     this.errors = error;
@@ -124,5 +128,14 @@ public class GameUpdate {
    */
   public boolean getErrors() {
     return this.errors;
+  }
+
+  /**
+   * Returns the id of the current player in control of the game.
+   *
+   * @return unique UUID
+   */
+  public UUID getCurrentPlayer() {
+    return this.currPlayer;
   }
 }

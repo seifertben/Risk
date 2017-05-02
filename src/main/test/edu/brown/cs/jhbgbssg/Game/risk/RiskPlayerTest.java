@@ -200,6 +200,24 @@ public class RiskPlayerTest {
     assertTrue(player.getContinents().contains(ContinentEnum.ASIA));
     player.lostTerritory(TerritoryEnum.CHINA);
     assertTrue(player.getContinents().size() == 0);
+  }
 
+  /**
+   * Tests a player does not gain a continent until the playe controls all of
+   * the territories in the continent.
+   */
+  @Test
+  public void testGainContinent() {
+    UUID id = UUID.randomUUID();
+    RiskPlayer player = new RiskPlayer(id);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.NEW_GUINEA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.WESTERN_AUSTRALIA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.EASTERN_AUSTRALIA);
+    assertTrue(player.getContinents().size() == 1);
+    assertTrue(player.getContinents().contains(ContinentEnum.AUSTRALIA));
   }
 }

@@ -33,7 +33,10 @@ import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Controls the rules of the game.
+ * This class represents the Referee of a Risk Game. It controls the flow of the
+ * game, deciding if actions are valid and hands out ValidAction objects which
+ * describe the type of action that is valid, who can make the action and the
+ * bounds on the action.
  *
  * @author Ben
  *
@@ -41,8 +44,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class Referee {
   private RiskBoard board;
   private RiskPlayer winner;
-  private List<RiskPlayer> turnOrder;
-  private Set<RiskPlayer> originalPlayers;
+  private List<RiskPlayer> turnOrder; // a list representing the turn order
+  private Set<RiskPlayer> originalPlayers; // a set of the original players
   private CardPool cardPool;
   private ValidAction validMove = null;
   private RiskPlayer currPlayer;
@@ -636,6 +639,12 @@ public class Referee {
     return setupReinforceMove.validSetupReinforceMove(move);
   }
 
+  /**
+   * Returns the current player whose turn it is. Note that if a player is
+   * defending, the player is not considered the current player.
+   *
+   * @return current player
+   */
   protected RiskPlayer getCurrentPlayer() {
     return currPlayer;
   }
