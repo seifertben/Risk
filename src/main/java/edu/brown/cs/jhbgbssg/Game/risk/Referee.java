@@ -456,7 +456,8 @@ public class Referee {
     assert (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
         || type == MoveType.MOVE_TROOPS);
     if (type == MoveType.TURN_IN_CARD) {
-      return new ValidReinforceAction(currPlayer, new ArrayList<>());
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
+      return validMove;
     } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
       ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
       if (move.actionAvailable()) {
