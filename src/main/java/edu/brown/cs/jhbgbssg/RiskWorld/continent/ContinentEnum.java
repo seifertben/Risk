@@ -108,4 +108,24 @@ public enum ContinentEnum {
     }
     return null;
   }
+
+  @Override
+  public String toString() {
+    switch (this) {
+      case AFRICA:
+        return "Africa";
+      case ASIA:
+        return "Asia";
+      case AUSTRALIA:
+        return "Australia";
+      case EUROPE:
+        return "Europe";
+      case NORTH_AMERICA:
+        return "North America";
+      case SOUTH_AMERICA:
+        return "South America";
+      default:
+        return "";
+    }
+  }
 }

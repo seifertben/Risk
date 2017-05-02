@@ -15,4 +15,96 @@ public enum TerritoryEnum {
   SOUTHERN_EUROPE, RUSSIA, AFGHANISTAN, CHINA, INDIA, IRKUTSK, JAPAN,
   KAMACHATKA, MIDDLE_EAST, MONGOLIA, SOUTHEAST_ASIA, SIBERIA, URAL, YAKUTSK,
   EASTERN_AUSTRALIA, INDONESIA, NEW_GUINEA, WESTERN_AUSTRALIA;
+
+  @Override
+  public String toString() {
+    switch (this) {
+      case AFGHANISTAN:
+        return "Afghanistan";
+      case ALASKA:
+        return "Alaska";
+      case ALBERTA:
+        return "Alberta";
+      case ARGENTINA:
+        return "Argentina";
+      case BRAZIL:
+        return "Brazil";
+      case CENTRAL_AFRICA:
+        return "Cental Africa";
+      case CENTRAL_AMERICA:
+        return "Central America";
+      case CHINA:
+        return "China";
+      case EASTERN_AUSTRALIA:
+        return "Eastern Australia";
+      case EASTERN_US:
+        return "Eastern United States";
+      case EAST_AFRICA:
+        return "East Africa";
+      case EGYPT:
+        return "Egypt";
+      case GREAT_BRITIAN:
+        return "Great Britian";
+      case GREENLAND:
+        return "Greenland";
+      case ICELAND:
+        return "Iceland";
+      case INDIA:
+        return "India";
+      case INDONESIA:
+        return "Indonesia";
+      case IRKUTSK:
+        return "Irkutsk";
+      case JAPAN:
+        return "Japan";
+      case KAMACHATKA:
+        return "Kamachatka";
+      case MADAGASCAR:
+        return "Madagascar";
+      case MIDDLE_EAST:
+        return "Middle East";
+      case MONGOLIA:
+        return "Mongolia";
+      case NEW_GUINEA:
+        return "New Guinea";
+      case NORTHERN_EUROPE:
+        return "Northern Europe";
+      case NORTHWEST_TERRITORY:
+        return "Northwest Territory";
+      case NORTH_AFRICA:
+        return "North Africa";
+      case ONTARIO:
+        return "Ontario";
+      case PERU:
+        return "Peru";
+      case QUEBEC:
+        return "Quebec";
+      case RUSSIA:
+        return "Russia";
+      case SCANDINAVIA:
+        return "Scandinavia";
+      case SIBERIA:
+        return "Siberia";
+      case SOUTHEAST_ASIA:
+        return "Southeast Asia";
+      case SOUTHERN_EUROPE:
+        return "Southern Europe";
+      case SOUTH_AFRICA:
+        return "South Africa";
+      case URAL:
+        return "Ural";
+      case VENEZUELA:
+        return "Venezuela";
+      case WESTERN_AUSTRALIA:
+        return "Western Australia";
+      case WESTERN_EUROPE:
+        return "Western Europe";
+      case WESTERN_US:
+        return "Western United States";
+      case YAKUTSK:
+        return "Yakutsk";
+      default:
+        return "";
+    }
+  }
 }
