@@ -162,6 +162,10 @@ function slideshow(){
     }
 }   
 
+$("#playerNum").keypress(function (evt) {
+    evt.preventDefault();
+});
+
 function setUp () {
 	$sideNav = $('#n');
 	$sideNav.append("<br><br><br>");
