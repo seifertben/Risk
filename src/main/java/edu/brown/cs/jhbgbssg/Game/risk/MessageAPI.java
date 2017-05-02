@@ -40,7 +40,8 @@ import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
  *
- * API for Risk.
+ * Message API for Risk. It constructs the different messages sent to the
+ * frontend and translates messages recieived from the frontend.
  *
  * @author sarahgilmore
  *
@@ -182,9 +183,8 @@ public class MessageAPI {
    */
   public List<Integer> getCardTurnedIn(JsonObject object) {
     try {
-      return GSON.fromJson(object.get("cards").getAsString(),
-          new TypeToken<List<Integer>>() {
-          }.getType());
+      return GSON.fromJson(object.get("cards"), new TypeToken<List<Integer>>() {
+      }.getType());
     } catch (NullPointerException e) {
       throw new IllegalArgumentException(
           "ERROR: no property in the json object");
