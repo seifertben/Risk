@@ -48,23 +48,25 @@ public class Referee {
   private boolean handoutCard = false;
 
   /**
-   * Constructor for Referee. It takes in the RiskBoard and a set of players.
+   * Constructor for Referee. It takes in the RiskBoard and a collection of
+   * RiskPlayers.Constructor for Referee. It takes in the RiskBoard and a set of
+   * players.
    *
    * @param board - board
-   * @param playerSet - set of risk players
+   * @param players - collection of risk players
    * @throws IllegalArgumentException - if the input is null
    */
-  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet)
+  public Referee(RiskBoard board, Collection<RiskPlayer> players)
       throws IllegalArgumentException {
-    if (board == null || playerSet == null) {
+    if (board == null || players == null) {
       throw new IllegalArgumentException("ERROR: null input");
-    } else if (playerSet.size() < 2 || playerSet.size() > 6) {
+    } else if (players.size() < 2 || players.size() > 6) {
       throw new IllegalArgumentException("ERROR: illegal number of players");
     }
     this.board = board;
-    turnOrder = new ArrayList<>(playerSet);
+    turnOrder = new ArrayList<>(players);
     Collections.shuffle(turnOrder);
-    int numberPlayers = playerSet.size();
+    int numberPlayers = players.size();
     for (RiskPlayer player : turnOrder) {
       player.setIntialReinforcement(numberPlayers);
     }
@@ -84,10 +86,6 @@ public class Referee {
       playerOrder.add(turnOrder.get(i).getPlayerId());
     }
     return Collections.unmodifiableList(playerOrder);
-  }
-
-  public List<RiskPlayer> getPlayers() {
-    return Collections.unmodifiableList(turnOrder);
   }
 
   /**
@@ -208,8 +206,7 @@ public class Referee {
     currPlayer = turnOrder.get(index);
     validMove = new ValidCardAction(currPlayer);
     if (!validMove.actionAvailable()) {
-      validMove =
-          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
     }
     if (prevMove.getMoveType() == MoveType.SETUP) {
       validMove = new ValidSetupAction(currPlayer, board);
@@ -225,8 +222,7 @@ public class Referee {
         return validMove;
       } else {
         currPlayer = turnOrder.get(0);
-        validMove =
-            new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+        validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
         return validMove;
       }
     }
@@ -280,8 +276,7 @@ public class Referee {
 
   protected ValidAction getValidMoveAfterCardTurnIn(Multiset<Integer> cards) {
     List<Integer> cardList = new ArrayList<>(cards);
-    ValidReinforceAction move =
-        new ValidReinforceAction(currPlayer, board, cardList);
+    ValidReinforceAction move = new ValidReinforceAction(currPlayer, cardList);
     validMove = move;
     return validMove;
   }
@@ -375,7 +370,7 @@ public class Referee {
   protected ValidAction getActionAfterSkip() {
     MoveType type = validMove.getMoveType();
     if (type == MoveType.TURN_IN_CARD) {
-      return new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+      return new ValidReinforceAction(currPlayer, new ArrayList<>());
     } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
       ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
       if (move.actionAvailable()) {
@@ -394,8 +389,7 @@ public class Referee {
     currPlayer = turnOrder.get(index);
     validMove = new ValidCardAction(currPlayer);
     if (!validMove.actionAvailable()) {
-      validMove =
-          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
     }
     return validMove;
   }

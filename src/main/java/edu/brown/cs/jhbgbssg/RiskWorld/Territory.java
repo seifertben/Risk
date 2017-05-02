@@ -27,6 +27,7 @@ public class Territory {
     if (id == null || contId == null) {
       throw new IllegalArgumentException("ERROR: null id");
     }
+    this.contId = ContinentEnum.getContinent(id);
     this.id = id;
     this.contId = contId;
     this.numberTroops = 0;

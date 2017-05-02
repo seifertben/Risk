@@ -18,14 +18,7 @@ import com.google.common.graph.MutableGraph;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.Africa;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.Asia;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.Australia;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.Europe;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.NorthAmerica;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.SouthAmerica;
 
 /**
  * Represents a Risk game board.
@@ -36,14 +29,14 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.SouthAmerica;
 public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
-  private Map<ContinentEnum, ContinentInterface> continentMap;
+  // private Map<ContinentEnum, ContinentInterface> continentMap;
 
   /**
    * Constructor for RiskBoard.
    */
   public RiskBoard() {
     this.buildBoard();
-    this.setUpContinents();
+    // this.setUpContinents();
     this.setUpTerritories();
   }
 
@@ -142,32 +135,29 @@ public class RiskBoard {
   private void setUpTerritories() {
     territoryMap = new HashMap<>();
     for (TerritoryEnum id : TerritoryEnum.values()) {
-      for (ContinentInterface cont : continentMap.values()) {
-        if (cont.containsTerritory(id)) {
-          Territory territory = new Territory(id, cont.getContinentId());
-          territoryMap.put(id, territory);
-          break;
-        }
-      }
+      ContinentEnum cont = ContinentEnum.getContinent(id);
+      assert (cont != null);
+      Territory territory = new Territory(id, cont);
+      territoryMap.put(id, territory);
     }
   }
 
-  private void setUpContinents() {
-    ContinentInterface australia = new Australia();
-    ContinentInterface southAmerica = new SouthAmerica();
-    ContinentInterface northAmerica = new NorthAmerica();
-    ContinentInterface africa = new Africa();
-    ContinentInterface asia = new Asia();
-    ContinentInterface europe = new Europe();
-    continentMap = new HashMap<>();
-    continentMap.put(ContinentEnum.AFRICA, africa);
-    continentMap.put(ContinentEnum.ASIA, asia);
-    continentMap.put(ContinentEnum.AUSTRALIA, australia);
-    continentMap.put(ContinentEnum.EUROPE, europe);
-    continentMap.put(ContinentEnum.NORTH_AMERICA, northAmerica);
-    continentMap.put(ContinentEnum.SOUTH_AMERICA, southAmerica);
-
-  }
+  // private void setUpContinents() {
+  // ContinentInterface australia = new Australia();
+  // ContinentInterface southAmerica = new SouthAmerica();
+  // ContinentInterface northAmerica = new NorthAmerica();
+  // ContinentInterface africa = new Africa();
+  // ContinentInterface asia = new Asia();
+  // ContinentInterface europe = new Europe();
+  // continentMap = new HashMap<>();
+  // continentMap.put(ContinentEnum.AFRICA, africa);
+  // continentMap.put(ContinentEnum.ASIA, asia);
+  // continentMap.put(ContinentEnum.AUSTRALIA, australia);
+  // continentMap.put(ContinentEnum.EUROPE, europe);
+  // continentMap.put(ContinentEnum.NORTH_AMERICA, northAmerica);
+  // continentMap.put(ContinentEnum.SOUTH_AMERICA, southAmerica);
+  //
+  // }
 
   /**
    * Gets a map portraying which territories a player can attack from and which
@@ -244,29 +234,29 @@ public class RiskBoard {
     return territoryMap.values();
   }
 
-  /**
-   * Returns the collection of continents.
-   *
-   * @return continent sets
-   */
-  public Collection<ContinentInterface> getContinents() {
-    return continentMap.values();
-  }
-
-  /**
-   * Returns the continent associated with the id.
-   *
-   * @param contId - id
-   * @return continent
-   * @throws IllegalArgumentException if the id is null
-   */
-  public ContinentInterface getContinent(ContinentEnum contId)
-      throws IllegalArgumentException {
-    if (contId == null) {
-      throw new IllegalArgumentException("ERROR: null input");
-    }
-    return continentMap.get(contId);
-  }
+  // /**
+  // * Returns the collection of continents.
+  // *
+  // * @return continent sets
+  // */
+  // public Collection<ContinentInterface> getContinents() {
+  // return continentMap.values();
+  // }
+  //
+  // /**
+  // * Returns the continent associated with the id.
+  // *
+  // * @param contId - id
+  // * @return continent
+  // * @throws IllegalArgumentException if the id is null
+  // */
+  // public ContinentInterface getContinent(ContinentEnum contId)
+  // throws IllegalArgumentException {
+  // if (contId == null) {
+  // throw new IllegalArgumentException("ERROR: null input");
+  // }
+  // return continentMap.get(contId);
+  // }
 
   /**
    * Returns the multimap of territories representing which territories are
@@ -286,8 +276,8 @@ public class RiskBoard {
     for (TerritoryEnum playerTerrId : terrs) {
       Territory terr = territoryMap.get(playerTerrId);
       if (terr.getNumberTroops() > 1) {
-        Deque<TerritoryEnum> toVisit = new ArrayDeque<>(
-            board.adjacentNodes(playerTerrId));
+        Deque<TerritoryEnum> toVisit =
+            new ArrayDeque<>(board.adjacentNodes(playerTerrId));
         Set<TerritoryEnum> visited = new HashSet<>();
         visited.add(playerTerrId);
         while (!toVisit.isEmpty()) {
@@ -301,8 +291,8 @@ public class RiskBoard {
                 .adjacentNodes(currVisitTerrId)) {
               if (!toVisit.contains(visitNeighbor)
                   && !visited.contains(visitNeighbor)) {
-                RiskPlayer terrOwner = territoryMap.get(visitNeighbor)
-                    .getOwner();
+                RiskPlayer terrOwner =
+                    territoryMap.get(visitNeighbor).getOwner();
                 if (terrOwner != null && terrOwner.equals(player)) {
                   toVisit.add(visitNeighbor);
                 }

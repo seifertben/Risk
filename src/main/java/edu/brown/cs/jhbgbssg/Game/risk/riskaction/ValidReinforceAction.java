@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * Represents a Valid Reinforce Move.
@@ -27,31 +26,28 @@ public class ValidReinforceAction implements ValidAction {
    * Constructor for a ValidReinforceMove.
    *
    * @param player - player
-   * @param board - board
    * @param cards - cards turned in
    * @throws IllegalArgumentException - thrown if the input is null or if the
    *           numberReinforce is negative
    */
-  public ValidReinforceAction(RiskPlayer player, RiskBoard board,
-      List<Integer> cards) throws IllegalArgumentException {
-    if (player == null || board == null || cards == null) {
+  public ValidReinforceAction(RiskPlayer player, List<Integer> cards)
+      throws IllegalArgumentException {
+    if (player == null || cards == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
     this.player = player;
     numberReinforce = player.getNumberTerritories() / 3;
     territories = player.getTerritories();
-    Collection<ContinentInterface> conts = board.getContinents();
-    for (ContinentInterface cont : conts) {
-      Set<TerritoryEnum> territoriesInCont = cont.getTerritories();
-      if (territories.containsAll(territoriesInCont)) {
-        numberReinforce += cont.getBonusValue();
-      }
+    Set<ContinentEnum> conts = player.getContinents();
+    for (ContinentEnum cont : conts) {
+      numberReinforce += ContinentEnum.getContinentalBonus(cont);
     }
     for (Integer card : cards) {
       numberReinforce += card;
     }
     numberReinforce = Math.max(3, numberReinforce);
     if (territories.size() == 0) {
+      numberReinforce = 0;
       actionAvailable = false;
     } else {
       actionAvailable = true;

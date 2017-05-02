@@ -254,7 +254,7 @@ public class Match {
         }
         List<JsonObject> messages = messageApi.getUpdateMessages(update);
         messages.addAll(
-            messageApi.getPlayerInformation(referee.getPlayers(), board));
+            messageApi.getPlayerInformation(riskPlayers.values(), board));
         return messages;
       } catch (IllegalArgumentException e) {
         if (referee.getWinner() != null) {

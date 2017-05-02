@@ -35,7 +35,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -668,7 +668,7 @@ public class MessageAPI {
     return ordCollection;
   }
 
-  public List<JsonObject> getPlayerInformation(List<RiskPlayer> players,
+  public List<JsonObject> getPlayerInformation(Collection<RiskPlayer> players,
       RiskBoard board) {
     List<JsonObject> infoList = new ArrayList<>();
     for (RiskPlayer player : players) {
@@ -685,10 +685,8 @@ public class MessageAPI {
       object.addProperty("terrsTroops", GSON.toJson(terrsToTroops));
       object.addProperty("totalNumberTroops", troopTotal);
       List<String> continents = new ArrayList<>();
-      for (ContinentInterface cont : board.getContinents()) {
-        if (player.getTerritories().containsAll(cont.getTerritories())) {
-          continents.add(cont.toString());
-        }
+      for (ContinentEnum cont : player.getContinents()) {
+        continents.add(cont.toString());
       }
       object.addProperty("continents", GSON.toJson(continents));
       infoList.add(object);
