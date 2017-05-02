@@ -140,16 +140,14 @@ const setup_matches = () => {
         $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
+        //set colors for chat.
+        for(i=0; i<players.length; i++){
+          colorMap.set(players[i], colors[players[i]]);
+        }
 
-      //set colors for chat.
-      for(i=0; i<players.length; i++){
-        colorMap.set(players[i], colors[players[i]]);
-      }
-
-      //Set name message for header.
-      let h1 = document.getElementById("inGame");
-      h1.innerHTML += ", " + myName;
-
+        //Set name message for header.
+        let h1 = document.getElementById("inGame");
+        h1.innerHTML += ", " + myName;
 
     	phase = "setup";
         break;
