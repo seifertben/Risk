@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * JUnit tests for RiskPlayer.
@@ -151,5 +152,72 @@ public class RiskPlayerTest {
     assertTrue(player.removeCard(1));
     assertFalse(player.hasCard(1));
     assertTrue(player.getCards().size() == 0);
+  }
+
+  /**
+   * Tests getContinents return an empty set if the player does not own any
+   * continents.
+   */
+  @Test
+  public void testGetContinentsEmptySet() {
+    UUID id = UUID.randomUUID();
+    RiskPlayer player = new RiskPlayer(id);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.WESTERN_AUSTRALIA);
+    assertTrue(player.getContinents().size() == 0);
+  }
+
+  /**
+   * Tests getContinents returns a set of all the Continents the player
+   * controls.
+   */
+  @Test
+  public void testGetContinents() {
+    UUID id = UUID.randomUUID();
+    RiskPlayer player = new RiskPlayer(id);
+    for (TerritoryEnum terr : ContinentEnum
+        .getTerritories(ContinentEnum.ASIA)) {
+      player.conqueredTerritory(terr);
+    }
+    assertTrue(player.getContinents().size() == 1);
+    assertTrue(player.getContinents().contains(ContinentEnum.ASIA));
+  }
+
+  /**
+   * Tests that losing a territory causes a player to lose control of the
+   * Continent if the player controlled the Continent prior to losing the
+   * territory.
+   */
+  @Test
+  public void testLostContinent() {
+    UUID id = UUID.randomUUID();
+    RiskPlayer player = new RiskPlayer(id);
+    for (TerritoryEnum terr : ContinentEnum
+        .getTerritories(ContinentEnum.ASIA)) {
+      player.conqueredTerritory(terr);
+    }
+    assertTrue(player.getContinents().size() == 1);
+    assertTrue(player.getContinents().contains(ContinentEnum.ASIA));
+    player.lostTerritory(TerritoryEnum.CHINA);
+    assertTrue(player.getContinents().size() == 0);
+  }
+
+  /**
+   * Tests a player does not gain a continent until the playe controls all of
+   * the territories in the continent.
+   */
+  @Test
+  public void testGainContinent() {
+    UUID id = UUID.randomUUID();
+    RiskPlayer player = new RiskPlayer(id);
+    player.conqueredTerritory(TerritoryEnum.INDONESIA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.NEW_GUINEA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.WESTERN_AUSTRALIA);
+    assertTrue(player.getContinents().size() == 0);
+    player.conqueredTerritory(TerritoryEnum.EASTERN_AUSTRALIA);
+    assertTrue(player.getContinents().size() == 1);
+    assertTrue(player.getContinents().contains(ContinentEnum.AUSTRALIA));
   }
 }

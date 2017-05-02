@@ -20,7 +20,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 public class RiskActionProcessor {
 
   private Referee referee;
-  private int cardToHandOut = -1;
 
   /**
    * Constructor for RiskActionProcessor. It takes in a referee it uses to
@@ -61,11 +60,7 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterSetup();
-    if (nextValidMove == null) {
-      return this.switchPlayers(action, action.getMovePlayer());
-    }
-    update.setValidMoves(nextValidMove, action, false);
+    update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
@@ -82,7 +77,6 @@ public class RiskActionProcessor {
     if (action == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-
     GameUpdate update = new GameUpdate();
     if (referee.getWinner() != null) {
       update.setWonGame(referee.getWinner().getPlayerId());
@@ -96,11 +90,7 @@ public class RiskActionProcessor {
       return update;
     }
     action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterReinforceSetup();
-    if (nextValidMove == null) {
-      return this.switchPlayers(action, action.getMovePlayer());
-    }
-    update.setValidMoves(nextValidMove, action, false);
+    update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
@@ -346,10 +336,11 @@ public class RiskActionProcessor {
    */
   private GameUpdate switchPlayers(Action prevMove, RiskPlayer player) {
     GameUpdate update = new GameUpdate();
-    if (cardToHandOut > 0) {
-      update.setCardToHandOut(player.getPlayerId(), cardToHandOut,
-          referee.emptyCardDeck());
-      cardToHandOut = -1;
+    int card = referee.handOutCard();
+    if (card > 0) {
+      player.addCard(card);
+      update.setCardToHandOut(player.getPlayerId(), card,
+          !referee.emptyCardDeck());
     }
     ValidAction action;
     if (prevMove == null) {
@@ -358,7 +349,6 @@ public class RiskActionProcessor {
       action = referee.switchPlayer(prevMove);
     }
     update.setValidMoves(action, prevMove, false);
-    update.playerChanged();
     return update;
   }
 }

@@ -26,7 +26,7 @@ public class RiskCardPoolTest {
   }
 
   /**
-   * Tests the number of cards in the CardPool.
+   * Tests there are 42 cards in the card pool.
    */
   @Test
   public void testNumberCards() {
@@ -38,7 +38,7 @@ public class RiskCardPoolTest {
   }
 
   /**
-   * Tests number of one star cards in the CardPool.
+   * Tests there are 30 one-star cards in the card pool.
    */
   @Test
   public void testNumberOfOneStarCards() {
@@ -54,7 +54,7 @@ public class RiskCardPoolTest {
   }
 
   /**
-   * Tests number of two star cards in the CardPool.
+   * Tests there are 12 two-star cards in the card pool.
    */
   @Test
   public void testNumberOfOneTwoCards() {
@@ -70,7 +70,7 @@ public class RiskCardPoolTest {
   }
 
   /**
-   * Tests cardpool only hands out cards with values of 1 or 2.
+   * Tests card pool only hands out cards with values of 1 or 2.
    */
   @Test
   public void testCardsNumbers() {
@@ -89,5 +89,19 @@ public class RiskCardPoolTest {
   public void testHandInCard() {
     RiskCardPool cardPool = new RiskCardPool();
     cardPool.handInCard(1);
+  }
+
+  /**
+   * Tests that handoutCard returns -1 once all the cards have been handed out.
+   */
+  @Test
+  public void testHandoutCardOnceEmpty() {
+    RiskCardPool cardPool = new RiskCardPool();
+    for (int i = 0; i < NUMBER_CARDS; i++) {
+      int card = cardPool.handOutCard();
+      assertTrue(card == 1 || card == 2);
+    }
+    assertTrue(cardPool.isEmpty());
+    assertTrue(cardPool.handOutCard() == -1);
   }
 }

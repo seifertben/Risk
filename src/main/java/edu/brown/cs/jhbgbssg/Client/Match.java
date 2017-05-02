@@ -4,6 +4,7 @@ package edu.brown.cs.jhbgbssg.Client;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -178,6 +179,7 @@ public class Match {
 
   /**
    * Initiate this match and create our risk game.
+   * 
    * @return
    */
   public List<JsonObject> start() {
@@ -189,7 +191,8 @@ public class Match {
         riskPlayers.put(playerId, new RiskPlayer(playerId));
       }
       board = new RiskBoard();
-      referee = new Referee(board, riskPlayers.values());
+      Set<RiskPlayer> playerSet = new HashSet<>(riskPlayers.values());
+      referee = new Referee(board, playerSet);
       actionProcessor = new RiskActionProcessor(referee);
       players = referee.getPlayerOrder();
       GameUpdate initial = referee.startGame();
@@ -198,8 +201,8 @@ public class Match {
   }
 
   /**
-   * Given a move made by a player in this match,
-   * return a 
+   * Given a move made by a player in this match, return a
+   * 
    * @param received
    * @return
    */
@@ -252,6 +255,8 @@ public class Match {
             break;
         }
         List<JsonObject> messages = messageApi.getUpdateMessages(update);
+        messages.addAll(
+            messageApi.getPlayerInformation(riskPlayers.values(), board));
         return messages;
       } catch (IllegalArgumentException e) {
         if (referee.getWinner() != null) {

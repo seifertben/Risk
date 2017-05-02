@@ -1,9 +1,10 @@
 package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Multiset;
@@ -28,10 +29,14 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
+import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Controls the rules of the game.
+ * This class represents the Referee of a Risk Game. It controls the flow of the
+ * game, deciding if actions are valid and hands out ValidAction objects which
+ * describe the type of action that is valid, who can make the action and the
+ * bounds on the action.
  *
  * @author Ben
  *
@@ -39,31 +44,51 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class Referee {
   private RiskBoard board;
   private RiskPlayer winner;
-  private List<RiskPlayer> turnOrder;
+  private List<RiskPlayer> turnOrder; // a list representing the turn order
+  private Set<RiskPlayer> originalPlayers; // a set of the original players
   private CardPool cardPool;
   private ValidAction validMove = null;
   private RiskPlayer currPlayer;
   private AttackAction lastAttack;
   private boolean gameStarted = false;
+  private boolean handoutCard = false;
 
   /**
-   * Constructor for Referee. It takes in the RiskBoard and a set of players.
+   * Constructor for Referee. It takes in the RiskBoard and a collection of
+   * RiskPlayers.
    *
-   * @param board - board
-   * @param playerSet - set of risk players
-   * @throws IllegalArgumentException - if the input is null
+   * @param board - risk game board
+   * @param players - collection of risk players
+   * @throws IllegalArgumentException - if the input is null or if the number of
+   *           players is less than 2 or greater than 6 or if the risk board
+   *           given has an illegal starting state.
    */
-  public Referee(RiskBoard board, Collection<RiskPlayer> playerSet)
+  public Referee(RiskBoard board, Set<RiskPlayer> players)
       throws IllegalArgumentException {
-    if (board == null || playerSet == null) {
+    if (board == null || players == null) {
       throw new IllegalArgumentException("ERROR: null input");
-    } else if (playerSet.size() < 2 || playerSet.size() > 6) {
+    } else if (players.size() < 2 || players.size() > 6) {
       throw new IllegalArgumentException("ERROR: illegal number of players");
     }
+    for (Territory terr : board.getTerritories()) {
+      if (terr.occuppied() || terr.getOwner() != null) {
+        throw new IllegalArgumentException(
+            "ERROR: illegal starting state of a risk board");
+      }
+    }
+    for (RiskPlayer player : players) {
+      if (player.getTerritories().size() != 0
+          || player.getContinents().size() != 0) {
+        throw new IllegalArgumentException(
+            "ERROR: illegal starting state of a risk player");
+      }
+    }
     this.board = board;
-    turnOrder = new ArrayList<>(playerSet);
+    turnOrder = new ArrayList<>(players);
+    originalPlayers = new HashSet<>(turnOrder);
+    originalPlayers = Collections.unmodifiableSet(originalPlayers);
     Collections.shuffle(turnOrder);
-    int numberPlayers = playerSet.size();
+    int numberPlayers = players.size();
     for (RiskPlayer player : turnOrder) {
       player.setIntialReinforcement(numberPlayers);
     }
@@ -73,7 +98,8 @@ public class Referee {
   }
 
   /**
-   * Returns the ordered list of player ids in the game.
+   * Returns a unmodifiable list of player ids representing the turn order in
+   * the game.
    *
    * @return list of player ids
    */
@@ -86,16 +112,23 @@ public class Referee {
   }
 
   /**
-   * Removes a player with the given UUID from the game.
+   * Removes a player with the given UUID from the game. It returns a boolean
+   * indicating if the player was removed from the list.
    *
    * @param playerId Id of player to remove.
+   * @return true if the player was removed; false if not
+   * @throws IllegalArgumentException if the UUID given is null
    */
-  public void removePlayer(UUID playerId) {
+  public boolean removePlayer(UUID playerId) throws IllegalArgumentException {
+    if (playerId == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     for (int i = 0; i < turnOrder.size(); i++) {
       if (turnOrder.get(i).getPlayerId() == playerId) {
-        turnOrder.remove(i);
+        return turnOrder.remove(i) != null;
       }
     }
+    return false;
   }
 
   /**
@@ -125,15 +158,6 @@ public class Referee {
   }
 
   /**
-   * Returns the current attack action.
-   *
-   * @return AttackAction
-   */
-  public AttackAction getCurrentAttack() {
-    return lastAttack;
-  }
-
-  /**
    * Returns the winner if there is one.
    *
    * @return winner of the game
@@ -143,17 +167,29 @@ public class Referee {
   }
 
   /**
-   * Determines if there the player is a winner and sets the winner field if so.
+   * Determines if there the player is a winner and sets the winner field if it
+   * has no already been set. If the player is the winner, the method returns
+   * true.
    *
    * @param player - player to determine winner
    * @return true if there is a winner; false otherwise
+   * @throws IllegalArgumentException if the player given is null or if the
+   *           player was not originally part of the game.
    */
-  protected boolean isWinner(RiskPlayer player) {
+  protected boolean isWinner(RiskPlayer player)
+      throws IllegalArgumentException {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (!originalPlayers.contains(player)) {
+      throw new IllegalArgumentException(
+          "ERROR: player not part of this risk game");
     }
-    if (player.getTerritories().containsAll(board.getTerritoryIds())) {
+    if (winner != null && winner.equals(player)) {
+      return true;
+    } else if (player.getTerritories().containsAll(board.getTerritoryIds())) {
       winner = player;
+      assert (turnOrder.size() == 1);
+      assert (turnOrder.get(0).equals(winner));
       return true;
     }
     return false;
@@ -165,10 +201,16 @@ public class Referee {
    *
    * @param player - player to check for losing the game
    * @return true if the player lost the game; false otherwise
+   * @throws IllegalArgumentException if the player given is null or if the
+   *           player was not part of the game originally..
    */
-  protected boolean playerLost(RiskPlayer player) {
+  protected boolean playerLost(RiskPlayer player)
+      throws IllegalArgumentException {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (!originalPlayers.contains(player)) {
+      throw new IllegalArgumentException(
+          "ERROR: player not part of original game");
     }
     if (!player.hasTerritories()) {
       turnOrder.remove(player);
@@ -178,53 +220,17 @@ public class Referee {
   }
 
   /**
-   * Hands out a card if the card pool is not empty. Otherwise, the method
-   * returns -1.
+   * Hands out a card if the card pool is not empty and a card needs to be
+   * handed out. Otherwise, the method returns -1.
    *
    * @return card value to hand out
    */
   protected int handOutCard() {
-    if (!cardPool.isEmpty()) {
+    if (!cardPool.isEmpty() && handoutCard) {
+      handoutCard = false;
       return cardPool.handOutCard();
     }
     return -1;
-  }
-
-  /**
-   * Switches the current player and determines which the valid actions the
-   * player can do.
-   *
-   * @return valid action of the next player
-   */
-  protected ValidAction switchPlayer(Action prevMove) {
-    int index = turnOrder.indexOf(currPlayer);
-    index = (index + 1) % turnOrder.size();
-    currPlayer = turnOrder.get(index);
-    validMove = new ValidCardAction(currPlayer);
-    if (!validMove.actionAvailable()) {
-      validMove =
-          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
-    }
-    if (prevMove.getMoveType() == MoveType.SETUP) {
-      validMove = new ValidSetupAction(currPlayer, board);
-      if (validMove.actionAvailable()) {
-        return validMove;
-      } else {
-        validMove = new ValidSetupReinforceAction(currPlayer);
-        return validMove;
-      }
-    } else if (prevMove.getMoveType() == MoveType.SETUP_REINFORCE) {
-      validMove = new ValidSetupReinforceAction(currPlayer);
-      if (validMove.actionAvailable()) {
-        return validMove;
-      } else {
-        currPlayer = turnOrder.get(0);
-        validMove =
-            new ValidReinforceAction(currPlayer, board, new ArrayList<>());
-        return validMove;
-      }
-    }
-    return validMove;
   }
 
   /**
@@ -251,13 +257,77 @@ public class Referee {
   }
 
   /**
+   * Returns the current attack action.
+   *
+   * @return AttackAction
+   */
+  public AttackAction getCurrentAttack() {
+    return lastAttack;
+  }
+
+  /**
+   * Switches the current player and determines which the valid actions the
+   * player can do.
+   *
+   * @return valid action of the next player
+   */
+  protected ValidAction switchPlayer(Action prevMove) {
+    int index = turnOrder.indexOf(currPlayer);
+    index = (index + 1) % turnOrder.size();
+    currPlayer = turnOrder.get(index);
+    validMove = new ValidCardAction(currPlayer);
+    if (!validMove.actionAvailable()) {
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
+    }
+    if (prevMove.getMoveType() == MoveType.SETUP) {
+      validMove = new ValidSetupAction(currPlayer, board);
+      if (validMove.actionAvailable()) {
+        return validMove;
+      } else {
+        validMove = new ValidSetupReinforceAction(currPlayer);
+        return validMove;
+      }
+    } else if (prevMove.getMoveType() == MoveType.SETUP_REINFORCE) {
+      validMove = new ValidSetupReinforceAction(currPlayer);
+      if (validMove.actionAvailable()) {
+        return validMove;
+      } else {
+        currPlayer = turnOrder.get(0);
+        validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
+        return validMove;
+      }
+    }
+    return validMove;
+  }
+
+  /**
+   * Gets the next valid action after turning in a card, which is a
+   * reinforcement move.
+   *
+   * @param cards - cards turned in.
+   * @return next valid reinforcement move.
+   * @throws IllegalArgumentException if the input is null
+   */
+  protected ValidAction getValidMoveAfterCardTurnIn(Multiset<Integer> cards)
+      throws IllegalArgumentException {
+    if (cards == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    assert (validMove.getMoveType() == MoveType.TURN_IN_CARD);
+    List<Integer> cardList = new ArrayList<>(cards);
+    ValidReinforceAction move = new ValidReinforceAction(currPlayer, cardList);
+    validMove = move;
+    return validMove;
+  }
+
+  /**
    * Gets the next valid action after a player has reinforced. If current player
    * does not have any valid moves left, the method returns null.
    *
-   * @param player
    * @return ValidAction - next set of valid actions
    */
   protected ValidAction getValidMoveAfterReinforce() {
+    assert (validMove.getMoveType() == MoveType.REINFORCE);
     ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
       validMove = move;
@@ -272,14 +342,6 @@ public class Referee {
     return null;
   }
 
-  protected ValidAction getValidMoveAfterCardTurnIn(Multiset<Integer> cards) {
-    List<Integer> cardList = new ArrayList<>(cards);
-    ValidReinforceAction move =
-        new ValidReinforceAction(currPlayer, board, cardList);
-    validMove = move;
-    return validMove;
-  }
-
   /**
    * Gets the next valid action after an attack. After an attack, the only valid
    * action is defending.
@@ -287,6 +349,7 @@ public class Referee {
    * @return next valid action after attacking
    */
   protected ValidAction getValidMoveAfterAttack() {
+    assert (validMove.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
     TerritoryEnum defending = lastAttack.getDefendingTerritory();
     RiskPlayer defender = board.getTerritory(defending).getOwner();
     ValidDieDefendAction move = new ValidDieDefendAction(defender, board,
@@ -306,8 +369,12 @@ public class Referee {
    * @return next valid action after defending
    */
   protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
+    assert (validMove.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
     if (defend.getDefenderLostTerritory()) {
       validMove = new ValidClaimTerritoryAction(currPlayer, board, lastAttack);
+      if (!cardPool.isEmpty()) {
+        handoutCard = true;
+      }
       lastAttack = null;
       return validMove;
     }
@@ -337,6 +404,7 @@ public class Referee {
    * @return next valid action after claiming a territory
    */
   protected ValidAction getValidMoveAfterClaimTerritory() {
+    assert (validMove.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
     ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {
       validMove = attack;
@@ -351,7 +419,20 @@ public class Referee {
     return null;
   }
 
-  protected boolean validSkipMove(RiskPlayer player) {
+  /**
+   * Determines if the given player is allowed to skip a move based on the
+   * current type of move they are trying to skip and if the player is in
+   * control of the game at the time.
+   *
+   * @param player - player trying to skip
+   * @return true if the player can skip the move; false otherwise
+   * @throws IllegalArgumentException if the player given is null.
+   */
+  protected boolean validSkipMove(RiskPlayer player)
+      throws IllegalArgumentException {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null player");
+    }
     if (!player.equals(currPlayer)) {
       return false;
     }
@@ -363,10 +444,19 @@ public class Referee {
     return false;
   }
 
+  /**
+   * Returns the next valid action for the current player after a skip move. If
+   * the current player does not have a valid action after skipping, the method
+   * returns null.
+   *
+   * @return next valid action for the current player
+   */
   protected ValidAction getActionAfterSkip() {
     MoveType type = validMove.getMoveType();
+    assert (type == MoveType.TURN_IN_CARD || type == MoveType.CHOOSE_ATTACK_DIE
+        || type == MoveType.MOVE_TROOPS);
     if (type == MoveType.TURN_IN_CARD) {
-      return new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+      return new ValidReinforceAction(currPlayer, new ArrayList<>());
     } else if (type == MoveType.CHOOSE_ATTACK_DIE) {
       ValidMoveTroopsAction move = new ValidMoveTroopsAction(currPlayer, board);
       if (move.actionAvailable()) {
@@ -379,43 +469,21 @@ public class Referee {
     return null;
   }
 
+  /**
+   * Switches players after a skip move if the skip move results in current
+   * player changing.
+   *
+   * @return next valid action for a new player
+   */
   protected ValidAction switchPlayersAfterSkip() {
     int index = turnOrder.indexOf(currPlayer);
     index = (index + 1) % turnOrder.size();
     currPlayer = turnOrder.get(index);
     validMove = new ValidCardAction(currPlayer);
     if (!validMove.actionAvailable()) {
-      validMove =
-          new ValidReinforceAction(currPlayer, board, new ArrayList<>());
+      validMove = new ValidReinforceAction(currPlayer, new ArrayList<>());
     }
     return validMove;
-  }
-
-  protected ValidAction getValidMoveAfterSetup() {
-    return null;
-  }
-
-  /**
-   * Returns null.
-   *
-   * @return null
-   */
-  public ValidAction getValidMoveAfterReinforceSetup() {
-    return null;
-  }
-
-  /**
-   * Checks that the ReinforceMove is valid.
-   *
-   * @param move - move to check the validity of
-   * @return true if valid; false otherwise
-   */
-  protected boolean validateReinforce(ReinforceAction move) {
-    if (validMove == null || validMove.getMoveType() != MoveType.REINFORCE) {
-      return false;
-    }
-    ValidReinforceAction reinforce = (ValidReinforceAction) validMove;
-    return reinforce.validReinforceMove(move);
   }
 
   /**
@@ -423,8 +491,12 @@ public class Referee {
    *
    * @param move - move to check the validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateCardTurnIn(CardTurnInAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null || validMove.getMoveType() != MoveType.TURN_IN_CARD) {
       return false;
     }
@@ -433,12 +505,34 @@ public class Referee {
   }
 
   /**
+   * Checks that the ReinforceMove is valid.
+   *
+   * @param move - move to check the validity of
+   * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
+   */
+  protected boolean validateReinforce(ReinforceAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    if (validMove == null || validMove.getMoveType() != MoveType.REINFORCE) {
+      return false;
+    }
+    ValidReinforceAction reinforce = (ValidReinforceAction) validMove;
+    return reinforce.validReinforceMove(move);
+  }
+
+  /**
    * Checks that the AttackMove is valid.
    *
    * @param move - move to check the validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateAttackMove(AttackAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null
         || validMove.getMoveType() != MoveType.CHOOSE_ATTACK_DIE) {
       return false;
@@ -456,8 +550,12 @@ public class Referee {
    *
    * @param move - move to check validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateDefendMove(DefendAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null
         || validMove.getMoveType() != MoveType.CHOOSE_DEFEND_DIE) {
       return false;
@@ -471,8 +569,12 @@ public class Referee {
    *
    * @param move - move to check validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateClaimTerritory(ClaimTerritoryAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null
         || validMove.getMoveType() != MoveType.CLAIM_TERRITORY) {
       return false;
@@ -486,8 +588,12 @@ public class Referee {
    *
    * @param move - move to check validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateMoveTroopsMove(MoveTroopsAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null || validMove.getMoveType() != MoveType.MOVE_TROOPS) {
       return false;
     }
@@ -500,8 +606,12 @@ public class Referee {
    *
    * @param move - move to check validity of
    * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
    */
   protected boolean validateSetupMove(SetupAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null || validMove.getMoveType() != MoveType.SETUP) {
       return false;
     }
@@ -509,7 +619,17 @@ public class Referee {
     return setupMove.validSetupMove(move);
   }
 
+  /**
+   * Checks the SetupReinforcementMove is valid.
+   *
+   * @param move - move to check validity of
+   * @return true if valid; false otherwise
+   * @throws IllegalArgumentException if the input is null
+   */
   protected boolean validateSetupReinforceMove(SetupReinforceAction move) {
+    if (move == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
     if (validMove == null
         || validMove.getMoveType() != MoveType.SETUP_REINFORCE) {
       return false;
@@ -519,10 +639,13 @@ public class Referee {
     return setupReinforceMove.validSetupReinforceMove(move);
   }
 
-  protected boolean playersTurn(RiskPlayer player) {
-    if (player.equals(currPlayer)) {
-      return true;
-    }
-    return false;
+  /**
+   * Returns the current player whose turn it is. Note that if a player is
+   * defending, the player is not considered the current player.
+   *
+   * @return current player
+   */
+  protected RiskPlayer getCurrentPlayer() {
+    return currPlayer;
   }
 }

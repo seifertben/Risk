@@ -11,6 +11,7 @@ import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.Player;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * Represents a RiskPlayer.
@@ -21,6 +22,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 public class RiskPlayer implements Player {
   private UUID playerId;
   private Set<TerritoryEnum> territories;
+  private Set<ContinentEnum> conts;
   private Multiset<Integer> cards;
   private int remainingSetupReinforcements;
   private static final int INITIAL_NUMBER_TROOPS = 40;
@@ -38,6 +40,7 @@ public class RiskPlayer implements Player {
     this.playerId = playerId;
     territories = new HashSet<>();
     cards = HashMultiset.create();
+    conts = new HashSet<>();
   }
 
   /**
@@ -109,7 +112,16 @@ public class RiskPlayer implements Player {
     if (conqueredTerritory == null) {
       throw new IllegalArgumentException("ERROR: null territory");
     }
-    return territories.add(conqueredTerritory);
+    boolean gained = territories.add(conqueredTerritory);
+    if (gained) {
+      ContinentEnum cont = ContinentEnum.getContinent(conqueredTerritory);
+      if (!conts.contains(cont)) {
+        if (territories.containsAll(ContinentEnum.getTerritories(cont))) {
+          conts.add(cont);
+        }
+      }
+    }
+    return gained;
   }
 
   /**
@@ -124,6 +136,10 @@ public class RiskPlayer implements Player {
     if (lostTerritory == null) {
       throw new IllegalArgumentException("ERROR: null territory");
     }
+    ContinentEnum cont = ContinentEnum.getContinent(lostTerritory);
+    if (conts.contains(cont)) {
+      conts.remove(cont);
+    }
     return territories.remove(lostTerritory);
   }
 
@@ -134,6 +150,10 @@ public class RiskPlayer implements Player {
    */
   public Set<TerritoryEnum> getTerritories() {
     return Collections.unmodifiableSet(territories);
+  }
+
+  public Set<ContinentEnum> getContinents() {
+    return Collections.unmodifiableSet(conts);
   }
 
   /**

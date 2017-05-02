@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -17,7 +18,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
 
 /**
  *
@@ -26,7 +26,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentInterface;
  *
  */
 public class ValidReinforceActionTest {
-  private static final int ASIA_BONUS = 5;
+  private static final int ASIA_BONUS = 11;
   private static final int NUMBER_TERRS = 19;
 
   /**
@@ -35,9 +35,8 @@ public class ValidReinforceActionTest {
   @Test
   public void testConstructor() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertNotNull(action);
   }
 
@@ -47,18 +46,7 @@ public class ValidReinforceActionTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorNullPlayer() {
-    RiskBoard board = new RiskBoard();
-    new ValidReinforceAction(null, board, new ArrayList<>());
-  }
-
-  /**
-   * Tests the constructor throws an IllegalArgumentException if the the board
-   * given is null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testConstructorNullBoard() {
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    new ValidReinforceAction(player, null, new ArrayList<>());
+    new ValidReinforceAction(null, new ArrayList<>());
   }
 
   /**
@@ -67,9 +55,8 @@ public class ValidReinforceActionTest {
   @Test
   public void testGetMoveType() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.getMoveType() == MoveType.REINFORCE);
   }
 
@@ -79,9 +66,8 @@ public class ValidReinforceActionTest {
   @Test
   public void testGetPlayer() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.getMovePlayer().equals(player.getPlayerId()));
   }
 
@@ -98,8 +84,8 @@ public class ValidReinforceActionTest {
     board.getTerritory(TerritoryEnum.ALASKA).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.ONTARIO).changePlayer(player, 3);
     board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(player, 3);
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().size() == 3);
     assertTrue(action.getTerritories().contains(TerritoryEnum.ALASKA));
@@ -115,19 +101,20 @@ public class ValidReinforceActionTest {
   public void testNorthAmericaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.NORTH_AMERICA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs =
+        ContinentEnum.getTerritories(ContinentEnum.NORTH_AMERICA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
     assertTrue(player.getTerritories().containsAll(
-        board.getContinent(ContinentEnum.NORTH_AMERICA).getTerritories()));
+        ContinentEnum.getTerritories(ContinentEnum.NORTH_AMERICA)));
     int troops = size / 3 + 5;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -140,19 +127,20 @@ public class ValidReinforceActionTest {
   public void testSouthAmericaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.SOUTH_AMERICA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs =
+        ContinentEnum.getTerritories(ContinentEnum.SOUTH_AMERICA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
     assertTrue(player.getTerritories().containsAll(
-        board.getContinent(ContinentEnum.SOUTH_AMERICA).getTerritories()));
+        ContinentEnum.getTerritories(ContinentEnum.SOUTH_AMERICA)));
     int troops = size / 3 + 2;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -165,19 +153,20 @@ public class ValidReinforceActionTest {
   public void testAfricaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.AFRICA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs =
+        ContinentEnum.getTerritories(ContinentEnum.AFRICA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories().containsAll(
-        board.getContinent(ContinentEnum.AFRICA).getTerritories()));
+    assertTrue(player.getTerritories()
+        .containsAll(ContinentEnum.getTerritories(ContinentEnum.AFRICA)));
     int troops = size / 3 + 3;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -190,19 +179,20 @@ public class ValidReinforceActionTest {
   public void testEuropeContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.EUROPE);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs =
+        ContinentEnum.getTerritories(ContinentEnum.EUROPE);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories().containsAll(
-        board.getContinent(ContinentEnum.EUROPE).getTerritories()));
+    assertTrue(player.getTerritories()
+        .containsAll(ContinentEnum.getTerritories(ContinentEnum.EUROPE)));
     int troops = size / 3 + 5;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -215,19 +205,19 @@ public class ValidReinforceActionTest {
   public void testAsiaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.ASIA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs = ContinentEnum.getTerritories(ContinentEnum.ASIA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
     assertTrue(player.getTerritories()
-        .containsAll(board.getContinent(ContinentEnum.ASIA).getTerritories()));
+        .containsAll(ContinentEnum.getTerritories(ContinentEnum.ASIA)));
     int troops = size / 3 + ASIA_BONUS;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -240,19 +230,20 @@ public class ValidReinforceActionTest {
   public void testAustraliaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.AUSTRALIA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs =
+        ContinentEnum.getTerritories(ContinentEnum.AUSTRALIA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertTrue(action.actionAvailable());
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories().containsAll(
-        board.getContinent(ContinentEnum.AUSTRALIA).getTerritories()));
+    assertTrue(player.getTerritories()
+        .containsAll(ContinentEnum.getTerritories(ContinentEnum.AUSTRALIA)));
     int troops = size / 3 + 2;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -272,12 +263,13 @@ public class ValidReinforceActionTest {
       player.conqueredTerritory(arr.get(i));
       board.getTerritory(arr.get(i)).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     int numberToReinforce = 0;
-    for (ContinentInterface cont : board.getContinents()) {
-      if (player.getTerritories().containsAll(cont.getTerritories())) {
-        numberToReinforce += cont.getBonusValue();
+    for (ContinentEnum cont : ContinentEnum.values()) {
+      if (player.getTerritories()
+          .containsAll(ContinentEnum.getTerritories(cont))) {
+        numberToReinforce += ContinentEnum.getContinentalBonus(cont);
       }
     }
     numberToReinforce += NUMBER_TERRS / 3;
@@ -294,9 +286,8 @@ public class ValidReinforceActionTest {
   @Test
   public void testNoReinforcementActionAvailable() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    RiskBoard board = new RiskBoard();
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     assertFalse(action.actionAvailable());
   }
 
@@ -308,13 +299,13 @@ public class ValidReinforceActionTest {
   public void testValidReinforcementMove() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    ContinentInterface cont = board.getContinent(ContinentEnum.ASIA);
-    for (TerritoryEnum id : cont.getTerritories()) {
+    Set<TerritoryEnum> terrs = ContinentEnum.getTerritories(ContinentEnum.ASIA);
+    for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
     }
-    ValidReinforceAction action = new ValidReinforceAction(player, board,
-        new ArrayList<>());
+    ValidReinforceAction action =
+        new ValidReinforceAction(player, new ArrayList<>());
     Map<TerritoryEnum, Integer> map = new HashMap<>();
     map.put(TerritoryEnum.CHINA, 5);
     map.put(TerritoryEnum.JAPAN, 5);

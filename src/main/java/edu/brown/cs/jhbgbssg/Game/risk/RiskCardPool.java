@@ -7,7 +7,9 @@ import java.util.List;
 import edu.brown.cs.jhbgbssg.Game.CardPool;
 
 /**
- * JUnit tests for RiskCardPool.
+ * This class represents the card pool in risk. It has 30 one-star cards and 12
+ * two-star cards. It implements the CardPool interface. RiskCardPool can hand
+ * out cards, but it cannot accept cards back.
  *
  * @author sarahgilmore
  */
@@ -29,26 +31,28 @@ public class RiskCardPool implements CardPool {
       cards.add(2);
     }
     size = cards.size();
-    Collections.shuffle(cards);
+    Collections.shuffle(cards); // shuffles the cards
   }
 
   /**
-   * Hands out a card if the pool is not empty.
+   * Hands out a card if the pool is not empty. If the card pool is empty, the
+   * method returns -1 instead of a valid card value.
    *
    * @return card value removed
    */
   public int handOutCard() {
     if (size == 0) {
-      throw new UnsupportedOperationException("ERROR: no cards left");
+      return -1;
     }
     size -= 1;
     return cards.remove(0);
   }
 
   /**
-   * Returns a boolean indicating if all the cards have been handed out.
+   * Returns a boolean indicating whether or not the number of cards left in the
+   * pool is zero.
    *
-   * @return true if the cardpool is empty; false otherwise
+   * @return true if the card pool is empty; false otherwise
    */
   @Override
   public boolean isEmpty() {
@@ -56,7 +60,8 @@ public class RiskCardPool implements CardPool {
   }
 
   /**
-   * UnsupportedOperation for RiskCardPool.
+   * UnsupportedOperation for RiskCardPool. Cards cannot be accepted back in
+   * Risk.
    */
   @Override
   public void handInCard(int card) {
