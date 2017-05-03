@@ -88,20 +88,8 @@ const sendMessage = event => {
 document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
 
-//	activateDropDown(2);
-//	replaceField();
-//	replaceTransferListField();
-//	//changePlayerImage(player2, "white", "blue");
-//
-//	addcard(2);
-//	addcard(1);
-//	  // populateTransferList(10);
-//	// addcard();
-//	// addcard();
-//	// addcard();
 	$("#transferconfirm").on("click", confirmTransfer);
-	// $("#resetTransfer").on("click", resetTransfer);
-	//changeMusicStatus();
+
 	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#menuMute").on("click", changeMusicStatus);
@@ -114,7 +102,6 @@ setInterval(slideshow, 6000);
  		$("#menuMute").text("Unmute"); 		
  		$("#gameMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
- 		// document.getElementById('mainMenuMusic').currentTime = 0;
  	}
  	else {
  		$("#homeMute").text("Mute");
@@ -307,6 +294,7 @@ function hideAll() {
  	$("#defenderNumberDie").hide();
  	$("#moveTroopsNumber").hide();
  	$("#selecting").hide();
+ 	$("#turnInCards").hide();
   document.getElementById("reinforcer").style.display = "none";
   document.getElementById("deinforcer").style.display = "none";
   document.getElementById("confirm").style.display = "none"; 	

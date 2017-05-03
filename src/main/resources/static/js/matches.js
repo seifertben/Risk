@@ -188,18 +188,22 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP:
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Selected " + idToData[data.territoryId].name;
             make_selection(data.movePlayer, data.territoryId);
+        	hideAll();
             break;
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Bolstered " + idToData[data.territoryId].name;
             make_selection(data.movePlayer, data.territoryId);
+        	hideAll();
             break;
           case MOVE_TYPES.REINFORCE:
-        	  document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
+        	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
             document.getElementById("bolsters").style.display = "none";
             document.getElementById("selecting").style.display = "none";
-        	  make_bolster(data.movePlayer, JSON.parse(data.territories));
-        	  break;
+        	make_bolster(data.movePlayer, JSON.parse(data.territories));
+          	hideAll();
+        	break;
           case MOVE_TYPES.TURN_IN_CARD:
+          	hideAll();
             break;
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
@@ -250,18 +254,21 @@ const setup_matches = () => {
                     idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);
             changeTerritoryStatus(idToName[data.defender], -1 * data.defenderTroopsLost,
                     idToData[data.defendTerritory], colors[data.defender], colors[data.defender]);
+        	hideAll();
             break;
           case MOVE_TYPES.CLAIM_TERRITORY:
           	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
         			idToData[data.claimedTerritory], colors[data.movePlayer], colors[data.movePlayer]);
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
         			idToData[data.claimedFrom], colors[data.movePlayer], colors[data.movePlayer]);
+        	hideAll();
         	break;
           case MOVE_TYPES.MOVE_TROOPS:
             changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
               idToData[data.moveFrom], colors[data.movePlayer], colors[data.movePlayer]);
             changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
               idToData[data.moveTo], colors[data.movePlayer], colors[data.movePlayer]);
+        	hideAll();
             break;
         }
         break;
@@ -277,9 +284,9 @@ const setup_matches = () => {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
               // AUTOPLAY
-//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-//              conn.send(JSON.stringify(mess));
-//              availableForClaim = [];
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+              conn.send(JSON.stringify(mess));
+              availableForClaim = [];
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -298,16 +305,16 @@ const setup_matches = () => {
                   availableForClaim = JSON.parse(data.territories);
                   map.addListener("clickMapObject", select_territory);
                   // AUTOPLAY
-//                  if (data.troopsToPlace > 0) {
-//                    let mess = {"type": MESSAGE_TYPE.MOVE,
-//                    "moveType": MOVE_TYPES.SETUP_REINFORCE,
-//                    "playerId": myId, 
-//                    "territoryId": availableForClaim[0]
-//                  };
-//                  
-//                  conn.send(JSON.stringify(mess));
-//                  availableForClaim = [];
-//                  }
+                  if (data.troopsToPlace > 0) {
+                    let mess = {"type": MESSAGE_TYPE.MOVE,
+                    "moveType": MOVE_TYPES.SETUP_REINFORCE,
+                    "playerId": myId, 
+                    "territoryId": availableForClaim[0]
+                  };
+                  
+                  conn.send(JSON.stringify(mess));
+                  availableForClaim = [];
+                  }
           	} else {
                 document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -322,7 +329,7 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Hand in Cards";             
               $("#skip").show();
               $("#turnInCards").show();
-              document.getElementById("attack").onclick = turnInCards;
+              document.getElementById("turnInCards").onclick = turnInCards;
               canClick = true;
               phase = "turnin";
             } else {
@@ -343,7 +350,7 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	    document.getElementById("bolsters").style.display = "inline";  
         	    $("#selecting").show();
-        	   // document.getElementById("reinforcer").style.display = "inline"; 
+        	    document.getElementById("selecting").innerHTML = "Select A Territory to Reinforce";
               terToPlace = new Map();
               placeMax = data.troopsToPlace;
               placed = 0;
