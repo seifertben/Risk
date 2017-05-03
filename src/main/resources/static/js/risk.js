@@ -165,24 +165,17 @@ function setUp () {
 	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
-	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
-	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
-	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
+	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
+	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
+	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
+	$sideNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
 	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
-	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
-	   $("#turnInCards").on( "click", turnInCards);
-       
- 	   hideAll();
-//	   changeAttackStatus("Player 1", "Player 2", "Russia");
-//	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
-//	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
-//	   attackerLoss("Player 3", 2);
-//	   defenderLoss("Player 3", 3);
-//	   updateReinforcementMessage(10);
+	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+    $("#turnInCards").on( "click", turnInCards);   
+    hideAll();
 }
 
 function createConquestTransferTroopsList() {

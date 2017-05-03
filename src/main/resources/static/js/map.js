@@ -1216,8 +1216,8 @@ function select_territory(event) {
       attackTo = null;
       attackables = terToTar[attackFrom];
       document.getElementById("attacking").style.display = "inline";
-
       document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+      document.getElementById("diceChoice").remove();
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;

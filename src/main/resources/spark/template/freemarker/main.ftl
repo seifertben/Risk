@@ -31,7 +31,6 @@
 ${content}
 
 
-
 <script src="js/map.js"></script>
 <script src="js/matches.js"></script>
 <script src="js/risk.js"></script>
