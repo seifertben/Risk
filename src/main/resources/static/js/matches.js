@@ -68,6 +68,7 @@ let terrToMaxTroopsMove;
 let moveFrom;
 let moveTo;
 let canClick = false;
+let playerInfo = [];
 const setup_matches = () => {
 
   //conn = new WebSocket("ws://107.170.49.223/matches");
@@ -174,8 +175,14 @@ const setup_matches = () => {
 
 
       case MESSAGE_TYPE.PLAYER_INFORMATION:
+      console.log("player data");
         console.log(data);
+        document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[data.playerId];
+      document.getElementById('territories').innerHTML = "Occupies these territories: " + id;
+      document.getElementById('continents').innerHTML = "Possesses these continents:";
+      document.getElementById('totaltroops').innerHTML = "Has this many troop in total:";
 
+        console.log(idToName[data.playerId]);
         break;
 
       case MESSAGE_TYPE.PREVIOUS_ACTION:

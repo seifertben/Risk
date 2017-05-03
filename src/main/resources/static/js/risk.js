@@ -91,7 +91,7 @@ setInterval(slideshow, 6000);
 //	// addcard();
 //	// addcard();
 	$("#transferconfirm").on("click", confirmTransfer);
-	$("#resetTransfer").on("click", resetTransfer);
+	// $("#resetTransfer").on("click", resetTransfer);
 	changeMusicStatus();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
@@ -296,6 +296,9 @@ function createPlayer(number) {
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
+		let currPlayerInfo = {playerId: string, totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
+		playerInfo[string] = currPlayerInfo ;
+
 
 		document.getElementById(string).style.backgroundColor = colors[players[i]];
     document.getElementById(string).style.font = "bold 12px/30px Georgia, serif";
