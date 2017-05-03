@@ -146,6 +146,9 @@
       text-align: center;
       text-decoration: underline;
   }
+  button[id="homeMute"] {
+  	  float: center;
+  }
   button[id="gameMute"] {
       float: right;
   }

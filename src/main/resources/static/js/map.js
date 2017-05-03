@@ -1251,6 +1251,7 @@ function select_territory(event) {
             }
           }
           sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
+          document.getElementById("bolsters").innerHTML = "Select A Territory to Move Troops To<br>";
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
            console.log(moveTo);
