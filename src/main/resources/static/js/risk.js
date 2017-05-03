@@ -102,20 +102,23 @@ setInterval(slideshow, 6000);
 //	// addcard();
 	$("#transferconfirm").on("click", confirmTransfer);
 	// $("#resetTransfer").on("click", resetTransfer);
-	changeMusicStatus();
+	//changeMusicStatus();
 	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
+	$("#gameMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
  function changeMusicStatus() {
  	console.log($("#homeMute").text());
  	if ($("#homeMute").text() == "Mute") {
  		$("#homeMute").text("Unmute");
+ 		$("#gameMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
  		// document.getElementById('mainMenuMusic').currentTime = 0;
  	}
  	else {
  		$("#homeMute").text("Mute");
+ 		$("#gameMute").text("Mute");
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
@@ -136,13 +139,12 @@ function confirmDice() {
 	}
 }
 
-
-
 function defaultPause() {
+	$("#gameMute").text("Unmute");
 	$("#homeMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
-
 }
+
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
@@ -163,7 +165,8 @@ $("#playerNum").keypress(function (evt) {
 });
 
 function setUp () {
-	$sideNav = $('#n');
+	$sideNav = $('#gameUpdates');
+	$endNav = $('#endSection');
 	$sideNav.append("<br><br><br>");
 	$sideNav.append($("<p id = 'phase' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'turn' class = 'blink'></p>"));
@@ -174,7 +177,7 @@ function setUp () {
 	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
 	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
 	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
-	$sideNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
+	$endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
@@ -298,7 +301,6 @@ function addcard(number) {
 }
 
 function createPlayer(number) {
-	const $sideNav = $("#n");
 	for (let i = 0; i < number; i++) {
 		let currDiv = $("<div></div>");
 		let text =  $("<span></span>");
@@ -308,7 +310,7 @@ function createPlayer(number) {
 		text.html(idToName[players[i]]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
-		$("#n").append(currDiv);
+		$("#playerList").append(currDiv);
 		let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
 		playerInfo[string] = currPlayerInfo ;
 
