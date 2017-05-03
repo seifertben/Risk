@@ -105,13 +105,14 @@ setInterval(slideshow, 6000);
 	//changeMusicStatus();
 	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
+	$("#menuMute").on("click", changeMusicStatus);
 	$("#gameMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
  function changeMusicStatus() {
- 	console.log($("#homeMute").text());
  	if ($("#homeMute").text() == "Mute") {
  		$("#homeMute").text("Unmute");
+ 		$("#menuMute").text("Unmute"); 		
  		$("#gameMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
  		// document.getElementById('mainMenuMusic').currentTime = 0;
@@ -119,6 +120,7 @@ setInterval(slideshow, 6000);
  	else {
  		$("#homeMute").text("Mute");
  		$("#gameMute").text("Mute");
+ 		$("#menuMute").text("Mute");
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
@@ -142,6 +144,7 @@ function confirmDice() {
 function defaultPause() {
 	$("#gameMute").text("Unmute");
 	$("#homeMute").text("Unmute");
+	$("#menuMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
 }
 
