@@ -159,6 +159,7 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.MESSAGE:
+      
         getMessage(data.playerId, data.message);
         break;
 

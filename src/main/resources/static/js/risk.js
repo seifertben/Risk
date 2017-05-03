@@ -302,8 +302,8 @@ function addcard(number) {
 
 function createPlayer(number) {
 	for (let i = 0; i < number; i++) {
-		let currDiv = $("<div></div>");
-		let text =  $("<span></span>");
+		let currDiv = $("<div id = 'names'></div>");
+		let text =  $("<span id = 'name'></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
 		let string = players[i];

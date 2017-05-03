@@ -89,8 +89,6 @@
     }
     .well-sm{
       float: left;
-      width: 30%;
-      text-indent: 30
     }
 
     .well.well-sm {
@@ -145,6 +143,9 @@
   p{
       text-align: center;
       text-decoration: underline;
+  }
+  #centerDiv {
+    background-color: #6495ED;
   }
   button[id="gameMute"] {
       float: right;
@@ -358,12 +359,7 @@
     height: 100%;
     width: 100%;
 }
-body {
 
-  background-size: 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
-}
 
 /*Customize the scrollbars*/
 
