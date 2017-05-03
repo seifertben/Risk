@@ -138,6 +138,7 @@ const setup_matches = () => {
             colors[data.player5id] = "yellow";
         }
         start = true;
+        document.getElementById("homeMute").style.display = "none";
         $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
@@ -207,7 +208,7 @@ const setup_matches = () => {
         	  break;
           case MOVE_TYPES.TURN_IN_CARD:
 
-
+//WHAT
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Is Attacking <b>" 
             + idToData[data.attackTo].name + "</b> from <b>" + idToData[data.attackFrom].name + "</b>";
@@ -407,7 +408,7 @@ const setup_matches = () => {
               document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
               document.getElementById("attacking").style.display = "inline";
               document.getElementById("defend").style.display = "inline";
-              let sideNav = $("#n");
+              let sideNav = $("#gameUpdates");
               let dice = "";
               for (let index = 1; index <= data.maxDieRoll; index++) {
             	if (index == data.maxDieRoll) {
@@ -425,7 +426,7 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
-              let nav = $("#n");
+              let nav = $("#gameUpdates");
               let troops = "";
               claimed = data.territoryToClaim;
               claimedFrom = data.territoryClaimingFrom;
@@ -453,7 +454,7 @@ const setup_matches = () => {
              let confirm = document.createElement("BUTTON");
              confirm.id = "confirm";
              confirm.innerHTML = "Confirm Troop Movements";
-             document.getElementById("n").appendChild(confirm);
+             document.getElementById("gameUpdates").appendChild(confirm);
 
              $("#skip").show();
              $("#resetMoveTroops").show();
@@ -471,8 +472,6 @@ const setup_matches = () => {
   };
 }
 function clickOnCard(element) {
-  console.log("Hi");
-  console.log(canClick);
   if (canClick) {
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
@@ -485,9 +484,7 @@ function clickOnCard(element) {
 }
 
 function turnInCards() {
-  console.log("enter turn in cards function");
   $('#cards li').each(function() {
-    console.log("Hi");
     if (this.style.borderStyle === "solid") {
       let arr = this.className.split(" ");
       if (arr[1] == "one") {

@@ -1223,7 +1223,7 @@ function select_territory(event) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-      let sideNav = $("#n");
+      let sideNav = $("#gameUpdates");
       let dice = "";
       for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
         if (index == terToDie[attackFrom.toString()]) {
@@ -1239,7 +1239,7 @@ function select_territory(event) {
         if (moveFrom == null) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
-          let sideNav = $("#n");
+          let sideNav = $("#gameUpdates");
           let troops = "";
           let maxTroops = 0;
           console.log(moveFrom);

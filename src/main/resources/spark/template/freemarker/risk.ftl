@@ -27,6 +27,5 @@
 <div id="gameField">
 <#include "map.ftl">
 </div>
-
 </#assign>
 <#include "main.ftl">
