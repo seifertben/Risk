@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.CardPool;
+import edu.brown.cs.jhbgbssg.Game.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -142,7 +143,7 @@ public class Referee {
     if (!gameStarted) {
       gameStarted = true;
       GameUpdate update = new GameUpdate();
-      update.setValidMoves(validMove, null, false);
+      update.setValidMoves(validMove, null);
       return update;
     }
     return null;

@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import com.google.gson.JsonObject;
 
-import edu.brown.cs.jhbgbssg.Game.risk.GameUpdate;
+import edu.brown.cs.jhbgbssg.Game.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
@@ -263,7 +263,7 @@ public class Match {
         if (referee.getWinner() != null) {
           update.setWonGame(referee.getWinner().getPlayerId());
         } else {
-          update.setValidMoves(referee.getValidMove(), null, true);
+          update.setValidMoves(referee.getValidMove(), null);
         }
         return messageApi.getUpdateMessages(update);
       }

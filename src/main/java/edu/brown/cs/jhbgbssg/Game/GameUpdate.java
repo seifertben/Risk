@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.risk;
+package edu.brown.cs.jhbgbssg.Game;
 
 import java.util.UUID;
 
@@ -7,7 +7,10 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
- * GameUpdate.
+ * Represents a GameUpdate object for Risk. It stores the next valid action
+ * object to send to the player whose turn it is and the previous action to send
+ * to all players in the game. The update also stores a player who caused an
+ * error, if a player won the game or if a player lost the game.
  *
  * @author sarahgilmore
  */
@@ -16,10 +19,9 @@ public class GameUpdate {
   private UUID wonGame;
   private Action prevMove;
   private ValidAction availableMoves;
-  private boolean errors;
+  private boolean error;
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
-  private UUID currPlayer;
   private UUID errorPlayer;
 
   /**
@@ -28,15 +30,18 @@ public class GameUpdate {
   public GameUpdate() {
   }
 
-  protected void setCardToHandOut(UUID playerId, int card,
+  public boolean setCardToHandOut(UUID playerId, int card,
       boolean isCardsLeft) {
     if (playerId == null) {
       throw new IllegalArgumentException("ERROR: null input");
     } else if (card <= 0 || card > 2) {
       throw new IllegalArgumentException("ERROR: illegal card value");
+    } else if (handout != null) {
+      return false;
     }
     handout = new Pair<>(playerId, card);
     this.cardsLeft = isCardsLeft;
+    return true;
   }
 
   /**
@@ -66,14 +71,21 @@ public class GameUpdate {
     return this.prevMove;
   }
 
-  public void setValidMoves(ValidAction validMoves, Action previousMove,
-      boolean error) {
+  /**
+   * Sets the valid moves field and the previous move field.
+   *
+   * @param validMoves - valid moves
+   * @param previousMove - previous move
+   */
+  public void setValidMoves(ValidAction validMoves, Action previousMove) {
     if (validMoves != null) {
-      this.currPlayer = validMoves.getMovePlayer();
+      assert (validMoves.actionAvailable());
+    }
+    if (previousMove != null) {
+      assert (previousMove.isActionExecuted());
     }
     this.availableMoves = validMoves;
     this.prevMove = previousMove;
-    this.errors = error;
   }
 
   /**
@@ -86,22 +98,31 @@ public class GameUpdate {
     return this.availableMoves;
   }
 
-  public void setWonGame(UUID wonGame) throws IllegalArgumentException {
-    if (this.wonGame != null) {
-      throw new IllegalArgumentException("ERROR: game already won");
-    } else if (wonGame == null) {
+  /**
+   * Sets the wonGame field to the player id given.
+   *
+   * @param wonGame - id of the player who won the game
+   * @throws IllegalArgumentException - if the input is null or if the field has
+   *           already been set.
+   */
+  public boolean setWonGame(UUID wonGame) throws IllegalArgumentException {
+    if (wonGame == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (this.wonGame != null) {
+      return false;
     }
     this.wonGame = wonGame;
+    return true;
   }
 
-  protected void setLostGame(UUID lostGame) {
+  public boolean setLostGame(UUID lostGame) {
     if (lostGame == null) {
       throw new IllegalArgumentException("ERROR: null input");
     } else if (this.lostGame != null) {
-      throw new IllegalArgumentException("ERROR: already set a loser");
+      return false;
     }
     this.lostGame = lostGame;
+    return true;
   }
 
   /**
@@ -128,23 +149,32 @@ public class GameUpdate {
    * @return true if there was an error; false otherwise
    */
   public boolean getErrors() {
-    return this.errors;
+    return this.error;
   }
 
   /**
-   * Returns the id of the current player in control of the game.
+   * Sets the error player field.
    *
-   * @return unique UUID
+   * @param player - player who caused an error
+   * @throws IllegalArgumentException - null player
    */
-  public UUID getCurrentPlayer() {
-    return this.currPlayer;
-  }
-
-  public void setError(UUID player) throws IllegalArgumentException {
+  public boolean setError(UUID player) throws IllegalArgumentException {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (errorPlayer != null) {
+      return false;
     }
-    this.errors = true;
+    this.error = true;
     this.errorPlayer = player;
+    return true;
+  }
+
+  /**
+   * Returns the id of the player who caused the error.
+   *
+   * @return player id
+   */
+  public UUID getErrorPlayer() {
+    return this.errorPlayer;
   }
 }

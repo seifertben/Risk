@@ -101,8 +101,7 @@ public class ValidReinforceActionTest {
   public void testNorthAmericaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs =
-        ContinentEnum.getTerritories(ContinentEnum.NORTH_AMERICA);
+    Set<TerritoryEnum> terrs = ContinentEnum.NORTH_AMERICA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -113,8 +112,8 @@ public class ValidReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories().containsAll(
-        ContinentEnum.getTerritories(ContinentEnum.NORTH_AMERICA)));
+    assertTrue(player.getTerritories()
+        .containsAll(ContinentEnum.NORTH_AMERICA.getTerrs()));
     int troops = size / 3 + 5;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -127,8 +126,7 @@ public class ValidReinforceActionTest {
   public void testSouthAmericaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs =
-        ContinentEnum.getTerritories(ContinentEnum.SOUTH_AMERICA);
+    Set<TerritoryEnum> terrs = ContinentEnum.SOUTH_AMERICA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -139,8 +137,8 @@ public class ValidReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories().containsAll(
-        ContinentEnum.getTerritories(ContinentEnum.SOUTH_AMERICA)));
+    assertTrue(player.getTerritories()
+        .containsAll(ContinentEnum.SOUTH_AMERICA.getTerrs()));
     int troops = size / 3 + 2;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -153,8 +151,7 @@ public class ValidReinforceActionTest {
   public void testAfricaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs =
-        ContinentEnum.getTerritories(ContinentEnum.AFRICA);
+    Set<TerritoryEnum> terrs = ContinentEnum.AFRICA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -165,8 +162,8 @@ public class ValidReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories()
-        .containsAll(ContinentEnum.getTerritories(ContinentEnum.AFRICA)));
+    assertTrue(
+        player.getTerritories().containsAll(ContinentEnum.AFRICA.getTerrs()));
     int troops = size / 3 + 3;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -179,8 +176,7 @@ public class ValidReinforceActionTest {
   public void testEuropeContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs =
-        ContinentEnum.getTerritories(ContinentEnum.EUROPE);
+    Set<TerritoryEnum> terrs = ContinentEnum.EUROPE.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -191,8 +187,8 @@ public class ValidReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories()
-        .containsAll(ContinentEnum.getTerritories(ContinentEnum.EUROPE)));
+    assertTrue(
+        player.getTerritories().containsAll(ContinentEnum.EUROPE.getTerrs()));
     int troops = size / 3 + 5;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -205,7 +201,7 @@ public class ValidReinforceActionTest {
   public void testAsiaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs = ContinentEnum.getTerritories(ContinentEnum.ASIA);
+    Set<TerritoryEnum> terrs = ContinentEnum.ASIA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -216,8 +212,8 @@ public class ValidReinforceActionTest {
     assertTrue(action.getTerritories().containsAll(player.getTerritories()));
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
-    assertTrue(player.getTerritories()
-        .containsAll(ContinentEnum.getTerritories(ContinentEnum.ASIA)));
+    assertTrue(
+        player.getTerritories().containsAll(ContinentEnum.ASIA.getTerrs()));
     int troops = size / 3 + ASIA_BONUS;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -230,8 +226,7 @@ public class ValidReinforceActionTest {
   public void testAustraliaContinentalBonus() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs =
-        ContinentEnum.getTerritories(ContinentEnum.AUSTRALIA);
+    Set<TerritoryEnum> terrs = ContinentEnum.AUSTRALIA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);
@@ -243,7 +238,7 @@ public class ValidReinforceActionTest {
     assertTrue(player.getTerritories().containsAll(action.getTerritories()));
     int size = player.getNumberTerritories();
     assertTrue(player.getTerritories()
-        .containsAll(ContinentEnum.getTerritories(ContinentEnum.AUSTRALIA)));
+        .containsAll(ContinentEnum.AUSTRALIA.getTerrs()));
     int troops = size / 3 + 2;
     assertTrue(troops == action.getNumberToReinforce());
   }
@@ -267,9 +262,8 @@ public class ValidReinforceActionTest {
         new ValidReinforceAction(player, new ArrayList<>());
     int numberToReinforce = 0;
     for (ContinentEnum cont : ContinentEnum.values()) {
-      if (player.getTerritories()
-          .containsAll(ContinentEnum.getTerritories(cont))) {
-        numberToReinforce += ContinentEnum.getContinentalBonus(cont);
+      if (player.getTerritories().containsAll(cont.getTerrs())) {
+        numberToReinforce += cont.getContinentalBonus();
       }
     }
     numberToReinforce += NUMBER_TERRS / 3;
@@ -299,7 +293,7 @@ public class ValidReinforceActionTest {
   public void testValidReinforcementMove() {
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     RiskBoard board = new RiskBoard();
-    Set<TerritoryEnum> terrs = ContinentEnum.getTerritories(ContinentEnum.ASIA);
+    Set<TerritoryEnum> terrs = ContinentEnum.ASIA.getTerrs();
     for (TerritoryEnum id : terrs) {
       player.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player, 2);

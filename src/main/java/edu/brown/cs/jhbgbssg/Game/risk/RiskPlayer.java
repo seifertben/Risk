@@ -14,7 +14,8 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
- * Represents a RiskPlayer.
+ * Represents a RiskPlayer. A RiskPlayer knows the cards it owns, the
+ * territories it controls and the continents it controls.
  *
  * @author sarahgilmore
  *
@@ -81,13 +82,17 @@ public class RiskPlayer implements Player {
   }
 
   /**
-   * Adds card to player set.
+   * Adds card to player set. If the cardValue is not 1 or 2, it is not added to
+   * the player's card set and false is returned.
    *
    * @param cardValue - value of the card
    * @return indicating the card was added
    */
   public boolean addCard(int cardValue) {
-    return cards.add(cardValue);
+    if (cardValue == 1 || cardValue == 2) {
+      return cards.add(cardValue);
+    }
+    return false;
   }
 
   /**
@@ -115,10 +120,8 @@ public class RiskPlayer implements Player {
     boolean gained = territories.add(conqueredTerritory);
     if (gained) {
       ContinentEnum cont = conqueredTerritory.getContinent();
-      if (!conts.contains(cont)) {
-        if (territories.containsAll(cont.getTerrs())) {
-          conts.add(cont);
-        }
+      if (territories.containsAll(cont.getTerrs())) {
+        conts.add(cont);
       }
     }
     return gained;
@@ -152,6 +155,11 @@ public class RiskPlayer implements Player {
     return Collections.unmodifiableSet(territories);
   }
 
+  /**
+   * Returns an unmodifiable collection of continents the player controls.
+   *
+   * @return set of continents
+   */
   public Set<ContinentEnum> getContinents() {
     return Collections.unmodifiableSet(conts);
   }

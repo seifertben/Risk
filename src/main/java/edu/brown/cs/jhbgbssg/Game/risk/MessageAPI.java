@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import edu.brown.cs.jhbgbssg.Game.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -260,7 +261,7 @@ public class MessageAPI {
     if (update.getErrors()) {
       JsonObject obj = new JsonObject();
       obj.addProperty("type", RiskMessageType.ERROR.ordinal());
-      obj.addProperty("playerId", GSON.toJson(update.getCurrentPlayer()));
+      obj.addProperty("playerId", update.getErrorPlayer().toString());
       messages.add(obj);
     }
 
@@ -668,6 +669,13 @@ public class MessageAPI {
     return ordCollection;
   }
 
+  /**
+   * Gets the player information.
+   *
+   * @param players - players
+   * @param board - board
+   * @return list of objects
+   */
   public List<JsonObject> getPlayerInformation(Collection<RiskPlayer> players,
       RiskBoard board) {
     List<JsonObject> infoList = new ArrayList<>();
