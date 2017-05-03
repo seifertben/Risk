@@ -1241,7 +1241,6 @@ function select_territory(event) {
           moveables = terrToReachableTerrs[moveFrom];
           let sideNav = $("#gameUpdates");
           let troops = "";
-          let maxTroops = 0;
           console.log(moveFrom);
           let maxTroops = $("#moveTroopsNumber");
           maxTroops.empty();
@@ -1252,6 +1251,7 @@ function select_territory(event) {
               maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
             }
           }
+
           dice.show();
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
