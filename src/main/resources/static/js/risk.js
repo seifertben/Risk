@@ -182,6 +182,9 @@ function setUp () {
 	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
 	$endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
+	$sideNav.append($("<select id='attackerNumberDie'> </select>"));
+	$sideNav.append($("<select id='defenderNumberDie'> </select>"));
+	$sideNav.append($("<select id='moveTroopsNumber'> </select>"));
     let reinforcer = document.createElement("BUTTON");
     let deinforcer = document.createElement("BUTTON");
     let confirm = document.createElement("BUTTON");
@@ -298,10 +301,12 @@ function hideAll() {
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
  	$("#resetMoveTroops").hide();
+ 	$("#attackerNumberDie").hide();
+ 	$("#defenderNumberDie").hide();
+ 	$("#moveTroopsNumber").hide();
     document.getElementById("reinforcer").style.display = "none";
     document.getElementById("deinforcer").style.display = "none";
-    document.getElementById("confirm").style.display = "none";
- 	
+    document.getElementById("confirm").style.display = "none"; 	
     document.getElementById("attacking").style.display = "none";
 }
 
