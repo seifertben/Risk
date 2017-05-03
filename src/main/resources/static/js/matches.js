@@ -208,6 +208,7 @@ const setup_matches = () => {
         	  make_bolster(data.movePlayer, JSON.parse(data.territories));
         	  break;
           case MOVE_TYPES.TURN_IN_CARD:
+            break;
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Is Attacking <b>" 
@@ -269,6 +270,7 @@ const setup_matches = () => {
               idToData[data.moveFrom], colors[data.movePlayer], colors[data.movePlayer]);
             changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
               idToData[data.moveTo], colors[data.movePlayer], colors[data.movePlayer]);
+            break;
         }
         break;
 
@@ -334,8 +336,7 @@ const setup_matches = () => {
               document.getElementById("turn").style.fontWeight = "normal";
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
            }
-
-          break;
+           break;
 
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
@@ -343,18 +344,15 @@ const setup_matches = () => {
         	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";
-        	  document.getElementById("bolsters").style.display = "inline";  
+        	    document.getElementById("bolsters").style.display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
-        	  document.getElementById("bolsters").style.display = "inline";  
-        	  document.getElementById("reinforcer").style.display = "inline"; 
-        	  document.getElementById("deinforcer").style.display = "inline"; 
-        	  document.getElementById("confirm").style.display = "inline"; 
-        	  
-        	  
+        	    document.getElementById("bolsters").style.display = "inline";  
+        	   // document.getElementById("reinforcer").style.display = "inline"; 
               terToPlace = new Map();
               placeMax = data.troopsToPlace;
               placed = 0;
-        	  phase = "reinforce";
+        	    bolstering = null;
+              phase = "reinforce";
               document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
               availableForClaim = JSON.parse(data.territories);
               map.addListener("clickMapObject", select_territory);
@@ -394,18 +392,21 @@ const setup_matches = () => {
               defending = data.defendTerritory;
               document.getElementById("bolsters").style.display = "inline";
               document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
-              document.getElementById("attacking").style.display = "inline";
-              document.getElementById("defend").style.display = "inline";
+              document.getElementById("attacking").style.display = "inline";  
               let sideNav = $("#gameUpdates");
               let dice = "";
+              $("#defenderNumberDie").empty();
               for (let index = 1; index <= data.maxDieRoll; index++) {
-            	if (index == data.maxDieRoll) {
-                  dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
-            	} else {
-                  dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
-            	}
+            	 if (index == data.maxDieRoll) {
+                   $("#defenderNumberDie").append("<option value=" + 
+                      index.toString() + " selected='selected'>" + index.toString() + "</option>");
+            	 } else {
+                   $("#defenderNumberDie").append("<option value=" + 
+                      index.toString() + ">" + index.toString() + "</option>");
+            	   }
               }
-              sideNav.append("<select id='diceChoice'>" + dice + "</select>");
+              $("#defenderNumberDie").show();
+              document.getElementById("defend").style.display = "inline";
               document.getElementById("defend").onclick = defend_territory;
             }
         	break;
@@ -426,12 +427,9 @@ const setup_matches = () => {
             	}
               }
               nav.append("<select id='troopChoice'>" + troops + "</select>");
+              document.getElementById("claimTerritory").style.display = "inline";
 
-              let confirm = document.createElement("BUTTON");
-              confirm.id = "confirm";
-              confirm.innerHTML = "Confirm Placements";
-              document.getElementById("n").appendChild(confirm);
-              document.getElementById("confirm").onclick = claim_terr;
+              
             }
             break;
           case MOVE_TYPES.MOVE_TROOPS:
@@ -440,22 +438,15 @@ const setup_matches = () => {
              phase = "move_troops";
              document.getElementById("phase").innerHTML = "Move Your Troops!";
              document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops<br>";     
-             let confirm = document.createElement("BUTTON");
-             confirm.id = "moveConfirm";
-             confirm.innerHTML = "Confirm Troop Movements";
-             document.getElementById("gameUpdates").appendChild(confirm);
-
              $("#skip").show();
              $("#resetMoveTroops").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
              for (ter in terrToMaxTroopsMove) {
-              availableForClaim.push(ter);
+                availableForClaim.push(ter);
               }
-              console.log(availableForClaim);
-            document.getElementById("moveConfirm").onclick = move_troops;
-        	}
-        }
+        	   }
+            }
         break;   
     }
   };
@@ -498,14 +489,14 @@ function claim_terr() {
 		  "playerId": myId, "troopsToMove": document.getElementById("troopChoice").value,
 		  "claimTerritory": claimed, "attackTerritory": claimedFrom};
   document.getElementById("troopChoice").remove();
-  document.getElementById("confirm").remove();
+  document.getElementById("claimTerritory").style.display = "none";
   conn.send(JSON.stringify(mess));
 }
 
 function defend_territory() {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_DEFEND_DIE,
-		  "playerId": myId, "numberDieToRoll": document.getElementById("diceChoice").value};
-  document.getElementById("diceChoice").remove();
+		  "playerId": myId, "numberDieToRoll": document.getElementById("defenderNumberDie").value};
+  $("#defenderNumberDie").hide();
   document.getElementById("defend").style.display = "none";
   document.getElementById("attacking").style.display = "none";
   conn.send(JSON.stringify(mess));
@@ -515,11 +506,11 @@ function attack_territory() {
   if (attackFrom != null && attackTo != null) {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, 
     		"playerId": myId, "attackTerritory": attackFrom, "defendTerritory": attackTo, 
-    		"numberDieToRoll": document.getElementById("diceChoice").value};
+    		"numberDieToRoll": document.getElementById("attackerNumberDie").value};
     document.getElementById("attack").style.display = "none";
     document.getElementById("attacking").style.display = "none";
     document.getElementById("resetAttackMove").style.display = "none";
-    document.getElementById("diceChoice").remove();
+    $("#attackerNumberDie").hide();
     $("#skip").hide();
     availableForClaim = [];
     attackFrom = null;
@@ -534,10 +525,10 @@ function move_troops() {
   if (moveFrom != null && moveTo != null) {
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
       "playerId": myId, "moveFromTerritory": moveFrom, "moveToTerritory": moveTo, 
-      "troopsToMove": document.getElementById("numberTroopsToMove").value};
-    document.getElementById("confirm").remove();
-    document.getElementById("numberTroopsToMove").remove();
+      "troopsToMove": document.getElementById("moveTroopsNumber").value};
+    document.getElementById("moveTroops").style.display = "none";
     document.getElementById("resetMoveTroops").style.display = "none";
+    $("#moveTroopsNumber").hide();
     $("#skip").hide();
     availableForClaim = [];
     moveables = [];
@@ -560,30 +551,18 @@ const skip_phase = event => {
     $("#skip").hide();
     $("#turnInCards").hide();
     $("#resetMoveTroops").hide();
-    if (document.getElementById("attack") != null) {
-      document.getElementById("attack").style.display = "none";
-    }
-    if (document.getElementById("attacking") != null) {
-      document.getElementById("attacking").style.display = "none";
-    }
-    if (document.getElementById("resetAttackMove") != null) {
-      document.getElementById("resetAttackMove").style.display = "none";
-    }
-    if (document.getElementById("diceChoice") != null) {
-      document.getElementById("diceChoice").remove();
-    }
-    if (document.getElementById("reinforcer") != null) {
-      document.getElementById("reinforcer").remove();
-    }
-    if (document.getElementById("deinforcer") != null) {
-      document.getElementById("deinforcer").remove();
-    }
-    if (document.getElementById("confirm")!= null) {
-      document.getElementById("confirm").remove();
-    }
-    if (document.getElementById("numberTroopsToMove") != null) {
-      document.getElementById("numberTroopsToMove").remove();
-    }
+    document.getElementById("reinforcer").style.display = "none";
+    document.getElementById("deinforcer").style.display = "none";
+    document.getElementById("confirm").style.display = "none";  
+    document.getElementById("attacking").style.display = "none";
+    document.getElementById("attack").style.display = "none";
+    document.getElementById("resetAttackMove").style.display = "none";
+    document.getElementById("resetMoveTroops").style.display = "none";
+    document.getElementById("claimTerritory").style.display = "none";
+    document.getElementById("moveTroops").style.display = "none";
+    $("#skip").hide();
+    $("attackerNumberDie").hide();
+    $("defenderNumberDie").hide();
     conn.send(JSON.stringify(mess));
   }
 }
@@ -594,9 +573,9 @@ const confirm_move = event => {
 	sparcify();
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.REINFORCE, "playerId": myId, "territories": Array.from(terToPlace)};
     document.getElementById("selecting").style.display = "none";
-    document.getElementById("reinforcer").remove();
-    document.getElementById("deinforcer").remove();
-    document.getElementById("confirm").remove(); 
+    document.getElementById("reinforcer").style.display = "none";
+    document.getElementById("deinforcer").style.display = "none";
+    document.getElementById("confirm").style.display = "none";
     availableForClaim = [];
     conn.send(JSON.stringify(mess));
   }

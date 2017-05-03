@@ -25,7 +25,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageType;
 /**
  * This class handles lobbies, player connections, starting matches, and
  * relaying messages to matches.
- * 
+ *
  * @author bgabinet
  */
 @WebSocket

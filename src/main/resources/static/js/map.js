@@ -1211,8 +1211,21 @@ function select_territory(event) {
   } else if (phase == "reinforce") {
 	 if (availableForClaim.includes(event.mapObject.id)) {
 	   bolstering = event.mapObject.id;
-    document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
-	 }
+     document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
+     if (placed < placeMax) {
+        document.getElementById("reinforcer").style.display = "inline";
+     }
+     if (terToPlace.get(bolstering) != null) {
+       if (terToPlace.get(bolstering) > 0) {
+         document.getElementById("deinforcer").style.display = "inline";
+       }
+      } else {
+        document.getElementById("deinforcer").style.display = "none";
+      }     
+    } else {
+      document.getElementById("reinforcer").style.display = "none";
+      document.getElementById("deinforcer").style.display = "none";
+    }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
       attackFrom = event.mapObject.id;
@@ -1220,22 +1233,24 @@ function select_territory(event) {
       attackables = terToTar[attackFrom];
       document.getElementById("attacking").style.display = "inline";
       document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-      document.getElementById("diceChoice").remove();
+      $("#attackerNumberDie").empty();
+      $("#attackerNumberDie").hide();
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-      let dice = $("#attackerNumberDie");
-      dice.empty();
-      for (let index = 1; index <= terrToDie[attackFrom.toString()]; i++) {
-        if (index == terrToDie[attackFrom.toString()]) {
-          dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+      $("#attackerNumberDie").empty();
+      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
+        if (index == terToDie[attackFrom.toString()]) {
+          $("#attackerNumberDie").append("<option value=" + index.toString() +
+           " selected='selected'>" + index.toString() + "</option>");
         } else {
-           dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+            $("#attackerNumberDie").append("<option value=" + index.toString()
+             + ">" + index.toString() + "</option>");
         }
       }
-      dice.show();
+      $("#attackerNumberDie").show();
     }
   } else if (phase = "move_troops") {
       if (availableForClaim.includes(event.mapObject.id.toString())) {
@@ -1243,25 +1258,27 @@ function select_territory(event) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
           let sideNav = $("#gameUpdates");
-          let troops = "";
-          console.log(moveFrom);
-          let maxTroops = $("#moveTroopsNumber");
-          maxTroops.empty();
+          $("#moveTroopsNumber").empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
-              maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+              $("#moveTroopsNumber").append("<option value=" + index.toString()
+               + " selected='selected'>" + index.toString() + "</option>");
             } else {
-              maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+               $("#moveTroopsNumber").append("<option value=" + 
+                  index.toString() + ">" + index.toString() + "</option>");
             }
           }
 
-          dice.show();
+          $("#moveTroopsNumber").show();
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
-           console.log(moveTo);
+          document.getElementById("moveTroops").style.display = "inline";
+
         }
       } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
         moveTo = event.mapObject.id;
+        document.getElementById("moveTroops").style.display = "inline";
+
       }
     }
   }
@@ -1270,7 +1287,7 @@ function select_territory(event) {
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
   document.getElementById("attacking").style.display = "none";
-  document.getElementById("diceChoice").remove();
+  $("#attackerNumberDie").hide();
   attackFrom = null;
   attackTo = null;
   attackables = null;
@@ -1280,6 +1297,7 @@ function reset_move_troops() {
   if (document.getElementById("numberTroopsToMove") != null) { 
       document.getElementById("numberTroopsToMove").remove();
   }
+  document.getElementById("moveTroops").style.display = "none";
   moveFrom = null;
   moveTo = null;
   moveables = [];
@@ -1294,8 +1312,13 @@ const place_troop = event => {
     }
     terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
+    document.getElementById("deinforcer").style.display = "inline";
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
+    if (placed === placeMax) {
+      document.getElementById("reinforcer").style.display = "none";
+      document.getElementById("confirm").style.display = "inline"; 
+    }
   }
 }
 
@@ -1312,6 +1335,11 @@ const remove_troop = event => {
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
+    document.getElementById("reinforcer").style.display = "inline";
+    document.getElementById("confirm").style.display = "none";
+    if (terToPlace.get(bolstering) == 0) {
+       document.getElementById("deinforcer").style.display = "none";
+    }
   }
 }
 
