@@ -235,6 +235,7 @@ public class Match {
             update = actionProcessor.processAttackAction(attack);
             break;
           case CHOOSE_DEFEND_DIE:
+            System.out.println("here in defend");
             DefendAction defend = this.createDefendAction(received);
             update = actionProcessor.processDefendAction(defend);
             break;

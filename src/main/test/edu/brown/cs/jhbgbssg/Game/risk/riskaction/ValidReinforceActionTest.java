@@ -20,7 +20,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
- *
+ * JUnit tests for ValidReinforceAction.
  *
  * @author sarahgilmore
  *

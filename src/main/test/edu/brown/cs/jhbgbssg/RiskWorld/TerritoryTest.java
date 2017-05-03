@@ -100,6 +100,34 @@ public class TerritoryTest {
   }
 
   /**
+   * Tests that removing more troops than there are on the territory causes the
+   * number of troops to drop only down to 0 and the owner field of the
+   * territory is null.
+   */
+  @Test
+  public void testRemoveMoreTroopsThanInTerritory() {
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    territory.changePlayer(player, 1);
+    assertTrue(territory.getNumberTroops() == 1);
+    assertTrue(territory.removeTroops(3));
+    assertTrue(territory.getNumberTroops() == 0);
+    assertNull(territory.getOwner());
+  }
+
+  /**
+   * Tests removeTroops throws an IllegalArgumentException if the number given
+   * is zero.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testRemoveZeroTroops() {
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    territory.changePlayer(player, 1);
+    territory.removeTroops(0);
+  }
+
+  /**
    * Tests that addTroops returns false and does not add any troops if the
    * territory has no owner.
    */
