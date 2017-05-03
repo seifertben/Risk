@@ -70,8 +70,18 @@ const sendMessage = event => {
 	event.preventDefault();
 }
     let  message = $('#messageField').val();
-    console.log("f");
-    console.log(message);
+    if (message.toLowerCase().includes("<script>") || message.toLowerCase().includes("</script>")) {
+      message = "HAXORZ";
+    }
+    if (message.toLowerCase().includes("fuck")) {
+      message = "Wishing you the best!";
+    }
+    if (message.toLowerCase().includes("shit")) {
+      message = "Mommy says I shouldn't say swears...";
+    }
+    if (message.toLowerCase().includes("ass")) {
+      message = "Wow! GG.";
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
@@ -91,8 +101,9 @@ setInterval(slideshow, 6000);
 //	// addcard();
 //	// addcard();
 	$("#transferconfirm").on("click", confirmTransfer);
-	$("#resetTransfer").on("click", resetTransfer);
+	// $("#resetTransfer").on("click", resetTransfer);
 	changeMusicStatus();
+	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
@@ -127,6 +138,11 @@ function confirmDice() {
 
 
 
+function defaultPause() {
+	$("#homeMute").text("Unmute");
+ 		document.getElementById('mainMenuMusic').pause();
+
+}
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
@@ -142,6 +158,10 @@ function slideshow() {
     }
 }   
 
+$("#playerNum").keypress(function (evt) {
+    evt.preventDefault();
+});
+
 function setUp () {
 	$sideNav = $('#n');
 	$sideNav.append("<br><br><br>");
@@ -151,24 +171,17 @@ function setUp () {
 	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
-	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
-	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
-	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
+	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
+	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
+	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
+	$sideNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
 	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
-	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
-	   $("#turnInCards").on( "click", turnInCards);
-       
- 	   hideAll();
-//	   changeAttackStatus("Player 1", "Player 2", "Russia");
-//	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
-//	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
-//	   attackerLoss("Player 3", 2);
-//	   defenderLoss("Player 3", 3);
-//	   updateReinforcementMessage(10);
+	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+    $("#turnInCards").on( "click", turnInCards);   
+    hideAll();
 }
 
 function createConquestTransferTroopsList() {
@@ -296,6 +309,9 @@ function createPlayer(number) {
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
+		let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
+		playerInfo[string] = currPlayerInfo ;
+
 
 		document.getElementById(string).style.backgroundColor = colors[players[i]];
     document.getElementById(string).style.font = "bold 12px/30px Georgia, serif";
@@ -313,9 +329,30 @@ function createPlayer(number) {
 
     document.getElementById(string).onclick = function() {
       document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[string];
-      document.getElementById('territories').innerHTML = "Occupies these territories:";
-      document.getElementById('continents').innerHTML = "Possesses these continents:";
-      document.getElementById('totaltroops').innerHTML = "Has this many troop in total:";
+      let territoryString = "Occupies these territories: <br>";
+     	let currPlayerInfo  = playerInfo[string];
+     	console.log(currPlayerInfo);
+     	let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
+     	console.log(territoryTroopInfo);
+      for (let key in territoryTroopInfo) {
+      	console.log("key");
+      	console.log(key);
+      	console.log("value");
+      	console.log(territoryTroopInfo[key]);
+      	territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
+
+      }
+      let continentInfo = JSON.parse(currPlayerInfo.continents);
+      let continentString = "";
+      for (let i = 0; i <continentInfo.length; i ++) {
+      		continentString += ( "<br> " + continentInfo[i]);
+      }
+      if (continentInfo.length ===0) {
+      	continentString = " none";
+      }
+      document.getElementById('territories').innerHTML = territoryString;
+      document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
+      document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
       document.getElementById('myModal').style.display = "block";
     }
 
