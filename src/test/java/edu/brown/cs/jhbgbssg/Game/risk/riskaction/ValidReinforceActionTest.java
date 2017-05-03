@@ -14,10 +14,10 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * JUnit tests for ValidReinforceAction.

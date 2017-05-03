@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  *

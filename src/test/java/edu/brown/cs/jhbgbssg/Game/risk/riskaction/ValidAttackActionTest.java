@@ -12,9 +12,9 @@ import org.junit.Test;
 
 import com.google.common.collect.Multimap;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * JUnit tests for ValidAttackAction.

@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,21 +10,23 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.SouthAmerica;
 
 /**
- * JUnit tests for Africa.
+ * JUnit tests for SouthAmerica.
  *
  * @author sarahgilmore
  *
  */
-public class AfricaTest {
+public class SouthAmericaTest {
   /**
    * Tests the constructor returns a non-null object.
    */
   @Test
   public void testConstructor() {
-    Africa cont = new Africa();
+    SouthAmerica cont = new SouthAmerica();
     assertNotNull(cont);
   }
 
@@ -33,17 +35,13 @@ public class AfricaTest {
    */
   @Test
   public void testGetTerritories() {
-    Africa cont = new Africa();
+    SouthAmerica cont = new SouthAmerica();
     Set<TerritoryEnum> terrs = cont.getTerritories();
-    assertTrue(terrs.size() == 6);
-    assertTrue(terrs.contains(TerritoryEnum.EGYPT));
-    assertTrue(terrs.contains(TerritoryEnum.EAST_AFRICA));
-    assertTrue(terrs.contains(TerritoryEnum.CENTRAL_AFRICA));
-    assertTrue(terrs.contains(TerritoryEnum.SOUTH_AFRICA));
-    assertTrue(terrs.contains(TerritoryEnum.MADAGASCAR));
-    assertTrue(terrs.contains(TerritoryEnum.NORTH_AFRICA));
-    assertTrue(terrs.contains(TerritoryEnum.NORTH_AFRICA));
-
+    assertTrue(terrs.size() == 4);
+    assertTrue(terrs.contains(TerritoryEnum.VENEZUELA));
+    assertTrue(terrs.contains(TerritoryEnum.PERU));
+    assertTrue(terrs.contains(TerritoryEnum.BRAZIL));
+    assertTrue(terrs.contains(TerritoryEnum.ARGENTINA));
   }
 
   /**
@@ -51,17 +49,17 @@ public class AfricaTest {
    */
   @Test
   public void testGetBonusValue() {
-    Africa cont = new Africa();
-    assertTrue(cont.getBonusValue() == 3);
+    SouthAmerica cont = new SouthAmerica();
+    assertTrue(cont.getBonusValue() == 2);
   }
 
   /**
-   * Tests getContinentId returns AFRICA.
+   * Tests getContinentId returns SOUTH_AMERICA.
    */
   @Test
   public void testGetContinentId() {
-    Africa cont = new Africa();
-    assertTrue(cont.getContinentId() == ContinentEnum.AFRICA);
+    SouthAmerica cont = new SouthAmerica();
+    assertTrue(cont.getContinentId() == ContinentEnum.SOUTH_AMERICA);
   }
 
   /**
@@ -70,12 +68,10 @@ public class AfricaTest {
    */
   @Test
   public void testContainsTerritory() {
-    Africa cont = new Africa();
+    SouthAmerica cont = new SouthAmerica();
     Set<TerritoryEnum> territories = new HashSet<>();
-    territories
-        .addAll(Arrays.asList(TerritoryEnum.EGYPT, TerritoryEnum.NORTH_AFRICA,
-            TerritoryEnum.EAST_AFRICA, TerritoryEnum.SOUTH_AFRICA,
-            TerritoryEnum.CENTRAL_AFRICA, TerritoryEnum.MADAGASCAR));
+    territories.addAll(Arrays.asList(TerritoryEnum.VENEZUELA,
+        TerritoryEnum.BRAZIL, TerritoryEnum.PERU, TerritoryEnum.ARGENTINA));
     TerritoryEnum[] terrs = TerritoryEnum.values();
     for (int i = 0; i < terrs.length; i++) {
       if (territories.contains(terrs[i])) {
@@ -92,7 +88,7 @@ public class AfricaTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testContainsTerritoryNullTerritory() {
-    Africa cont = new Africa();
+    SouthAmerica cont = new SouthAmerica();
     cont.containsTerritory(null);
   }
 }

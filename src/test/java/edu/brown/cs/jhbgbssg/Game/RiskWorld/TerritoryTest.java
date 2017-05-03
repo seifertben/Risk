@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**

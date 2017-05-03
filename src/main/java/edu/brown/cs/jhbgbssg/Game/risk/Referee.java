@@ -11,6 +11,8 @@ import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.CardPool;
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -30,8 +32,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * This class represents the Referee of a Risk Game. It controls the flow of the

@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,23 +10,25 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.Europe;
 
 /**
- * JUnit tests for NorthAmerica.
+ * JUnit tests for Europe.
  *
  * @author sarahgilmore
  *
  */
-public class NorthAmericaTest {
-  private static final int NUMBER_TERRITORIES = 9;
+public class EuropeTest {
+  private static final int NUMBER_TERRITORIES = 7;
 
   /**
    * Tests the constructor returns a non-null object.
    */
   @Test
   public void testConstructor() {
-    NorthAmerica cont = new NorthAmerica();
+    Europe cont = new Europe();
     assertNotNull(cont);
   }
 
@@ -35,18 +37,16 @@ public class NorthAmericaTest {
    */
   @Test
   public void testGetTerritories() {
-    NorthAmerica cont = new NorthAmerica();
+    Europe cont = new Europe();
     Set<TerritoryEnum> terrs = cont.getTerritories();
     assertTrue(terrs.size() == NUMBER_TERRITORIES);
-    assertTrue(terrs.contains(TerritoryEnum.ALASKA));
-    assertTrue(terrs.contains(TerritoryEnum.ALBERTA));
-    assertTrue(terrs.contains(TerritoryEnum.NORTHWEST_TERRITORY));
-    assertTrue(terrs.contains(TerritoryEnum.ONTARIO));
-    assertTrue(terrs.contains(TerritoryEnum.QUEBEC));
-    assertTrue(terrs.contains(TerritoryEnum.WESTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.EASTERN_US));
-    assertTrue(terrs.contains(TerritoryEnum.CENTRAL_AMERICA));
-    assertTrue(terrs.contains(TerritoryEnum.GREENLAND));
+    assertTrue(terrs.contains(TerritoryEnum.ICELAND));
+    assertTrue(terrs.contains(TerritoryEnum.GREAT_BRITIAN));
+    assertTrue(terrs.contains(TerritoryEnum.SCANDINAVIA));
+    assertTrue(terrs.contains(TerritoryEnum.WESTERN_AUSTRALIA));
+    assertTrue(terrs.contains(TerritoryEnum.SOUTHERN_EUROPE));
+    assertTrue(terrs.contains(TerritoryEnum.RUSSIA));
+    assertTrue(terrs.contains(TerritoryEnum.NORTHERN_EUROPE));
 
   }
 
@@ -55,17 +55,17 @@ public class NorthAmericaTest {
    */
   @Test
   public void testGetBonusValue() {
-    NorthAmerica cont = new NorthAmerica();
+    Europe cont = new Europe();
     assertTrue(cont.getBonusValue() == 5);
   }
 
   /**
-   * Tests getContinentId returns NORTH_AMERICA.
+   * Tests getContinentId returns EUROPE.
    */
   @Test
   public void testGetContinentId() {
-    NorthAmerica cont = new NorthAmerica();
-    assertTrue(cont.getContinentId() == ContinentEnum.NORTH_AMERICA);
+    Europe cont = new Europe();
+    assertTrue(cont.getContinentId() == ContinentEnum.EUROPE);
   }
 
   /**
@@ -74,13 +74,12 @@ public class NorthAmericaTest {
    */
   @Test
   public void testContainsTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Europe cont = new Europe();
     Set<TerritoryEnum> territories = new HashSet<>();
-    territories.addAll(
-        Arrays.asList(TerritoryEnum.ALASKA, TerritoryEnum.NORTHWEST_TERRITORY,
-            TerritoryEnum.ALBERTA, TerritoryEnum.ONTARIO, TerritoryEnum.QUEBEC,
-            TerritoryEnum.WESTERN_US, TerritoryEnum.EASTERN_US,
-            TerritoryEnum.CENTRAL_AMERICA, TerritoryEnum.GREENLAND));
+    territories.addAll(Arrays.asList(TerritoryEnum.ICELAND,
+        TerritoryEnum.NORTHERN_EUROPE, TerritoryEnum.SCANDINAVIA,
+        TerritoryEnum.GREAT_BRITIAN, TerritoryEnum.RUSSIA,
+        TerritoryEnum.SOUTHERN_EUROPE, TerritoryEnum.WESTERN_EUROPE));
     TerritoryEnum[] terrs = TerritoryEnum.values();
     for (int i = 0; i < terrs.length; i++) {
       if (territories.contains(terrs[i])) {
@@ -97,7 +96,7 @@ public class NorthAmericaTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testContainsTerritoryNullTerritory() {
-    NorthAmerica cont = new NorthAmerica();
+    Europe cont = new Europe();
     cont.containsTerritory(null);
   }
 }

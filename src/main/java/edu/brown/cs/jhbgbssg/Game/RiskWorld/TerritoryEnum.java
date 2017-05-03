@@ -1,6 +1,6 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 
 /**
  * Each territory is given a unique id represented by a specific TerritoryEnum.
