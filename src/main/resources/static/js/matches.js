@@ -209,7 +209,6 @@ const setup_matches = () => {
         	  break;
           case MOVE_TYPES.TURN_IN_CARD:
 
-//WHAT
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Is Attacking <b>" 
             + idToData[data.attackTo].name + "</b> from <b>" + idToData[data.attackFrom].name + "</b>";
@@ -347,23 +346,11 @@ const setup_matches = () => {
         	  document.getElementById("bolsters").style.display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	  document.getElementById("bolsters").style.display = "inline";  
-              let reinforcer = document.createElement("BUTTON");
-              let deinforcer = document.createElement("BUTTON");
-              let confirm = document.createElement("BUTTON");
-              selecting.innerHTML = "Select A Territory to Reinforce";
-              reinforcer.id = "reinforcer";
-              deinforcer.id = "deinforcer";
-              reinforcer.innerHTML = "Place a Troop";
-              deinforcer.innerHTML = "Recall a Troop";
-              confirm.id = "confirm";
-              confirm.innerHTML = "Confirm Placements";
-              document.getElementById("n").appendChild(selecting);
-         	  document.getElementById("n").appendChild(reinforcer);
-              document.getElementById("n").appendChild(deinforcer);
-              document.getElementById("n").appendChild(confirm);
-              reinforcer.onclick = place_troop;
-              deinforcer.onclick = remove_troop;
-              confirm.onclick = confirm_move;
+        	  document.getElementById("reinforcer").style.display = "inline"; 
+        	  document.getElementById("deinforcer").style.display = "inline"; 
+        	  document.getElementById("confirm").style.display = "inline"; 
+        	  
+        	  
               terToPlace = new Map();
               placeMax = data.troopsToPlace;
               placed = 0;
@@ -451,9 +438,10 @@ const setup_matches = () => {
         	 document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	 if (data.playerId == myId) {
              phase = "move_troops";
-             document.getElementById("phase").innerHTML = "Move Your Troops!";            
+             document.getElementById("phase").innerHTML = "Move Your Troops!";
+             document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops<br>";     
              let confirm = document.createElement("BUTTON");
-             confirm.id = "confirm";
+             confirm.id = "moveConfirm";
              confirm.innerHTML = "Confirm Troop Movements";
              document.getElementById("gameUpdates").appendChild(confirm);
 
@@ -465,7 +453,7 @@ const setup_matches = () => {
               availableForClaim.push(ter);
               }
               console.log(availableForClaim);
-            document.getElementById("confirm").onclick = move_troops;
+            document.getElementById("moveConfirm").onclick = move_troops;
         	}
         }
         break;   

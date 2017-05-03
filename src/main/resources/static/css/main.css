@@ -144,8 +144,12 @@
       text-align: center;
       text-decoration: underline;
   }
+
   #centerDiv {
     background-color: #6495ED;
+}
+  button[id="homeMute"] {
+  	  float: center;
   }
   button[id="gameMute"] {
       float: right;
@@ -342,16 +346,7 @@
     z-index:-1;
 }
 
-/*#background {
-   background-color: white;    
 
-   /* transition the background-color over 1s with a linear animation */
-   /*transition: background-color 1s linear;*/
-/*}*/
-
-/* the :hover that causes the background-color to change */
-/*#background:hover {
-   background-color: transparent;      
 }*/
 #white {
   /*position: absolute;*/
