@@ -103,6 +103,7 @@ setInterval(slideshow, 6000);
 	$("#transferconfirm").on("click", confirmTransfer);
 	// $("#resetTransfer").on("click", resetTransfer);
 	changeMusicStatus();
+	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
@@ -137,6 +138,11 @@ function confirmDice() {
 
 
 
+function defaultPause() {
+	$("#homeMute").text("Unmute");
+ 		document.getElementById('mainMenuMusic').pause();
+
+}
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
@@ -303,7 +309,7 @@ function createPlayer(number) {
 		currDiv.attr("id", string);
 		currDiv.append(text);
 		$("#n").append(currDiv);
-		let currPlayerInfo = {playerId: string, totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
+		let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
 		playerInfo[string] = currPlayerInfo ;
 
 
@@ -323,9 +329,30 @@ function createPlayer(number) {
 
     document.getElementById(string).onclick = function() {
       document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[string];
-      document.getElementById('territories').innerHTML = "Occupies these territories:";
-      document.getElementById('continents').innerHTML = "Possesses these continents:";
-      document.getElementById('totaltroops').innerHTML = "Has this many troop in total:";
+      let territoryString = "Occupies these territories: <br>";
+     	let currPlayerInfo  = playerInfo[string];
+     	console.log(currPlayerInfo);
+     	let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
+     	console.log(territoryTroopInfo);
+      for (let key in territoryTroopInfo) {
+      	console.log("key");
+      	console.log(key);
+      	console.log("value");
+      	console.log(territoryTroopInfo[key]);
+      	territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
+
+      }
+      let continentInfo = JSON.parse(currPlayerInfo.continents);
+      let continentString = "";
+      for (let i = 0; i <continentInfo.length; i ++) {
+      		continentString += ( "<br> " + continentInfo[i]);
+      }
+      if (continentInfo.length ===0) {
+      	continentString = " none";
+      }
+      document.getElementById('territories').innerHTML = territoryString;
+      document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
+      document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
       document.getElementById('myModal').style.display = "block";
     }
 
