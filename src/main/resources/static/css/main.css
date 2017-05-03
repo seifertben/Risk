@@ -89,8 +89,6 @@
     }
     .well-sm{
       float: left;
-      width: 30%;
-      text-indent: 30
     }
 
     .well.well-sm {
@@ -146,6 +144,10 @@
       text-align: center;
       text-decoration: underline;
   }
+
+  #centerDiv {
+    background-color: #6495ED;
+}
   button[id="homeMute"] {
   	  float: center;
   }
@@ -344,16 +346,7 @@
     z-index:-1;
 }
 
-/*#background {
-   background-color: white;    
 
-   /* transition the background-color over 1s with a linear animation */
-   /*transition: background-color 1s linear;*/
-/*}*/
-
-/* the :hover that causes the background-color to change */
-/*#background:hover {
-   background-color: transparent;      
 }*/
 #white {
   /*position: absolute;*/
@@ -361,12 +354,7 @@
     height: 100%;
     width: 100%;
 }
-body {
 
-  background-size: 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
-}
 
 /*Customize the scrollbars*/
 
