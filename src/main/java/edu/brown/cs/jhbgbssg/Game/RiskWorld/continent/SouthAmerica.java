@@ -1,40 +1,38 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 
 /**
- * Represents the continent Africa.
+ * Represents the continent South America.
  *
  * @author sarahgilmore
  *
  */
-public class Africa implements ContinentInterface {
-  private static final int BONUS_VALUE = 3;
+public class SouthAmerica implements ContinentInterface {
+  private static final int BONUS_VALUE = 2;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
   /**
-   * Constructor for Africa.
+   * Constructor for SouthAmerica.
    */
-  public Africa() {
+  public SouthAmerica() {
     playerId = null;
     territories = new HashSet<>();
-    territories.add(TerritoryEnum.CENTRAL_AFRICA);
-    territories.add(TerritoryEnum.NORTH_AFRICA);
-    territories.add(TerritoryEnum.EAST_AFRICA);
-    territories.add(TerritoryEnum.SOUTH_AFRICA);
-    territories.add(TerritoryEnum.EGYPT);
-    territories.add(TerritoryEnum.MADAGASCAR);
+    territories.add(TerritoryEnum.PERU);
+    territories.add(TerritoryEnum.VENEZUELA);
+    territories.add(TerritoryEnum.BRAZIL);
+    territories.add(TerritoryEnum.ARGENTINA);
   }
 
   @Override
   public ContinentEnum getContinentId() {
-    return ContinentEnum.AFRICA;
+    return ContinentEnum.SOUTH_AMERICA;
   }
 
   @Override
@@ -66,5 +64,4 @@ public class Africa implements ContinentInterface {
   public Set<TerritoryEnum> getTerritories() {
     return Collections.unmodifiableSet(territories);
   }
-
 }

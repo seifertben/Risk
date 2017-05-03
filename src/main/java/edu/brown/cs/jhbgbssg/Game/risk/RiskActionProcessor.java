@@ -248,11 +248,7 @@ public class RiskActionProcessor {
       update.setError(action.getMovePlayer().getPlayerId());
       return update;
     }
-    boolean exec = action.executeAction();
-    System.out.println("action executed " + exec); // executes
-                                                   // an
-                                                   // defend
-                                                   // action
+    action.executeAction(); // executes an defend action
 
     // if the territory was lost check if the defender lost the game
     if (action.getDefenderLostTerritory()) {

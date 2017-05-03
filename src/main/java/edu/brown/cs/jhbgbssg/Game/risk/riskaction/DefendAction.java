@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.brown.cs.jhbgbssg.Game.Die;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * Represents a Defend Action.

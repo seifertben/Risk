@@ -1,9 +1,9 @@
-package edu.brown.cs.jhbgbssg.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld;
 
 import com.google.common.base.Objects;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * This class represents a territory. A territory knows which player currently

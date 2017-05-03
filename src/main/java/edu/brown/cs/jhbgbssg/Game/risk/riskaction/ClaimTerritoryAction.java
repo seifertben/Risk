@@ -1,9 +1,9 @@
 package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
  * Represents a Claim Territory Action.
