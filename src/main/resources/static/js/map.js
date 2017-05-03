@@ -1223,16 +1223,16 @@ function select_territory(event) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-      let sideNav = $("#gameUpdates");
-      let dice = "";
-      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
-        if (index == terToDie[attackFrom.toString()]) {
+      let dice = $("#attackerNumberDie");
+      dice.empty();
+      for (let index = 1; index <= terrToDie[attackFrom.toString()]; i++) {
+        if (index == terrToDie[attackFrom.toString()]) {
           dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
         } else {
-          dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+           dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
         }
       }
-      sideNav.append("<select id='diceChoice'>" + dice + "</select>");
+      dice.show();
     }
   } else if (phase = "move_troops") {
       if (availableForClaim.includes(event.mapObject.id.toString())) {
@@ -1243,6 +1243,8 @@ function select_territory(event) {
           let troops = "";
           let maxTroops = 0;
           console.log(moveFrom);
+          let maxTroops = $("#moveTroopsNumber");
+          maxTroops.empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
               maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
@@ -1250,7 +1252,7 @@ function select_territory(event) {
               maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
             }
           }
-          sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
+          dice.show();
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
            console.log(moveTo);
