@@ -39,7 +39,7 @@ public class ActionProcessorTest {
    processor = new RiskActionProcessor();
    board = new RiskBoard();
    UUID id = new UUID(0, 1);
-   player = new RiskPlayer(id)
+   player = new RiskPlayer(id);
   }
 
   @Test
