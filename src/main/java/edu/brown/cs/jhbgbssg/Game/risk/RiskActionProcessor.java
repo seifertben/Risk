@@ -12,7 +12,11 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 
 /**
- * Stores the state of the game.
+ * RiskActionProcessor processes the different actions of a risk game. If the
+ * given action is valid according to the referee, the processor calls
+ * executeAction on the the given action and asks the referee for the next valid
+ * actions. The action executed and the next valid actions are then returned in
+ * a GameUpdate object, including any other necessary information.
  *
  * @author Ben
  *
@@ -36,11 +40,13 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Processes a set up action and returns a game update indicating what
-   * happened.
+   * Processes a set up action and returns a game update, including the
+   * SetupAction if it was executed. If the action was not valid, it, the update
+   * object's error field is set to true and the nextValidMove sent back is the
+   * same one used to check the SetupAction.
    *
    * @param action - set up action to execute
-   * @return GameUpdate
+   * @return GameUpdate - update object
    * @throws IllegalArgumentException - if the input is null
    */
   public GameUpdate processSetupAction(SetupAction action)
@@ -49,24 +55,28 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game is already over
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateSetupMove(action);
-    if (!isValidMove) {
-      ValidAction validMove = referee.getValidMove();
-      update.setValidMoves(validMove, null, true);
+    if (!isValidMove) { // not a valid move
+      ValidAction validMove = referee.getValidMove(); // defines valid moves
+      update.setValidMoves(validMove, null, true); // sets the fields
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // execute valid action
+
+    // player switches after selecting a territory
     update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
   /**
-   * Processes a setup reinforce action and returns a game update indicating
-   * what happened.
+   * Processes a setup reinforce action and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the SetupReinforceAction.
    *
    * @param action - set up reinforce action
    * @return game update
@@ -78,59 +88,28 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game already over
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateSetupReinforceMove(action);
-
-    if (!isValidMove) {
+    if (!isValidMove) { // move is not valid
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // execute move
+
+    // after reinforcing 1 territory during the setup phase, player switches
     update = this.switchPlayers(action, action.getMovePlayer());
     return update;
   }
 
   /**
-   * This method processes a reinforce action. It first checks that the given
-   * player can make such an action; if so, it executes it. Otherwise, it does
-   * not and returns an error messaging indicating the move was not valid.
-   *
-   * @param action of troops to place on the territory
-   * @return GameUpdate object representing what happened
-   * @throws IllegalArgumentException if the input is null
-   */
-  public GameUpdate processReinforceAction(ReinforceAction action)
-      throws IllegalArgumentException {
-    if (action == null) {
-      throw new IllegalArgumentException("ERROR: null input");
-    }
-    GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
-      update.setWonGame(referee.getWinner().getPlayerId());
-      return update;
-    }
-    boolean isValidMove = referee.validateReinforce(action);
-    if (!isValidMove) {
-      ValidAction validMove = referee.getValidMove();
-      update.setValidMoves(validMove, null, true);
-      return update;
-    }
-    action.executeAction();
-    ValidAction nextValidMove = referee.getValidMoveAfterReinforce();
-    if (nextValidMove == null) {
-      return this.switchPlayers(action, action.getMovePlayer());
-    }
-    update.setValidMoves(nextValidMove, action, false);
-    return update;
-  }
-
-  /**
-   * Executes a card turn in. If the the move is valid, the game will execute
-   * it. Otherwise, it will return an error.
+   * Processes a card turn in action and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the CardTurnInAction.
    *
    * @param action - card turn in action
    * @return game update
@@ -142,7 +121,7 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game is already over
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
@@ -151,9 +130,11 @@ public class RiskActionProcessor {
       update.setValidMoves(referee.getValidMove(), null, true);
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // execute action
     ValidAction nextValidMove =
         referee.getValidMoveAfterCardTurnIn(action.getCards());
+
+    // if the player has no other moves after turning in a card, switch players
     if (nextValidMove == null) {
       return this.switchPlayers(action, action.getMovePlayer());
     }
@@ -162,7 +143,47 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Executes an attack.
+   * Processes a reinforce action and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the ReinforceAction.
+   *
+   * @param action of troops to place on the territory
+   * @return GameUpdate object representing what happened
+   * @throws IllegalArgumentException if the input is null
+   */
+  public GameUpdate processReinforceAction(ReinforceAction action)
+      throws IllegalArgumentException {
+    if (action == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) { // game is already over
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
+    boolean isValidMove = referee.validateReinforce(action);
+    if (!isValidMove) { // action is not valid
+      ValidAction validMove = referee.getValidMove();
+      update.setValidMoves(validMove, null, true);
+      return update;
+    }
+    action.executeAction(); // execute action
+    ValidAction nextValidMove = referee.getValidMoveAfterReinforce();
+
+    // if the player has no moves available, switch players
+    if (nextValidMove == null) {
+      return this.switchPlayers(action, action.getMovePlayer());
+    }
+    update.setValidMoves(nextValidMove, action, false);
+    return update;
+  }
+
+  /**
+   * Processes an AttackAction and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the AttackAction.
    *
    * @param action - action
    * @return game update
@@ -174,23 +195,29 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game is already won
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateAttackMove(action);
-    if (!isValidMove) {
+    if (!isValidMove) { // move is not valid
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // execute move
+
+    // after an attack, the next move is always defending
     ValidAction validMove = referee.getValidMoveAfterAttack();
     update.setValidMoves(validMove, action, false);
     return update;
   }
 
   /**
+   * Processes an DefendAction and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the DefendAction.
    *
    * @param action - defend action
    * @return game update
@@ -202,17 +229,19 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game is already over
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateDefendMove(action);
-    if (!isValidMove) {
+    if (!isValidMove) { // defend move is not valid
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // executes an defend action
+
+    // if the territory was lost check if the defender lost the game
     if (action.getDefenderLostTerritory()) {
       if (referee.playerLost(action.getMovePlayer())) {
         update.setLostGame(action.getMovePlayer().getPlayerId());
@@ -220,9 +249,9 @@ public class RiskActionProcessor {
       ValidAction nextValidMove = referee.getValidMoveAfterDefend(action);
       update.setValidMoves(nextValidMove, action, false);
       return update;
-    } else {
+    } else { // the defender did not lose the territory
       ValidAction nextValidMove = referee.getValidMoveAfterDefend(action);
-      if (nextValidMove == null) {
+      if (nextValidMove == null) { // if the attacker has no other moves left
         return this.switchPlayers(action, action.getAttackerId());
       }
       update.setValidMoves(nextValidMove, action, false);
@@ -231,10 +260,10 @@ public class RiskActionProcessor {
   }
 
   /**
-   * Executes a claim territory move. A player claims a territory if, during an
-   * attack, the number of troops on the defending territory decreases to 0.
-   * This move checks that the claim territory move is valid, and executes if
-   * so.
+   * Processes an ClaimTerritoryAction and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the ClaimTerritoryAction.
    *
    * @param action - action
    * @return update specifying what happened
@@ -246,24 +275,26 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game alread over
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateClaimTerritory(action);
-    if (!isValidMove) {
+    if (!isValidMove) { // move is not valid
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
-    action.executeAction();
+    action.executeAction(); // execute action
+
+    // if player won the game, set field in update
     if (referee.isWinner(action.getMovePlayer())) {
       update.setWonGame(action.getMovePlayer().getPlayerId());
       update.setValidMoves(null, action, false);
       return update;
     }
     ValidAction validNextMove = referee.getValidMoveAfterClaimTerritory();
-    if (validNextMove == null) {
+    if (validNextMove == null) { // switch players
       return this.switchPlayers(action, action.getMovePlayer());
     }
     update.setValidMoves(validNextMove, action, false);
@@ -271,10 +302,10 @@ public class RiskActionProcessor {
   }
 
   /**
-   * This method moves the specified number of troops from a player's territory
-   * to another an adjacent one. If the move is valid, it will execute.
-   * Otherwise, the move will not be executed and RiskGame will return an error
-   * in the GameUpdate object.
+   * Processes an MoveTroopsAction and returns a game update, including the
+   * SetupReinforceAction if it was executed. If the action was not valid, it,
+   * the update object's error field is set to true and the nextValidMove sent
+   * back is the same one used to check the MoveTroopsAction.
    *
    * @param action - action
    * @return GameUpdate specifying what happened and the next possible move
@@ -286,22 +317,27 @@ public class RiskActionProcessor {
       throw new IllegalArgumentException("ERROR: null input");
     }
     GameUpdate update = new GameUpdate();
-    if (referee.getWinner() != null) {
+    if (referee.getWinner() != null) { // game already won
       update.setWonGame(referee.getWinner().getPlayerId());
       return update;
     }
     boolean isValidMove = referee.validateMoveTroopsMove(action);
-    if (!isValidMove) {
+    if (!isValidMove) { // move not valid
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null, true);
       return update;
     }
     action.executeAction();
+
+    // always switch players after a MoveTroopsAction
     return this.switchPlayers(action, action.getMovePlayer());
   }
 
   /**
-   * Processes a skip action.
+   * Processes a Skip Action. If skipping the current move is valid, the referee
+   * will produce the next valid move. Otherwise, an error is returned. If the
+   * player has no other valid moves after skipping, the current player is
+   * switched.
    *
    * @param player - player trying to skip an action
    * @return game update
@@ -312,27 +348,34 @@ public class RiskActionProcessor {
     if (player == null) {
       throw new IllegalArgumentException("ERROR: null input");
     }
-    if (referee.validSkipMove(player)) {
+    GameUpdate update = new GameUpdate();
+    if (referee.getWinner() != null) { // game is already over
+      update.setWonGame(referee.getWinner().getPlayerId());
+      return update;
+    }
+    if (referee.validSkipMove(player)) { // can skip the move
       ValidAction action = referee.getActionAfterSkip();
+
+      // if the player has no other moves left switch players
       if (action == null) {
         return this.switchPlayers(null, player);
-      } else {
-        GameUpdate update = new GameUpdate();
-        update.setValidMoves(action, null, false);
-        return update;
       }
-    } else {
-      GameUpdate update = new GameUpdate();
+      update.setValidMoves(action, null, false);
+      return update;
+    } else { // skipping is not valid
       update.setValidMoves(referee.getValidMove(), null, true);
       return update;
     }
   }
 
   /**
-   * Switches the current player.
+   * Switches the current player. If there is a card to handout, it sets the
+   * card field of GameUpdate. If the previous move is null, it calls Referee's
+   * switchPlayersAfterSkip in order to change the player. Otherwise, Referee's
+   * switchPlayer method is called.
    *
-   * @param prevMove
-   * @return game update
+   * @param prevMove - previous move
+   * @return game update - game update
    */
   private GameUpdate switchPlayers(Action prevMove, RiskPlayer player) {
     GameUpdate update = new GameUpdate();

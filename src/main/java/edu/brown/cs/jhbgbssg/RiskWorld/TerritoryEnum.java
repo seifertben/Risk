@@ -1,5 +1,7 @@
 package edu.brown.cs.jhbgbssg.RiskWorld;
 
+import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
+
 /**
  * Each territory is given a unique id represented by a specific TerritoryEnum.
  *
@@ -15,6 +17,20 @@ public enum TerritoryEnum {
   SOUTHERN_EUROPE, RUSSIA, AFGHANISTAN, CHINA, INDIA, IRKUTSK, JAPAN,
   KAMACHATKA, MIDDLE_EAST, MONGOLIA, SOUTHEAST_ASIA, SIBERIA, URAL, YAKUTSK,
   EASTERN_AUSTRALIA, INDONESIA, NEW_GUINEA, WESTERN_AUSTRALIA;
+
+  /**
+   * Returns the Continent that the territory is a part of.
+   *
+   * @return the continent the territory belongs to.
+   */
+  public ContinentEnum getContinent() {
+    for (ContinentEnum cont : ContinentEnum.values()) {
+      if (cont.getTerrs().contains(this)) {
+        return cont;
+      }
+    }
+    return null;
+  }
 
   @Override
   public String toString() {
@@ -107,4 +123,5 @@ public enum TerritoryEnum {
         return "";
     }
   }
+
 }

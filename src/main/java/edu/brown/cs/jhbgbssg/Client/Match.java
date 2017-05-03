@@ -259,14 +259,15 @@ public class Match {
             messageApi.getPlayerInformation(riskPlayers.values(), board));
         return messages;
       } catch (IllegalArgumentException e) {
+        GameUpdate update = new GameUpdate();
         if (referee.getWinner() != null) {
-          // get winner
+          update.setWonGame(referee.getWinner().getPlayerId());
         } else {
-          // get valid move
+          update.setValidMoves(referee.getValidMove(), null, true);
         }
+        return messageApi.getUpdateMessages(update);
       }
     }
-    return null;
   }
 
   private ReinforceAction createReinforceAction(JsonObject received) {

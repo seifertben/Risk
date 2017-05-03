@@ -312,6 +312,8 @@ public class Referee {
       throws IllegalArgumentException {
     if (cards == null) {
       throw new IllegalArgumentException("ERROR: null input");
+    } else if (winner != null) {
+      return null;
     }
     assert (validMove.getMoveType() == MoveType.TURN_IN_CARD);
     List<Integer> cardList = new ArrayList<>(cards);
@@ -327,6 +329,9 @@ public class Referee {
    * @return ValidAction - next set of valid actions
    */
   protected ValidAction getValidMoveAfterReinforce() {
+    if (winner != null) {
+      return null;
+    }
     assert (validMove.getMoveType() == MoveType.REINFORCE);
     ValidAttackAction move = new ValidAttackAction(currPlayer, board);
     if (move.actionAvailable()) {
@@ -349,6 +354,9 @@ public class Referee {
    * @return next valid action after attacking
    */
   protected ValidAction getValidMoveAfterAttack() {
+    if (winner != null) {
+      return null;
+    }
     assert (validMove.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
     TerritoryEnum defending = lastAttack.getDefendingTerritory();
     RiskPlayer defender = board.getTerritory(defending).getOwner();
@@ -369,6 +377,9 @@ public class Referee {
    * @return next valid action after defending
    */
   protected ValidAction getValidMoveAfterDefend(DefendAction defend) {
+    if (winner != null) {
+      return null;
+    }
     assert (validMove.getMoveType() == MoveType.CHOOSE_DEFEND_DIE);
     if (defend.getDefenderLostTerritory()) {
       validMove = new ValidClaimTerritoryAction(currPlayer, board, lastAttack);
@@ -404,6 +415,9 @@ public class Referee {
    * @return next valid action after claiming a territory
    */
   protected ValidAction getValidMoveAfterClaimTerritory() {
+    if (winner != null) {
+      return null;
+    }
     assert (validMove.getMoveType() == MoveType.CLAIM_TERRITORY);
     ValidAttackAction attack = new ValidAttackAction(currPlayer, board);
     if (attack.actionAvailable()) {

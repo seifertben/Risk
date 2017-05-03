@@ -43,11 +43,17 @@ public class MoveTroopsAction implements Action {
     this.board = board;
   }
 
+  /**
+   * Returns the MoveType: MOVE_TROOPS.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.MOVE_TROOPS;
   }
 
+  /**
+   * Returns the player moving troops.
+   */
   @Override
   public RiskPlayer getMovePlayer() {
     return player;
@@ -80,20 +86,26 @@ public class MoveTroopsAction implements Action {
     return numberTroops;
   }
 
+  /**
+   * Returns a boolean indicating if the move troops action has been executed.
+   */
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;
   }
 
+  /**
+   * Executes the move troops action.
+   */
   @Override
   public boolean executeAction() {
     if (!actionExecuted) {
-      Territory terr = board.getTerritory(fromTerritory);
-      Territory terr2 = board.getTerritory(toTerritory);
-      System.out.println("troops before " + terr.getNumberTroops());
-      terr.removeTroops(numberTroops);
-      terr2.addTroops(numberTroops);
-      System.out.println("troops after " + terr.getNumberTroops());
+      Territory fromTerr = board.getTerritory(fromTerritory);
+      Territory toTerr = board.getTerritory(toTerritory);
+      System.out.println("troops before " + fromTerr.getNumberTroops());
+      fromTerr.removeTroops(numberTroops);
+      toTerr.addTroops(numberTroops);
+      System.out.println("troops after " + fromTerr.getNumberTroops());
       actionExecuted = true;
       return actionExecuted;
     }

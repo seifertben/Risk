@@ -8,12 +8,11 @@ import com.google.common.collect.Multiset;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
- * Represents a Card Turn in move.
+ * Represents a Card turn in action.
  *
  * @author sarahgilmore
  *
  */
-
 public class CardTurnInAction implements Action {
   private Multiset<Integer> cards;
   private RiskPlayer player;
@@ -46,16 +45,25 @@ public class CardTurnInAction implements Action {
     return cards;
   }
 
+  /**
+   * Returns the MoveType of an Attack Action: TURN_IN_CARD.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.TURN_IN_CARD;
   }
 
+  /**
+   * Returns the Player turning in a card.
+   */
   @Override
   public RiskPlayer getMovePlayer() {
     return player;
   }
 
+  /**
+   * Returns whether or not the action has been executed.
+   */
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;

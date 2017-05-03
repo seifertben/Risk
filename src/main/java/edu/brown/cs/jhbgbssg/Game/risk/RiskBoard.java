@@ -18,7 +18,6 @@ import com.google.common.graph.MutableGraph;
 
 import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * Represents a Risk game board.
@@ -135,29 +134,10 @@ public class RiskBoard {
   private void setUpTerritories() {
     territoryMap = new HashMap<>();
     for (TerritoryEnum id : TerritoryEnum.values()) {
-      ContinentEnum cont = ContinentEnum.getContinent(id);
-      assert (cont != null);
-      Territory territory = new Territory(id, cont);
+      Territory territory = new Territory(id);
       territoryMap.put(id, territory);
     }
   }
-
-  // private void setUpContinents() {
-  // ContinentInterface australia = new Australia();
-  // ContinentInterface southAmerica = new SouthAmerica();
-  // ContinentInterface northAmerica = new NorthAmerica();
-  // ContinentInterface africa = new Africa();
-  // ContinentInterface asia = new Asia();
-  // ContinentInterface europe = new Europe();
-  // continentMap = new HashMap<>();
-  // continentMap.put(ContinentEnum.AFRICA, africa);
-  // continentMap.put(ContinentEnum.ASIA, asia);
-  // continentMap.put(ContinentEnum.AUSTRALIA, australia);
-  // continentMap.put(ContinentEnum.EUROPE, europe);
-  // continentMap.put(ContinentEnum.NORTH_AMERICA, northAmerica);
-  // continentMap.put(ContinentEnum.SOUTH_AMERICA, southAmerica);
-  //
-  // }
 
   /**
    * Gets a map portraying which territories a player can attack from and which
@@ -233,30 +213,6 @@ public class RiskBoard {
   public Collection<Territory> getTerritories() {
     return territoryMap.values();
   }
-
-  // /**
-  // * Returns the collection of continents.
-  // *
-  // * @return continent sets
-  // */
-  // public Collection<ContinentInterface> getContinents() {
-  // return continentMap.values();
-  // }
-  //
-  // /**
-  // * Returns the continent associated with the id.
-  // *
-  // * @param contId - id
-  // * @return continent
-  // * @throws IllegalArgumentException if the id is null
-  // */
-  // public ContinentInterface getContinent(ContinentEnum contId)
-  // throws IllegalArgumentException {
-  // if (contId == null) {
-  // throw new IllegalArgumentException("ERROR: null input");
-  // }
-  // return continentMap.get(contId);
-  // }
 
   /**
    * Returns the multimap of territories representing which territories are

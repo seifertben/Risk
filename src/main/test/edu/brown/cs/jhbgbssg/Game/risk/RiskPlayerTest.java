@@ -175,8 +175,7 @@ public class RiskPlayerTest {
   public void testGetContinents() {
     UUID id = UUID.randomUUID();
     RiskPlayer player = new RiskPlayer(id);
-    for (TerritoryEnum terr : ContinentEnum
-        .getTerritories(ContinentEnum.ASIA)) {
+    for (TerritoryEnum terr : ContinentEnum.ASIA.getTerrs()) {
       player.conqueredTerritory(terr);
     }
     assertTrue(player.getContinents().size() == 1);
@@ -192,8 +191,7 @@ public class RiskPlayerTest {
   public void testLostContinent() {
     UUID id = UUID.randomUUID();
     RiskPlayer player = new RiskPlayer(id);
-    for (TerritoryEnum terr : ContinentEnum
-        .getTerritories(ContinentEnum.ASIA)) {
+    for (TerritoryEnum terr : ContinentEnum.ASIA.getTerrs()) {
       player.conqueredTerritory(terr);
     }
     assertTrue(player.getContinents().size() == 1);

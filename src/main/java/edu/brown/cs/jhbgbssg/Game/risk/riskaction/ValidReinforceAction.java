@@ -40,7 +40,7 @@ public class ValidReinforceAction implements ValidAction {
     territories = player.getTerritories();
     Set<ContinentEnum> conts = player.getContinents();
     for (ContinentEnum cont : conts) {
-      numberReinforce += ContinentEnum.getContinentalBonus(cont);
+      numberReinforce += cont.getContinentalBonus();
     }
     for (Integer card : cards) {
       numberReinforce += card;

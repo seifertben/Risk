@@ -6,7 +6,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Claim Territory Move.
+ * Represents a Claim Territory Action.
  *
  * @author sarahgilmore
  *
@@ -46,7 +46,7 @@ public class ClaimTerritoryAction implements Action {
   }
 
   /**
-   * Returns the type of move.
+   * Returns the type of move: CLAIM_TERRITORY.
    */
   @Override
   public MoveType getMoveType() {
@@ -88,11 +88,17 @@ public class ClaimTerritoryAction implements Action {
     return troops;
   }
 
+  /**
+   * Returns whether or not an action has been executed.
+   */
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;
   }
 
+  /**
+   * Executes a Claim Territory action.
+   */
   @Override
   public boolean executeAction() {
     if (!actionExecuted) {

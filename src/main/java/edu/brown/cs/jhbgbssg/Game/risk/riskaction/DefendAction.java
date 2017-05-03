@@ -11,7 +11,7 @@ import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Represents a DefendMove.
+ * Represents a Defend Action.
  *
  * @author sarahgilmore
  *
@@ -29,7 +29,7 @@ public class DefendAction implements Action {
   private Die die = new Die();
 
   /**
-   * Constructor for defend move.
+   * Constructor for DefendAction.
    *
    * @param player - defending player
    * @param board - board
@@ -51,11 +51,17 @@ public class DefendAction implements Action {
 
   }
 
+  /**
+   * Returns the MoveType: CHOOSE_DEFEND_DIE.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.CHOOSE_DEFEND_DIE;
   }
 
+  /**
+   * Returns the player defending.
+   */
   @Override
   public RiskPlayer getMovePlayer() {
     return defender;
@@ -89,9 +95,9 @@ public class DefendAction implements Action {
   }
 
   /**
-   * Get attacker's id.
+   * Returns the attacker.
    *
-   * @return attacker id
+   * @return attacker
    */
   public RiskPlayer getAttackerId() {
     return attack.getMovePlayer();
@@ -167,6 +173,9 @@ public class DefendAction implements Action {
     return troopsAttackLost;
   }
 
+  /**
+   * Returns a boolean indicating if the defend action has been executed.
+   */
   @Override
   public boolean isActionExecuted() {
     return actionExecuted;

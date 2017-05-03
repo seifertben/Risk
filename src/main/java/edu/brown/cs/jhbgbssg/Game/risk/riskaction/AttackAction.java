@@ -9,7 +9,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 
 /**
- * Represents a risk attack action.
+ * Represents an Attack Action in Risk.
  *
  * @author sarahgilmore
  *
@@ -47,20 +47,36 @@ public class AttackAction implements Action {
     this.actionExecuted = false;
   }
 
+  /**
+   * Returns the MoveType of an Attack Action: CHOOSE_ATTACK_DIE.
+   */
   @Override
   public MoveType getMoveType() {
     return MoveType.CHOOSE_ATTACK_DIE;
   }
 
+  /**
+   * Returns the RiskPlayer attacking.
+   */
   @Override
   public RiskPlayer getMovePlayer() {
     return player;
   }
 
+  /**
+   * Returns the territory that is attacking.
+   *
+   * @return territory
+   */
   public TerritoryEnum getAttackingTerritory() {
     return attackingTerritory;
   }
 
+  /**
+   * Returns the territory that is defending against the attack.
+   *
+   * @return territory
+   */
   public TerritoryEnum getDefendingTerritory() {
     return defendingTerritory;
   }

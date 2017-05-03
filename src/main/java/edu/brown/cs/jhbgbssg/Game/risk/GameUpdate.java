@@ -20,6 +20,7 @@ public class GameUpdate {
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
   private UUID currPlayer;
+  private UUID errorPlayer;
 
   /**
    * Constructor of GameUpdate.
@@ -65,7 +66,7 @@ public class GameUpdate {
     return this.prevMove;
   }
 
-  protected void setValidMoves(ValidAction validMoves, Action previousMove,
+  public void setValidMoves(ValidAction validMoves, Action previousMove,
       boolean error) {
     if (validMoves != null) {
       this.currPlayer = validMoves.getMovePlayer();
@@ -85,7 +86,7 @@ public class GameUpdate {
     return this.availableMoves;
   }
 
-  protected void setWonGame(UUID wonGame) throws IllegalArgumentException {
+  public void setWonGame(UUID wonGame) throws IllegalArgumentException {
     if (this.wonGame != null) {
       throw new IllegalArgumentException("ERROR: game already won");
     } else if (wonGame == null) {
@@ -137,5 +138,13 @@ public class GameUpdate {
    */
   public UUID getCurrentPlayer() {
     return this.currPlayer;
+  }
+
+  public void setError(UUID player) throws IllegalArgumentException {
+    if (player == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    this.errors = true;
+    this.errorPlayer = player;
   }
 }

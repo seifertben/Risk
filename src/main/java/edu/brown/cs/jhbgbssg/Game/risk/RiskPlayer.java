@@ -114,9 +114,9 @@ public class RiskPlayer implements Player {
     }
     boolean gained = territories.add(conqueredTerritory);
     if (gained) {
-      ContinentEnum cont = ContinentEnum.getContinent(conqueredTerritory);
+      ContinentEnum cont = conqueredTerritory.getContinent();
       if (!conts.contains(cont)) {
-        if (territories.containsAll(ContinentEnum.getTerritories(cont))) {
+        if (territories.containsAll(cont.getTerrs())) {
           conts.add(cont);
         }
       }
@@ -136,7 +136,7 @@ public class RiskPlayer implements Player {
     if (lostTerritory == null) {
       throw new IllegalArgumentException("ERROR: null territory");
     }
-    ContinentEnum cont = ContinentEnum.getContinent(lostTerritory);
+    ContinentEnum cont = lostTerritory.getContinent();
     if (conts.contains(cont)) {
       conts.remove(cont);
     }

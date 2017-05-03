@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
  * JUnit tests for Territory.
@@ -26,8 +25,7 @@ public class TerritoryTest {
    */
   @Test
   public void territoryConstructorTest() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     assertNotNull(territory);
   }
 
@@ -37,25 +35,7 @@ public class TerritoryTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void territoryConstructorNullTerr() {
-    new Territory(null, ContinentEnum.NORTH_AMERICA);
-  }
-
-  /**
-   * Tests the constructor throws an IllegalArgumentException if continent id is
-   * null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void territoryConstructorNullCont() {
-    new Territory(TerritoryEnum.ALASKA, null);
-  }
-
-  /**
-   * Tests the constructor throws an IllegalArgumentException if territory id
-   * and the continent id is null.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void territoryConstructorNullInput() {
-    new Territory(null, null);
+    new Territory(null);
   }
 
   /**
@@ -63,8 +43,7 @@ public class TerritoryTest {
    */
   @Test
   public void testInitialUnitSize() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     assertTrue(territory.getNumberTroops() == 0);
   }
 
@@ -73,8 +52,7 @@ public class TerritoryTest {
    */
   @Test
   public void testInitialPlayer() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     assertNull(territory.getOwner());
   }
 
@@ -83,8 +61,7 @@ public class TerritoryTest {
    */
   @Test
   public void testAddTroops() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     territory.changePlayer(player, 1);
     assertTrue(territory.getNumberTroops() == 1);
@@ -98,8 +75,7 @@ public class TerritoryTest {
    */
   @Test
   public void testRemoveTroops() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     territory.changePlayer(player, 3);
     assertTrue(territory.getNumberTroops() == 3);
@@ -113,8 +89,7 @@ public class TerritoryTest {
    */
   @Test
   public void testRemoveAllTroops() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     territory.changePlayer(player, 3);
     assertTrue(territory.getNumberTroops() == 3);
@@ -130,8 +105,7 @@ public class TerritoryTest {
    */
   @Test
   public void testAdddTroopsNoPlayer() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     assertFalse(territory.addTroops(3));
     assertTrue(territory.getNumberTroops() == 0);
   }
@@ -142,8 +116,7 @@ public class TerritoryTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testChangePlayerZeroTroops() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     territory.changePlayer(player, 0);
   }
@@ -154,8 +127,7 @@ public class TerritoryTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testChangePlayerNegativeTroops() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     RiskPlayer player = new RiskPlayer(UUID.randomUUID());
     territory.changePlayer(player, NEGATIVE_TROOPS);
   }
@@ -166,8 +138,7 @@ public class TerritoryTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testChangePlayerNullId() {
-    Territory territory =
-        new Territory(TerritoryEnum.ALASKA, ContinentEnum.NORTH_AMERICA);
+    Territory territory = new Territory(TerritoryEnum.ALASKA);
     territory.changePlayer(null, 3);
   }
 

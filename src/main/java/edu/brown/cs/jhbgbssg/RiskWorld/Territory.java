@@ -23,17 +23,14 @@ public class Territory {
    * Constructs a territory and assigns it an id.
    *
    * @param id - id of territory
-   * @param contId - id of the continent territory belongs to
    * @throws IllegalArgumentException thrown if id is null
    */
-  public Territory(TerritoryEnum id, ContinentEnum contId)
-      throws IllegalArgumentException {
-    if (id == null || contId == null) {
+  public Territory(TerritoryEnum id) throws IllegalArgumentException {
+    if (id == null) {
       throw new IllegalArgumentException("ERROR: null id");
     }
-    this.contId = ContinentEnum.getContinent(id);
     this.id = id;
-    this.contId = contId;
+    this.contId = id.getContinent();
     this.numberTroops = 0;
   }
 

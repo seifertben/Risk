@@ -198,8 +198,8 @@ public class RefereeTest {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
     RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
     Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
-    for (TerritoryEnum id : ContinentEnum
-        .getTerritories(ContinentEnum.AFRICA)) {
+
+    for (TerritoryEnum id : ContinentEnum.AFRICA.getTerrs()) {
       player1.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player1, 1);
     }
@@ -256,8 +256,7 @@ public class RefereeTest {
     RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
     RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
     Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
-    for (TerritoryEnum id : ContinentEnum
-        .getTerritories(ContinentEnum.AFRICA)) {
+    for (TerritoryEnum id : ContinentEnum.AFRICA.getTerrs()) {
       player1.conqueredTerritory(id);
       board.getTerritory(id).changePlayer(player1, 2);
     }
