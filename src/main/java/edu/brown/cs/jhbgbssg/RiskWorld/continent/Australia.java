@@ -64,5 +64,4 @@ public class Australia implements ContinentInterface {
   public Set<TerritoryEnum> getTerritories() {
     return Collections.unmodifiableSet(territories);
   }
-
 }

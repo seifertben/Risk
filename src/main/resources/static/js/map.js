@@ -69,7 +69,7 @@ let WUSDATA = {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. US",
-      "labelShiftY": 10,
+      "labelShiftY": 15,
       "labelShiftX": -50,
       "name": "Western United States",
       "title": "Western United States: Occupied by No One",
@@ -353,8 +353,8 @@ let RUSSIADATA =  {
     };
 idToData[25] = RUSSIADATA;
 let NAFDATA =  {
-      "latitude":    NAF[0],
-      "longitude":   NAF[1],
+      "latitude": NAF[0],
+      "longitude": NAF[1],
       "svgPath": targetSVG,
       "selectable": true,
       "color": "#000000",  
@@ -377,7 +377,7 @@ let EGYPTDATA =   {
       "scale": 0.5,
       "label": "Egypt",
       "name": "Egypt",
-      "labelShiftY": 2,
+      "labelShiftY": 5,
       "selectable": true,
       "title": "Egypt: Occupied by No One",
       "id": 14,
@@ -391,7 +391,7 @@ let CAFDATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. AF",
-      "labelShiftY": 10,
+      "labelShiftY": -15,
       "labelShiftX": -50,
       "selectable": true,
       "title": "Central Africa: Occupied by No One",
@@ -484,8 +484,8 @@ let INDONESIADATA =  {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Indonesia",
-       "name": "Indonesia",
-      "labelShiftY": 2,
+      "name": "Indonesia",
+      "labelShiftY": -7,
       "selectable": true,
       "title": "Indonesia: Occupied by No One",
       "id": 39,
@@ -559,7 +559,7 @@ let CHINADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "China",
-      "labelShiftY": 2,
+      "labelShiftY": 10,
       "selectable": true,
       "title": "China",
       "name": "China",
@@ -861,6 +861,11 @@ let NAF_CAF =  {
       "longitudes": [NAF[1], CAF[1]],
         "color": "black"
     };
+let EAF_ME = {
+	  "latitudes": [EAF[0], ME[0]],
+	  "longitudes": [EAF[1], ME[1]],
+	    "color": "black"
+}
 let NAF_EAF = {
       "latitudes": [NAF[0],  EAF[0]],
       "longitudes": [NAF[1], EAF[1]],
@@ -1103,38 +1108,13 @@ let KAMCHATKA_INF = {
       "longitudes": [9999, KAMCHATKA[1]],
        "color": "black"
 }
-let lines  =  [EUS_WUS, EUS_QUEBEC, EUS_CA,EUS_ONTARIO,WUS_CA, WUS_ALBERTA, WUS_ONTARIO, ALBERTA_ONTARIO, ALBERTA_NWTERRITORIES, ALBERTA_ALASKA, ONTARIO_QUEBEC,
+let lines  =  [EAF_ME, EUS_WUS, EUS_QUEBEC, EUS_CA,EUS_ONTARIO,WUS_CA, WUS_ALBERTA, WUS_ONTARIO, ALBERTA_ONTARIO, ALBERTA_NWTERRITORIES, ALBERTA_ALASKA, ONTARIO_QUEBEC,
 ONTARIO_NWTERRITORIES, ONTARIO_GREENLAND, NWTERRITORIES_ALASKA,NWTERRITORIES_GREENLAND, GREENLAND_ICELAND, GREENLAND_QUEBEC, ICELAND_GB, SCANDINAVIA_ICELAND, 
 SCANDINAVIA_GB, NEU_GB, WEU_GB,WEU_SEU, WEU_NAF,WEU_NEU, NEU_RUSSIA,NEU_SEU,SCANDINAVIA_NEU,SCANDINAVIA_RUSSIA,EGYPT_SEU,MEU_SEU,NAF_SEU,NAF_EGYPT,NAF_CAF,NAF_EAF,
 NAF_BRAZIL,EAF_CAF, SAF_CAF,SAF_EAF,MADAGASCAR_EAF,MADAGASCAR_SAF,EGYPT_EAF,EGYPT_ME,BRAZIL_PERU,ARGENTINA_BRAZIL, BRAZIL_VZ,VZ_CA,VZ_PERU,ARGENTINA_PERU,ME_RUSSIA,
 AFGHANISTAN_ME,ME_INDIA,URAL_RUSSIA,AFGHANISTAN_RUSSIA,AFGHANISTAN_URAL,URAL_CHINA,URAL_SIBERIA,AFGHANISTAN_CHINA,AFGHANISTAN_INDIA,CHINA_INDIA,SEASIA_INDIA,
 CHINA_MONGOLIA,CHINA_SEASIA,IRKUSTK_MONGOLIA,JAPAN_MONGOLIA,KAMCHATKA_MONGOLIA,YAKUTSK_IRKUSTK,IRKUSTK_SIBERIA,KAMCHATKA_JAPAN,IRKUSTK_KAMCHATKRA, YAKUTSK_SIBERIA,
-KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_INDONESIA,NEWGUINEA_WAU,NEWGUINEA_EAU,WAU_EAU,INDONESIA_WAU, ALASKA_INF, KAMCHATKA_INF
-// ,
-// {
-//       "svgPath": planeSVG,
-//       "positionOnLine": 0,
-//       "color": "#000000",  
-//       "alpha": 0.1,
-//       "animateAlongLine": true,
-//       "lineId": "EUS_ONTARIO",
-//       "flipDirection": true,
-//       "loop": true,
-//       "scale": 0.03,
-//       "positionScale": 1.3
-//     }
-    // , {
-    //   "svgPath": planeSVG,
-    //   "positionOnLine": 0,
-    //   "color": "#585869",
-    //   "animateAlongLine": true,
-    //   "lineId": "ONTARIO_QUEBEC",
-    //   "flipDirection": true,
-    //   "loop": true,
-    //   "scale": 0.03,
-    //   "positionScale": 1.8
-    // }
-    ];
+KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_INDONESIA,NEWGUINEA_WAU,NEWGUINEA_EAU,WAU_EAU,INDONESIA_WAU, ALASKA_INF, KAMCHATKA_INF];
 
 
 let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESDATA,ALASKADATA,GREENLANDDATA,CADATA,VZDATA,PERUDATA,BRAZILDATA,ARGENTINADATA,ICELANDDATA,
@@ -1144,8 +1124,8 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
   "mouseWheelZoomEnabled": true,
-  "listeners" : {
-    
+  "linesSettings": {
+    "arc": -0.7, // this makes lines curved. Use value from -1 to 1
   },
   "dataProvider": {
       "map": "continentsLow",
@@ -1201,7 +1181,6 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "areasSettings": {
     "rollOverOutlineColor": 'white',
-    "selectedColor": undefined,
     zoomLevel: 0.5,
     zoomLongitude: -20.1341, // from the alert box...
     zoomLatitude: 49.1712 // here
@@ -1237,8 +1216,8 @@ function select_territory(event) {
       attackTo = null;
       attackables = terToTar[attackFrom];
       document.getElementById("attacking").style.display = "inline";
-
       document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+      document.getElementById("diceChoice").remove();
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;

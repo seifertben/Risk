@@ -70,8 +70,18 @@ const sendMessage = event => {
 	event.preventDefault();
 }
     let  message = $('#messageField').val();
-    console.log("f");
-    console.log(message);
+    if (message.toLowerCase().includes("<script>") || message.toLowerCase().includes("</script>")) {
+      message = "HAXORZ";
+    }
+    if (message.toLowerCase().includes("fuck")) {
+      message = "Wishing you the best!";
+    }
+    if (message.toLowerCase().includes("shit")) {
+      message = "Mommy says I shouldn't say swears...";
+    }
+    if (message.toLowerCase().includes("ass")) {
+      message = "Wow! GG.";
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
@@ -142,6 +152,10 @@ function slideshow() {
     }
 }   
 
+$("#playerNum").keypress(function (evt) {
+    evt.preventDefault();
+});
+
 function setUp () {
 	$sideNav = $('#n');
 	$sideNav.append("<br><br><br>");
@@ -151,24 +165,17 @@ function setUp () {
 	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
 	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
-	$sideNav.append($("<button type='button' id = 'resetAttackMove'class='btn btn-danger'>Reset Attack Move</button>"));
-	$sideNav.append($("<button type='button' id = 'attack'class='btn btn-danger'>Attack!</button>"));
-	$sideNav.append($("<button type='button' id = 'defend'class='btn btn-danger'>Defend!</button>"));
-	$sideNav.append($("<button type='button' id = 'skip'class='btn btn-danger'>End Turn</button>"));
+	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
+	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
+	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
+	$sideNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
 	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
-	   $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
-	   $("#turnInCards").on( "click", turnInCards);
-       
- 	   hideAll();
-//	   changeAttackStatus("Player 1", "Player 2", "Russia");
-//	   changeAttackersTerritoryInfo("Player 1", "Ontario", 10);
-//	   changeDefendersTerritoryInfo("Player 2", "Western United States", 20);
-//	   attackerLoss("Player 3", 2);
-//	   defenderLoss("Player 3", 3);
-//	   updateReinforcementMessage(10);
+	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+    $("#turnInCards").on( "click", turnInCards);   
+    hideAll();
 }
 
 function createConquestTransferTroopsList() {

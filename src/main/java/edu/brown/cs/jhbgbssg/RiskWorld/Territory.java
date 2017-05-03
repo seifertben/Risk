@@ -1,10 +1,14 @@
 package edu.brown.cs.jhbgbssg.RiskWorld;
 
+import com.google.common.base.Objects;
+
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 
 /**
- * Represents a Territory.
+ * This class represents a territory. A territory knows which player currently
+ * controls it, the number of troops on it and its continent. Each Territory is
+ * identified by a unique TerritoryEnum id.
  *
  * @author sarahgilmore
  *
@@ -150,5 +154,35 @@ public class Territory {
    */
   public RiskPlayer getOwner() {
     return player;
+  }
+
+  /**
+   * Equals method for Territory.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Territory)) {
+      return false;
+    }
+    Territory otherTerritory = (Territory) o;
+    if (otherTerritory.id != this.id) {
+      return false;
+    } else if (!otherTerritory.player.equals(this.player)) {
+      return false;
+    } else if (otherTerritory.numberTroops != this.numberTroops) {
+      return false;
+    }
+
+    // if reach this point, must be true
+    assert (otherTerritory.contId == this.contId);
+    return true;
+  }
+
+  /**
+   * Hashes based on its id, the player that owns it and the number of troops.
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(this.id, this.player, this.numberTroops);
   }
 }
