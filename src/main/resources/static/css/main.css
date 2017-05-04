@@ -258,7 +258,10 @@
   div[id="wrapper"] {
       /*display: inline-block;*/
       width: 2400px;
-      margin: 0% 25%;
+      margin: 0% 30%;
+  }
+  div[id="playerList"] {
+      display: inline-block;
   }
   div[id="gameField"] {
       display: none;
