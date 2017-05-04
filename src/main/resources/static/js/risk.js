@@ -194,7 +194,6 @@ function setUp () {
 	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
-    loserModal();
 }
 
 function hideAll() {
