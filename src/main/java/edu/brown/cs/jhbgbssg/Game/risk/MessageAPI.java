@@ -2,6 +2,7 @@ package edu.brown.cs.jhbgbssg.Game.risk;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -696,6 +697,7 @@ public class MessageAPI {
       for (ContinentEnum cont : player.getContinents()) {
         continents.add(cont.toString());
       }
+      Collections.sort(continents);
       object.addProperty("continents", GSON.toJson(continents));
       infoList.add(object);
       object.addProperty("initialReinforcements",
