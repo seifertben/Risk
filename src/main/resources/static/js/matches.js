@@ -318,23 +318,23 @@ const setup_matches = () => {
               }
             }
             changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
-                    idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);
+                    idToData[data.attackTerritory], colors[data.attacker]);
             changeTerritoryStatus(idToName[data.defender], -1 * data.defenderTroopsLost,
-                    idToData[data.defendTerritory], colors[data.defender], colors[data.defender]);
+                    idToData[data.defendTerritory], colors[data.defender]);
         	hideAll();
             break;
           case MOVE_TYPES.CLAIM_TERRITORY:
           	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
-        			idToData[data.claimedTerritory], colors[data.movePlayer], colors[data.movePlayer]);
+        			idToData[data.claimedTerritory], colors[data.movePlayer]);
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
-        			idToData[data.claimedFrom], colors[data.movePlayer], colors[data.movePlayer]);
+        			idToData[data.claimedFrom], colors[data.movePlayer]);
         	hideAll();
         	break;
           case MOVE_TYPES.MOVE_TROOPS:
             changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
-              idToData[data.moveFrom], colors[data.movePlayer], colors[data.movePlayer]);
+              idToData[data.moveFrom], colors[data.movePlayer]);
             changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
-              idToData[data.moveTo], colors[data.movePlayer], colors[data.movePlayer]);
+              idToData[data.moveTo], colors[data.movePlayer]);
         	hideAll();
             break;
         }

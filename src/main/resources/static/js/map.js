@@ -544,7 +544,7 @@ let SEASIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "SE Asia",
-      "labelShiftY": 2,
+      "labelShiftY": -2,
       "selectable": true,
       "name": "SouthEast Asia",
       "title": "SouthEast Asia: Occupied by No One",
@@ -1343,7 +1343,7 @@ const place_troop = event => {
     document.getElementById("deinforcer").disabled = false;
     $("#deinforcer").removeClass('disabled');
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
-    changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
+    changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId]);
     if (placed === placeMax) {
       document.getElementById("reinforcer").disabled = true;
       $("#reinforcer").addClass('disabled');
@@ -1365,7 +1365,7 @@ const remove_troop = event => {
     terToPlace.set(bolstering, terToPlace.get(bolstering) - 1);
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
-    changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
+    changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId]);
     document.getElementById("reinforcer").disabled = false;
     $("#reinforcer").removeClass('disabled');
     document.getElementById("confirm").disabled = true;
@@ -1378,7 +1378,7 @@ const remove_troop = event => {
 }
 
 function make_selection(player, territory) {
-  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player], colors[player]);
+  changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player]);
 }
 
 function sparcify() {
@@ -1395,18 +1395,19 @@ function sparcify() {
 function make_bolster(player, territories) {
   if (myId != player) {
     for (x in territories) {
-      changeTerritoryStatus(idToName[player], territories[x], idToData[x], colors[player], colors[player]);
+      changeTerritoryStatus(idToName[player], territories[x], idToData[x], colors[player]);
     }
   }
 }
 
-function changeTerritoryStatus(player, numSoldier, territory, color, labelColor) {
+function changeTerritoryStatus(player, numSoldier, territory, color) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
   if (terToSol[territory.id] == null) {
     terToSol[territory.id] = 0;
   }
   terToSol[territory.id] = terToSol[territory.id] + numSoldier;
+  
   territory.title = territory.name + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
   let string = "";
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
@@ -1426,8 +1427,13 @@ function changeTerritoryStatus(player, numSoldier, territory, color, labelColor)
   } 
 
   territory.label = string;
-  territory.color = color;
-  territory.labelRollOverColor = color;
+  if (terToSol[territory.id] == 0) {
+    territory.color = "black";
+    territory.labelRollOverColor = "black";
+  } else {
+    territory.color = color;
+    territory.labelRollOverColor = color;
+  }
   map.dataProvider.zoomLevel = map.zoomLevel();
   map.dataProvider.zoomLatitude = map.zoomLatitude();
   map.dataProvider.zoomLongitude = map.zoomLongitude();
