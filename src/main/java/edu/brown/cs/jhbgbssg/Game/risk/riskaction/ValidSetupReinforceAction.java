@@ -47,7 +47,6 @@ public class ValidSetupReinforceAction implements ValidAction {
    * @return true or false.
    */
   public boolean validSetupReinforceMove(SetupReinforceAction move) {
-    move.getSelectedTerritory();
     if (!actionAvailable
         || !territories.contains(move.getSelectedTerritory())) {
       return false;

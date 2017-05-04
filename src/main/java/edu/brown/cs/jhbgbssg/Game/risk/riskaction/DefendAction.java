@@ -123,12 +123,12 @@ public class DefendAction implements Action {
    * @param lostTerritory - whether or not the defender lost the territory
    */
   public void setDefendTroopsLost(int troops, boolean lostTerritory) {
-    if (troopsDefendLost >= 0) {
+    if (troops < 0) {
       throw new IllegalArgumentException("ERROR: invalid value");
     } else if (troopsDefendLost != null) {
       throw new IllegalArgumentException("ERROR: already set");
     }
-    troopsDefendLost = new Integer(troops);
+    troopsDefendLost = Integer.valueOf(troops);
     defenderLostTerritory = lostTerritory;
   }
 
@@ -161,7 +161,7 @@ public class DefendAction implements Action {
     } else if (troops < 0) {
       throw new IllegalArgumentException("ERROR: invalid value");
     }
-    troopsAttackLost = new Integer(troops);
+    troopsAttackLost = Integer.valueOf(troops);
   }
 
   /**

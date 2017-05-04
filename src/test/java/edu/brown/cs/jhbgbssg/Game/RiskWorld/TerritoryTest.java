@@ -9,8 +9,6 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
@@ -118,18 +116,6 @@ public class TerritoryTest {
   }
 
   /**
-   * Tests removeTroops throws an IllegalArgumentException if the number given
-   * is zero.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testRemoveZeroTroops() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    territory.changePlayer(player, 1);
-    territory.removeTroops(0);
-  }
-
-  /**
    * Tests that addTroops returns false and does not add any troops if the
    * territory has no owner.
    */
@@ -138,17 +124,6 @@ public class TerritoryTest {
     Territory territory = new Territory(TerritoryEnum.ALASKA);
     assertFalse(territory.addTroops(3));
     assertTrue(territory.getNumberTroops() == 0);
-  }
-
-  /**
-   * Tests that changePlayer throws an IllegalArgumentException if the number of
-   * troops to add is zero.
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testChangePlayerZeroTroops() {
-    Territory territory = new Territory(TerritoryEnum.ALASKA);
-    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
-    territory.changePlayer(player, 0);
   }
 
   /**

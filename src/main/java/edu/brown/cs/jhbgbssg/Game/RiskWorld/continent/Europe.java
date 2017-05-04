@@ -55,7 +55,11 @@ public class Europe implements ContinentInterface {
   }
 
   @Override
-  public boolean containsTerritory(TerritoryEnum terr) {
+  public boolean containsTerritory(TerritoryEnum terr)
+      throws IllegalArgumentException {
+    if (terr == null) {
+      throw new IllegalArgumentException("ERROR: null");
+    }
     return territories.contains(terr);
   }
 
