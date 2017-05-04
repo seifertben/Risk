@@ -8,6 +8,7 @@
      placeholder="Enter Message!"></textarea>
     <Button id = "chatButton">Send</Button>
     <button type = 'button' id = 'gameMute' class='btn btn-success'> Mute</button>
+    <div id="lastTurn" class="list-group"></div>
     </div>
   	<div id="centerDiv" class="col-sm-8 text-left">
 
