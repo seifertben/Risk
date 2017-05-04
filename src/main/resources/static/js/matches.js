@@ -211,11 +211,7 @@ const setup_matches = () => {
     	  winnerModal(data);
         break;
       case MESSAGE_TYPE.LOSER:
-      if (data.loser == myId) {
-        let string = players[i];
-        let div = document.getElementById(string);
-        div.style.backgroundColor = "#999";
-      }
+      document.getElementById(data.loser).style.backgroundColor = "grey";
       loserModal(data);
     	break;
       // Handle previous moves
@@ -789,11 +785,11 @@ function removeBlink(element) {
 }
 
 function loserModal() {
-  //if (data.loser == myId) {
-    //document.getElementById('loser').innerHTML = "YOU LOST!"; 
-  //} else {
+  if (data.loser == myId) {
+    document.getElementById('loser').innerHTML = "YOU LOST!"; 
+  } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
-  //}
+  }
 
   document.getElementById('loserModal').style.display = "block";
 
@@ -807,11 +803,11 @@ function loserModal() {
 }
 
 function winnerModal() {
-  // if (data.loser == myId) {
+   if (data.loser == myId) {
     document.getElementById('winner').innerHTML = "YOU WON!"; 
-  // } else {
+   } else {
     document.getElementById('winner').innerHTML = idToName[myId].toString() + " WON!";
-  //}
+  }
 
   document.getElementById('winnerModal').style.display = "block";
   document.getElementById('winnerMain').onclick = function () {
