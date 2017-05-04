@@ -114,7 +114,12 @@
   div[id="leftNav"] {
       padding: 10px;
       border: 2px solid black;
-      background-color: #badaf2;
+      background-color: #f1f1f1;
+  }
+  select {
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
   }
   #leftInner {
     position: relative;
@@ -145,6 +150,10 @@
       text-decoration: underline;
   }
 
+  div [id="gameUpdates"] {
+     text-align: center;
+     display: inline-block;
+  }
   #centerDiv {
     background-color: #6495ED;
 }
@@ -339,7 +348,7 @@
         color:white;
     }
 }
-#phase {
+p[id="phase"] {
   display: inline-block;
 }
 #background {

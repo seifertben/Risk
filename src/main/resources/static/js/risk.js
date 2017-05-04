@@ -152,7 +152,6 @@ $("#playerNum").keypress(function (evt) {
 function setUp () {
 	$sideNav = $('#gameUpdates');
 	$endNav = $('#endSection');
-	$sideNav.append("<br><br><br>");
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn' c></p>"));
 	$sideNav.append($("<p id = 'prevMove'></p>"));

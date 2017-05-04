@@ -156,6 +156,13 @@ public class Matches {
         }
       }
     }
+
+    if (received.get("type").getAsInt() == RiskMessageType.PING.ordinal()) {
+      JsonObject response = new JsonObject();
+      UUID playerId = UUID.fromString(received.get("playerId").getAsString());
+      response.addProperty("type", RiskMessageType.PING.ordinal());
+      playerToSession.get(playerId).getRemote().sendString(response.toString());
+    }
   }
 
   /**

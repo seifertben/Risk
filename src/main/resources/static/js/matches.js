@@ -1,3 +1,5 @@
+// Make sure hitting enter in forms
+// does not reload the page
 $(window).keydown(function(event){
   if (event.keyCode == 13) {
     event.preventDefault();
@@ -5,6 +7,7 @@ $(window).keydown(function(event){
   }
 });
 
+// Different Message Types
 const MESSAGE_TYPE = {
   CONNECT: 0,
   REMOVE: 1,
@@ -22,9 +25,11 @@ const MESSAGE_TYPE = {
   ERROR: 13,
   MOVE: 14,
   MESSAGE: 15,
-  PLAYER_INFORMATION: 16
+  PLAYER_INFORMATION: 16,
+  PING: 17
 };
 
+// Different move types
 const MOVE_TYPES = {
   SETUP: 0,
   SETUP_REINFORCE: 1,
@@ -37,6 +42,8 @@ const MOVE_TYPES = {
   SKIP: 8
 };
 
+// Datastructures, buttons,
+// ids, and names
 let conn;
 let myId;
 let myName;
@@ -70,6 +77,8 @@ let moveTo;
 let canClick = false;
 let cardsClicked = 0;
 let playerInfo = {};
+
+// Set up socket connections
 const setup_matches = () => {
 
   //conn = new WebSocket("ws://107.170.49.223/matches");
@@ -85,19 +94,23 @@ const setup_matches = () => {
         console.log('Unknown message type!', data.type);
         break;
 
+      // Set this session's id
       case MESSAGE_TYPE.CONNECT:
         myId = data.id;
         break;
 
+      // Update when a player switches lobbies
       case MESSAGE_TYPE.CHANGE:
         document.getElementById(data.oldGameId).innerHTML = data.oldMatchName + ": " + data.oldPlayerNum + "/" + data.oldLobbySize;
         document.getElementById(data.newGameId).innerHTML = data.newMatchName + ": " + data.newPlayerNum + "/" + data.newLobbySize;
         break;
 
+      // Remove a player from a lobby
       case MESSAGE_TYPE.REMOVE:
         document.getElementById(data.gameId).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
         break;
 
+      // Create a lobby
       case MESSAGE_TYPE.CREATE:
         let game = document.createElement("BUTTON");
         game.id = data.gameId;
@@ -108,10 +121,15 @@ const setup_matches = () => {
         game.onclick = join_match;
         break;
 
+      // Start a game
       case MESSAGE_TYPE.START:
+
+    	// Display the board and hide the lobby menu
         document.getElementById("gameField").style.display = "inline-block";
         document.getElementById("menuField").style.display = "none";
         document.getElementById(data.gameId).remove();
+
+        // Add players to the sidenav
         players.push(data.player0id);
         idToName[data.player0id] = data.player0name;
         colors[data.player0id] = "red";
@@ -138,33 +156,38 @@ const setup_matches = () => {
             idToName[data.player5id] = data.player5name;
             colors[data.player5id] = "yellow";
         }
+
+        // Start the game
         start = true;
-        document.getElementById("homeMute").style.display = "none";
+        //document.getElementById("homeMute").style.display = "none";
         $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
-        //set colors for chat.
+
+        // Set colors for chat.
         for(i=0; i<players.length; i++){
           colorMap.set(players[i], colors[players[i]]);
         }
 
-        //Set name message for header.
+        // Set name message for header.
         let h1 = document.getElementById("inGame");
         h1.innerHTML += ", " + myName;
 
+        // The initial phase is the setup phase
     	phase = "setup";
         break;
 
+      // Remove a lobby entirely
       case MESSAGE_TYPE.DESTROY:
         $("#" + data.gameId).remove();
         break;
 
+      // Handle a chat message
       case MESSAGE_TYPE.MESSAGE:
-      
         getMessage(data.playerId, data.message);
         break;
 
-
+      // Hand out a card
       case MESSAGE_TYPE.HANDOUT_CARD:
         if (data.playerId == myId) {
           let card = data.cardValue;
@@ -172,7 +195,10 @@ const setup_matches = () => {
         }
         break;
 
+      case MESSAGE_TYPE.PING:
+        break;
 
+      // Update player info ingame
       case MESSAGE_TYPE.PLAYER_INFORMATION:
         let currPlayer = playerInfo[data.playerId];
         currPlayer.terrsTroops = data.terrsTroops;
@@ -180,17 +206,25 @@ const setup_matches = () => {
         currPlayer.continents = data.continents;
         break;
 
+      // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
+
         switch(data.moveType){
+
+          // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
+
+        	// Update the board
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Selected " + idToData[data.territoryId].name;
-           addBlink($("#prevMove"));
+            addBlink($("#prevMove"));
                setTimeout(function() {
                    removeBlink($("#prevMove")); 
                 }, 4000);
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
             break;
+
+          // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Just Bolstered " + idToData[data.territoryId].name;
              addBlink($("#prevMove"));
@@ -200,6 +234,8 @@ const setup_matches = () => {
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
             break;
+
+          // For a normal reinforcement move
           case MOVE_TYPES.REINFORCE:
         	document.getElementById("prevMove").innerHTML = idToName[data.movePlayer] + " Bolstered Their Territories";
            addBlink($("#prevMove"));
@@ -365,9 +401,9 @@ const setup_matches = () => {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
               // AUTOPLAY
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
+//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+//              conn.send(JSON.stringify(mess));
+//              availableForClaim = [];
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -398,16 +434,16 @@ const setup_matches = () => {
                   availableForClaim = JSON.parse(data.territories);
                   map.addListener("clickMapObject", select_territory);
                   // AUTOPLAY
-                 if (data.troopsToPlace > 0) {
-                   let mess = {"type": MESSAGE_TYPE.MOVE,
-                   "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                   "playerId": myId, 
-                   "territoryId": availableForClaim[0]
-                 };
-                 
-                 conn.send(JSON.stringify(mess));
-                 availableForClaim = [];
-               }
+//                 if (data.troopsToPlace > 0) {
+//                   let mess = {"type": MESSAGE_TYPE.MOVE,
+//                   "moveType": MOVE_TYPES.SETUP_REINFORCE,
+//                   "playerId": myId, 
+//                   "territoryId": availableForClaim[0]
+//                 };
+//                 
+//                 conn.send(JSON.stringify(mess));
+//                 availableForClaim = [];
+//               }
                   } else {
                 document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -620,13 +656,19 @@ const setup_matches = () => {
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
              for (ter in terrToMaxTroopsMove) {
                 availableForClaim.push(ter);
-              }
-        	   }
-            }
-        break;   
+             }
+           }
+         }
+       break;   
     }
   };
 }
+
+window.setInterval(function(){
+  let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
+  conn.send(JSON.stringify(mess));
+}, 60000);
+
 function clickOnCard(element) {
   if (canClick) {
     if (element.style.borderStyle !== "solid") {
