@@ -377,18 +377,12 @@ p[id="phase"] {
     height: 100%;
     width: 100%;
     overflow:hidden;
-    float: top;
     z-index:-1;
 }
 
 
-}*/
-#white {
-  /*position: absolute;*/
-    background-color: rgba(255, 255, 255, 0.5);
-    height: 100%;
-    width: 100%;
 }
+
 
 #namePrompt {
   color: white;

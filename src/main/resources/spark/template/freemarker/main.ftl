@@ -21,11 +21,9 @@
 
 <div id='background'>
 
-<div id='white'>
 
 <div style="z-index: 2;">
 
-</div>
 </div>
 </div>
 ${content}
