@@ -81,8 +81,8 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -206,6 +206,12 @@ const setup_matches = () => {
         currPlayer.continents = data.continents;
         break;
 
+      case MESSAGE_TYPE.WINNER:
+    	console.log("Winner");
+        break;
+      case MESSAGE_TYPE.LOSER:
+    	console.log("Loser");
+    	break;
       // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
 
@@ -411,10 +417,10 @@ const setup_matches = () => {
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
-                   addBlink($("#turn"));
-               setTimeout(function() {
-                   removeBlink($("#turn")); 
-                }, 4000);
+              addBlink($("#turn"));
+              setTimeout(function() {
+                removeBlink($("#turn")); 
+              }, 4000);
           	}
             break;
 

@@ -173,12 +173,12 @@ let CADATA =  {
       "latitude": CA[0],
       "longitude": CA[1],
       "svgPath": targetSVG,
+      "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. America",
       "labelShiftY": 2,
-      "selectable": true,
        "name": "Central America",
       "title": "Central America: Occupied by No One",
       "id": 2,
@@ -574,7 +574,7 @@ let MONGOLIADATA =   {
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Mongolia",
-       "name": "Mongolia",
+      "name": "Mongolia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Mongolia: Occupied by No One",
@@ -658,7 +658,7 @@ let SIBERIADATA =   {
     };
 idToData[35] = SIBERIADATA;
 let URALDATA =   {
-      "latitude": URAL[0],
+		"latitude": URAL[0],
       "longitude":  URAL[1],
       "svgPath": targetSVG,
       "labelColor": "white",  
@@ -1123,6 +1123,7 @@ let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESD
 let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
+  "projection": "mercator",
   "mouseWheelZoomEnabled": true,
   "linesSettings": {
     "arc": -0.7, // this makes lines curved. Use value from -1 to 1
@@ -1181,7 +1182,8 @@ let map = AmCharts.makeChart( "mapdiv", {
   },
 "imageSettings":
     {
-      "labelColor": "white"
+      "labelColor": "white",
+      "selectable": "true",
     }
   ,
   "areasSettings": {

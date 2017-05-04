@@ -118,7 +118,7 @@
   }
   select {
    padding: 5px;
-   font-size: 16px;
+   font-size: 14px;
    line-height: 1;
   }
   #leftInner {
@@ -146,6 +146,7 @@
 
   }
   p{
+      font-size: 16pt;
       text-align: center;
       text-decoration: underline;
   }
