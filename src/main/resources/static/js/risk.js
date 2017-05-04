@@ -45,6 +45,7 @@ const TerritoryEnum = {
 let cardID = 0;
 let start = false;
 let prevMessage = undefined;
+let prevMove = undefined;
 let body = $('#background');
 
  let now = -1;

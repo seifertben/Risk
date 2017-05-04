@@ -2,12 +2,14 @@
   <div class="row content">
 
   	<div class="col-sm-2 sidenav" id = "leftNav">
+  	<p>Chat With Other Players!</p>
     <div id="chatting" class="list-group">
     </div>
     <textarea name="message" value="" id="messageField"
      placeholder="Enter Message!"></textarea>
     <Button id = "chatButton">Send</Button>
     <button type = 'button' id = 'gameMute' class='btn btn-success'> Mute</button>
+    <p>Match Log</p>
     <div id="lastTurn" class="list-group"></div>
     </div>
   	<div id="centerDiv" class="col-sm-8 text-left">
