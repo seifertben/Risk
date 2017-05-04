@@ -174,10 +174,6 @@ const setup_matches = () => {
 
 
       case MESSAGE_TYPE.PLAYER_INFORMATION:
-      //   document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[data.playerId];
-      // document.getElementById('territories').innerHTML = "Occupies these territories: " + id;
-      // document.getElementById('continents').innerHTML = "Possesses these continents:";
-      // document.getElementById('totaltroops').innerHTML = "Has this many troop in total:";
         let currPlayer = playerInfo[data.playerId];
         currPlayer.terrsTroops = data.terrsTroops;
         currPlayer.totalNumberTroops = data.totalNumberTroops;
