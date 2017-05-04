@@ -81,8 +81,8 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -368,9 +368,10 @@ const setup_matches = () => {
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
               // AUTOPLAY
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
+//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+//              conn.send(JSON.stringify(mess));
+//              availableForClaim = [];
+              // AUTOPLAY
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -397,17 +398,18 @@ const setup_matches = () => {
                   availableForClaim = JSON.parse(data.territories);
                   map.addListener("clickMapObject", select_territory);
                   // AUTOPLAY
-                 if (data.troopsToPlace > 0) {
-                   let mess = {"type": MESSAGE_TYPE.MOVE,
-                   "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                   "playerId": myId, 
-                   "territoryId": availableForClaim[0]
-                 };
-                 
-                 conn.send(JSON.stringify(mess));
-                 availableForClaim = [];
-               }
-                  } else {
+//                 if (data.troopsToPlace > 0) {
+//                   let mess = {"type": MESSAGE_TYPE.MOVE,
+//                   "moveType": MOVE_TYPES.SETUP_REINFORCE,
+//                   "playerId": myId, 
+//                   "territoryId": availableForClaim[0]
+//                 };
+//                 
+//                 conn.send(JSON.stringify(mess));
+//                 availableForClaim = [];
+//                   }
+                  // AUTOPLAY
+               } else {
                 document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
                addBlink($("#turn"));
