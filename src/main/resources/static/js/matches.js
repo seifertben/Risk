@@ -274,6 +274,13 @@ const setup_matches = () => {
           	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
           	  document.getElementById("turn").innerHTML = "Your Turn";
+              addBlink($("#turn"));
+               setTimeout(function() {
+                   removeBlink($("#turn")); 
+                }, 4000);
+             
+
+
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
               // AUTOPLAY
@@ -626,3 +633,10 @@ $(document).ready(function() {
 });
 
 $maker.click(create_match);
+function addBlink(element) {
+  element.addClass("blink");
+}
+function removeBlink(element) {
+  element.removeClass("blink");
+
+}

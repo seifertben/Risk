@@ -166,12 +166,12 @@ function setUp () {
 	$sideNav = $('#gameUpdates');
 	$endNav = $('#endSection');
 	$sideNav.append("<br><br><br>");
-	$sideNav.append($("<p id = 'phase' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'turn' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'prevMove' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
+	$sideNav.append($("<p id = 'phase'></p>"));
+	$sideNav.append($("<p id = 'turn' c></p>"));
+	$sideNav.append($("<p id = 'prevMove'></p>"));
+	$sideNav.append($("<p id = 'bolsters'></p>"));
+	$sideNav.append($("<p id = 'selecting'></p>"));
+	$sideNav.append($("<p id = 'attacking'></p>"));
 	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
 	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
 	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));

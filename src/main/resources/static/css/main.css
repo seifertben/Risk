@@ -310,11 +310,11 @@
     margin-bottom: 5px;
     }
      .blink {
-    animation-duration: 1200ms;
     animation-name: blink;
-    animation-iteration-count: 2;
     animation-direction: alternate;
-    -webkit-animation:blink 1200ms 2; /* Safari and Chrome */
+    animation-duration: 1200ms;
+    animation-iteration-count: infinite;
+    -webkit-animation:blink 1200ms infinite; /* Safari and Chrome */
 }
 @keyframes blink {
     from {
@@ -332,15 +332,20 @@
         color:white;
     }
 }
+#phase {
+  display: inline-block;
+}
 #background {
 
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
     position:absolute;
     top:0;
     bottom:0;
     left:0;
     right:0;
+    height: 100%;
+    width: 100%;
     overflow:hidden;
     float: top;
     z-index:-1;
@@ -355,7 +360,10 @@
     width: 100%;
 }
 
-
+#namePrompt {
+  color: white;
+  background-color: black;
+}
 /*Customize the scrollbars*/
 
 ::-webkit-scrollbar
