@@ -4,7 +4,9 @@
 
   <form id="nameForm">
     <h1>Welcome to Risk!</h1><br>
+
     <input type="text" autocomplete="off" id="nameInput" placeholder = "Please Enter a Name"></input>
+
     <button type = 'button' id = 'homeMute' class='btn btn-success'> Mute</button>
   </form>
 </div>
