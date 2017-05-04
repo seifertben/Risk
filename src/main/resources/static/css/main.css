@@ -215,8 +215,10 @@
       cursor: pointer;
   }
 
-  button:hover {
-    background-color: #377a39;
+  button:hover:enabled {
+    
+      background-color: #377a39;
+    
   }
 
   button:focus {
