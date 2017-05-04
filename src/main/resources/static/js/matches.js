@@ -208,10 +208,15 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.WINNER:
-    	console.log("Winner");
+    	  winnerModal(data);
         break;
       case MESSAGE_TYPE.LOSER:
-    	console.log("Loser");
+      if (data.loser == myId) {
+        let string = players[i];
+        let div = document.getElementById(string);
+        div.style.backgroundColor = "#999";
+      }
+      loserModal(data);
     	break;
       // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
@@ -782,3 +787,35 @@ function removeBlink(element) {
   element.removeClass("blink");
 
 }
+
+function loserModal() {
+  //if (data.loser == myId) {
+    //document.getElementById('loser').innerHTML = "YOU LOST!"; 
+  //} else {
+    document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
+  //}
+
+  document.getElementById('loserModal').style.display = "block";
+
+  document.getElementById("closeLoser").onclick = function() {
+    document.getElementById('loserModal').style.display = "none";
+  }
+
+  document.getElementById('loserMain').onclick = function () {
+    window.location = "/risk";
+  }
+}
+
+function winnerModal() {
+  // if (data.loser == myId) {
+    document.getElementById('winner').innerHTML = "YOU WON!"; 
+  // } else {
+    document.getElementById('winner').innerHTML = idToName[myId].toString() + " WON!";
+  //}
+
+  document.getElementById('winnerModal').style.display = "block";
+  document.getElementById('winnerMain').onclick = function () {
+    window.location = "/risk";
+  }
+}
+

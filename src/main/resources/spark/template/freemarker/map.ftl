@@ -36,8 +36,38 @@
     <p id = "continents"></p><br />
     <p id = "totaltroops"></p><br />
   </div>
-
 </div>
+
+  <!-- The Modal -->
+<div id="loserModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" id = "closeLoser" "text-right">&times;</span>
+    <p id = "loser" style = "text-decoration: none"></p>
+    <div class ="modal-footer">
+  		<div class="col-sm-offset-5 col-sm-2 text-center">
+  			<button type="button" id="loserMain">Back to Main Menu?</button>
+  		</div>
+    </div>
+  </div>
+</div>
+
+  <!-- The Modal -->
+<div id="winnerModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p id = "winner" style = "text-decoration: none"></p>
+    <div class ="modal-footer">
+    	<div class="col-sm-offset-5 col-sm-2 text-center">
+  			<button type="button" id="winnerMain">Go to Main Menu</button>
+  		</div>
+    </div>
+  </div>
+</div>
+
+
 </div>
 <footer class="container-fluid text-center" id="bottom">
 <ul id="cards">
