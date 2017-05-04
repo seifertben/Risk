@@ -200,7 +200,28 @@ const setup_matches = () => {
           	hideAll();
         	break;
           case MOVE_TYPES.TURN_IN_CARD:
-          	hideAll();
+            $('#cards li').each(function() {
+              if (this.style.borderStyle === "solid") {
+                let arr = this.className.split(" ");
+                if (arr[1] == "one") {
+                  if (myCards.includes(1)) {
+                    let index = myCards.indexOf(1);
+                    myCards[index] = myCards[0];
+                    myCards.shift();
+                    this.remove();
+                  }
+                } else {
+                  if (myCards.includes(2)) {
+                    let index = myCards.indexOf(2);
+                    myCards[index] = myCards[0];
+                    myCards.shift();
+                    this.remove();
+                  }
+                }
+              }
+            });
+            myCards = [];
+            hideAll();
             break;
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
@@ -528,7 +549,7 @@ function turnInCards() {
       } else {
         myCards.push(2);
       }
-      this.remove();
+      //this.remove();
     }
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
       "playerId": myId, "cards": myCards}; 
