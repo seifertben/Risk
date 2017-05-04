@@ -698,6 +698,8 @@ public class MessageAPI {
       }
       object.addProperty("continents", GSON.toJson(continents));
       infoList.add(object);
+      object.addProperty("initialReinforcements",
+          player.getInitialReinforcements());
     }
     return infoList;
   }
