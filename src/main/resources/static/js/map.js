@@ -1214,50 +1214,57 @@ function select_territory(event) {
      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
      if (placed < placeMax) {
         document.getElementById("reinforcer").disabled = false;
+        $("#reinforcer").removeClass('disabled');
      }
      if (terToPlace.get(bolstering) != null) {
        if (terToPlace.get(bolstering) > 0) {
          document.getElementById("deinforcer").disabled = false;
+         $("#deinforcer").removeClass('disabled');
        }
       } else {
         document.getElementById("deinforcer").disabled = true;
+        $("#deinforcer").addClass('disabled');
       }     
     } else {
       document.getElementById("reinforcer").disabled = true;
+      $("#reinforcer").addClass('disabled');
       document.getElementById("deinforcer").disabled = true;
+      $("#deinforcer").addClass('disabled');
     }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
-      attackFrom = event.mapObject.id;
-      attackTo = null;
-      attackables = terToTar[attackFrom];
-      document.getElementById("attacking").style.display = "inline";
-      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-      $("#attackerNumberDie").empty();
-      $("#attackerNumberDie").hide();
+      if (event.mapObject.id != attackFrom) {
+        $("#attack").disabled = true;
+        $("#attack").addClass('disabled');
+        attackFrom = event.mapObject.id;
+        attackTo = null;
+        attackables = terToTar[attackFrom];
+        document.getElementById("attacking").style.display = "inline";
+        document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+        $("#attackerNumberDie").empty();
+        for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
+          if (index == terToDie[attackFrom.toString()]) {
+            $("#attackerNumberDie").append("<option value=" + index.toString() +
+            " selected='selected'>" + index.toString() + "</option>");
+          } else {
+            $("#attackerNumberDie").append("<option value=" + index.toString()
+            + ">" + index.toString() + "</option>");
+          }
+        }
+      }
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-      $("#attackerNumberDie").empty();
-      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
-        if (index == terToDie[attackFrom.toString()]) {
-          $("#attackerNumberDie").append("<option value=" + index.toString() +
-           " selected='selected'>" + index.toString() + "</option>");
-        } else {
-            $("#attackerNumberDie").append("<option value=" + index.toString()
-             + ">" + index.toString() + "</option>");
-        }
-      }
-      $("#attackerNumberDie").show();
+      $("#attack").disabled = false;
+      $("#attack").removeClass('disabled');
     }
   } else if (phase = "move_troops") {
       if (availableForClaim.includes(event.mapObject.id.toString())) {
         if (moveFrom == null) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
-          let sideNav = $("#gameUpdates");
           $("#moveTroopsNumber").empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
@@ -1268,16 +1275,15 @@ function select_territory(event) {
                   index.toString() + ">" + index.toString() + "</option>");
             }
           }
-
-          $("#moveTroopsNumber").show();
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
-          document.getElementById("moveTroops").style.display = "inline";
-
+          $("#moveTroops").disabled = false;
+          $("#moveTroops").removeClass('disabled');
         }
       } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
         moveTo = event.mapObject.id;
-        document.getElementById("moveTroops").style.display = "inline";
+        $("#moveTroops").disabled = false;
+        $("#moveTroops").removeClass('disabled');
 
       }
     }
@@ -1286,18 +1292,18 @@ function select_territory(event) {
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
-  document.getElementById("attacking").style.display = "none";
-  $("#attackerNumberDie").hide();
+  $("#attack").disabled = true;
+  $("#attack").addClass('disabled');
+  $("#attackerNumberDie").empty();
   attackFrom = null;
   attackTo = null;
   attackables = null;
 }
 
 function reset_move_troops() {
-  if (document.getElementById("numberTroopsToMove") != null) { 
-      document.getElementById("numberTroopsToMove").remove();
-  }
-  document.getElementById("moveTroops").style.display = "none";
+  $("#moveTroops").disabled = true;
+  $("#moveTroops").addClass('disabled');
+  $("#moveTroopsNumber").empty();
   moveFrom = null;
   moveTo = null;
   moveables = [];
@@ -1313,11 +1319,14 @@ const place_troop = event => {
     terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
     document.getElementById("deinforcer").disabled = false;
+    $("#deinforcer").removeClass('disabled');
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
     if (placed === placeMax) {
       document.getElementById("reinforcer").disabled = true;
+      $("#reinforcer").addClass('disabled');
       document.getElementById("confirm").disabled = false; 
+      $("#confirm").removeClass('disabled');
     }
   }
 }
@@ -1336,9 +1345,12 @@ const remove_troop = event => {
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
     document.getElementById("reinforcer").disabled = false;
+    $("#reinforcer").removeClass('disabled');
     document.getElementById("confirm").disabled = true;
+    $("#confirm").addClass('disabled');
     if (terToPlace.get(bolstering) == 0) {
        document.getElementById("deinforcer").disabled = true;
+       $("#deinforcer").addClass('disabled');
     }
   }
 }

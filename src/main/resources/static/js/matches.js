@@ -305,17 +305,17 @@ const setup_matches = () => {
                   availableForClaim = JSON.parse(data.territories);
                   map.addListener("clickMapObject", select_territory);
                   // AUTOPLAY
-//                  if (data.troopsToPlace > 0) {
-//                    let mess = {"type": MESSAGE_TYPE.MOVE,
-//                    "moveType": MOVE_TYPES.SETUP_REINFORCE,
-//                    "playerId": myId, 
-//                    "territoryId": availableForClaim[0]
-//                  };
-//                  
-//                  conn.send(JSON.stringify(mess));
-//                  availableForClaim = [];
-                  }
-          	} else {
+                 if (data.troopsToPlace > 0) {
+                   let mess = {"type": MESSAGE_TYPE.MOVE,
+                   "moveType": MOVE_TYPES.SETUP_REINFORCE,
+                   "playerId": myId, 
+                   "territoryId": availableForClaim[0]
+                 };
+                 
+                 conn.send(JSON.stringify(mess));
+                 availableForClaim = [];
+               }
+                  } else {
                 document.getElementById("turn").style.fontWeight = "normal";
           		document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
           	}
@@ -327,6 +327,7 @@ const setup_matches = () => {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
+              $("#skip").text("Skip Handing in Cards?");
               $("#skip").show();
               $("#turnInCards").show();
               document.getElementById("turnInCards").onclick = turnInCards;
@@ -352,6 +353,9 @@ const setup_matches = () => {
         	    document.getElementById("reinforcer").disabled = true;
               document.getElementById("deinforcer").disabled = true;
               document.getElementById("confirm").disabled = true;
+              $("#reinforcer").addClass('disabled');
+              $("#deinforcer").addClass('disabled');
+              $("#confirm").addClass('disabled');
               document.getElementById("deinforcer").style.display = "inline";
               document.getElementById("confirm").style.display = "inline"; 
               document.getElementById("reinforcer").style.display = "inline";
@@ -378,10 +382,12 @@ const setup_matches = () => {
           	console.log("attack");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
-              document.getElementById("turn").style.fontWeight = "bold";
-              document.getElementById("turn").innerHTML = "Your Turn";        
               phase = "attacking";
               attackables = [];
+              attackTo = null;
+              attackFrom = null;
+              document.getElementById("turn").style.fontWeight = "bold";
+              document.getElementById("turn").innerHTML = "Your Turn";        
         	    document.getElementById("bolsters").style.display = "inline";
               document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
               terToDie = JSON.parse(data.maxDieRoll);
@@ -389,10 +395,15 @@ const setup_matches = () => {
               for (ter in terToDie) {
                 availableForClaim.push(ter);
               }
+              $("#attack").disabled = true;
+              $("#attack").addClass('disabled');
               $("#attack").show();
-              document.getElementById("attack").onclick = attack_territory;
+              $("#attackerNumberDie").empty();
+              $("#attackerNumberDie").show();
               $("#resetAttackMove").show();
+              $("#skip").text("Done Attacking?");
               $("#skip").show();
+              document.getElementById("attack").onclick = attack_territory;
               map.addListener("clickMapObject", select_territory);
             } else {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -458,10 +469,19 @@ const setup_matches = () => {
         	 document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	 if (data.playerId == myId) {
              phase = "move_troops";
+             moveFrom = null;
+             moveTo = null;
+             moveables = [];
              document.getElementById("phase").innerHTML = "Move Your Troops!";
              document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops<br>";     
-             $("#skip").show();
+             $("#moveTroops").disabled = true;
+             $("#moveTroops").addClass('disabled');
+             document.getElementById("moveTroops").style.display = "inline";
+             $("#moveTroopsNumber").empty();
+             $("#moveTroopsNumber").show();
              $("#resetMoveTroops").show();
+             $("#skip").text("Skip Moving Troops?");
+             $("#skip").show();
              terrToReachableTerrs = JSON.parse(data.canMove);
              terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
              for (ter in terrToMaxTroopsMove) {
@@ -581,8 +601,9 @@ const skip_phase = event => {
     document.getElementById("claimTerritory").style.display = "none";
     document.getElementById("moveTroops").style.display = "none";
     $("#skip").hide();
-    $("attackerNumberDie").hide();
-    $("defenderNumberDie").hide();
+    $("#attackerNumberDie").hide();
+    $("#defenderNumberDie").hide();
+    $("#moveTroopsNumber").hide();
     conn.send(JSON.stringify(mess));
   }
 }
