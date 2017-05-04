@@ -53,7 +53,9 @@ let EUSDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "E. US",
       "labelShiftY": 2,
       "name": "Eastern United States", 
@@ -68,7 +70,9 @@ let WUSDATA = {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "W. US",
       "labelShiftY": 15,
       "labelShiftX": -50,
@@ -84,7 +88,9 @@ let QUEBECDATA =  {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Quebec",
        "name": "Quebec",
       "labelShiftY": 2,
@@ -99,7 +105,9 @@ let ONTARIODATA = {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Ontario",
       "name": "Ontario",
       "labelShiftY": -20,
@@ -115,7 +123,9 @@ let ALBERTADATA =  {
       "selectable": true,
       "labelColor": "white",
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Alberta",
        "name": "Alberta",
       "labelShiftY": 10,
@@ -131,7 +141,9 @@ let NWTERRITORIESDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "NW Territories",
       "labelShiftY": 2,
       "name": "Northwest Territories",
@@ -145,7 +157,9 @@ let ALASKADATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Alaska",
        "name": "Alaska",
       "labelShiftY": -10,
@@ -160,7 +174,9 @@ let GREENLANDDATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Greenland",
       "name": "Greenland",
       "labelShiftY": 10,
@@ -177,7 +193,9 @@ let CADATA =  {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "C. America",
       "labelShiftY": 2,
        "name": "Central America",
@@ -191,7 +209,9 @@ let VZDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Venezuela",
       "labelShiftY": 2,
       "selectable": true,
@@ -206,7 +226,9 @@ let PERUDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "labelShiftY": 10,
       "labelShiftX": -40,
       "selectable": true,
@@ -222,7 +244,9 @@ let BRAZILDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Brazil",
       "name": "Brazil",
       "labelShiftY": 2,
@@ -237,7 +261,9 @@ let ARGENTINADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Argentina",
       "name": "Argentina",
       "labelShiftY": 2,
@@ -252,7 +278,9 @@ let ICELANDDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Iceland",
         "name": "Iceland",
       "labelShiftY": -10,
@@ -267,7 +295,9 @@ let GBDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "GB",
       "labelShiftY": 10,
       "labelShiftX": -40,
@@ -283,7 +313,9 @@ let WEUDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "W EU",
       "selectable": true,
       "labelShiftY": 10,
@@ -300,7 +332,9 @@ let NEUDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "N EU",
       "labelShiftY": 2,
       "name": "Northern Europe",
@@ -315,7 +349,9 @@ let SEUDATA =    {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "S EU",
       "labelShiftY": 2,
       "name": "Southern Europe",
@@ -330,7 +366,9 @@ let SCANDINAVIADATA =   {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Scandinavia",
       "name": "Scandinavia",
       "labelShiftY": 2,
@@ -344,7 +382,9 @@ let RUSSIADATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Russia",
       "name": "Russia",
       "selectable": true,
@@ -360,7 +400,9 @@ let NAFDATA =  {
       "selectable": true,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "N. AF",
       "labelShiftY": 10,
       "labelShiftX": -50,
@@ -375,7 +417,9 @@ let EGYPTDATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Egypt",
       "name": "Egypt",
       "labelShiftY": 5,
@@ -390,7 +434,9 @@ let CAFDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "C. AF",
       "labelShiftY": -15,
       "labelShiftX": -50,
@@ -406,7 +452,9 @@ let EAFDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "E. AF",
       "name": "Eastern Africa",
       "labelShiftY": 2,
@@ -421,7 +469,9 @@ let SAFDATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "S. AF",
       "labelShiftY": 10,
       "labelShiftX": -50,
@@ -437,7 +487,9 @@ let MADAGASCARDATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Madagascar",
       "labelShiftY": 2,
       "selectable": true,
@@ -452,7 +504,9 @@ let WAUDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "W. AU",
       "labelShiftY": 10,
       "labelShiftX": -50,
@@ -468,7 +522,9 @@ let EAUDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "E. AU",
       "labelShiftY": 2,
       "selectable": true,
@@ -483,7 +539,9 @@ let INDONESIADATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Indonesia",
       "name": "Indonesia",
       "labelShiftY": -7,
@@ -498,7 +556,9 @@ let NEWGUINEADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,   
       "label": "New Guinea",
        "name": "New Guinea",
       "labelShiftY": 2,
@@ -514,7 +574,9 @@ let MEDATA =  {
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "name": "Middle East",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Middle East",
       "labelShiftY": 2,
       "selectable": true,
@@ -528,10 +590,12 @@ let INDIADATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "India",
       "name": "India",
-      "labelShiftY": 2,
+      "labelShiftY": -2,
       "selectable": true,
       "title": "India: Occupied by No One",
       "id": 28,
@@ -543,7 +607,9 @@ let SEASIADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "SE Asia",
       "labelShiftY": -2,
       "selectable": true,
@@ -558,7 +624,9 @@ let CHINADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "China",
       "labelShiftY": 10,
       "selectable": true,
@@ -573,7 +641,9 @@ let MONGOLIADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Mongolia",
       "name": "Mongolia",
       "labelShiftY": 2,
@@ -588,7 +658,9 @@ let JAPANDATA =    {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Japan",
       "name": "Japan",
       "labelShiftY": 2,
@@ -603,7 +675,9 @@ let KAMCHATKADATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Kamchatka",
       "name": "Kamchatka",
       "labelShiftY": 10,
@@ -618,7 +692,9 @@ let YAKUTSKDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Yakutsk",
       "name": "Yakutsk",
       "labelShiftY": -10,
@@ -633,7 +709,9 @@ let IRKUSTKDATA =  {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Irkustk",
       "name": "Irkustk",
       "labelShiftY": 2,
@@ -648,7 +726,9 @@ let SIBERIADATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Siberia",
       "name": "Siberia",
       "labelShiftY": -10,
@@ -664,7 +744,9 @@ let URALDATA =   {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Ural",
       "name": "Ural",
       "labelShiftY": -10,
@@ -680,7 +762,9 @@ let AFGHANISTANDATA = {
       "svgPath": targetSVG,
       "labelColor": "white",  
       "labelRollOverColor": "#000000",
-      "scale": 0.5,
+      "scale": 1.5,
+      "type": "circle",
+      "bringForwardOnHover": true,
       "label": "Afghanistan",
       "name": "Afghanistan",
       "labelShiftY": -10,
@@ -692,12 +776,14 @@ idToData[26] = AFGHANISTANDATA;
 let EUS_WUS = {
       "latitudes": [ EUS[0], WUS[0]],
       "longitudes": [ EUS[1], WUS[1] ],
-      "color": "black"
+      "color": "black",
+      "bringForwardOnHover": false,
     };
 
 let EUS_QUEBEC = { "latitudes": [ EUS[0], QUEBEC[0]],
       "longitudes": [ EUS[1], QUEBEC[1] ],
-      "color": "black"
+      "color": "black",
+          "bringForwardOnHover": false,
     };
 let EUS_CA = {
       "latitudes": [ EUS[0], CA[0] ],
@@ -708,24 +794,28 @@ let EUS_ONTARIO =  {
       "latitudes": [ EUS[0], ONTARIO[0] ],
       "longitudes": [ EUS[1], ONTARIO[1] ],
         "color": "black",
+        "bringForwardOnHover": false,
         "id": "EUS_ONTARIO"
     };
 let WUS_CA = {
       "latitudes": [ WUS[0], CA[0]],
       "longitudes": [ WUS[1], CA[1]],
-        "color": "black", 
+        "color": "black",
+        "bringForwardOnHover": false,
         "id": "WUS_CA"
 
     };
 let WUS_ALBERTA = {
       "latitudes": [ WUS[0], ALBERTA[0] ],
       "longitudes": [ WUS[1], ALBERTA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let WUS_ONTARIO = {
       "latitudes": [ WUS[0], ONTARIO[0] ],
       "longitudes": [ WUS[1], ONTARIO[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ALBERTA_ONTARIO = {
       "latitudes": [ ALBERTA[0], ONTARIO[0]],
@@ -735,23 +825,27 @@ let ALBERTA_ONTARIO = {
 let ALBERTA_NWTERRITORIES = {
       "latitudes": [ ALBERTA[0], NWTERRITORIES[0] ],
       "longitudes": [ ALBERTA[1], NWTERRITORIES[1] ],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ALBERTA_ALASKA = {
       "latitudes": [ ALBERTA[0], ALASKA[0]],
       "longitudes": [ ALBERTA[1], ALASKA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ONTARIO_QUEBEC = {
       "latitudes": [ ONTARIO[0], QUEBEC[0]],
       "longitudes": [ ONTARIO[1], QUEBEC[1] ],
         "color": "black",
+        "bringForwardOnHover": false,
         "id": "ONTARIO_QUEBEC"
     };
 let ONTARIO_NWTERRITORIES =  {
       "latitudes": [ ONTARIO[0], NWTERRITORIES[0]],
       "longitudes": [ ONTARIO[1], NWTERRITORIES[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ONTARIO_GREENLAND = {
       "latitudes": [ ONTARIO[0], GREENLAND[0]],
@@ -761,359 +855,430 @@ let ONTARIO_GREENLAND = {
 let NWTERRITORIES_ALASKA = {
       "latitudes": [ ALASKA[0], NWTERRITORIES[0]],
       "longitudes": [ALASKA[1], NWTERRITORIES[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NWTERRITORIES_GREENLAND =   {
       "latitudes": [ GREENLAND[0], NWTERRITORIES[0]],
       "longitudes": [GREENLAND[1], NWTERRITORIES[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     }
 let GREENLAND_ICELAND =  {
       "latitudes": [ GREENLAND[0], ICELAND[0]],
       "longitudes": [GREENLAND[1], ICELAND[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let GREENLAND_QUEBEC =  {
       "latitudes": [ GREENLAND[0],  QUEBEC[0]],
       "longitudes": [GREENLAND[1], QUEBEC[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ICELAND_GB =   {
       "latitudes": [ ICELAND[0],  GB[0]],
       "longitudes": [ICELAND[1], GB[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SCANDINAVIA_ICELAND =   {
       "latitudes": [ ICELAND[0],  SCANDINAVIA[0]],
       "longitudes": [ICELAND[1], SCANDINAVIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SCANDINAVIA_GB =  {
       "latitudes": [SCANDINAVIA[0],  GB[0]],
       "longitudes": [SCANDINAVIA[1], GB[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NEU_GB =   {
       "latitudes": [NEU[0],  GB[0]],
       "longitudes": [NEU[1], GB[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let WEU_GB =  {
       "latitudes": [WEU[0],  GB[0]],
       "longitudes": [WEU[1], GB[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let WEU_SEU =  {
       "latitudes": [WEU[0],  SEU[0]],
       "longitudes": [WEU[1], SEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let WEU_NAF =  {
       "latitudes": [WEU[0],  NAF[0]],
       "longitudes": [WEU[1], NAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let WEU_NEU =  {
       "latitudes": [WEU[0],  NEU[0]],
       "longitudes": [WEU[1], NEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NEU_RUSSIA =  {
       "latitudes": [NEU[0],  RUSSIA[0]],
       "longitudes": [NEU[1], RUSSIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NEU_SEU =  {
       "latitudes": [NEU[0],  SEU[0]],
       "longitudes": [NEU[1], SEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SCANDINAVIA_NEU = {
       "latitudes": [NEU[0],  SCANDINAVIA[0]],
       "longitudes": [NEU[1], SCANDINAVIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     }
 let SCANDINAVIA_RUSSIA = {
       "latitudes": [RUSSIA[0],  SCANDINAVIA[0]],
       "longitudes": [RUSSIA[1], SCANDINAVIA[1]],
-          "color": "black"
+          "color": "black",
+          "bringForwardOnHover": false,
     };
 let EGYPT_SEU =     {
       "latitudes": [EGYPT[0],  SEU[0]],
       "longitudes": [EGYPT[1], SEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let MEU_SEU =  {
       "latitudes": [ME[0],  SEU[0]],
       "longitudes": [ME[1], SEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NAF_SEU =  {
       "latitudes": [NAF[0],  SEU[0]],
       "longitudes": [NAF[1], SEU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NAF_EGYPT =  {
       "latitudes": [NAF[0],  EGYPT[0]],
       "longitudes": [NAF[1], EGYPT[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NAF_CAF =  {
       "latitudes": [NAF[0],  CAF[0]],
       "longitudes": [NAF[1], CAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let EAF_ME = {
 	  "latitudes": [EAF[0], ME[0]],
 	  "longitudes": [EAF[1], ME[1]],
-	    "color": "black"
+	    "color": "black",
+        "bringForwardOnHover": false,
 }
 let NAF_EAF = {
       "latitudes": [NAF[0],  EAF[0]],
       "longitudes": [NAF[1], EAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let NAF_BRAZIL =    {
       "latitudes": [NAF[0],  BRAZIL[0]],
       "longitudes": [NAF[1], BRAZIL[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let EAF_CAF =       {
       "latitudes": [EAF[0],  CAF[0]],
       "longitudes": [EAF[1], CAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SAF_CAF =   {
       "latitudes": [SAF[0],  CAF[0]],
       "longitudes": [SAF[1], CAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SAF_EAF =  {
       "latitudes": [SAF[0],  EAF[0]],
       "longitudes": [SAF[1], EAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let MADAGASCAR_EAF =   {
       "latitudes": [EAF[0],  MADAGASCAR[0]],
       "longitudes": [EAF[1], MADAGASCAR[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let MADAGASCAR_SAF =  {
       "latitudes": [SAF[0],  MADAGASCAR[0]],
       "longitudes": [SAF[1], MADAGASCAR[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let EGYPT_EAF =  {
       "latitudes": [EGYPT[0],  EAF[0]],
       "longitudes": [EGYPT[1], EAF[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let EGYPT_ME =  {
       "latitudes": [EGYPT[0],  ME[0]],
       "longitudes": [EGYPT[1], ME[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let BRAZIL_PERU =   {
       "latitudes": [BRAZIL[0],  PERU[0]],
       "longitudes": [BRAZIL[1], PERU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 
 let ARGENTINA_BRAZIL =   {
       "latitudes": [BRAZIL[0],  ARGENTINA[0]],
       "longitudes": [BRAZIL[1], ARGENTINA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let BRAZIL_VZ =   {
       "latitudes": [BRAZIL[0],  VZ[0]],
       "longitudes": [BRAZIL[1], VZ[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
   let VZ_CA =  {
       "latitudes": [VZ[0],  CA[0]],
       "longitudes": [VZ[1], CA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let VZ_PERU =  {
       "latitudes": [VZ[0],  PERU[0]],
       "longitudes": [VZ[1], PERU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ARGENTINA_PERU =  {
       "latitudes": [ARGENTINA[0],  PERU[0]],
       "longitudes": [ARGENTINA[1], PERU[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ME_RUSSIA = {
       "latitudes": [ME[0],  RUSSIA[0]],
       "longitudes": [ME[1], RUSSIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let AFGHANISTAN_ME = 
     {
       "latitudes": [ME[0],  AFGHANISTAN[0]],
       "longitudes": [ME[1], AFGHANISTAN[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let ME_INDIA =  {
       "latitudes": [ME[0],  INDIA[0]],
       "longitudes": [ME[1], INDIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let URAL_RUSSIA =  {
       "latitudes": [URAL[0],  RUSSIA[0]],
       "longitudes": [URAL[1], RUSSIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let AFGHANISTAN_RUSSIA =   {
       "latitudes": [AFGHANISTAN[0],  RUSSIA[0]],
       "longitudes": [AFGHANISTAN[1], RUSSIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let AFGHANISTAN_URAL =  {
       "latitudes": [URAL[0],  AFGHANISTAN[0]],
       "longitudes": [URAL[1], AFGHANISTAN[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let URAL_CHINA =  {
       "latitudes": [URAL[0],  CHINA[0]],
       "longitudes": [URAL[1], CHINA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let URAL_SIBERIA =  {
       "latitudes": [URAL[0],  SIBERIA[0]],
       "longitudes": [URAL[1], SIBERIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let AFGHANISTAN_CHINA = {
       "latitudes": [AFGHANISTAN[0],  CHINA[0]],
       "longitudes": [AFGHANISTAN[1], CHINA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let AFGHANISTAN_INDIA =   {
       "latitudes": [AFGHANISTAN[0],  INDIA[0]],
       "longitudes": [AFGHANISTAN[1], INDIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let CHINA_INDIA =  {
       "latitudes": [CHINA[0],  INDIA[0]],
       "longitudes": [CHINA[1], INDIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let SEASIA_INDIA =   {
       "latitudes": [SEASIA[0],  INDIA[0]],
       "longitudes": [SEASIA[1], INDIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let CHINA_MONGOLIA =  {
       "latitudes": [CHINA[0],  MONGOLIA[0]],
       "longitudes": [CHINA[1], MONGOLIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let CHINA_SEASIA =  {
       "latitudes": [CHINA[0],  SEASIA[0]],
       "longitudes": [CHINA[1], SEASIA[1]],
-        "color": "black"
+        "color": "black",
+        "bringForwardOnHover": false,
     };
 let IRKUSTK_MONGOLIA = {
       "latitudes": [IRKUSTK[0],  MONGOLIA[0]],
       "longitudes": [IRKUSTK[1], MONGOLIA[1]],
-      "color": "black"
+      "color": "black",
+      "bringForwardOnHover": false,
     };
 let JAPAN_MONGOLIA =   {
       "latitudes": [JAPAN[0],  MONGOLIA[0]],
       "longitudes": [JAPAN[1], MONGOLIA[1]], 
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let KAMCHATKA_MONGOLIA =  {
       "latitudes": [KAMCHATKA[0],  MONGOLIA[0]],
       "longitudes": [KAMCHATKA[1], MONGOLIA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let YAKUTSK_IRKUSTK =  {
       "latitudes": [YAKUTSK[0],  IRKUSTK[0]],
       "longitudes": [YAKUTSK[1], IRKUSTK[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let IRKUSTK_SIBERIA =  {
       "latitudes": [SIBERIA[0],  IRKUSTK[0]],
       "longitudes": [SIBERIA[1], IRKUSTK[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let KAMCHATKA_JAPAN =  {
       "latitudes": [JAPAN[0],  KAMCHATKA[0]],
       "longitudes": [JAPAN[1], KAMCHATKA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let IRKUSTK_KAMCHATKRA = {
       "latitudes": [KAMCHATKA[0],  IRKUSTK[0]],
       "longitudes": [KAMCHATKA[1], IRKUSTK[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let YAKUTSK_SIBERIA ={
       "latitudes": [SIBERIA[0],  YAKUTSK[0]],
       "longitudes": [SIBERIA[1], YAKUTSK[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let KAMCHATKA_YAKUTSK = {
       "latitudes": [KAMCHATKA[0],  YAKUTSK[0]],
       "longitudes": [KAMCHATKA[1], YAKUTSK[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let SIBERIA_CHINA =  {
       "latitudes": [SIBERIA[0],  CHINA[0]],
       "longitudes": [SIBERIA[1], CHINA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let SIBERIA_MONGOLIA = {
       "latitudes": [SIBERIA[0],  MONGOLIA[0]],
       "longitudes": [SIBERIA[1], MONGOLIA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let INDONESIA_SEASIA =   {
       "latitudes": [SEASIA[0],  INDONESIA[0]],
       "longitudes": [SEASIA[1], INDONESIA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let NEWGUINEA_INDONESIA =  {
       "latitudes": [NEWGUINEA[0],  INDONESIA[0]],
       "longitudes": [NEWGUINEA[1], INDONESIA[1]], 
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
   let NEWGUINEA_WAU =  {
       "latitudes": [NEWGUINEA[0],  WAU[0]],
       "longitudes": [NEWGUINEA[1], WAU[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let NEWGUINEA_EAU =  {
       "latitudes": [NEWGUINEA[0],  EAU[0]],
       "longitudes": [NEWGUINEA[1], EAU[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let WAU_EAU = {
       "latitudes": [WAU[0],  EAU[0]],
       "longitudes": [WAU[1], EAU[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let INDONESIA_WAU =  {
       "latitudes": [WAU[0],  INDONESIA[0]],
       "longitudes": [WAU[1], INDONESIA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
     };
 let ALASKA_INF = {
    "latitudes": [ALASKA[0], KAMCHATKA[0]],
       "longitudes": [ALASKA[1], -9999],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
 };
 let KAMCHATKA_INF = {
    "latitudes": [ALASKA[0], KAMCHATKA[0]],
       "longitudes": [9999, KAMCHATKA[1]],
-       "color": "black"
+       "color": "black",
+       "bringForwardOnHover": false,
 };
 let SEU_RUSSIA = {
   "latitudes":[RUSSIA[0], SEU[0]],
     "longitudes":[RUSSIA[1], SEU[1]], 
-    "color": "black"
+    "color": "black",
+    "bringForwardOnHover": false,
 };
 const ALASKAADJACENT = {"7": ALBERTA_ALASKA, "6": NWTERRITORIES_ALASKA, "31": ALASKA_INF};
 terrToTerrToLine.push(ALASKAADJACENT);
@@ -1175,12 +1340,15 @@ let map = AmCharts.makeChart( "mapdiv", {
   "mouseWheelZoomEnabled": true,
   "linesSettings": {
     "arc": -0.7, // this makes lines curved. Use value from -1 to 1
-    color: "white"
+    color: "white",
+  	  "dashLength": 1,
+	  "thickness": 0.5,
+	  "selectable": false
   },
   "dataProvider": {
       "map": "continentsLow",
-      images:game,
       "lines": lines,
+      images:game,
       "zoomLatitude": 0,
       "zoomLongitude": 0,
       "areas": [
@@ -1228,6 +1396,7 @@ let map = AmCharts.makeChart( "mapdiv", {
       }
     ]
   },
+
 "imageSettings":
     {
       "labelColor": "white",
