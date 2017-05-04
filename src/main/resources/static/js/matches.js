@@ -305,15 +305,15 @@ const setup_matches = () => {
                   availableForClaim = JSON.parse(data.territories);
                   map.addListener("clickMapObject", select_territory);
                   // AUTOPLAY
-                  if (data.troopsToPlace > 0) {
-                    let mess = {"type": MESSAGE_TYPE.MOVE,
-                    "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                    "playerId": myId, 
-                    "territoryId": availableForClaim[0]
-                  };
-                  
-                  conn.send(JSON.stringify(mess));
-                  availableForClaim = [];
+//                  if (data.troopsToPlace > 0) {
+//                    let mess = {"type": MESSAGE_TYPE.MOVE,
+//                    "moveType": MOVE_TYPES.SETUP_REINFORCE,
+//                    "playerId": myId, 
+//                    "territoryId": availableForClaim[0]
+//                  };
+//                  
+//                  conn.send(JSON.stringify(mess));
+//                  availableForClaim = [];
                   }
           	} else {
                 document.getElementById("turn").style.fontWeight = "normal";
