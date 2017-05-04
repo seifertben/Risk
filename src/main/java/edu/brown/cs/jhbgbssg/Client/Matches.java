@@ -25,7 +25,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageType;
 /**
  * This class handles lobbies, player connections, starting matches, and
  * relaying messages to matches.
- * 
+ *
  * @author bgabinet
  */
 @WebSocket
@@ -155,6 +155,13 @@ public class Matches {
               .sendString(response.get(index).toString());
         }
       }
+    }
+
+    if (received.get("type").getAsInt() == RiskMessageType.PING.ordinal()) {
+      JsonObject response = new JsonObject();
+      UUID playerId = UUID.fromString(received.get("playerId").getAsString());
+      response.addProperty("type", RiskMessageType.PING.ordinal());
+      playerToSession.get(playerId).getRemote().sendString(response.toString());
     }
   }
 

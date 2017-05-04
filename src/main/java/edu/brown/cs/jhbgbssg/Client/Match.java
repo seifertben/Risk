@@ -15,6 +15,7 @@ import java.util.UUID;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
@@ -29,7 +30,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -55,7 +55,6 @@ public class Match {
   private RiskActionProcessor actionProcessor;
   private Referee referee;
   private Map<UUID, RiskPlayer> riskPlayers;
-  private UUID winner;
 
   /**
    * Create a match.
@@ -179,7 +178,7 @@ public class Match {
 
   /**
    * Initiate this match and create our risk game.
-   * 
+   *
    * @return
    */
   public List<JsonObject> start() {
@@ -202,7 +201,7 @@ public class Match {
 
   /**
    * Given a move made by a player in this match, return a
-   * 
+   *
    * @param received
    * @return
    */
@@ -235,7 +234,6 @@ public class Match {
             update = actionProcessor.processAttackAction(attack);
             break;
           case CHOOSE_DEFEND_DIE:
-            System.out.println("here in defend");
             DefendAction defend = this.createDefendAction(received);
             update = actionProcessor.processDefendAction(defend);
             break;
@@ -346,6 +344,9 @@ public class Match {
 
   @Override
   public boolean equals(Object obj) {
+    if (!(obj instanceof Match)) {
+      return false;
+    }
     Match objMatch = (Match) obj;
     return id.toString().equals(objMatch.getId());
   }

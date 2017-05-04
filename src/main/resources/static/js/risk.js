@@ -65,7 +65,6 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 , "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
 slideshow();
 const sendMessage = event => {
-	console.log(event);
 	if (event !==undefined) {
 	event.preventDefault();
 }
@@ -89,72 +88,60 @@ const sendMessage = event => {
 document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
 
-//	activateDropDown(2);
-//	replaceField();
-//	replaceTransferListField();
-//	//changePlayerImage(player2, "white", "blue");
-//
-//	addcard(2);
-//	addcard(1);
-//	  // populateTransferList(10);
-//	// addcard();
-//	// addcard();
-//	// addcard();
 	$("#transferconfirm").on("click", confirmTransfer);
-	// $("#resetTransfer").on("click", resetTransfer);
-	changeMusicStatus();
+
 	defaultPause();
 	$("#homeMute").on("click", changeMusicStatus);
+	$("#menuMute").on("click", changeMusicStatus);
+	$("#gameMute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
  function changeMusicStatus() {
- 	console.log($("#homeMute").text());
  	if ($("#homeMute").text() == "Mute") {
  		$("#homeMute").text("Unmute");
+ 		$("#menuMute").text("Unmute"); 		
+ 		$("#gameMute").text("Unmute");
  		document.getElementById('mainMenuMusic').pause();
- 		// document.getElementById('mainMenuMusic').currentTime = 0;
  	}
  	else {
  		$("#homeMute").text("Mute");
+ 		$("#gameMute").text("Mute");
+ 		$("#menuMute").text("Mute");
  		document.getElementById('mainMenuMusic').play();	
  	}
  }
 
 	
 function confirmTransfer() {
-	console.log($("#transferDropDownText").text());
 	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
 		$("#transfergroup").hide();
 
 	}
 }
 function confirmDice() {
-	console.log($("#dropdown").text());
 	if ($("#dropdown").text() !== "Select the amount of dice to roll") {
 		$("#dropdowngroup").hide();
 
 	}
 }
 
-
-
 function defaultPause() {
+	$("#gameMute").text("Unmute");
 	$("#homeMute").text("Unmute");
- 		document.getElementById('mainMenuMusic').pause();
-
+	$("#menuMute").text("Unmute");
+ 	document.getElementById('mainMenuMusic').pause();
 }
+
 function changePlayerImage(id, backgroundColor, color) { 
 	id.style.color = color;
 	id.style.backgroundColor = backgroundColor;
 }
 function slideshow() {
 	if (!start) {
-	 now = (now+1) % (imageList.length) ;
-	 console.log(imageList[now]);
-        body.css('background-image', imageList[now]);
-        body.fadeIn(1000);
-        setTimeout(function(){body.fadeOut(1000)}, 5000);
-        //$("#nameField").fadeIn(6000);
+	  now = (now+1) % (imageList.length) ;
+      body.css('background-image', imageList[now]);
+      body.fadeIn(1000);
+      setTimeout(function(){body.fadeOut(1000)}, 5000);
     }
 }   
 
@@ -163,22 +150,52 @@ $("#playerNum").keypress(function (evt) {
 });
 
 function setUp () {
-	$sideNav = $('#n');
-	$sideNav.append("<br><br><br>");
-	$sideNav.append($("<p id = 'phase' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'turn' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'prevMove' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'bolsters' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'selecting' class = 'blink'></p>"));
-	$sideNav.append($("<p id = 'attacking' class = 'blink'></p>"));
+	$sideNav = $('#gameUpdates');
+	$endNav = $('#endSection');
+	$sideNav.append($("<p id = 'phase'></p>"));
+	$sideNav.append($("<p id = 'turn' c></p>"));
+	$sideNav.append($("<p id = 'prevMove'></p>"));
+	$sideNav.append($("<p id = 'bolsters'></p>"));
+	$sideNav.append($("<p id = 'selecting'></p>"));
+	$sideNav.append($("<p id = 'attacking'></p>"));
 	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
 	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
 	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
-	$sideNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
+	$endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
 	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
+	$sideNav.append($("<select id='attackerNumberDie'> </select>"));
+	$sideNav.append($("<select id='defenderNumberDie'> </select>"));
+	$sideNav.append($("<select id='moveTroopsNumber'> </select>"));
+  let reinforcer = document.createElement("BUTTON");
+  let deinforcer = document.createElement("BUTTON");
+  let confirm = document.createElement("BUTTON");
+  selecting.innerHTML = "Select A Territory to Reinforce";
+  reinforcer.id = "reinforcer";
+  deinforcer.id = "deinforcer";
+  reinforcer.innerHTML = "Place a Troop";
+  deinforcer.innerHTML = "Recall a Troop";
+  confirm.id = "confirm";
+  confirm.innerHTML = "Confirm Placements";
+  //document.getElementById("gameUpdates").appendChild(selecting);
+	document.getElementById("gameUpdates").appendChild(reinforcer);
+  document.getElementById("gameUpdates").appendChild(deinforcer);
+  document.getElementById("gameUpdates").appendChild(confirm);
+  reinforcer.onclick = place_troop;
+  deinforcer.onclick = remove_troop;
+  confirm.onclick = confirm_move;
 	document.getElementById("resetAttackMove").onclick = reset_attack;
 	document.getElementById("skip").onclick = skip_phase;
 	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
+  let claim = document.createElement("BUTTON");
+  claim.id = "claimTerritory";
+  claim.innerHTML = "Claim Territory!";
+  claim.onclick = claim_terr;
+  document.getElementById("gameUpdates").appendChild(claim);
+  let moveTroops = document.createElement("BUTTON");
+  moveTroops.id = "moveTroops";
+  moveTroops.innerHTML = "Confirm Troop Movements";
+  moveTroops.onclick = move_troops;
+  document.getElementById("gameUpdates").appendChild(moveTroops);
 	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
@@ -203,14 +220,12 @@ function replaceTransferListField() {
 function populateTransferList(number) {
 	$("#transferDropDownText").html("Select troops to move to conquered territory");
 	for (let i = 1; i <= number; i++) {
-		console.log("loop");
 		let a = $("<a class = 'transferOption'></a>");
 		a.html(i.toString());
 		let li = $('<li class= "transferDrop"></li>');
 		li.append(a);
 		$("#transferOptions").append(li); 
 	}
-	console.log($("transferOptions"));
 }
 
 function updateTransferMessage(stage) {
@@ -244,14 +259,13 @@ function changeAttackersTerritoryInfo(attackingPlayer,  territory, numSoldiers )
 		 message  = " You have " + numSoldiers  + " soldiers in " + territory;
 	}	
 	$("#attackerStatus").html(message);
-	 console.log(message);
 }
 
 function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers ) {
 	let message  = defendingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
 	if (defendingPlayer ===player) {
-		 message  = " You have " + numSoldiers  + " soldiers in " + territory;
-	$("#defenderStatus").html(message);
+	  message  = " You have " + numSoldiers  + " soldiers in " + territory;
+	  $("#defenderStatus").html(message);
 	}	
 }
 
@@ -275,7 +289,18 @@ function hideAll() {
  	$("#resetTransfer").hide();
  	$("#resetAttackMove").hide();
  	$("#resetMoveTroops").hide();
-    document.getElementById("attacking").style.display = "none";
+ 	$("#attackerNumberDie").hide();
+ 	$("#defenderNumberDie").hide();
+ 	$("#moveTroopsNumber").hide();
+ 	$("#selecting").hide();
+ 	$("#turnInCards").hide();
+  document.getElementById("reinforcer").style.display = "none";
+  document.getElementById("deinforcer").style.display = "none";
+  document.getElementById("confirm").style.display = "none"; 	
+  document.getElementById("attacking").style.display = "none";
+  document.getElementById("claimTerritory").style.display = "none";
+  document.getElementById("moveTroops").style.display = "none";
+
 }
 
 function addcard(number) {
@@ -285,30 +310,26 @@ function addcard(number) {
 		card.attr("id", cardID.toString());
 		cardID++;		
 	  $('#cards').append(card);
-	  console.log(card.attr('id'));
     }
     if (number ===2) {
-    	card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
-			card.attr("id", cardID.toString());
-			  console.log(card.attr('id'));
-		cardID++;  
+      card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+	  card.attr("id", cardID.toString());
+	  cardID++;  
 	  $('#cards').append(card);
     }
-    console.log(cardID);
 }
 
 function createPlayer(number) {
-	const $sideNav = $("#n");
 	for (let i = 0; i < number; i++) {
-		let currDiv = $("<div></div>");
-		let text =  $("<span></span>");
+		let currDiv = $("<div id = 'names'></div>");
+		let text =  $("<span id = 'name'></span>");
 		currDiv.attr("class", "well well-sm");
 		const player = i+1;
 		let string = players[i];
 		text.html(idToName[players[i]]);
 		currDiv.attr("id", string);
 		currDiv.append(text);
-		$("#n").append(currDiv);
+		$("#playerList").append(currDiv);
 		let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
 		playerInfo[string] = currPlayerInfo ;
 
@@ -331,14 +352,8 @@ function createPlayer(number) {
       document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[string];
       let territoryString = "Occupies these territories: <br>";
      	let currPlayerInfo  = playerInfo[string];
-     	console.log(currPlayerInfo);
      	let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
-     	console.log(territoryTroopInfo);
       for (let key in territoryTroopInfo) {
-      	console.log("key");
-      	console.log(key);
-      	console.log("value");
-      	console.log(territoryTroopInfo[key]);
       	territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
 
       }
@@ -394,7 +409,6 @@ function activateDropDown(numbers) {
 	$("#dropdown").html("Select the amount of dice to roll");
 	$dropDown = $('#dieOptions');
 	for (let i = 0; i<numbers; i++) {
-		console.log("f");
 		let option = i+1;
 		let a = $("<a class = 'option'></a>");
 		a.html(option);
@@ -461,9 +475,6 @@ function getMessage(player, message) {
 
 	$("#chatting").append($li);
 
-
-	console.log(colorMap.get(myId).toString());
-
 	$("li:last-child").css("border", "1px solid " + colorMap.get(player).toString());
     $("li:last-child").css("border-left", "6px solid " + colorMap.get(player).toString());
     count = 0;
@@ -476,7 +487,6 @@ function getMessage(player, message) {
 //listen for enter on messaging.
 document.querySelector("#messageField").addEventListener("keyup", function (e) {
     let key = e.keyCode;
-    console.log(key);
     if (key === 13) { 
       sendMessage();
     }

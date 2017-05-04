@@ -89,8 +89,6 @@
     }
     .well-sm{
       float: left;
-      width: 30%;
-      text-indent: 30
     }
 
     .well.well-sm {
@@ -116,7 +114,12 @@
   div[id="leftNav"] {
       padding: 10px;
       border: 2px solid black;
-      background-color: #badaf2;
+      background-color: #f1f1f1;
+  }
+  select {
+   padding: 5px;
+   font-size: 14px;
+   line-height: 1;
   }
   #leftInner {
     position: relative;
@@ -143,8 +146,28 @@
 
   }
   p{
+      font-size: 16pt;
       text-align: center;
       text-decoration: underline;
+  }
+
+  div [id="gameUpdates"] {
+     text-align: center;
+     display: inline-block;
+  }
+  #centerDiv {
+    background-color: #6495ED;
+}
+  h2[id="nameH"] {
+      color: white;
+      border-bottom: 2px solid #000;
+      background:#000;
+  }
+  button[id="homeMute"] {
+  	  float: center;
+  }
+  button[id="gameMute"] {
+      float: right;
   }
   div[id="matches"] {
       display: inline-block;
@@ -202,8 +225,10 @@
       cursor: pointer;
   }
 
-  button:hover {
-    background-color: #377a39;
+  button:hover:enabled {
+    
+      background-color: #377a39;
+    
   }
 
   button:focus {
@@ -302,11 +327,11 @@
     margin-bottom: 5px;
     }
      .blink {
-    animation-duration: 1200ms;
     animation-name: blink;
-    animation-iteration-count: 2;
     animation-direction: alternate;
-    -webkit-animation:blink 1200ms 2; /* Safari and Chrome */
+    animation-duration: 1200ms;
+    animation-iteration-count: infinite;
+    -webkit-animation:blink 1200ms infinite; /* Safari and Chrome */
 }
 @keyframes blink {
     from {
@@ -324,30 +349,26 @@
         color:white;
     }
 }
+p[id="phase"] {
+  display: inline-block;
+}
 #background {
 
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
     position:absolute;
     top:0;
     bottom:0;
     left:0;
     right:0;
+    height: 100%;
+    width: 100%;
     overflow:hidden;
     float: top;
     z-index:-1;
 }
 
-/*#background {
-   background-color: white;    
 
-   /* transition the background-color over 1s with a linear animation */
-   /*transition: background-color 1s linear;*/
-/*}*/
-
-/* the :hover that causes the background-color to change */
-/*#background:hover {
-   background-color: transparent;      
 }*/
 #white {
   /*position: absolute;*/
@@ -355,13 +376,11 @@
     height: 100%;
     width: 100%;
 }
-body {
 
-  background-size: 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
+#namePrompt {
+  color: white;
+  background-color: black;
 }
-
 /*Customize the scrollbars*/
 
 ::-webkit-scrollbar
@@ -431,5 +450,7 @@ z-indexwebkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
 
-
+.disabled {
+  background-color: #999;
+}
 

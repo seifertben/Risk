@@ -50,7 +50,7 @@ let EUSDATA = {
       "longitude": EUS[1],
       "selectable": true,
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. US",
@@ -65,7 +65,7 @@ let WUSDATA = {
       "longitude":  WUS[1],
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. US",
@@ -81,7 +81,7 @@ let QUEBECDATA =  {
       "longitude":   QUEBEC[1],
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Quebec",
@@ -96,7 +96,7 @@ let ONTARIODATA = {
       "longitude":   ONTARIO[1],
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ontario",
@@ -112,7 +112,7 @@ let ALBERTADATA =  {
       "longitude":  ALBERTA[1] ,
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",
+      "labelColor": "white",
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alberta",
@@ -128,7 +128,7 @@ let NWTERRITORIESDATA =  {
       "longitude": NWTERRITORIES[1],
       "selectable": true,
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "NW Territories",
@@ -142,7 +142,7 @@ let ALASKADATA =  {
       "latitude": ALASKA[0],
       "longitude":   ALASKA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Alaska",
@@ -157,7 +157,7 @@ let GREENLANDDATA =   {
       "latitude": GREENLAND[0],
       "longitude":    GREENLAND[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Greenland",
@@ -173,12 +173,12 @@ let CADATA =  {
       "latitude": CA[0],
       "longitude": CA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "selectable": true,
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. America",
       "labelShiftY": 2,
-      "selectable": true,
        "name": "Central America",
       "title": "Central America: Occupied by No One",
       "id": 2,
@@ -188,7 +188,7 @@ let VZDATA = {
       "latitude": VZ[0], 
       "longitude":    VZ[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Venezuela",
@@ -203,7 +203,7 @@ let PERUDATA = {
       "latitude": PERU[0],
       "longitude": PERU[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "labelShiftY": 10,
@@ -219,7 +219,7 @@ let BRAZILDATA =  {
       "latitude": BRAZIL[0],
       "longitude":    BRAZIL[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Brazil",
@@ -234,7 +234,7 @@ let ARGENTINADATA =   {
       "latitude": ARGENTINA[0],
       "longitude":  ARGENTINA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Argentina",
@@ -249,7 +249,7 @@ let ICELANDDATA = {
       "latitude": ICELAND[0], 
       "longitude": ICELAND[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Iceland",
@@ -264,7 +264,7 @@ let GBDATA =  {
       "latitude":   GB[0],
       "longitude":  GB[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "GB",
@@ -280,7 +280,7 @@ let WEUDATA =  {
       "latitude":    WEU[0],
       "longitude":  WEU[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W EU",
@@ -297,7 +297,7 @@ let NEUDATA = {
       "longitude":   NEU[1],
       "selectable": true,
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N EU",
@@ -312,7 +312,7 @@ let SEUDATA =    {
       "longitude":   SEU[1],
       "selectable": true,
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S EU",
@@ -327,7 +327,7 @@ let SCANDINAVIADATA =   {
       "longitude":   SCANDINAVIA[1],
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Scandinavia",
@@ -341,7 +341,7 @@ let RUSSIADATA =  {
       "latitude":    RUSSIA[0],
       "longitude":   RUSSIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Russia",
@@ -357,7 +357,7 @@ let NAFDATA =  {
       "longitude": NAF[1],
       "svgPath": targetSVG,
       "selectable": true,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "N. AF",
@@ -372,7 +372,7 @@ let EGYPTDATA =   {
       "latitude":   EGYPT[0],
       "longitude":   EGYPT[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Egypt",
@@ -387,7 +387,7 @@ let CAFDATA =  {
       "latitude":     CAF[0],
       "longitude":    CAF[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "C. AF",
@@ -403,7 +403,7 @@ let EAFDATA = {
       "latitude":     EAF[0], 
       "longitude":    EAF[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. AF",
@@ -418,7 +418,7 @@ let SAFDATA =   {
       "latitude":    SAF[0],
       "longitude":    SAF[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "S. AF",
@@ -434,7 +434,7 @@ let MADAGASCARDATA =   {
       "latitude":   MADAGASCAR[0],
       "longitude":     MADAGASCAR[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Madagascar",
@@ -449,7 +449,7 @@ let WAUDATA =  {
       "latitude":   WAU[0],
       "longitude":     WAU[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "W. AU",
@@ -465,7 +465,7 @@ let EAUDATA = {
       "latitude":   EAU[0], 
       "longitude":     EAU[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "E. AU",
@@ -480,7 +480,7 @@ let INDONESIADATA =  {
       "latitude":  INDONESIA[0], 
       "longitude":    INDONESIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Indonesia",
@@ -495,7 +495,7 @@ let NEWGUINEADATA =   {
       "latitude":  NEWGUINEA[0],
       "longitude":   NEWGUINEA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "New Guinea",
@@ -510,7 +510,7 @@ let MEDATA =  {
       "latitude":  ME[0], 
       "longitude":  ME[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "name": "Middle East",
       "scale": 0.5,
@@ -525,7 +525,7 @@ let INDIADATA =  {
       "latitude":  INDIA[0],
       "longitude":  INDIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "India",
@@ -540,7 +540,7 @@ let SEASIADATA =   {
       "latitude": SEASIA[0], 
       "longitude":  SEASIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "SE Asia",
@@ -555,7 +555,7 @@ let CHINADATA =   {
       "latitude": CHINA[0],
       "longitude":  CHINA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "China",
@@ -570,11 +570,11 @@ let MONGOLIADATA =   {
       "latitude": MONGOLIA[0],
       "longitude":  MONGOLIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Mongolia",
-       "name": "Mongolia",
+      "name": "Mongolia",
       "labelShiftY": 2,
       "selectable": true,
       "title": "Mongolia: Occupied by No One",
@@ -585,7 +585,7 @@ let JAPANDATA =    {
       "latitude": JAPAN[0],
       "longitude":  JAPAN[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Japan",
@@ -600,7 +600,7 @@ let KAMCHATKADATA =  {
       "latitude": KAMCHATKA[0],
       "longitude":   KAMCHATKA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Kamchatka",
@@ -615,7 +615,7 @@ let YAKUTSKDATA = {
       "latitude": YAKUTSK[0],
       "longitude":  YAKUTSK[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Yakutsk",
@@ -630,7 +630,7 @@ let IRKUSTKDATA =  {
       "latitude": IRKUSTK[0], 
       "longitude":  IRKUSTK[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Irkustk",
@@ -645,7 +645,7 @@ let SIBERIADATA =   {
       "latitude": SIBERIA[0],
       "longitude": SIBERIA[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Siberia",
@@ -658,10 +658,10 @@ let SIBERIADATA =   {
     };
 idToData[35] = SIBERIADATA;
 let URALDATA =   {
-      "latitude": URAL[0],
+		"latitude": URAL[0],
       "longitude":  URAL[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Ural",
@@ -677,7 +677,7 @@ let AFGHANISTANDATA = {
       "latitude": AFGHANISTAN[0],
       "longitude": AFGHANISTAN[1],
       "svgPath": targetSVG,
-      "color": "#000000",  
+      "labelColor": "white",  
       "labelRollOverColor": "#000000",
       "scale": 0.5,
       "label": "Afghanistan",
@@ -1123,9 +1123,11 @@ let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESD
 let map = AmCharts.makeChart( "mapdiv", {
 
   "type": "map",
+  "projection": "mercator",
   "mouseWheelZoomEnabled": true,
   "linesSettings": {
     "arc": -0.7, // this makes lines curved. Use value from -1 to 1
+    color: "white"
   },
   "dataProvider": {
       "map": "continentsLow",
@@ -1178,7 +1180,12 @@ let map = AmCharts.makeChart( "mapdiv", {
       }
     ]
   },
-
+"imageSettings":
+    {
+      "labelColor": "white",
+      "selectable": "true",
+    }
+  ,
   "areasSettings": {
     "rollOverOutlineColor": 'white',
     zoomLevel: 0.5,
@@ -1186,9 +1193,7 @@ let map = AmCharts.makeChart( "mapdiv", {
     zoomLatitude: 49.1712 // here
   },
 
-  /**
-   * let's say we want a small map to be displayed, so let's create it
-   */
+  
   "largeMap": {}
 } );
 
@@ -1208,55 +1213,96 @@ function select_territory(event) {
   } else if (phase == "reinforce") {
 	 if (availableForClaim.includes(event.mapObject.id)) {
 	   bolstering = event.mapObject.id;
-    document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
-	 }
+     document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
+      addBlink($("#selecting"));
+               setTimeout(function() {
+                   removeBlink($("#selecting")); 
+                }, 4000);
+     if (placed < placeMax) {
+        document.getElementById("reinforcer").disabled = false;
+        $("#reinforcer").removeClass('disabled');
+     }
+     if (terToPlace.get(bolstering) != null) {
+       if (terToPlace.get(bolstering) > 0) {
+         document.getElementById("deinforcer").disabled = false;
+         $("#deinforcer").removeClass('disabled');
+       }
+      } else {
+        document.getElementById("deinforcer").disabled = true;
+        $("#deinforcer").addClass('disabled');
+      }     
+    } else {
+      document.getElementById("reinforcer").disabled = true;
+      $("#reinforcer").addClass('disabled');
+      document.getElementById("deinforcer").disabled = true;
+      $("#deinforcer").addClass('disabled');
+    }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
-      attackFrom = event.mapObject.id;
-      attackTo = null;
-      attackables = terToTar[attackFrom];
-      document.getElementById("attacking").style.display = "inline";
-      document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-      document.getElementById("diceChoice").remove();
+      if (event.mapObject.id != attackFrom) {
+        $("#attack").disabled = true;
+        $("#attack").addClass('disabled');
+        attackFrom = event.mapObject.id;
+        attackTo = null;
+        attackables = terToTar[attackFrom];
+        document.getElementById("attacking").style.display = "inline";
+        document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+         addBlink($("#attacking"));
+               setTimeout(function() {
+                   removeBlink($("#attacking")); 
+                }, 4000);
+        $("#attackerNumberDie").empty();
+        for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
+          if (index == terToDie[attackFrom.toString()]) {
+            $("#attackerNumberDie").append("<option value=" + index.toString() +
+            " selected='selected'>" + index.toString() + "</option>");
+          } else {
+            $("#attackerNumberDie").append("<option value=" + index.toString()
+            + ">" + index.toString() + "</option>");
+          }
+        }
+      }
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
+       addBlink($("#bolsters"));
+               setTimeout(function() {
+                   removeBlink($("#bolsters")); 
+                }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-      let sideNav = $("#n");
-      let dice = "";
-      for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
-        if (index == terToDie[attackFrom.toString()]) {
-          dice += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
-        } else {
-          dice += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
-        }
-      }
-      sideNav.append("<select id='diceChoice'>" + dice + "</select>");
+         addBlink($("#attacking"));
+               setTimeout(function() {
+                   removeBlink($("#attacking")); 
+                }, 4000);
+      $("#attack").disabled = false;
+      $("#attack").removeClass('disabled');
     }
   } else if (phase = "move_troops") {
       if (availableForClaim.includes(event.mapObject.id.toString())) {
         if (moveFrom == null) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
-          let sideNav = $("#n");
-          let troops = "";
-          let maxTroops = 0;
-          console.log(moveFrom);
+          $("#moveTroopsNumber").empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
-              maxTroops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
+              $("#moveTroopsNumber").append("<option value=" + index.toString()
+               + " selected='selected'>" + index.toString() + "</option>");
             } else {
-              maxTroops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
+               $("#moveTroopsNumber").append("<option value=" + 
+                  index.toString() + ">" + index.toString() + "</option>");
             }
           }
-          sideNav.append("<select id='numberTroopsToMove'>" + maxTroops + "</select>");
         } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
           moveTo = event.mapObject.id;
-           console.log(moveTo);
+          $("#moveTroops").disabled = false;
+          $("#moveTroops").removeClass('disabled');
         }
       } else if (moveFrom != null && moveables.includes(event.mapObject.id)) {
         moveTo = event.mapObject.id;
+        $("#moveTroops").disabled = false;
+        $("#moveTroops").removeClass('disabled');
+
       }
     }
   }
@@ -1264,17 +1310,22 @@ function select_territory(event) {
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
-  document.getElementById("attacking").style.display = "none";
-  document.getElementById("diceChoice").remove();
+   addBlink($("#bolsters"));
+               setTimeout(function() {
+                   removeBlink($("#bolsters")); 
+                }, 4000);
+  $("#attack").disabled = true;
+  $("#attack").addClass('disabled');
+  $("#attackerNumberDie").empty();
   attackFrom = null;
   attackTo = null;
   attackables = null;
 }
 
 function reset_move_troops() {
-  if (document.getElementById("numberTroopsToMove") != null) { 
-      document.getElementById("numberTroopsToMove").remove();
-  }
+  $("#moveTroops").disabled = true;
+  $("#moveTroops").addClass('disabled');
+  $("#moveTroopsNumber").empty();
   moveFrom = null;
   moveTo = null;
   moveables = [];
@@ -1289,8 +1340,16 @@ const place_troop = event => {
     }
     terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
+    document.getElementById("deinforcer").disabled = false;
+    $("#deinforcer").removeClass('disabled');
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
+    if (placed === placeMax) {
+      document.getElementById("reinforcer").disabled = true;
+      $("#reinforcer").addClass('disabled');
+      document.getElementById("confirm").disabled = false; 
+      $("#confirm").removeClass('disabled');
+    }
   }
 }
 
@@ -1307,6 +1366,14 @@ const remove_troop = event => {
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
+    document.getElementById("reinforcer").disabled = false;
+    $("#reinforcer").removeClass('disabled');
+    document.getElementById("confirm").disabled = true;
+    $("#confirm").addClass('disabled');
+    if (terToPlace.get(bolstering) == 0) {
+       document.getElementById("deinforcer").disabled = true;
+       $("#deinforcer").addClass('disabled');
+    }
   }
 }
 

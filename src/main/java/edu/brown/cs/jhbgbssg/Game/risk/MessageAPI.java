@@ -16,6 +16,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -35,8 +37,6 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssh.tuple.Pair;
 
 /**
@@ -698,6 +698,8 @@ public class MessageAPI {
       }
       object.addProperty("continents", GSON.toJson(continents));
       infoList.add(object);
+      object.addProperty("initialReinforcements",
+          player.getInitialReinforcements());
     }
     return infoList;
   }

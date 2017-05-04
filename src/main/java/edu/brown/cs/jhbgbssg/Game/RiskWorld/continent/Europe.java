@@ -1,40 +1,41 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 
 /**
- * Represents the continent Africa.
+ * Represents the continent Europe.
  *
  * @author sarahgilmore
  *
  */
-public class Africa implements ContinentInterface {
-  private static final int BONUS_VALUE = 3;
+public class Europe implements ContinentInterface {
+  private static final int BONUS_VALUE = 5;
   private UUID playerId;
   private Set<TerritoryEnum> territories;
 
   /**
-   * Constructor for Africa.
+   * Constructor for Europe.
    */
-  public Africa() {
+  public Europe() {
     playerId = null;
     territories = new HashSet<>();
-    territories.add(TerritoryEnum.CENTRAL_AFRICA);
-    territories.add(TerritoryEnum.NORTH_AFRICA);
-    territories.add(TerritoryEnum.EAST_AFRICA);
-    territories.add(TerritoryEnum.SOUTH_AFRICA);
-    territories.add(TerritoryEnum.EGYPT);
-    territories.add(TerritoryEnum.MADAGASCAR);
+    territories.add(TerritoryEnum.ICELAND);
+    territories.add(TerritoryEnum.GREAT_BRITIAN);
+    territories.add(TerritoryEnum.NORTHERN_EUROPE);
+    territories.add(TerritoryEnum.SCANDINAVIA);
+    territories.add(TerritoryEnum.SOUTHERN_EUROPE);
+    territories.add(TerritoryEnum.WESTERN_EUROPE);
+    territories.add(TerritoryEnum.RUSSIA);
   }
 
   @Override
   public ContinentEnum getContinentId() {
-    return ContinentEnum.AFRICA;
+    return ContinentEnum.EUROPE;
   }
 
   @Override
@@ -57,7 +58,7 @@ public class Africa implements ContinentInterface {
   public boolean containsTerritory(TerritoryEnum terr)
       throws IllegalArgumentException {
     if (terr == null) {
-      throw new IllegalArgumentException("ERROR: null input");
+      throw new IllegalArgumentException("ERROR: null");
     }
     return territories.contains(terr);
   }

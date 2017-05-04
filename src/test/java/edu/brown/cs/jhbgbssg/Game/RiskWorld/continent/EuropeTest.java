@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 
 /**
  * JUnit tests for Europe.
@@ -37,11 +37,12 @@ public class EuropeTest {
   public void testGetTerritories() {
     Europe cont = new Europe();
     Set<TerritoryEnum> terrs = cont.getTerritories();
+    System.out.println(terrs);
     assertTrue(terrs.size() == NUMBER_TERRITORIES);
     assertTrue(terrs.contains(TerritoryEnum.ICELAND));
     assertTrue(terrs.contains(TerritoryEnum.GREAT_BRITIAN));
     assertTrue(terrs.contains(TerritoryEnum.SCANDINAVIA));
-    assertTrue(terrs.contains(TerritoryEnum.WESTERN_AUSTRALIA));
+    assertTrue(terrs.contains(TerritoryEnum.WESTERN_EUROPE));
     assertTrue(terrs.contains(TerritoryEnum.SOUTHERN_EUROPE));
     assertTrue(terrs.contains(TerritoryEnum.RUSSIA));
     assertTrue(terrs.contains(TerritoryEnum.NORTHERN_EUROPE));

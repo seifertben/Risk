@@ -1,11 +1,11 @@
-package edu.brown.cs.jhbgbssg.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 
 /**
  * Each continent has a unique id represented by an Enum.

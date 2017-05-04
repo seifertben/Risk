@@ -30,8 +30,18 @@ public class GameUpdate {
   public GameUpdate() {
   }
 
-  public boolean setCardToHandOut(UUID playerId, int card,
-      boolean isCardsLeft) {
+  /**
+   * Sets the card value to hand out and the player to hand out the card.
+   *
+   * @param playerId - player to hand the card out to
+   * @param card - card value to hand out
+   * @param isCardsLeft - a boolean indicating if there are cards left in the
+   *          deck.
+   * @return a boolean indicating if the card field was set
+   * @throws IllegalArgumentException if the playerId is null
+   */
+  public boolean setCardToHandOut(UUID playerId, int card, boolean isCardsLeft)
+      throws IllegalArgumentException {
     if (playerId == null) {
       throw new IllegalArgumentException("ERROR: null input");
     } else if (card <= 0 || card > 2) {
@@ -99,29 +109,37 @@ public class GameUpdate {
   }
 
   /**
-   * Sets the wonGame field to the player id given.
+   * Sets the wonGame field to the player id given if the field has not been set
+   * yet.
    *
-   * @param wonGame - id of the player who won the game
-   * @throws IllegalArgumentException - if the input is null or if the field has
-   *           already been set.
+   * @param winner - id of the player who won the game
+   * @return boolean indicating if the winner field was set
+   * @throws IllegalArgumentException - if the input is null
    */
-  public boolean setWonGame(UUID wonGame) throws IllegalArgumentException {
-    if (wonGame == null) {
+  public boolean setWonGame(UUID winner) throws IllegalArgumentException {
+    if (winner == null) {
       throw new IllegalArgumentException("ERROR: null input");
     } else if (this.wonGame != null) {
       return false;
     }
-    this.wonGame = wonGame;
+    this.wonGame = winner;
     return true;
   }
 
-  public boolean setLostGame(UUID lostGame) {
-    if (lostGame == null) {
+  /**
+   * Sets the lostGame field to the player id given if the field has not been
+   * set yet.
+   *
+   * @param loser - player that lost the game
+   * @return boolean indicating if the field was set
+   */
+  public boolean setLostGame(UUID loser) {
+    if (loser == null) {
       throw new IllegalArgumentException("ERROR: null input");
     } else if (this.lostGame != null) {
       return false;
     }
-    this.lostGame = lostGame;
+    this.lostGame = loser;
     return true;
   }
 
@@ -153,9 +171,10 @@ public class GameUpdate {
   }
 
   /**
-   * Sets the error player field.
+   * Sets the error player field if the field has not been set yet.
    *
    * @param player - player who caused an error
+   * @return boolean indicating if the field was set
    * @throws IllegalArgumentException - null player
    */
   public boolean setError(UUID player) throws IllegalArgumentException {

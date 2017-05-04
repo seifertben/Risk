@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import com.google.common.collect.Multimap;
 
-import edu.brown.cs.jhbgbssg.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 
 /**
  * JUnit tests for RiskBoard.
