@@ -248,22 +248,28 @@ const setup_matches = () => {
           	hideAll();
         	break;
           case MOVE_TYPES.TURN_IN_CARD:
+            let cards = [];
+            for (i in data.cards) {
+              cards.push(i);
+            }
             $('#cards li').each(function() {
               if (this.style.borderStyle === "solid") {
                 let arr = this.className.split(" ");
                 if (arr[1] == "one") {
-                  if (myCards.includes(1)) {
-                    let index = myCards.indexOf(1);
-                    myCards[index] = myCards[0];
-                    myCards.shift();
+                  if (data.cards.includes(1)) {
+                    let index = cards.indexOf(1);
+                    cards.splice(index, 1);
                     this.remove();
+                  } else {
+                    this.style.borderStyle = "none";
                   }
                 } else {
                   if (myCards.includes(2)) {
-                    let index = myCards.indexOf(2);
-                    myCards[index] = myCards[0];
-                    myCards.shift();
+                    let index = cards.indexOf(2);
+                    cards.splice(index, 1);
                     this.remove();
+                  } else {
+                    this.style.borderStyle = "none";
                   }
                 }
               }
@@ -465,7 +471,7 @@ const setup_matches = () => {
               $("#turnInCards").disabled = true;
               $("#turnInCards").addClass('disabled');
               $("#turnInCards").show();
-              document.getElementById("turnInCards").onclick = turnInCards;
+              //document.getElementById("turnInCards").onclick = turnInCards;
               canClick = true;
               phase = "turnin";
             } else {
@@ -700,12 +706,11 @@ function turnInCards() {
       } else {
         myCards.push(2);
       }
-      //this.remove();
     }
-    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
+  });
+  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
       "playerId": myId, "cards": myCards}; 
      conn.send(JSON.stringify(mess));
-  });
 }
 
 function claim_terr() {
@@ -773,12 +778,13 @@ const skip_phase = event => {
     $("#skip").hide();
     $("#turnInCards").hide();
     $("#resetMoveTroops").hide();
+
+    document.getElementById("attack").style.display = "none";
+    document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("reinforcer").style.display = "none";
     document.getElementById("deinforcer").style.display = "none";
     document.getElementById("confirm").style.display = "none";  
     document.getElementById("attacking").style.display = "none";
-    document.getElementById("attack").style.display = "none";
-    document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("resetMoveTroops").style.display = "none";
     document.getElementById("claimTerritory").style.display = "none";
     document.getElementById("moveTroops").style.display = "none";

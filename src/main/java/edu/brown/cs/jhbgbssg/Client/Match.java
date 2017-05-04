@@ -344,6 +344,9 @@ public class Match {
 
   @Override
   public boolean equals(Object obj) {
+    if (!(obj instanceof Match)) {
+      return false;
+    }
     Match objMatch = (Match) obj;
     return id.toString().equals(objMatch.getId());
   }
