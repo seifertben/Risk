@@ -30,7 +30,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
-import edu.brown.cs.jhbgbssh.tuple.Pair;
+import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
  * Handles players and game updates for an individual match. Acts as a proxy for
@@ -124,15 +124,15 @@ public class Match {
    * @param playerId Player to remove.
    */
   public void removePlayer(UUID playerId) {
-
-    if (started) {
-      referee.removePlayer(playerId);
-      players = referee.getPlayerOrder();
-    } else {
-      players.remove(playerId);
+    synchronized (this) {
+      if (started) {
+        referee.removePlayer(playerId);
+        players = referee.getPlayerOrder();
+      } else {
+        players.remove(playerId);
+      }
+      names.put(playerId, null);
     }
-
-    names.put(playerId, null);
   }
 
   /**

@@ -318,23 +318,23 @@ const setup_matches = () => {
               }
             }
             changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
-                    idToData[data.attackTerritory], colors[data.attacker], colors[data.attacker]);
+                    idToData[data.attackTerritory], colors[data.attacker]);
             changeTerritoryStatus(idToName[data.defender], -1 * data.defenderTroopsLost,
-                    idToData[data.defendTerritory], colors[data.defender], colors[data.defender]);
+                    idToData[data.defendTerritory], colors[data.defender]);
         	hideAll();
             break;
           case MOVE_TYPES.CLAIM_TERRITORY:
           	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
-        			idToData[data.claimedTerritory], colors[data.movePlayer], colors[data.movePlayer]);
+        			idToData[data.claimedTerritory], colors[data.movePlayer]);
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
-        			idToData[data.claimedFrom], colors[data.movePlayer], colors[data.movePlayer]);
+        			idToData[data.claimedFrom], colors[data.movePlayer]);
         	hideAll();
         	break;
           case MOVE_TYPES.MOVE_TROOPS:
             changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
-              idToData[data.moveFrom], colors[data.movePlayer], colors[data.movePlayer]);
+              idToData[data.moveFrom], colors[data.movePlayer]);
             changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
-              idToData[data.moveTo], colors[data.movePlayer], colors[data.movePlayer]);
+              idToData[data.moveTo], colors[data.movePlayer]);
         	hideAll();
             break;
         }
@@ -417,7 +417,6 @@ const setup_matches = () => {
               $("#turnInCards").disabled = true;
               $("#turnInCards").addClass('disabled');
               $("#turnInCards").show();
-              //document.getElementById("turnInCards").onclick = turnInCards;
               canClick = true;
               phase = "turnin";
             } else {
@@ -538,18 +537,20 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
-              let nav = $("#gameUpdates");
-              let troops = "";
+              
+              $("#moveTroopsNumber").empty();
               claimed = data.territoryToClaim;
               claimedFrom = data.territoryClaimingFrom;
               for (let index = 1; index <= data.maxNumberTroops; index++) {
-            	if (index == data.maxNumberTroops) {
-                  troops += "<option value=" + index.toString() + " selected='selected'>" + index.toString() + "</option>";
-            	} else {
-            	  troops += "<option value=" + index.toString() + ">" + index.toString() + "</option>";
-            	}
+            	 if (index == data.maxNumberTroops) {
+                $("#moveTroopsNumber").append("<option value=" + index.toString()
+                  + " selected='selected'>" + index.toString() + "</option>");
+            	 } else {
+            	   $("#moveTroopsNumber").append("<option value=" + index.toString()
+                  + ">" + index.toString() + "</option>");
+            	 }
               }
-              nav.append("<select id='troopChoice'>" + troops + "</select>");
+              $("#moveTroopsNumber").show()
               document.getElementById("claimTerritory").style.display = "inline";
               
             }
@@ -569,8 +570,8 @@ const setup_matches = () => {
              document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops<br>";     
              $("#moveTroops").disabled = true;
              $("#moveTroops").addClass('disabled');
-             document.getElementById("moveTroops").style.display = "inline";
              $("#moveTroopsNumber").empty();
+             document.getElementById("moveTroops").style.display = "inline";
              $("#moveTroopsNumber").show();
              $("#resetMoveTroops").show();
              $("#skip").text("Skip Moving Troops?");
@@ -632,10 +633,11 @@ function turnInCards() {
 
 function claim_terr() {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY,
-		  "playerId": myId, "troopsToMove": document.getElementById("troopChoice").value,
+		  "playerId": myId, "troopsToMove": document.getElementById("moveTroopsNumber").value,
 		  "claimTerritory": claimed, "attackTerritory": claimedFrom};
-  document.getElementById("troopChoice").remove();
   document.getElementById("claimTerritory").style.display = "none";
+  $("#moveTroopsNumber").hide();
+  $("#moveTroopsNumber").empty();
   conn.send(JSON.stringify(mess));
 }
 
