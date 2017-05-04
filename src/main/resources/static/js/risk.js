@@ -132,10 +132,6 @@ function defaultPause() {
  	document.getElementById('mainMenuMusic').pause();
 }
 
-function changePlayerImage(id, backgroundColor, color) { 
-	id.style.color = color;
-	id.style.backgroundColor = backgroundColor;
-}
 function slideshow() {
 	if (!start) {
 	  now = (now+1) % (imageList.length) ;
@@ -199,74 +195,6 @@ function setUp () {
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
     loserModal();
-}
-
-function createConquestTransferTroopsList() {
-	const $parent = $("#n");
-	const $outer = $("<div class='btn-group' id = 'transfergroup'></div>");
-	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferbutton'><span id = transferDropDownText>Select troops to move to conquered territory</span></button>"));
-	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='transferDropDown' data-toggle='dropdown'><span class='caret'></span></button>");
-	$outer.append($("<ul class='dropdown-menu' id = 'transferOptions' role='menu'></ul>"));
-	$outer.append($("<button type='button' class='btn btn-primary' id = 'transferconfirm'>Confirm Selection</button>"));
-	$parent.append($outer);
-}
-
-function replaceTransferListField() {
-	$(".transferOption").click(function(){
-	    let id = "#" + "transferDropDownText";
-        $(id).html(this.text);
-    });
-}
-function populateTransferList(number) {
-	$("#transferDropDownText").html("Select troops to move to conquered territory");
-	for (let i = 1; i <= number; i++) {
-		let a = $("<a class = 'transferOption'></a>");
-		a.html(i.toString());
-		let li = $('<li class= "transferDrop"></li>');
-		li.append(a);
-		$("#transferOptions").append(li); 
-	}
-}
-
-function updateTransferMessage(stage) {
-	let $message = $("#end_of_turn_transfer");
-	if (stage ===1) {
-		$message.html("Select one territory if to transfer army from if you wish");
-	}
-	else if (stage == 2) {
-		$message.html("Select territory to transfer your army to");
-	}
-	else if (stage ===3) {
-		$message.hide();
-	}
-}
-
-function changeAttackStatus(attackingPlayer, defendingPlayer, territory) {
-	let message  = attackingPlayer + " is attacking " + defendingPlayer  + " in " + territory;
-	if (attackingPlayer ===player) {
-		 message  = "You are attacking " + defendingPlayer + " in " + territory;
-	}
-	 else if (defendingPlayer === player) {
-		message = attackingPlayer + " is attacking you in " + territory;
-	}
-	$("#attackingWho").style.fontWeight = "bold";
-	$("#attackingWho").html(message);
-}
-
-function changeAttackersTerritoryInfo(attackingPlayer,  territory, numSoldiers ) {
-	let message  = attackingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
-	if (attackingPlayer ===player) {
-		 message  = " You have " + numSoldiers  + " soldiers in " + territory;
-	}	
-	$("#attackerStatus").html(message);
-}
-
-function changeDefendersTerritoryInfo(defendingPlayer,  territory, numSoldiers ) {
-	let message  = defendingPlayer + " has " + numSoldiers  + " soldiers in " + territory;
-	if (defendingPlayer ===player) {
-	  message  = " You have " + numSoldiers  + " soldiers in " + territory;
-	  $("#defenderStatus").html(message);
-	}	
 }
 
 function hideAll() {
@@ -368,81 +296,14 @@ function createPlayer(number) {
       document.getElementById('territories').innerHTML = territoryString;
       document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
       document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
+
       document.getElementById('myModal').style.display = "block";
     }
 
     document.getElementById("closer").onclick = function() {
       document.getElementById('myModal').style.display = "none";
     }
-}
-}
-
-function attackStatus() {
-	const $div = $("#n");
-	let $br = $("<br><br><br>");
-	$div.append($br);
-	let $attack = $("<p  id = 'attackingWho' class = 'alert'></p>");
-	
-	// $attack.html("You are attacking Player 2 in China!");
-	$div.append($attack);
-	let $attackerStatus = $("<p id = 'attackerStatus' class = 'alert'></p>");
-	// $attackerStatus.html("You have 5 soldiers in Russia")
-	$div.append($attackerStatus);
-	let $defenderStatus = $("<p></p>");
-	// $defenderStatus.html("Player 2 has 3 soldiers in China");
-	// $defenderStatus.attr("id", "defenderStatus");
-	$div.append($defenderStatus);
-}
-
-function createDropdown() {
-	const $parent = $("#n");
-	const $outer = $("<div class='btn-group' id = 'dropdowngroup'></div>");
-	$outer.append($("<button type='button' class='btn btn-primary' id = 'dropdownbutton'><span id = dropdown>Select the amount of dice to roll</span></button>"));
-	$outer.append("<button type='button' class='btn btn-primary dropdown-toggle' id ='soldierOptions' data-toggle='dropdown'><span class='caret'></span></button>");
-	$outer.append($("<ul class='dropdown-menu' id = 'dieOptions' role='menu'></ul>"));
-	$outer.append($("<button type='button' class='btn btn-primary' id = 'diceconfirm'>Confirm Selection</button>"));
-	$parent.append($outer);
-}
-
-function activateDropDown(numbers) {
-	$("#dropdown").html("Select the amount of dice to roll");
-	$dropDown = $('#dieOptions');
-	for (let i = 0; i<numbers; i++) {
-		let option = i+1;
-		let a = $("<a class = 'option'></a>");
-		a.html(option);
-		let li = $('<li class= "drop"></li>');
-		li.append(a);
-		$dropDown.append(li);
-		if (i ==2) {
-			break;
-		}
-	}
-}
-
-function replaceField() {
-	$(".option").click(function(){
-	    let id = "#" + "dropdown";
-        $(id).html(this.text);
-    });
-}
-
-function attackerLoss(attackingPlayer, losses) {
-	let message = attackingPlayer + " lost " + losses + " soldiers."
-	if (attackingPlayer === player) {
-		message = "You lost " + losses + " soldiers."
- 
-	}
-	$("#attackLoss").html(message);
-}
-
-function defenderLoss(defendingPlayer, losses) {
-	let message = defendingPlayer + " lost " + losses + " soldiers."
-	if (defendingPlayer === player) {
-			message = "You lost " + losses + " soldiers."
- 
-	}
-	$("#defendLoss").html(message);
+  }
 }
 
 let count = 0;
@@ -456,7 +317,6 @@ function blink(selector){
 	count++;
   }
 }
-
 
 function getMessage(player, message) {
 	//assign color to message box.
