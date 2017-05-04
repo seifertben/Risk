@@ -68,6 +68,7 @@ let terrToMaxTroopsMove;
 let moveFrom;
 let moveTo;
 let canClick = false;
+let cardsClicked = 0;
 let playerInfo = {};
 const setup_matches = () => {
 
@@ -329,6 +330,8 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Hand in Cards";             
               $("#skip").text("Skip Handing in Cards?");
               $("#skip").show();
+              $("#turnInCards").disabled = true;
+              $("#turnInCards").addClass('disabled');
               $("#turnInCards").show();
               document.getElementById("turnInCards").onclick = turnInCards;
               canClick = true;
@@ -420,8 +423,6 @@ const setup_matches = () => {
               document.getElementById("bolsters").style.display = "inline";
               document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
               document.getElementById("attacking").style.display = "inline";  
-              let sideNav = $("#gameUpdates");
-              let dice = "";
               $("#defenderNumberDie").empty();
               for (let index = 1; index <= data.maxDieRoll; index++) {
             	 if (index == data.maxDieRoll) {
@@ -498,14 +499,24 @@ function clickOnCard(element) {
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
         element.style.borderColor = "black";
+        cardsClicked++;
+        ("#turnInCards").disabled = false;
+        $("#turnInCards").removeClass('disabled');
       } else {
         element.style.borderStyle = "none";
         element.style.borderColor = "none";
+        cardsClicked--;
+        if (cardsClicked == 0) {
+          $("#turnInCards").disabled = true;
+          $("#turnInCards").addClass('disabled');
+        }
       }
     }
 }
 
 function turnInCards() {
+  canClick = false;
+  $("#turnInCards").hide();
   $('#cards li').each(function() {
     if (this.style.borderStyle === "solid") {
       let arr = this.className.split(" ");
@@ -516,13 +527,9 @@ function turnInCards() {
       }
       this.remove();
     }
-    if (myCards.length != 0) {
-      $("#turnInCards").hide();
-      canClick = false;
-      let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
-        "playerId": myId, "cards": myCards}; 
-      conn.send(JSON.stringify(mess));
-    }
+    let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
+      "playerId": myId, "cards": myCards}; 
+     conn.send(JSON.stringify(mess));
   });
 }
 
@@ -604,6 +611,11 @@ const skip_phase = event => {
     $("#attackerNumberDie").hide();
     $("#defenderNumberDie").hide();
     $("#moveTroopsNumber").hide();
+    $('#cards li').each(function() {
+      if (this.style.borderStyle === "solid") {
+        this.style.borderStyle = "none";
+      }
+    });
     conn.send(JSON.stringify(mess));
   }
 }
