@@ -154,7 +154,6 @@ function setUp () {
 	$endNav = $('#endSection');
 	$sideNav.append($("<p id = 'phase'></p>"));
 	$sideNav.append($("<p id = 'turn' c></p>"));
-	$sideNav.append($("<p id = 'prevMove'></p>"));
 	$sideNav.append($("<p id = 'bolsters'></p>"));
 	$sideNav.append($("<p id = 'selecting'></p>"));
 	$sideNav.append($("<p id = 'attacking'></p>"));
