@@ -1212,6 +1212,10 @@ function select_territory(event) {
 	 if (availableForClaim.includes(event.mapObject.id)) {
 	   bolstering = event.mapObject.id;
      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
+      addBlink($("#selecting"));
+               setTimeout(function() {
+                   removeBlink($("#selecting")); 
+                }, 4000);
      if (placed < placeMax) {
         document.getElementById("reinforcer").disabled = false;
         $("#reinforcer").removeClass('disabled');
@@ -1241,6 +1245,10 @@ function select_territory(event) {
         attackables = terToTar[attackFrom];
         document.getElementById("attacking").style.display = "inline";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+         addBlink($("#attacking"));
+               setTimeout(function() {
+                   removeBlink($("#attacking")); 
+                }, 4000);
         $("#attackerNumberDie").empty();
         for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
           if (index == terToDie[attackFrom.toString()]) {
@@ -1253,10 +1261,18 @@ function select_territory(event) {
         }
       }
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
+       addBlink($("#bolsters"));
+               setTimeout(function() {
+                   removeBlink($("#bolsters")); 
+                }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
+         addBlink($("#attacking"));
+               setTimeout(function() {
+                   removeBlink($("#attacking")); 
+                }, 4000);
       $("#attack").disabled = false;
       $("#attack").removeClass('disabled');
     }
@@ -1292,6 +1308,10 @@ function select_territory(event) {
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
+   addBlink($("#bolsters"));
+               setTimeout(function() {
+                   removeBlink($("#bolsters")); 
+                }, 4000);
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   $("#attackerNumberDie").empty();
