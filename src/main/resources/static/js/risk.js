@@ -39,7 +39,7 @@ const TerritoryEnum = {
   YAKUTSK: 37,
   EASTERN_AUSTRALIA: 38,
   INDONESIA: 39,
-  NEW_GUINEA: 40
+  NEW_GUINEA: 40,
   WESTERN_AUSTRALIA: 41
 };
 let cardID = 0;
