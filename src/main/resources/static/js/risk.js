@@ -39,7 +39,7 @@ const TerritoryEnum = {
   YAKUTSK: 37,
   EASTERN_AUSTRALIA: 38,
   INDONESIA: 39,
-  NEW_GUINEA: 40,
+  NEW_GUINEA: 40
   WESTERN_AUSTRALIA: 41
 };
 let cardID = 0;
@@ -353,6 +353,7 @@ function createPlayer(number) {
       document.getElementById('territories').innerHTML = territoryString;
       document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
       document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
+
       document.getElementById('myModal').style.display = "block";
     }
 
