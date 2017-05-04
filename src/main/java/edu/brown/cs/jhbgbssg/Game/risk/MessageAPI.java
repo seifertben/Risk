@@ -37,7 +37,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
-import edu.brown.cs.jhbgbssh.tuple.Pair;
+import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
  *
@@ -249,13 +249,13 @@ public class MessageAPI {
     if (update.getLoser() != null) {
       JsonObject obj = new JsonObject();
       obj.addProperty("type", RiskMessageType.LOSER.ordinal());
-      obj.addProperty("loser", GSON.toJson(update.getLoser()));
+      obj.addProperty("loser", update.getLoser().toString());
       messages.add(obj);
     }
     if (update.getGameWon() != null) {
       JsonObject obj = new JsonObject();
       obj.addProperty("type", RiskMessageType.WINNER.ordinal());
-      obj.addProperty("winner", GSON.toJson(update.getGameWon()));
+      obj.addProperty("winner", update.getGameWon().toString());
       messages.add(obj);
     }
     if (update.getErrors()) {

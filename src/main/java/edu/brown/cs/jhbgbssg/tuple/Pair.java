@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssh.tuple;
+package edu.brown.cs.jhbgbssg.tuple;
 
 import com.google.common.base.Objects;
 

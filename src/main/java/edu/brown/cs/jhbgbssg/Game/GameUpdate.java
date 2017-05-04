@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
-import edu.brown.cs.jhbgbssh.tuple.Pair;
+import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
  * Represents a GameUpdate object for Risk. It stores the next valid action

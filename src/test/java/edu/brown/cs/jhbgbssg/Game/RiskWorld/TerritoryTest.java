@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
@@ -147,4 +148,84 @@ public class TerritoryTest {
     territory.changePlayer(null, 3);
   }
 
+  /**
+   * Tests for Territory's in North America, the Continent is set to
+   * NORTH_AMERICA.
+   */
+  @Test
+  public void testNorthAmericaTerritoriesContinent() {
+    Territory alaska = new Territory(TerritoryEnum.ALASKA);
+    assertTrue(alaska.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory alberta = new Territory(TerritoryEnum.ALBERTA);
+    assertTrue(alberta.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory nw = new Territory(TerritoryEnum.NORTHWEST_TERRITORY);
+    assertTrue(nw.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory ontario = new Territory(TerritoryEnum.ONTARIO);
+    assertTrue(ontario.getContinent().equals(ContinentEnum.NORTH_AMERICA));
+    Territory quebec = new Territory(TerritoryEnum.QUEBEC);
+    assertTrue(quebec.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory greenland = new Territory(TerritoryEnum.GREENLAND);
+    assertTrue(greenland.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory westUS = new Territory(TerritoryEnum.WESTERN_US);
+    assertTrue(westUS.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory eastUS = new Territory(TerritoryEnum.EASTERN_US);
+    assertTrue(eastUS.getContinent() == ContinentEnum.NORTH_AMERICA);
+    Territory centralAmerica = new Territory(TerritoryEnum.CENTRAL_AMERICA);
+    assertTrue(centralAmerica.getContinent() == ContinentEnum.NORTH_AMERICA);
+  }
+
+  /**
+   * Tests for Territory's in South America, the Continent is set to
+   * SOUTH_AMERICA.
+   */
+  @Test
+  public void testSouthAmericaTerritoriesContinent() {
+    Territory venezuela = new Territory(TerritoryEnum.VENEZUELA);
+    assertTrue(venezuela.getContinent() == ContinentEnum.SOUTH_AMERICA);
+    Territory peru = new Territory(TerritoryEnum.PERU);
+    assertTrue(peru.getContinent() == ContinentEnum.SOUTH_AMERICA);
+    Territory brazil = new Territory(TerritoryEnum.BRAZIL);
+    assertTrue(brazil.getContinent() == ContinentEnum.SOUTH_AMERICA);
+    Territory argentina = new Territory(TerritoryEnum.ARGENTINA);
+    assertTrue(argentina.getContinent() == ContinentEnum.SOUTH_AMERICA);
+  }
+
+  /**
+   * Tests for Territory's in Africa, the Continent is set to Africa.
+   */
+  @Test
+  public void testAfricaTerritoriesContinent() {
+    Territory nAfrica = new Territory(TerritoryEnum.NORTH_AFRICA);
+    assertTrue(nAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory egypt = new Territory(TerritoryEnum.EGYPT);
+    assertTrue(egypt.getContinent() == ContinentEnum.AFRICA);
+    Territory eastAfrica = new Territory(TerritoryEnum.EAST_AFRICA);
+    assertTrue(eastAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory centralAfrica = new Territory(TerritoryEnum.CENTRAL_AFRICA);
+    assertTrue(centralAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory southAfrica = new Territory(TerritoryEnum.CENTRAL_AFRICA);
+    assertTrue(southAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory madagascar = new Territory(TerritoryEnum.MADAGASCAR);
+    assertTrue(madagascar.getContinent() == ContinentEnum.AFRICA);
+  }
+
+  /**
+   * Tests for Territory's in Africa, the Continent is set to Africa.
+   */
+  @Test
+  public void testEuropeTerritoriesContinent() {
+    Territory iceland = new Territory(TerritoryEnum.ICELAND);
+    assertTrue(iceland.getContinent() == ContinentEnum.EUROPE);
+
+    Territory egypt = new Territory(TerritoryEnum.EGYPT);
+    assertTrue(egypt.getContinent() == ContinentEnum.AFRICA);
+    Territory eastAfrica = new Territory(TerritoryEnum.EAST_AFRICA);
+    assertTrue(eastAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory centralAfrica = new Territory(TerritoryEnum.CENTRAL_AFRICA);
+    assertTrue(centralAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory southAfrica = new Territory(TerritoryEnum.CENTRAL_AFRICA);
+    assertTrue(southAfrica.getContinent() == ContinentEnum.AFRICA);
+    Territory madagascar = new Territory(TerritoryEnum.MADAGASCAR);
+    assertTrue(madagascar.getContinent() == ContinentEnum.AFRICA);
+  }
 }
