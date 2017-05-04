@@ -347,7 +347,15 @@ const setup_matches = () => {
         	    document.getElementById("bolsters").style.display = "inline";  
               document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	    document.getElementById("bolsters").style.display = "inline";  
-        	   // document.getElementById("reinforcer").style.display = "inline"; 
+        	    document.getElementById("reinforcer").disabled = true;
+              document.getElementById("deinforcer").disabled = true;
+              document.getElementById("confirm").disabled = true;
+              document.getElementById("deinforcer").style.display = "inline";
+              document.getElementById("confirm").style.display = "inline"; 
+
+              document.getElementById("reinforcer").style.display = "inline";
+              document.getElementById("deinforcer").style.display = "inline";
+              document.getElementById("confirm").style.display = "inline"; 
               terToPlace = new Map();
               placeMax = data.troopsToPlace;
               placed = 0;

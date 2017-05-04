@@ -1213,18 +1213,18 @@ function select_territory(event) {
 	   bolstering = event.mapObject.id;
      document.getElementById("selecting").innerHTML = "Bolstering " + event.mapObject.name;
      if (placed < placeMax) {
-        document.getElementById("reinforcer").style.display = "inline";
+        document.getElementById("reinforcer").disabled = false;
      }
      if (terToPlace.get(bolstering) != null) {
        if (terToPlace.get(bolstering) > 0) {
-         document.getElementById("deinforcer").style.display = "inline";
+         document.getElementById("deinforcer").disabled = false;
        }
       } else {
-        document.getElementById("deinforcer").style.display = "none";
+        document.getElementById("deinforcer").disabled = true;
       }     
     } else {
-      document.getElementById("reinforcer").style.display = "none";
-      document.getElementById("deinforcer").style.display = "none";
+      document.getElementById("reinforcer").disabled = true;
+      document.getElementById("deinforcer").disabled = true;
     }
   } else if (phase == "attacking") {
     if (availableForClaim.includes(event.mapObject.id.toString())) {
@@ -1312,12 +1312,12 @@ const place_troop = event => {
     }
     terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
-    document.getElementById("deinforcer").style.display = "inline";
+    document.getElementById("deinforcer").disabled = false;
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId], colors[myId]);
     if (placed === placeMax) {
-      document.getElementById("reinforcer").style.display = "none";
-      document.getElementById("confirm").style.display = "inline"; 
+      document.getElementById("reinforcer").disabled = true;
+      document.getElementById("confirm").disabled = false; 
     }
   }
 }
@@ -1335,10 +1335,10 @@ const remove_troop = event => {
     placed--;
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId], colors[myId]);
-    document.getElementById("reinforcer").style.display = "inline";
-    document.getElementById("confirm").style.display = "none";
+    document.getElementById("reinforcer").disabled = false;
+    document.getElementById("confirm").disabled = true;
     if (terToPlace.get(bolstering) == 0) {
-       document.getElementById("deinforcer").style.display = "none";
+       document.getElementById("deinforcer").disabled = true;
     }
   }
 }
