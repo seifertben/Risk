@@ -148,6 +148,11 @@
   #centerDiv {
     background-color: #6495ED;
 }
+  h2[id="nameH"] {
+      color: white;
+      border-bottom: 2px solid #000;
+      background:#000;
+  }
   button[id="homeMute"] {
   	  float: center;
   }
