@@ -238,6 +238,7 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP_REINFORCE:
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
+            document.getElementById("bolsters").innerHTML = "Waiting to Place More Troops";
         	hideAll();
             break;
 
@@ -386,7 +387,12 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP:
           	document.getElementById("phase").innerHTML = "Select Territories";
 
+        	$("#"+myId).css("border-color", "white");
+        	$("#"+myId).css("border-width", "0px");
+        	$("#"+data.playerId).css("border-color", "black");
+        	$("#"+data.playerId).css("border-width", "2px");
           	if (data.playerId == myId) {
+
               document.getElementById("turn").style.fontWeight = "bold";
           	  document.getElementById("turn").innerHTML = "Your Turn";
               addBlink($("#turn"));
@@ -413,7 +419,13 @@ const setup_matches = () => {
 
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
+
+        	$("#"+myId).css("border-color", "white");
+        	$("#"+myId).css("border-width", "0px");
+        	$("#"+data.playerId).css("border-color", "black");
+        	$("#"+data.playerId).css("border-width", "2px");
           	if (data.playerId == myId) {
+
                 document.getElementById("turn").style.fontWeight = "bold";
           		document.getElementById("turn").innerHTML = "Your Turn";
               addBlink($("#turn"));
@@ -447,6 +459,11 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
+
+          	$("#"+myId).css("border-color", "white");
+          	$("#"+myId).css("border-width", "0px");
+          	$("#"+data.playerId).css("border-color", "black");
+          	$("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
@@ -468,6 +485,10 @@ const setup_matches = () => {
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
+        	$("#"+myId).css("border-color", "white");
+        	$("#"+myId).css("border-width", "0px");
+        	$("#"+data.playerId).css("border-color", "black");
+        	$("#"+data.playerId).css("border-width", "2px");
         	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";
@@ -563,6 +584,7 @@ const setup_matches = () => {
               document.getElementById("defend").style.display = "inline";
               document.getElementById("defend").onclick = defend_territory;
             }
+
         	break;
 
           case MOVE_TYPES.CLAIM_TERRITORY:
@@ -629,10 +651,10 @@ function updateLog(string) {
 
 	$("#lastTurn").append($li);
 
-	$("li:last-child").css("border", "1px solid black");
-    $("li:last-child").css("border-left", "6px solid black");
+	$li.css("border", "1px solid black");
+    $li.css("border-left", "6px solid black");
     count = 0;
-    blink("li:last-child");
+    blink($li);
     prevMove = $li;
 
     $("#lastTurn").scrollTop($("#lastTurn")[0].scrollHeight);
@@ -849,7 +871,6 @@ function addBlink(element) {
 }
 function removeBlink(element) {
   element.removeClass("blink");
-
 }
 
 function loserModal() {

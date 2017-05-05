@@ -195,7 +195,6 @@
   }
   button[id="gameMute"] {
        display: inline-block;
-     width: 40%;
      bottom: 10%;
       -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
       -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
@@ -257,7 +256,7 @@
   }
   div[id="wrapper"] {
       /*display: inline-block;*/
-      width: 2400px;
+      width: 100%;
       margin: 0% 30%;
   }
   div[id="playerList"] {

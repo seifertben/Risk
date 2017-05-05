@@ -334,10 +334,10 @@ function getMessage(player, message) {
 
 	$("#chatting").append($li);
 
-	$("li:last-child").css("border", "1px solid " + colorMap.get(player).toString());
-    $("li:last-child").css("border-left", "6px solid " + colorMap.get(player).toString());
+	$li.css("border", "1px solid " + colorMap.get(player).toString());
+    $li.css("border-left", "6px solid " + colorMap.get(player).toString());
     count = 0;
-    blink("li:last-child");
+    blink($li);
     prevMessage = $li;
 
     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
