@@ -42,6 +42,7 @@ const MOVE_TYPES = {
   SKIP: 8
 };
 
+let seconds = 0;
 // Datastructures, buttons,
 // ids, and names
 let conn;
@@ -196,7 +197,8 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.PING:
-        console.log("PING");
+        console.log(seconds);
+        seconds++;
         break;
 
       // Update player info ingame
@@ -617,7 +619,7 @@ function updateLog(string) {
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
-}, 60000);
+}, 1000);
 
 function clickOnCard(element) {
   if (canClick) {
