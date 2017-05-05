@@ -364,9 +364,20 @@ const setup_matches = () => {
               idToData[data.moveTo], colors[data.movePlayer]);
         	hideAll();
             break;
+          case MOVE_TYPES.SKIP:
+            let skip = data.skipType;
+            console.log(skip);
+            if (skip === MOVE_TYPES.TURN_IN_CARD) {
+              updateLog("<b>" + idToName[data.movePlayer] + "</b> has skipped turning in cards!");
+            } else if (skip === MOVE_TYPES.CHOOSE_ATTACK_DIE) {
+              updateLog("<b>" + idToName[data.movePlayer] + "</b> is done attacking!");
+              console.log("here in this");
+            } else {
+              updateLog("<b>" + idToName[data.movePlayer] + "</b> skipping moving troops!");
+            }
+            break;
         }
         break;
-
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:

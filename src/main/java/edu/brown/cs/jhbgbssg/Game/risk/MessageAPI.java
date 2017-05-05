@@ -246,6 +246,8 @@ public class MessageAPI {
     List<JsonObject> messages = new ArrayList<>();
     if (update.getPrevMove() != null) {
       messages.add(this.prevActionToJson(update.getPrevMove()));
+    } else if (update.getSkipMove() != null) {
+      messages.add(this.prevSkipActionToJson(update.getSkipMove()));
     }
     if (update.getLoser() != null) {
       JsonObject obj = new JsonObject();
@@ -287,6 +289,15 @@ public class MessageAPI {
       messages.add(obj);
     }
     return messages;
+  }
+
+  private JsonObject prevSkipActionToJson(Pair<UUID, MoveType> skip) {
+    JsonObject object = new JsonObject();
+    object.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
+    object.addProperty("moveType", MoveType.SKIP.ordinal());
+    object.addProperty("skipType", skip.getSecondElement().ordinal());
+    object.addProperty("movePlayer", skip.getFirstElement().toString());
+    return object;
   }
 
   private JsonObject prevActionToJson(Action prevAction) {

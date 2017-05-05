@@ -7,6 +7,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
@@ -365,12 +366,16 @@ public class RiskActionProcessor {
       return update;
     }
     if (referee.validSkipMove(player)) { // can skip the move
+      MoveType skipping = referee.getValidMove().getMoveType();
       ValidAction action = referee.getActionAfterSkip();
 
       // if the player has no other moves left switch players
       if (action == null) {
-        return this.switchPlayers(null, player);
+        update = this.switchPlayers(null, player);
+        update.setSkipMoveType(skipping, player.getPlayerId());
+        return update;
       }
+      update.setSkipMoveType(skipping, player.getPlayerId());
       update.setValidMoves(action, null);
       return update;
     } else { // skipping is not valid
