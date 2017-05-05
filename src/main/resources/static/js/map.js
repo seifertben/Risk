@@ -1602,14 +1602,18 @@ function reset_attack() {
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   $("#attackerNumberDie").empty();
-  // if (attackLine !=null) {
-  //   let outer = terrToTerrToLine[attackFrom.toString()];
-  //   if (outer != null) {
-  //     if (outer[attackTo.toString()].id === attackLine.id) {
-  //       attackLine.color = "black";
-  //     }
-  //   }
-  // }
+  if (attackLine !=null) {
+    let outer = terrToTerrToLine[attackFrom.toString()];
+    if (outer != null) {
+      if (outer[attackTo.toString()].id === attackLine.id) {
+        attackLine.color = "black";
+        map.dataProvider.zoomLevel = map.zoomLevel();
+        map.dataProvider.zoomLatitude = map.zoomLatitude();
+        map.dataProvider.zoomLongitude = map.zoomLongitude();
+        map.validateData();
+      }
+    }
+  }
   reset_line_color();
   attackLine = null;
   attackFrom = null;
