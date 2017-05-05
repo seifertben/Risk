@@ -60,9 +60,9 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 "url('http://www.rmg.co.uk/sites/default/files/styles/slider/public/Loutherbourg-Spanish_Armada.jpg?itok=_-MaaV38')", "url('https://i.ytimg.com/vi/GvPXCnrAtMo/maxresdefault.jpg')", 
 "url('http://s3.amazonaws.com/mtv-main-assets/files/resources/surrender_of_lord_cornwallis-capitol-web.jpg')",  "url('http://www.hms-victory.com/sites/default/files/images/D.jpg')",
 "url('http://www.britishbattles.com/wp-content/uploads/2017/02/Charge_of_the_French_Cuirassiers_at_Waterloo-Henri-F%C3%A9lix-Emmanuel-Philippoteaux.jpg')", 
-"url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://francoprussianwar.com/prus-cav-charge.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
+"url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://www.toledomuseum.org/wordpress/wp-content/uploads/Civil-War_1.jpg')","url('https://weaponsandwarfare.files.wordpress.com/2016/10/1280px-ljb9_-_zimmer.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
 "url('http://i.imgur.com/raE3EQw.jpg')", "url('http://cdn.thedailybeast.com/content/dailybeast/articles/2013/05/12/world-war-ii-s-strangest-battle-when-americans-and-germans-fought-together/jcr:content/image.img.2000.jpg/1380849710571.cached.jpg')"
-, "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')", "url('https://vignette1.wikia.nocookie.net/fallout/images/0/03/Vietnam_War.jpg/revision/latest?cb=20150425225428')", "url('https://upload.wikimedia.org/wikipedia/commons/0/04/USAF_F-16A_F-15C_F-15E_Desert_Storm_edit2.jpg')"
+, "url('https://d11in36igezwwb.cloudfront.net/texts/images/000/000/930/original/Approaching_Omaha.jpg?1489685651')", "url('https://upload.wikimedia.org/wikipedia/commons/f/fc/UH-1D_helicopters_in_Vietnam_1966.jpg')", "url('https://upload.wikimedia.org/wikipedia/commons/0/04/USAF_F-16A_F-15C_F-15E_Desert_Storm_edit2.jpg')"
 , "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
 slideshow();
 const sendMessage = event => {
