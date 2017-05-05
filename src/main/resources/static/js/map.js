@@ -1613,8 +1613,6 @@ function reset_attack() {
   if (attackLine !=null) {
     let outer = terrToTerrToLine[attackFrom.toString()];
     if (outer != null) {
-
-
       if (outer[attackTo.toString()].id === attackLine.id) {
         attackLine.color = "black";
       }
@@ -1624,6 +1622,16 @@ function reset_attack() {
   attackFrom = null;
   attackTo = null;
   attackables = null;
+}
+
+
+function reset_line_color() {
+  for (let i = 0; i<attackableLines.length; i++) {
+    let currLine = attackableLines[i];
+    console.log(currLine);
+    changeLines("black", currLine);
+  }
+  attackables = [];
 }
 
 function reset_move_troops() {

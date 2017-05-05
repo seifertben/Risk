@@ -307,11 +307,11 @@ const setup_matches = () => {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-                 let outer = terrToTerrToLine[attackFrom.toString()];
+                 let outer = terrToTerrToLine[data.attackTerritory.toString()];
                  if (outer != null) {
 
 
-                      if (outer[attackTo.toString()].id === attackLine.id) {
+                      if (outer[data.defendTerritory.toString()].id === attackLine.id) {
                          attackLine.color = "black";
                     }
                  }
@@ -323,7 +323,7 @@ const setup_matches = () => {
                 if (outer != null) {
 
 
-                    if (outer[attackTo.toString()].id === attackLine.id) {
+                    if (outer[data.defendTerritory.toString()].id === attackLine.id) {
                         attackLine.color = "black";
                       }
                   }
