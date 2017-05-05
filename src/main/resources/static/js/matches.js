@@ -197,7 +197,6 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.PING:
-        console.log(seconds);
         seconds++;
         break;
 
@@ -239,7 +238,6 @@ const setup_matches = () => {
           case MOVE_TYPES.REINFORCE:
         	$("#bolsters").hide();
         	$("#selecting").hide();
-            console.log(data.territories);
             let parsedTers = JSON.parse(data.territories);
             let bolts = "<b>" + idToName[data.movePlayer] + "</b> has Bolstered ";
             for (ter in parsedTers) {
@@ -311,9 +309,7 @@ const setup_matches = () => {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
                  let outer = terrToTerrToLine[data.attackTerritory];
                  if (outer != null) {
-
-                	 console.log(data.defendTerritory);
-                      if (outer[data.defendTerritory] === attackLine.id) {
+                      if (outer[data.defendTerritory] === attackLine) {
                          attackLine.color = "black";
                     }
                  }
@@ -325,7 +321,7 @@ const setup_matches = () => {
                 if (outer != null) {
 
 
-                    if (outer[data.defendTerritory] === attackLine.id) {
+                    if (outer[data.defendTerritory] === attackLine) {
                         attackLine.color = "black";
                       }
                   }
@@ -368,12 +364,10 @@ const setup_matches = () => {
             break;
           case MOVE_TYPES.SKIP:
             let skip = data.skipType;
-            console.log(skip);
             if (skip === MOVE_TYPES.TURN_IN_CARD) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> has skipped turning in cards!");
             } else if (skip === CHOOSE_ATTACK_DIE) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> is done attacking!");
-              console.log("here in this");
             } else {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> skipping moving troops!");
             }
@@ -383,7 +377,6 @@ const setup_matches = () => {
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:
-        	console.log("setup");
           	document.getElementById("phase").innerHTML = "Select Territories";
 
           	if (data.playerId == myId) {
@@ -412,8 +405,6 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.SETUP_REINFORCE:
-
-          	console.log("setup reinforce");
             document.getElementById("phase").innerHTML = "Bolster Territories";
           	if (data.playerId == myId) {
                 document.getElementById("turn").style.fontWeight = "bold";
@@ -449,7 +440,6 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-          	console.log("turn in");
             if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
@@ -469,7 +459,6 @@ const setup_matches = () => {
            break;
 
           case MOVE_TYPES.REINFORCE:
-          	console.log("reinforce");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
         	if (data.playerId == myId) {
@@ -515,7 +504,6 @@ const setup_matches = () => {
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
-          	console.log("attack");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
               phase = "attacking";
@@ -548,7 +536,6 @@ const setup_matches = () => {
 
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
 
-          	console.log("defend");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
               document.getElementById("phase").innerHTML = "Defend Yourself!";
@@ -573,7 +560,6 @@ const setup_matches = () => {
 
           case MOVE_TYPES.CLAIM_TERRITORY:
 
-          	console.log("claim");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
@@ -601,7 +587,6 @@ const setup_matches = () => {
 
           case MOVE_TYPES.MOVE_TROOPS:
 
-          	console.log("move");
         	 document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	 if (data.playerId == myId) {
              phase = "move_troops";
@@ -820,19 +805,24 @@ function guid() {
 window.onkeyup = function(e) {
   var key = e.keyCode ? e.keyCode : e.which;
      if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
-       myName = document.getElementById("nameInput").value;
-       document.getElementById("nameField").style.display = "none";
-       document.getElementById("menuField").style.display = "inline";
-     }
+       if (document.getElementById("nameInput").value.trim().length != 0) {
+        myName = document.getElementById("nameInput").value;
+        document.getElementById("nameField").style.display = "none";
+        document.getElementById("menuField").style.display = "inline";
+      }
+    }
   }
 
 const create_match = event => {
   event.preventDefault();
-  let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
-      "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
+  let name = document.getElementById("name").value;
+  if (name.trim().length != 0) {
+    let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
+        "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
 
-  document.getElementById("name").value = "";
-  conn.send(JSON.stringify(mess));
+    document.getElementById("name").value = "";
+    conn.send(JSON.stringify(mess));
+  }
 }
 
 const join_match = event => {
@@ -851,7 +841,6 @@ function addBlink(element) {
   element.addClass("blink");
 }
 function removeBlink(element) {
-  console.log(element.attr("id"));
   element.removeClass("blink");
 
 }
