@@ -852,9 +852,6 @@ function removeBlink(element) {
 
 }
 
-
-
-
 function loserModal() {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 

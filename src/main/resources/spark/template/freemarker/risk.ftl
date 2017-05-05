@@ -15,7 +15,7 @@
     <form id="game" autocomplete="off" class="well well-sm">
       <div id="enter">
         <h2>Enter a Match Name and a Number of Players</h2><br>
-        <input id="name" type="text" autocomplete="off"></input>
+        <input id="name" type="text" autocomplete="off" placeholder = " Enter a Match Name"></input>
         <input id="playerNum" type="number" min="2" max="6" value="2"></input>
         <button id="maker">Make a game</button>
         <button type = 'button' id = 'menuMute' class='btn btn-success'> Mute</button>
