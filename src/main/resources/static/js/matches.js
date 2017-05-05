@@ -295,6 +295,13 @@ const setup_matches = () => {
           	}
           	updateLog("<b>" + idToName[data.movePlayer] + "</b> is Attacking <b>" + idToData[data.attackTo].name
           			+ "</b> from <b>" + idToData[data.attackFrom].name + "</b>!");
+            let outer = terrToTerrToLine[data.attackFrom.toString()];
+            let currLine = outer[data.attackTo.toString()];
+            changeLines(colors[data.movePlayer], currLine);
+           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+            map.validateData();
           	result = "<b>" + idToName[data.movePlayer] + "</b> Rolled " + result;
           	updateLog(result);
         	break;
@@ -316,10 +323,14 @@ const setup_matches = () => {
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
                  let outer = terrToTerrToLine[data.attackTerritory];
+                 console.log("outer");
                  if (outer != null) {
-                      if (outer[data.defendTerritory] === attackLine) {
-                         attackLine.color = "black";
-                    }
+                    console.log(outer[data.defendTerritory.toString()]);
+                    changeLines("black", outer[data.defendTerritory.toString()]);
+                    map.dataProvider.zoomLevel = map.zoomLevel();
+                    map.dataProvider.zoomLatitude = map.zoomLatitude();
+                    map.dataProvider.zoomLongitude = map.zoomLongitude();
+                    map.validateData();
                  }
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
@@ -333,10 +344,32 @@ const setup_matches = () => {
                         attackLine.color = "black";
                       }
                   }
+                    map.dataProvider.zoomLevel = map.zoomLevel();
+              map.dataProvider.zoomLatitude = map.zoomLatitude();
+            map.dataProvider.zoomLongitude = map.zoomLongitude();
+            map.validateData();
               } else {
                 string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
+                 let outer = terrToTerrToLine[attackTerritory.toString()];
+            let currLine = outer[data.defendTerritory.toString()];
+            console.log(outer);
+            console.log(currLine);
+            changeLines("black", currLine);
+           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+            map.validateData();
               }
             } else {
+               let outer = terrToTerrToLine[data.attackTerritory.toString()];
+            let currLine = outer[data.defendTerritory.toString()];
+             console.log(outer);
+              console.log(currLine);
+            changeLines("black", currLine);
+           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+            map.validateData();
               if (data.attacker == myId) {
                 string = "<b>You</b> Have Won the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
@@ -594,6 +627,10 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
                 changeLines("black", attackLine);
+                 map.dataProvider.zoomLevel = map.zoomLevel();
+                 map.dataProvider.zoomLatitude = map.zoomLatitude();
+                 map.dataProvider.zoomLongitude = map.zoomLongitude();
+                map.validateData();
                 attackLine = null;
               
               $("#moveTroopsNumber").empty();
@@ -757,22 +794,19 @@ function move_troops() {
 
 const skip_phase = event => {
   event.preventDefault();
+  console.log(phase);
   if (phase == "attacking") {
-    if (attackLine !=null) {
-    let outer = terrToTerrToLine[attackFrom.toString()];
-    if (outer != null) {
-
-
-      if (outer[attackTo.toString()] === attackLine) {
-          changeLines("black", attackLine);
+    
+    for (let i = 0; i<attackableLines.length; i ++) {
+          
+          changeLines("black", attackableLines[i]);
           map.dataProvider.zoomLevel = map.zoomLevel();
           map.dataProvider.zoomLatitude = map.zoomLatitude();
           map.dataProvider.zoomLongitude = map.zoomLongitude();
           map.validateData();
       }
-    }
   }
-  }
+  
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
 	availableForClaim = [];
     moveables = [];
@@ -780,6 +814,7 @@ const skip_phase = event => {
     moveTo = null;
     attackFrom = null;
     attackTo = null;
+    attackLine = null;
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
     $("#turnInCards").hide();

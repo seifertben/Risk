@@ -1456,8 +1456,7 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "largeMap": {}
 } );
-let outer = terrToTerrToLine["0"];
-changeLines("red", outer["31"]);
+
 function select_territory(event) {
   if (phase == "setup") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
@@ -1512,6 +1511,10 @@ function select_territory(event) {
         for (let i = 0; i<attackables.length; i++) {
           let currLine = outer[attackables[i].toString()];
           changeLines(colors[myId], currLine);
+           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+          map.validateData();
 
           attackableLines.push(currLine);
         }
@@ -1548,6 +1551,9 @@ function select_territory(event) {
       for (let i = 0; i<attackableLines.length; i++) {
         if (attackableLines[i] !==currLine) {
           changeLines("black", attackableLines[i]);
+           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
           map.validateData();
         }
         else {
