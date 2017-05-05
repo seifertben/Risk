@@ -95,6 +95,7 @@ public class Matches {
       throws IOException {
     // Update the lobbies and remove
     // this player from our list
+    System.out.println("DISCONNECT");
     remove_player(session);
     sessions.remove(session);
   }
