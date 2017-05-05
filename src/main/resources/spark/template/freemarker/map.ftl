@@ -36,10 +36,15 @@
     <p id = "continents"></p><br />
     <p id = "totaltroops"></p><br />
   </div>
+</div>
+
+  <div class = "footer-content">
+  <div class = "card-footer" id = "card-footer">
+  <ul id="cards">
+  </ul>
+  </div>
+  </div>
 
 </div>
-</div>
-<footer class="container-fluid text-center" id="bottom">
-<ul id="cards">
-</ul>
-</footer>
+
+

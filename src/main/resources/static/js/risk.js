@@ -198,6 +198,9 @@ function setUp () {
 	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
+
+    $('#card-footer').css({"display":"none"});
+
 }
 
 function createConquestTransferTroopsList() {
@@ -305,13 +308,13 @@ function hideAll() {
 function addcard(number) {
 	let card;
 	if (number ===1) {
-		card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+		card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1 id='cardtitle'>Card</h1></header><div class='w3-container'><p id = 'star'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'></p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 		card.attr("id", cardID.toString());
 		cardID++;		
 	  $('#cards').append(card);
     }
     if (number ===2) {
-      card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+      card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1 id='cardtitle'>Card</h1></header><div class='w3-container'><p id = 'star'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'></p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 	  card.attr("id", cardID.toString());
 	  cardID++;  
 	  $('#cards').append(card);
@@ -351,6 +354,7 @@ function createPlayer(number) {
       document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[string];
       let territoryString = "Occupies these territories: <br>";
      	let currPlayerInfo  = playerInfo[string];
+
      	let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
       for (let key in territoryTroopInfo) {
       	territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
@@ -366,7 +370,7 @@ function createPlayer(number) {
       }
       document.getElementById('territories').innerHTML = territoryString;
       document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
-      document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
+      document.getElementById('totaltroops').innerHTML = "Has this many troops in total: " + currPlayerInfo.totalNumberTroops;
       document.getElementById('myModal').style.display = "block";
     }
 
@@ -489,3 +493,31 @@ document.querySelector("#messageField").addEventListener("keyup", function (e) {
       sendMessage();
     }
 });
+
+
+$(window).bind('mousewheel DOMMouseScroll', function (event) {           
+     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+      document.getElementById("card-footer").style.display = 'none';
+     }
+     else {
+      document.getElementById("card-footer").style.display = 'block';
+     }
+});
+
+
+$("#showcards").click(
+  function() {
+    if (document.getElementById("card-footer").style.display === 'none') {
+        document.getElementById("card-footer").style.display = 'block';
+    } else {
+        document.getElementById("card-footer").style.display = 'none';
+    }
+  }
+);
+
+
+
+
+
+
+
