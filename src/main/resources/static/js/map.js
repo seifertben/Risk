@@ -41,8 +41,9 @@ const SIBERIA = [67.160839,103.342985];
 const URAL = [66.666218,67.958187];
 const AFGHANISTAN = [37.768380, 66.896086];
 let terrToTerrToLine = [];
-// var planeSVG = d="M 1072.8956,639.08362 L 1561.5008,639.08362";
-var planeSVG = "m2,106h28l24,30h72l-44,-133h35l80,132h98c21,0 21,34 0,34l-98,0 -80,134h-35l43,-133h-71l-24,30h-28l15,-47";
+let attackableLines = [];
+let attackLine;
+
 
 var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
 let idToData = {};
@@ -1455,7 +1456,8 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "largeMap": {}
 } );
-
+let outer = terrToTerrToLine["0"];
+changeLines("red", outer["31"]);
 function select_territory(event) {
   if (phase == "setup") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
@@ -1504,6 +1506,19 @@ function select_territory(event) {
         attackFrom = event.mapObject.id;
         attackTo = null;
         attackables = terToTar[attackFrom];
+        console.log(attackables);
+        let outer = terrToTerrToLine[attackFrom.toString()];
+        console.log("outer");
+        for (let i = 0; i<attackables.length; i++) {
+          let currLine = outer[attackables[i].toString()];
+          console.log(currLine);
+            // currLine.color = colors[myId];
+            changeLines(colors[myId], currLine);
+            map.validateData();
+            console.log(colors[myId]);
+            console.log(currLine.color);
+            attackableLines.push(currLine);
+        }
         document.getElementById("attacking").style.display = "inline";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
          addBlink($("#attacking"));
@@ -1528,6 +1543,25 @@ function select_territory(event) {
                 }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
+      console.log(attackTo);
+      console.log(attackFrom);
+      let outer = terrToTerrToLine[attackFrom.toString()];
+      let currLine = outer[attackTo.toString()];
+      for (let i = 0; i<attackableLines.length; i++) {
+        console.log(attackableLines[i]);
+        console.log(currLine);
+        if (attackableLines[i] !==currLine) {
+          console.log(attackableLines[i].color);
+          changeLines("black", attackableLines[i]);
+          map.validateData();
+           console.log(attackableLines[i].color);
+          // attackableLines[i].color  = "black";
+        }
+        else {
+          attackLine = attackableLines[i];
+        }
+      }
+      attackableLines = [];
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
          addBlink($("#attacking"));
@@ -1576,6 +1610,17 @@ function reset_attack() {
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   $("#attackerNumberDie").empty();
+  if (attackLine !=null) {
+    let outer = terrToTerrToLine[attackFrom.toString()];
+    if (outer != null) {
+
+
+      if (outer[attackTo.toString()].id === attackLine.id) {
+        attackLine.color = "black";
+      }
+    }
+  }
+  attackLine = null;
   attackFrom = null;
   attackTo = null;
   attackables = null;

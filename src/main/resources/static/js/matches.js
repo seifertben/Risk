@@ -307,10 +307,26 @@ const setup_matches = () => {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
+                 let outer = terrToTerrToLine[attackFrom.toString()];
+                 if (outer != null) {
+
+
+                      if (outer[attackTo.toString()].id === attackLine.id) {
+                         attackLine.color = "black";
+                    }
+                 }
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
               	string = "<b>You</b> Have Lost the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
+                let outer = terrToTerrToLine[attackFrom.toString()];
+                if (outer != null) {
+
+
+                    if (outer[attackTo.toString()].id === attackLine.id) {
+                        attackLine.color = "black";
+                      }
+                  }
               } else {
                 string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
               }
@@ -549,6 +565,8 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
+                changeLines("black", attackLine);
+                attackLine = null;
               
               $("#moveTroopsNumber").empty();
               claimed = data.territoryToClaim;
@@ -712,6 +730,19 @@ function move_troops() {
 
 const skip_phase = event => {
   event.preventDefault();
+  if (phase == "attacking") {
+    if (attackLine !=null) {
+    let outer = terrToTerrToLine[attackFrom.toString()];
+    if (outer != null) {
+
+
+      if (outer[attackTo.toString()] === attackLine) {
+          changeLines("black", attackLine);
+          map.validateData();x
+      }
+    }
+  }
+  }
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
 	availableForClaim = [];
     moveables = [];
