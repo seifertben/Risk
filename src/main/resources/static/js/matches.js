@@ -307,11 +307,11 @@ const setup_matches = () => {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-                 let outer = terrToTerrToLine[data.attackTerritory.toString()];
+                 let outer = terrToTerrToLine[attackFrom.toString()];
                  if (outer != null) {
 
 
-                      if (outer[data.defendTerritory.toString()].id === attackLine.id) {
+                      if (outer[attackTo.toString()].id === attackLine.id) {
                          attackLine.color = "black";
                     }
                  }
@@ -323,7 +323,7 @@ const setup_matches = () => {
                 if (outer != null) {
 
 
-                    if (outer[data.defendTerritory.toString()].id === attackLine.id) {
+                    if (outer[attackTo.toString()].id === attackLine.id) {
                         attackLine.color = "black";
                       }
                   }
@@ -369,7 +369,7 @@ const setup_matches = () => {
             console.log(skip);
             if (skip === MOVE_TYPES.TURN_IN_CARD) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> has skipped turning in cards!");
-            } else if (skip === MOVE_TYPES.CHOOSE_ATTACK_DIE) {
+            } else if (skip === CHOOSE_ATTACK_DIE) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> is done attacking!");
               console.log("here in this");
             } else {
