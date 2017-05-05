@@ -82,10 +82,17 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
+  };
+
+  conn.onclose = function(e) {
+	console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+       setup_matches;
+    }, 1000)
   };
 
   conn.onmessage = msg => {
