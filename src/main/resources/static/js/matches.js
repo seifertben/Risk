@@ -82,8 +82,8 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -373,7 +373,7 @@ const setup_matches = () => {
             let skip = data.skipType;
             if (skip === MOVE_TYPES.TURN_IN_CARD) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> has skipped turning in cards!");
-            } else if (skip === CHOOSE_ATTACK_DIE) {
+            } else if (skip === MOVE_TYPES.CHOOSE_ATTACK_DIE) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> is done attacking!");
             } else {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> skipping moving troops!");
@@ -849,6 +849,20 @@ function removeBlink(element) {
   element.removeClass("blink");
 
 }
+
+// $name.on(function() {
+
+// })
+
+// function game_name() {
+//   let name = document.getElementById("name").value;
+//   if (name.trim().length != 0) {
+//     document.getElementById("maker").disabled = false;
+//     document.getElementById("maker").removeClass('disabled');
+//   } else {
+//     docu
+//   }
+// }
 
 function loserModal() {
   if (data.loser == myId) {
