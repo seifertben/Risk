@@ -86,29 +86,24 @@ const sendMessage = event => {
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
 }
+let isplaying = false;
 document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
 
 	$("#transferconfirm").on("click", confirmTransfer);
 
 	defaultPause();
-	$("#homeMute").on("click", changeMusicStatus);
-	$("#menuMute").on("click", changeMusicStatus);
-	$("#gameMute").on("click", changeMusicStatus);
+	$("#mute").on("click", changeMusicStatus);
 	$("#diceconfirm").on("click", confirmDice);
 
  function changeMusicStatus() {
- 	if ($("#homeMute").text() == "Mute") {
- 		$("#homeMute").text("Unmute");
- 		$("#menuMute").text("Unmute"); 		
- 		$("#gameMute").text("Unmute");
+ 	if (isplaying) {
  		document.getElementById('mainMenuMusic').pause();
+ 		isplaying = !isplaying;
  	}
  	else {
- 		$("#homeMute").text("Mute");
- 		$("#gameMute").text("Mute");
- 		$("#menuMute").text("Mute");
- 		document.getElementById('mainMenuMusic').play();	
+ 		document.getElementById('mainMenuMusic').play();
+ 		isplaying = !isplaying;
  	}
  }
 
@@ -127,9 +122,6 @@ function confirmDice() {
 }
 
 function defaultPause() {
-	$("#gameMute").text("Unmute");
-	$("#homeMute").text("Unmute");
-	$("#menuMute").text("Unmute");
  	document.getElementById('mainMenuMusic').pause();
 }
 
