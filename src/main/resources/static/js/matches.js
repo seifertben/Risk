@@ -735,22 +735,19 @@ function move_troops() {
 
 const skip_phase = event => {
   event.preventDefault();
+  console.log(phase);
   if (phase == "attacking") {
-    if (attackLine !=null) {
-    let outer = terrToTerrToLine[attackFrom.toString()];
-    if (outer != null) {
-
-
-      if (outer[attackTo.toString()] === attackLine) {
-          changeLines("black", attackLine);
+    
+    for (let i = 0; i<attackableLines.length; i ++) {
+          
+          changeLines("black", attackableLines[i]);
           map.dataProvider.zoomLevel = map.zoomLevel();
           map.dataProvider.zoomLatitude = map.zoomLatitude();
           map.dataProvider.zoomLongitude = map.zoomLongitude();
           map.validateData();
       }
-    }
   }
-  }
+  
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
 	availableForClaim = [];
     moveables = [];
@@ -758,6 +755,7 @@ const skip_phase = event => {
     moveTo = null;
     attackFrom = null;
     attackTo = null;
+    attackLine = null;
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
     $("#turnInCards").hide();
