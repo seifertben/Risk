@@ -1504,28 +1504,19 @@ function select_territory(event) {
         $("#attack").disabled = true;
         $("#attack").addClass('disabled');
         reset_line_color();
-        map.dataProvider.zoomLevel = map.zoomLevel();
-        map.dataProvider.zoomLatitude = map.zoomLatitude();
-        map.dataProvider.zoomLongitude = map.zoomLongitude();
-        map.validateData();
+        
         attackFrom = event.mapObject.id;
         attackTo = null;
         attackables = terToTar[attackFrom];
-        console.log(attackables);
         let outer = terrToTerrToLine[attackFrom.toString()];
-        console.log("outer");
         for (let i = 0; i<attackables.length; i++) {
           let currLine = outer[attackables[i].toString()];
-          console.log(currLine);
-            // currLine.color = colors[myId];
-            changeLines(colors[myId], currLine);
-            map.dataProvider.zoomLevel = map.zoomLevel();
-            map.dataProvider.zoomLatitude = map.zoomLatitude();
-            map.dataProvider.zoomLongitude = map.zoomLongitude();
-            map.validateData();
-            console.log(colors[myId]);
-            console.log(currLine.color);
-            attackableLines.push(currLine);
+          changeLines(colors[myId], currLine);
+          map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+          map.validateData();
+          attackableLines.push(currLine);
         }
         document.getElementById("attacking").style.display = "inline";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
@@ -1551,19 +1542,12 @@ function select_territory(event) {
                 }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
-      console.log(attackTo);
-      console.log(attackFrom);
       let outer = terrToTerrToLine[attackFrom.toString()];
       let currLine = outer[attackTo.toString()];
       for (let i = 0; i<attackableLines.length; i++) {
-        console.log(attackableLines[i]);
-        console.log(currLine);
         if (attackableLines[i] !==currLine) {
-          console.log(attackableLines[i].color);
           changeLines("black", attackableLines[i]);
           map.validateData();
-           console.log(attackableLines[i].color);
-          // attackableLines[i].color  = "black";
         }
         else {
           attackLine = attackableLines[i];
@@ -1618,19 +1602,15 @@ function reset_attack() {
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   $("#attackerNumberDie").empty();
-  if (attackLine !=null) {
-    let outer = terrToTerrToLine[attackFrom.toString()];
-    if (outer != null) {
-      if (outer[attackTo.toString()].id === attackLine.id) {
-        attackLine.color = "black";
-      }
-    }
-  }
+  // if (attackLine !=null) {
+  //   let outer = terrToTerrToLine[attackFrom.toString()];
+  //   if (outer != null) {
+  //     if (outer[attackTo.toString()].id === attackLine.id) {
+  //       attackLine.color = "black";
+  //     }
+  //   }
+  // }
   reset_line_color();
-  map.dataProvider.zoomLevel = map.zoomLevel();
-  map.dataProvider.zoomLatitude = map.zoomLatitude();
-  map.dataProvider.zoomLongitude = map.zoomLongitude();
-  map.validateData();
   attackLine = null;
   attackFrom = null;
   attackTo = null;
@@ -1641,8 +1621,11 @@ function reset_attack() {
 function reset_line_color() {
   for (let i = 0; i<attackableLines.length; i++) {
     let currLine = attackableLines[i];
-    console.log(currLine);
     changeLines("black", currLine);
+    map.dataProvider.zoomLevel = map.zoomLevel();
+    map.dataProvider.zoomLatitude = map.zoomLatitude();
+    map.dataProvider.zoomLongitude = map.zoomLongitude();
+    map.validateData();
   }
   attackables = [];
 }
@@ -1766,7 +1749,6 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
 }
 
 function changeLines(color, line) {
-  console.log()
   if (line === ALASKA_INF) {
       KAMCHATKA_INF.color = color;
   }
