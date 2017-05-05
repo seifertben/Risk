@@ -1503,6 +1503,11 @@ function select_territory(event) {
       if (event.mapObject.id != attackFrom) {
         $("#attack").disabled = true;
         $("#attack").addClass('disabled');
+        reset_line_color();
+        map.dataProvider.zoomLevel = map.zoomLevel();
+        map.dataProvider.zoomLatitude = map.zoomLatitude();
+        map.dataProvider.zoomLongitude = map.zoomLongitude();
+        map.validateData();
         attackFrom = event.mapObject.id;
         attackTo = null;
         attackables = terToTar[attackFrom];
@@ -1514,6 +1519,9 @@ function select_territory(event) {
           console.log(currLine);
             // currLine.color = colors[myId];
             changeLines(colors[myId], currLine);
+            map.dataProvider.zoomLevel = map.zoomLevel();
+            map.dataProvider.zoomLatitude = map.zoomLatitude();
+            map.dataProvider.zoomLongitude = map.zoomLongitude();
             map.validateData();
             console.log(colors[myId]);
             console.log(currLine.color);
@@ -1618,6 +1626,11 @@ function reset_attack() {
       }
     }
   }
+  reset_line_color();
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
   attackLine = null;
   attackFrom = null;
   attackTo = null;

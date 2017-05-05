@@ -309,11 +309,11 @@ const setup_matches = () => {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-                 let outer = terrToTerrToLine[attackFrom.toString()];
+                 let outer = terrToTerrToLine[data.attackTerritory];
                  if (outer != null) {
 
-
-                      if (outer[attackTo.toString()].id === attackLine.id) {
+                	 console.log(data.defendTerritory);
+                      if (outer[data.defendTerritory] === attackLine.id) {
                          attackLine.color = "black";
                     }
                  }
@@ -321,11 +321,11 @@ const setup_matches = () => {
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
               	string = "<b>You</b> Have Lost the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
-                let outer = terrToTerrToLine[attackFrom.toString()];
+                let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
 
-                    if (outer[attackTo.toString()].id === attackLine.id) {
+                    if (outer[data.defendTerritory] === attackLine.id) {
                         attackLine.color = "black";
                       }
                   }
@@ -751,7 +751,10 @@ const skip_phase = event => {
 
       if (outer[attackTo.toString()] === attackLine) {
           changeLines("black", attackLine);
-          map.validateData();x
+          map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLatitude = map.zoomLatitude();
+          map.dataProvider.zoomLongitude = map.zoomLongitude();
+          map.validateData();
       }
     }
   }
