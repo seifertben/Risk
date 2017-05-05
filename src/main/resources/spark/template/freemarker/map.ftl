@@ -2,12 +2,14 @@
   <div class="row content">
 
   	<div class="col-sm-2 sidenav" id = "leftNav">
+  	<p>Chat With Other Players!</p>
     <div id="chatting" class="list-group">
     </div>
     <textarea name="message" value="" id="messageField"
      placeholder="Enter Message!"></textarea>
     <Button id = "chatButton">Send</Button>
     <button type = 'button' id = 'gameMute' class='btn btn-success'> Mute</button>
+    <p>Match Log</p>
     <div id="lastTurn" class="list-group"></div>
     </div>
   	<div id="centerDiv" class="col-sm-8 text-left">
@@ -44,6 +46,36 @@
   </ul>
   </div>
   </div>
+</div>
+
+  <!-- The Modal -->
+<div id="loserModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" id = "closeLoser" "text-right">&times;</span>
+    <p id = "loser" style = "text-decoration: none"></p>
+    <div class ="modal-footer">
+  		<div class="col-sm-offset-5 col-sm-2 text-center">
+  			<button type="button" id="loserMain">Back to Main Menu?</button>
+  		</div>
+    </div>
+  </div>
+</div>
+
+  <!-- The Modal -->
+<div id="winnerModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p id = "winner" style = "text-decoration: none"></p>
+    <div class ="modal-footer">
+    	<div class="col-sm-offset-5 col-sm-2 text-center">
+  			<button type="button" id="winnerMain">Go to Main Menu</button>
+  		</div>
+    </div>
+  </div>
+</div>
 
 </div>
 

@@ -351,8 +351,6 @@ public class RiskBoardTest {
         TerritoryEnum.SOUTHERN_EUROPE));
     assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
         TerritoryEnum.NORTH_AFRICA));
-    assertTrue(board.isNeighbor(TerritoryEnum.WESTERN_EUROPE,
-        TerritoryEnum.NORTH_AFRICA));
   }
 
   /**
@@ -612,6 +610,8 @@ public class RiskBoardTest {
         board.isNeighbor(TerritoryEnum.INDONESIA, TerritoryEnum.NEW_GUINEA));
     assertTrue(board.isNeighbor(TerritoryEnum.INDONESIA,
         TerritoryEnum.SOUTHEAST_ASIA));
+    assertTrue(board.isNeighbor(TerritoryEnum.INDONESIA,
+        TerritoryEnum.WESTERN_AUSTRALIA));
   }
 
   /**

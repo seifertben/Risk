@@ -31,6 +31,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 
@@ -491,5 +493,165 @@ public class RefereeTest {
     } while (ref.getValidMove().getMoveType() == MoveType.SETUP_REINFORCE);
     assertTrue(player1.getInitialReinforcements() == 0);
     assertTrue(player2.getInitialReinforcements() == 0);
+  }
+
+  /**
+   * Tests that after setup and setup reinforce, the next valid action is of
+   * type REINFORCE, not CARD_TURN_IN.
+   */
+  @Test
+  public void testValidActionAfterSetupReinforceIsReinforce() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
+    RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
+    Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
+    ref.startGame();
+    RiskPlayer currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupAction validAction = (ValidSetupAction) ref.getValidMove();
+      SetupAction action = new SetupAction(currPlayer, board,
+          validAction.getTerritories().get(0));
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP);
+    currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupReinforceAction validAction =
+          (ValidSetupReinforceAction) ref.getValidMove();
+      List<TerritoryEnum> terrs = new ArrayList<>(validAction.getTerritories());
+      SetupReinforceAction action =
+          new SetupReinforceAction(currPlayer, board, terrs.get(0));
+      ref.validateSetupReinforceMove(action);
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP_REINFORCE);
+    assertTrue(ref.getValidMove().getMoveType() == MoveType.REINFORCE);
+  }
+
+  /**
+   * Tests skipping is invalid during the setup.
+   */
+  @Test
+  public void testSkipInvalidSetup() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
+    RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
+    Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
+    ref.startGame();
+    RiskPlayer currPlayer = ref.getCurrentPlayer();
+    assertFalse(ref.validSkipMove(currPlayer));
+    assertTrue(ref.getValidMove().getMoveType() == MoveType.SETUP);
+  }
+
+  /**
+   * Tests skipping is invalid during setup reinforce.
+   */
+  @Test
+  public void testSkipInvalidSetupReinforce() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
+    RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
+    Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
+    ref.startGame();
+    RiskPlayer currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupAction validAction = (ValidSetupAction) ref.getValidMove();
+      SetupAction action = new SetupAction(currPlayer, board,
+          validAction.getTerritories().get(0));
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP);
+    currPlayer = ref.getCurrentPlayer();
+    assertTrue(ref.getValidMove().getMoveType() == MoveType.SETUP_REINFORCE);
+    assertFalse(ref.validSkipMove(currPlayer));
+  }
+
+  /**
+   * Tests skipping a reinforce action is invalid.
+   */
+  @Test
+  public void testSkipInvalidReinforce() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
+    RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
+    Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
+    ref.startGame();
+    RiskPlayer currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupAction validAction = (ValidSetupAction) ref.getValidMove();
+      SetupAction action = new SetupAction(currPlayer, board,
+          validAction.getTerritories().get(0));
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP);
+    currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupReinforceAction validAction =
+          (ValidSetupReinforceAction) ref.getValidMove();
+      List<TerritoryEnum> terrs = new ArrayList<>(validAction.getTerritories());
+      SetupReinforceAction action =
+          new SetupReinforceAction(currPlayer, board, terrs.get(0));
+      ref.validateSetupReinforceMove(action);
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP_REINFORCE);
+    assertTrue(ref.getValidMove().getMoveType() == MoveType.REINFORCE);
+    assertFalse(ref.validSkipMove(currPlayer));
+  }
+
+  /**
+   * Tests that skipping an attack is valid.
+   */
+ // @Test
+  public void testSkipValidAttack() {
+    RiskBoard board = new RiskBoard();
+    RiskPlayer player1 = new RiskPlayer(UUID.randomUUID());
+    RiskPlayer player2 = new RiskPlayer(UUID.randomUUID());
+    Referee ref = new Referee(board, ImmutableSet.of(player1, player2));
+    ref.startGame();
+    RiskPlayer currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupAction validAction = (ValidSetupAction) ref.getValidMove();
+      SetupAction action = new SetupAction(currPlayer, board,
+          validAction.getTerritories().get(0));
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP);
+    currPlayer = ref.getCurrentPlayer();
+    do {
+      ValidSetupReinforceAction validAction =
+          (ValidSetupReinforceAction) ref.getValidMove();
+      List<TerritoryEnum> terrs = new ArrayList<>(validAction.getTerritories());
+      SetupReinforceAction action =
+          new SetupReinforceAction(currPlayer, board, terrs.get(0));
+      ref.validateSetupReinforceMove(action);
+      action.executeAction();
+      ref.switchPlayer(action);
+      currPlayer = ref.getCurrentPlayer();
+    } while (ref.getValidMove().getMoveType() == MoveType.SETUP_REINFORCE);
+    ValidReinforceAction action = (ValidReinforceAction) ref.getValidMove();
+    int total = action.getNumberToReinforce();
+    ReinforceAction reinforce;
+    Set<TerritoryEnum> terrs = action.getTerritories();
+    for (TerritoryEnum terr : terrs) {
+      if (!terrs.containsAll(board.getNeighbors(terr))) {
+        Map<TerritoryEnum, Integer> map = new HashMap<>();
+        map.put(terr, total);
+        reinforce = new ReinforceAction(currPlayer, board, map);
+        assertTrue(ref.validateReinforce(reinforce));
+        assertTrue(reinforce.executeAction());
+        ValidAction next = ref.getValidMoveAfterReinforce();
+        assertNotNull(next);
+        assertTrue(next.getMoveType() == MoveType.CHOOSE_ATTACK_DIE);
+        assertTrue(ref.validSkipMove(currPlayer));
+        break;
+      }
+    }
   }
 }

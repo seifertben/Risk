@@ -208,10 +208,11 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.WINNER:
-    	console.log("Winner");
+    	  winnerModal(data);
         break;
       case MESSAGE_TYPE.LOSER:
-    	console.log("Loser");
+      document.getElementById(data.loser).style.backgroundColor = "grey";
+      loserModal(data);
     	break;
       // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
@@ -220,21 +221,30 @@ const setup_matches = () => {
 
           // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
-
+            updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
             break;
 
           // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
+            updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
             break;
 
           // For a normal reinforcement move
           case MOVE_TYPES.REINFORCE:
-            document.getElementById("bolsters").style.display = "none";
-            document.getElementById("selecting").style.display = "none";
+        	$("#bolsters").hide();
+        	$("#selecting").hide();
+            console.log(data.territories);
+            let parsedTers = JSON.parse(data.territories);
+            let bolts = "<b>" + idToName[data.movePlayer] + "</b> has Bolstered ";
+            for (ter in parsedTers) {
+              bolts += "<b>" + idToData[ter].name + "</b>, ";
+            }
+            bolts += "With More Troops!";
+            updateLog(bolts);
         	make_bolster(data.movePlayer, JSON.parse(data.territories));
           	hideAll();
         	break;
@@ -275,11 +285,10 @@ const setup_matches = () => {
           	for (let index = 0; index < roll.length; index++) {
           	  result += roll[index] + " ";
           	}
-            document.getElementById("bolsters").innerHTML = idToName[data.movePlayer] + " Rolled " + result + "<br>";
-             addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+          	updateLog("<b>" + idToName[data.movePlayer] + "</b> is Attacking <b>" + idToData[data.attackTo].name
+          			+ "</b> from <b>" + idToData[data.attackFrom].name + "</b>!");
+          	result = "<b>" + idToName[data.movePlayer] + "</b> Rolled " + result;
+          	updateLog(result);
         	break;
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
         	let def = " ";
@@ -287,43 +296,43 @@ const setup_matches = () => {
           	for (let index = 0; index < stall.length; index++) {
               def += stall[index] + " ";
             }
-            document.getElementById("bolsters").innerHTML += idToName[data.defender] + "</b> Rolled " + def + "<br><b>"
-             addBlink($("#turn"));
-               setTimeout(function() {
-                   removeBlink($("#turn")); 
-                }, 4000);
-            + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost + " Troop(s)<br> <b>"
-            + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + " Troop(s)<br>";
-             addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+
+          	let defRoll = "<b>" + idToName[data.defender] + "</b> Rolled " + def;
+          	updateLog(defRoll);
             
             // DISPLAY WINNER IN UPDATE LOG
+            let string = "";
             if (data.defenderLostTerritory) {
               if (data.attacker == myId) {
-
+            	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
-
+              	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
-
+              	string = "<b>You</b> Have Lost the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
-
+                string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
               }
             } else {
               if (data.attacker == myId) {
+                string = "<b>You</b> Have Won the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
               } else {
+                string = "<b>" + idToName[data.attacker] + "</b> Has Won the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
               }
             }
+
+            updateLog(string);
             changeTerritoryStatus(idToName[data.attacker], -1 * data.attackerTroopsLost,
                     idToData[data.attackTerritory], colors[data.attacker]);
             changeTerritoryStatus(idToName[data.defender], -1 * data.defenderTroopsLost,
                     idToData[data.defendTerritory], colors[data.defender]);
         	hideAll();
             break;
+
           case MOVE_TYPES.CLAIM_TERRITORY:
+        	updateLog("<b>" + idToName[data.movePlayer] + "</b> has Placed " + data.numberTroops 
+        			+ " Troops at <b>" + idToData[data.claimedTerritory].name + "</b>!");
           	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
         			idToData[data.claimedTerritory], colors[data.movePlayer]);
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
@@ -331,6 +340,8 @@ const setup_matches = () => {
         	hideAll();
         	break;
           case MOVE_TYPES.MOVE_TROOPS:
+          	updateLog("<b>" + idToName[data.movePlayer] + "</b> has Moved " + data.numberTroops 
+        			+ " Troops from <b>" + idToData[data.moveFrom].name + "</b> to <b>" + idToData[data.moveTo].name + "</b>!");
             changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
               idToData[data.moveFrom], colors[data.movePlayer]);
             changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
@@ -356,10 +367,12 @@ const setup_matches = () => {
 
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
+              
               // AUTOPLAY
              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
              conn.send(JSON.stringify(mess));
              availableForClaim = [];
+
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
@@ -483,7 +496,7 @@ const setup_matches = () => {
               attackFrom = null;
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";       
-        	    document.getElementById("bolsters").style.display = "inline";
+        	  $("#bolsters").show();
               document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
               terToDie = JSON.parse(data.maxDieRoll);
               terToTar = JSON.parse(data.whoCanAttack);
@@ -512,9 +525,8 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("phase").innerHTML = "Defend Yourself!";
               defending = data.defendTerritory;
-              document.getElementById("bolsters").style.display = "inline";
               document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
-              document.getElementById("attacking").style.display = "inline";  
+              $("#attacking").show();
               $("#defenderNumberDie").empty();
               for (let index = 1; index <= data.maxDieRoll; index++) {
             	 if (index == data.maxDieRoll) {
@@ -589,6 +601,20 @@ const setup_matches = () => {
   };
 }
 
+function updateLog(string) {
+	$li = $("<li class = 'chat'></li>");
+	$li.html(string);
+
+	$("#lastTurn").append($li);
+
+	$("li:last-child").css("border", "1px solid black");
+    $("li:last-child").css("border-left", "6px solid black");
+    count = 0;
+    blink("li:last-child");
+    prevMove = $li;
+
+    $("#lastTurn").scrollTop($("#lastTurn")[0].scrollHeight);
+}
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
@@ -688,7 +714,7 @@ function move_troops() {
 const skip_phase = event => {
   event.preventDefault();
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
-	  availableForClaim = [];
+	availableForClaim = [];
     moveables = [];
     moveFrom = null;
     moveTo = null;
@@ -783,3 +809,35 @@ function removeBlink(element) {
   element.removeClass("blink");
 
 }
+
+function loserModal() {
+  if (data.loser == myId) {
+    document.getElementById('loser').innerHTML = "YOU LOST!"; 
+  } else {
+    document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
+  }
+
+  document.getElementById('loserModal').style.display = "block";
+
+  document.getElementById("closeLoser").onclick = function() {
+    document.getElementById('loserModal').style.display = "none";
+  }
+
+  document.getElementById('loserMain').onclick = function () {
+    window.location = "/risk";
+  }
+}
+
+function winnerModal() {
+   if (data.loser == myId) {
+    document.getElementById('winner').innerHTML = "YOU WON!"; 
+   } else {
+    document.getElementById('winner').innerHTML = idToName[myId].toString() + " WON!";
+  }
+
+  document.getElementById('winnerModal').style.display = "block";
+  document.getElementById('winnerMain').onclick = function () {
+    window.location = "/risk";
+  }
+}
+

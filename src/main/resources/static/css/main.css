@@ -144,7 +144,7 @@
       padding: 10px;
       border: 2px solid black;
       width: 100%;
-      height: 40%;
+      height: 25%;
       overflow-y: scroll;
       float: center;
       left: 0;
@@ -157,7 +157,7 @@
       padding: 10px;
       border: 2px solid black;
       width: 100%;
-      height: 40%;
+      height: 30%;
       overflow-y: scroll;
       float: center;
       left: 0;
@@ -167,7 +167,7 @@
 
   }
   p{
-      font-size: 16pt;
+      font-size: 14pt;
       text-align: center;
       text-decoration: underline;
   }
@@ -185,10 +185,57 @@
       background:#000;
   }
   button[id="homeMute"] {
+       display: inline-block;
+     width: 50%;
+     bottom: 10%;
+      -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      box-shadow: inset 0px 1px 0px 0px #3985B1;
+      background-color: #216288;
+      border: 1px solid #17445E;
+      cursor: pointer;
+      color: #FFFFFF;
+      padding: 8px 18px;
+      text-decoration: none;
+      font: 12px Arial, Helvetica, sans-serif;
+      border-radius: 0px;
   	  float: center;
   }
   button[id="gameMute"] {
+       display: inline-block;
+     width: 40%;
+     bottom: 10%;
+      -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      box-shadow: inset 0px 1px 0px 0px #3985B1;
+      background-color: #216288;
+      border: 1px solid #17445E;
+      display: inline-block;
+      cursor: pointer;
+      color: #FFFFFF;
+      padding: 8px 18px;
+      text-decoration: none;
+      font: 12px Arial, Helvetica, sans-serif;
+      border-radius: 0px;
       float: right;
+  }
+    button[id="menuMute"] {
+       display: inline-block;
+     width: 50%;
+     bottom: 10%;
+      -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      box-shadow: inset 0px 1px 0px 0px #3985B1;
+      background-color: #216288;
+      border: 1px solid #17445E;
+      display: inline-block;
+      cursor: pointer;
+      color: #FFFFFF;
+      padding: 8px 18px;
+      text-decoration: none;
+      font: 12px Arial, Helvetica, sans-serif;
+      border-radius: 0px;
+      float: left;
   }
   div[id="matches"] {
       display: inline-block;
@@ -219,7 +266,10 @@
   div[id="wrapper"] {
       /*display: inline-block;*/
       width: 2400px;
-      margin: 0% 25%;
+      margin: 0% 30%;
+  }
+  div[id="playerList"] {
+      display: inline-block;
   }
   div[id="gameField"] {
       display: none;
@@ -385,18 +435,12 @@ p[id="phase"] {
     height: 100%;
     width: 100%;
     overflow:hidden;
-    float: top;
     z-index:-1;
 }
 
 
-}*/
-#white {
-  /*position: absolute;*/
-      background-color: rgba(255, 255, 255, 0.5);
-    height: 100%;
-    width: 100%;
 }
+
 
 #namePrompt {
   color: white;
@@ -451,6 +495,7 @@ z-indexwebkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+
 }
 
 /* The Close Button */

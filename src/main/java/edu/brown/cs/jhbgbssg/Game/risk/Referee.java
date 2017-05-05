@@ -270,6 +270,7 @@ public class Referee {
    * Switches the current player and determines which the valid actions the
    * player can do.
    *
+   * @param - previous move
    * @return valid action of the next player
    */
   protected ValidAction switchPlayer(Action prevMove) {
