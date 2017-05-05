@@ -1512,12 +1512,13 @@ function select_territory(event) {
         for (let i = 0; i<attackables.length; i++) {
           let currLine = outer[attackables[i].toString()];
           changeLines(colors[myId], currLine);
-          map.dataProvider.zoomLevel = map.zoomLevel();
-          map.dataProvider.zoomLatitude = map.zoomLatitude();
-          map.dataProvider.zoomLongitude = map.zoomLongitude();
-          map.validateData();
+
           attackableLines.push(currLine);
         }
+        map.dataProvider.zoomLevel = map.zoomLevel();
+        map.dataProvider.zoomLatitude = map.zoomLatitude();
+        map.dataProvider.zoomLongitude = map.zoomLongitude();
+        map.validateData();
         document.getElementById("attacking").style.display = "inline";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
          addBlink($("#attacking"));
@@ -1601,6 +1602,9 @@ function reset_attack() {
                 }, 4000);
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
+  document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+  document.getElementById("attacking").style.display = "none";
+  
   $("#attackerNumberDie").empty();
   if (attackLine !=null) {
     let outer = terrToTerrToLine[attackFrom.toString()];
@@ -1626,11 +1630,11 @@ function reset_line_color() {
   for (let i = 0; i<attackableLines.length; i++) {
     let currLine = attackableLines[i];
     changeLines("black", currLine);
-    map.dataProvider.zoomLevel = map.zoomLevel();
-    map.dataProvider.zoomLatitude = map.zoomLatitude();
-    map.dataProvider.zoomLongitude = map.zoomLongitude();
-    map.validateData();
   }
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
   attackables = [];
 }
 

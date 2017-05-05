@@ -850,20 +850,6 @@ function removeBlink(element) {
 
 }
 
-// $name.on(function() {
-
-// })
-
-// function game_name() {
-//   let name = document.getElementById("name").value;
-//   if (name.trim().length != 0) {
-//     document.getElementById("maker").disabled = false;
-//     document.getElementById("maker").removeClass('disabled');
-//   } else {
-//     docu
-//   }
-// }
-
 function loserModal() {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
