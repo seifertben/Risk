@@ -29,7 +29,7 @@
       color: white;
       border: 2px solid black;
       border-style: groove;
-      padding: 15px 32px;
+      padding: 5px 5px;
       text-align: center;
       text-decoration: none;
       font-size: 16px;
@@ -50,12 +50,19 @@
 
     .w3-container-w3-blue {
       background-color: blue;
+      border-radius: 5px;
     }
     #chat {
       left: 0;
     }
     #bottom {
-      position: relative;
+      position:fixed;
+    left:0px;
+    bottom:0px;
+    height:100px;
+    width:100%;
+    display:none;
+
     }
     .navbar {
       margin-bottom: 0;
@@ -95,6 +102,7 @@
       background-color: #555;
       color: white;
       padding: 15px;
+      width:100%;
     }
     .well-sm{
       float: left;
@@ -127,11 +135,12 @@
   }
   div[id="leftNav"] {
       padding: 10px;
+      height: 113%;
       border: 2px solid black;
       background-color: #f1f1f1;
   }
   select {
-   padding: 5px;
+   padding: 5px 0px 2px;
    margin: 5px 0px 0px;
    font-size: 14px;
    line-height: 1;
@@ -141,6 +150,8 @@
   }
   div[id="n"] {
     position: relative;
+    
+      height: 113%;
       display: inline-block;
       padding: 10px;
       border: 2px solid black;
@@ -299,25 +310,75 @@ input:checked + .slider:before {
   }
   button[id="maker"] {
       margin: 5px 0px;
+      padding: 15px 30px;
   }
-  button {
+  div[id="endNav"] {
+      border: 2px solid black;
+  }
+  .regbtn {
       display: inline-block;
       margin: 5px;
-      background-color: #4CAF50; /* Green */
+      background-color: #4CAF50;
       color: white;
       border: 2px solid black;
       border-style: groove;
-      padding: 15px 32px;
+      padding: 5px 5px;
       text-align: center;
       text-decoration: none;
       font-size: 16px;
       border-radius: 10px;
       cursor: pointer;
   }
-
-  button:hover:enabled {
+    .regbtnblue {
+      display: inline-block;
+      margin: 5px;
+      background-color: lightseagreen;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+    .regbtnlarge {
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+  .attackbtn{
+      display: inline-block;
+      margin: 5px;
+      background-color: red;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+  .regbtn:hover:enabled {
     
       background-color: #377a39;
+    
+  }
+  .attackbtn:hover:enabled {
+    
+      background-color: Crimson;
     
   }
 
@@ -325,7 +386,7 @@ input:checked + .slider:before {
     outline:none;
   }
   
-  div[id="#n"] { 	
+  div[id="#n"] {
       border: 2px solid black;
       position: relative;
   }
@@ -537,3 +598,37 @@ z-indexwebkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 .disabled {
   background-color: #999;
 }
+
+#cardtitle {
+  background-color: blue;
+}
+
+/* Modal Footer */
+.card-footer {
+    position: relative;
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+
+}
+
+.footer-content {
+    position: absolute;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+#cards {
+  position: relative;
+  align-content: center;
+}
+
+

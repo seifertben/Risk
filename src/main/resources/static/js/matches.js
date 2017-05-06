@@ -82,14 +82,14 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
 
   conn.onclose = function(e) {
-	console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+	console.log(e.reason);
     setTimeout(function() {
        setup_matches;
     }, 1000)
@@ -120,13 +120,9 @@ const setup_matches = () => {
 
       // Create a lobby
       case MESSAGE_TYPE.CREATE:
-        let game = document.createElement("BUTTON");
-        game.id = data.gameId;
-        game.name = data.matchName;
-        document.getElementById("matches").appendChild(game);
-        document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-        document.getElementById(game.id).value = data.lobbySize;
-        game.onclick = join_match;
+        $("#matches").append($("<button id="+ data.gameId +" name="+ data.matchName + " value=" + data.lobbySize + " class='regbtnlarge'>" 
+        		+ data.matchName + ": " + data.playerNum + "/" + data.lobbySize + "</button>"));
+        document.getElementById(data.gameId).onclick = join_match;
         break;
 
       // Start a game
@@ -228,6 +224,9 @@ const setup_matches = () => {
           // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
             color_reset();
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
@@ -235,6 +234,9 @@ const setup_matches = () => {
 
           // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             color_reset();
             document.getElementById("bolsters").innerHTML = "Waiting to Place More Troops";
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
@@ -356,15 +358,14 @@ const setup_matches = () => {
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
-
-                    if (outer[data.defendTerritory] === attackLine) {
-                        attackLine.color = "black";
-                        map.dataProvider.zoomLevel = map.zoomLevel();
+                  if (outer[data.defendTerritory] === attackLine) {
+                    attackLine.color = "black";
+                    map.dataProvider.zoomLevel = map.zoomLevel();
                     map.dataProvider.zoomLatitude = map.zoomLatitude();
                     map.dataProvider.zoomLongitude = map.zoomLongitude();
                     map.validateData();
-                      }
                   }
+                }
               } else {
                 string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
                  let outer = terrToTerrToLine[data.attackTerritory];
@@ -472,6 +473,7 @@ const setup_matches = () => {
 
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
+
               $("#available").show();
               document.getElementById("available").innerHTML = "You can Select:";
               $("#clickList").empty();
@@ -479,11 +481,10 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
+             //  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+             // conn.send(JSON.stringify(mess));
+             // availableForClaim = [];
               // AUTOPLAY
-              
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Select A Territory";
@@ -517,15 +518,15 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-              if (data.troopsToPlace > 0) {
-                let mess = {"type": MESSAGE_TYPE.MOVE,
-                  "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                  "playerId": myId, 
-                  "territoryId": availableForClaim[0]
-                };  
-                conn.send(JSON.stringify(mess));
-                availableForClaim = [];
-              }
+             //  if (data.troopsToPlace > 0) {
+             //   let mess = {"type": MESSAGE_TYPE.MOVE,
+             //     "moveType": MOVE_TYPES.SETUP_REINFORCE,
+             //     "playerId": myId, 
+             //     "territoryId": availableForClaim[0]
+             //   };  
+             //   conn.send(JSON.stringify(mess));
+             //   availableForClaim = [];
+             // }
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -538,9 +539,13 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-              $("#"+data.playerId).css("border-color", "black");
-              $("#"+data.playerId).css("border-width", "2px");
+            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
+              $('#cards li').each(function() {
+                this.style.borderStyle = "none";
+              });
+              document.getElementById(myId).style.borderColor = 'black';
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
@@ -571,35 +576,35 @@ const setup_matches = () => {
                 removeBlink($("#turn")); 
               }, 4000);
 
-              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
+            document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
         	  document.getElementById("bolsters").style.display = "inline-block";  
-              document.getElementById("phase").innerHTML = "Prepare for Battle!";
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	  document.getElementById("reinforcer").disabled = true;
-              document.getElementById("deinforcer").disabled = true;
-              document.getElementById("confirm").disabled = true;
-              $("#reinforcer").addClass('disabled');
-              $("#deinforcer").addClass('disabled');
-              $("#confirm").addClass('disabled');
-              document.getElementById("deinforcer").style.display = "inline";
-              document.getElementById("confirm").style.display = "inline"; 
-              document.getElementById("reinforcer").style.display = "inline";
-              document.getElementById("deinforcer").style.display = "inline";
-              document.getElementById("confirm").style.display = "inline"; 
+            document.getElementById("deinforcer").disabled = true;
+            document.getElementById("confirm").disabled = true;
+            $("#reinforcer").addClass('disabled');
+            $("#deinforcer").addClass('disabled');
+            $("#confirm").addClass('disabled');
+            document.getElementById("deinforcer").style.display = "inline";
+            document.getElementById("confirm").style.display = "inline"; 
+            document.getElementById("reinforcer").style.display = "inline";
+            document.getElementById("deinforcer").style.display = "inline";
+            document.getElementById("confirm").style.display = "inline"; 
         	  $("#selecting").show();
         	  document.getElementById("selecting").innerHTML = "Select A Territory to Reinforce";
-              terToPlace = new Map();
-              placeMax = data.troopsToPlace;
-              placed = 0;
+            terToPlace = new Map();
+            placeMax = data.troopsToPlace;
+            placed = 0;
         	  bolstering = null;
-              phase = "reinforce";
-              availableForClaim = JSON.parse(data.territories);
-              map.addListener("clickMapObject", select_territory);
-              $("#available").show();
-              document.getElementById("available").innerHTML = "You can Reinforce:";
-              $("#clickList").empty();
-              selectTerritoriesInformation(availableForClaim);
-              $("#clickList").show();
-              $("#simSel").show();
+            phase = "reinforce";
+            availableForClaim = JSON.parse(data.territories);
+            map.addListener("clickMapObject", select_territory);
+            $("#available").show();
+            document.getElementById("available").innerHTML = "You can Reinforce:";
+            $("#clickList").empty();
+            selectTerritoriesInformation(availableForClaim);
+            $("#clickList").show();
+            $("#simSel").show();
         	} else {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
               addBlink($("#turn"));
@@ -770,9 +775,11 @@ function updateLog(string) {
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
-}, 60000);
+}, 1000);
 
 function clickOnCard(element) {
+  console.log("here");
+  console.log(canClick);
   if (canClick) {
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
@@ -987,16 +994,6 @@ function loserModal() {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
   } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
-  }
-
-  document.getElementById('loserModal').style.display = "block";
-
-  document.getElementById("closeLoser").onclick = function() {
-    document.getElementById('loserModal').style.display = "none";
-  }
-
-  document.getElementById('loserMain').onclick = function () {
-    window.location = "/risk";
   }
 }
 

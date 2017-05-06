@@ -41,20 +41,19 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
- *
- * Message API for Risk. It constructs the different messages sent to the
- * frontend and translates messages recieived from the frontend.
+ * RiskMessageAPI is used to translate messages sent to and from the frontend
+ * and sent to and from the backend.
  *
  * @author sarahgilmore
  *
  */
-public class MessageAPI {
+public class RiskMessageAPI {
   private static final Gson GSON = new Gson();
 
   /**
    * Constructor for MessageAPI.
    */
-  public MessageAPI() {
+  public RiskMessageAPI() {
 
   }
 
@@ -269,7 +268,6 @@ public class MessageAPI {
     }
 
     if (update.getCardHandOut() != null) {
-      System.out.println("need to handout card");
       JsonObject obj = new JsonObject();
       int card = update.getCardHandOut().getSecondElement();
       UUID player = update.getCardHandOut().getFirstElement();
@@ -391,7 +389,6 @@ public class MessageAPI {
     jsonObject.addProperty("attackFrom", attackFrom.ordinal());
     jsonObject.addProperty("attackTo", attacking.ordinal());
     jsonObject.addProperty("roll", GSON.toJson(roll));
-    System.out.println("attacker " + move.getMovePlayer().getPlayerId());
     return jsonObject;
   }
 

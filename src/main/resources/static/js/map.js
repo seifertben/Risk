@@ -1510,10 +1510,14 @@ function select_territory(event) {
         attackables = [];
         console.log(attackFrom);
         attackables = terToTar[attackFrom];
-        let outer = terrToTerrToLine[attackFrom.toString()];
-        console.log(attackables.toString());
+        let outer = terrToTerrToLine[attackFrom];
+        console.log(terrToTerrToLine[attackFrom]);
+
+        console.log(attackFrom);
+        console.log(outer);
         for (let i = 0; i<attackables.length; i++) {
-          let currLine = outer[attackables[i].toString()];
+          console.log(attackables[i]);
+          let currLine = outer[attackables[i]];
           console.log(currLine);
           console.log(colors[myId]);
           changeLines(colors[myId], currLine);
