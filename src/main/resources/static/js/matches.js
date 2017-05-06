@@ -228,6 +228,9 @@ const setup_matches = () => {
           // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
             color_reset();
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
@@ -235,6 +238,9 @@ const setup_matches = () => {
 
           // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             color_reset();
             document.getElementById("bolsters").innerHTML = "Waiting to Place More Troops";
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
