@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
 import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.risk.MessageAPI;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
@@ -50,7 +50,7 @@ public class Match {
   private boolean started = false;
   private final String matchName;
   private final Integer lobbySize;
-  private MessageAPI messageApi = new MessageAPI();
+  private RiskMessageAPI messageApi = new RiskMessageAPI();
   private RiskBoard board;
   private RiskActionProcessor actionProcessor;
   private Referee referee;
