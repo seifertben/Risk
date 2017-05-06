@@ -27,6 +27,7 @@
   <div id="lastTurn" class="list-group"></div>
   <div id="gameUpdates"></div>
   <div id="endSection"></div>
+  <button type="button" id="showcards">Show my Cards!</button>
   </div>
 
   <!-- The Modal -->
@@ -53,7 +54,6 @@
   </div>
 </div>
 
-<button type="button" id="showcards">Show my Cards!</button>
 
 
 

@@ -476,7 +476,7 @@ const setup_matches = () => {
               $("#"+data.playerId).css("border-color", "black");
               $("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
-              document.getElementById(myId).stlye.borderColor = 'black';
+              document.getElementById(myId).style.borderColor = 'black';
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
