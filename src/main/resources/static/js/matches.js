@@ -928,16 +928,6 @@ function loserModal() {
   } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
   }
-
-  document.getElementById('loserModal').style.display = "block";
-
-  document.getElementById("closeLoser").onclick = function() {
-    document.getElementById('loserModal').style.display = "none";
-  }
-
-  document.getElementById('loserMain').onclick = function () {
-    window.location = "/risk";
-  }
 }
 
 function winnerModal() {
