@@ -201,7 +201,7 @@ function setUp () {
   $sideNav.append($("<button type='button' id = 'simSel' class='regbtn'>Select From List</button>"));
   document.getElementById("simSel").onclick = simClick;
   $endNav.append($("<button type='button' id = 'turnInCards' class='regbtn'>Turn In Cards</button>"));
-    $("#turnInCards").on( "click", turnInCards);   
+  $("#turnInCards").on( "click", turnInCards);   
     hideAll();
 
     $('#card-footer').css({"display":"none"});
