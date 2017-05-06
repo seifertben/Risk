@@ -322,9 +322,8 @@ function createPlayer(number) {
 
       document.getElementById('myModal').style.display = "block";
     }
-
     document.getElementById("closer").onclick = function() {
-      document.getElementById('myModal').style.display = "none";
+    document.getElementById('myModal').style.display = "none";
     }
   }
 }
@@ -343,7 +342,6 @@ function blink(selector){
 
 function getMessage(player, message) {
   //assign color to message box.
-   
 
   let string; 
   if (player === myId) {
