@@ -169,51 +169,38 @@ function setUp () {
   $sideNav.append($("<p id = 'bolsters'></p>"));
   $sideNav.append($("<p id = 'selecting'></p>"));
   $sideNav.append($("<p id = 'attacking'></p>"));
-  $sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
-  $sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
-  $sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
-  $endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
-  $sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
+  $endNav.append($("<button type='button' id = 'resetAttackMove' class='attackbtn'>Reset Attack Move</button>"));
+  $sideNav.append($("<button type='button' id = 'attack' class='attackbtn'>Attack!</button>"));
+  $sideNav.append($("<button type='button' id = 'defend' class='attackbtn'>Defend!</button>"));
+  $endNav.append($("<button type='button' id = 'skip' class='attackbtn'>End Turn</button>"));
+  $sideNav.append($("<button type='button' id = 'resetMoveTroops' class='regbtn'>Reset Move Troops</button>"));
   $sideNav.append($("<select id='attackerNumberDie'> </select>"));
   $sideNav.append($("<select id='defenderNumberDie'> </select>"));
   $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
-  let reinforcer = document.createElement("BUTTON");
-  let deinforcer = document.createElement("BUTTON");
-  let confirm = document.createElement("BUTTON");
+  $sideNav.append($("<button id='reinforcer' class='regbtn'>Place a Troop</button>"));
+  $sideNav.append($("<button id='deinforcer' class='regbtn'>Recall a Troop</button>"));
+  $sideNav.append($("<button id='confirm' class='regbtn'>Confirm Placements</button>"));
+
   selecting.innerHTML = "Select A Territory to Reinforce";
-  reinforcer.id = "reinforcer";
-  deinforcer.id = "deinforcer";
-  reinforcer.innerHTML = "Place a Troop";
-  deinforcer.innerHTML = "Recall a Troop";
-  confirm.id = "confirm";
-  confirm.innerHTML = "Confirm Placements";
-  document.getElementById("gameUpdates").appendChild(reinforcer);
-  document.getElementById("gameUpdates").appendChild(deinforcer);
-  document.getElementById("gameUpdates").appendChild(confirm);
 
-
-  reinforcer.onclick = place_troop;
-  deinforcer.onclick = remove_troop;
-  confirm.onclick = confirm_move;
+  document.getElementById("reinforcer").onclick = place_troop;
+  document.getElementById("deinforcer").onclick = remove_troop;
+  document.getElementById("confirm").onclick = confirm_move;
   document.getElementById("resetAttackMove").onclick = reset_attack;
   document.getElementById("skip").onclick = skip_phase;
   document.getElementById("resetMoveTroops").onclick = reset_move_troops;
 
-  let claim = document.createElement("BUTTON");
-  claim.id = "claimTerritory";
-  claim.innerHTML = "Claim Territory!";
-  claim.onclick = claim_terr;
-  document.getElementById("gameUpdates").appendChild(claim);
-  let moveTroops = document.createElement("BUTTON");
-  moveTroops.id = "moveTroops";
-  moveTroops.innerHTML = "Confirm Troop Movements";
-  moveTroops.onclick = move_troops;
-  document.getElementById("gameUpdates").appendChild(moveTroops);
+  $sideNav.append($("<button id='claimTerritory' class='regbtn'>Claim Territory</button>"));
+  document.getElementById("claimTerritory").onclick = claim_terr;
+  
+  $sideNav.append($("<button id='moveTroops' class='regbtn'>Confirm Troops Movements</button>"));
+  document.getElementById("moveTroops").onclick = move_troops;
+
   $sideNav.append($("<p id = 'available'></p>"));
   $sideNav.append($("<select id='clickList'></select>"));
-  $sideNav.append($("<button type='button' id = 'simSel' class='btn btn-danger'>Select From List</button>"));
+  $sideNav.append($("<button type='button' id = 'simSel' class='regbtn'>Select From List</button>"));
   document.getElementById("simSel").onclick = simClick;
-  $endNav.append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+  $endNav.append($("<button type='button' id = 'turnInCards' class='regbtn'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
 }

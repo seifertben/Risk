@@ -147,6 +147,7 @@ public class Matches {
       Match game = matchIdToClass.get(playerToGame.get(playerUUID));
       List<JsonObject> response = game.getUpdate(received);
       System.out.println("response " + response);
+      boolean destroy = false;
       // Send the response messages to all players in that match
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();
@@ -155,6 +156,22 @@ public class Matches {
           playerToSession.get(toAlert).getRemote()
               .sendString(response.get(index).toString());
         }
+        if (response.get(index).get("type").getAsInt() == RiskMessageType.WINNER.ordinal()) {
+          destroy = true;
+        }
+      }
+      if (destroy) {
+        List<UUID> playerList = game.getPlayers();
+        for (int looper = 0; looper < game.playerNum(); looper++) {
+          UUID leavingGame = playerList.get(looper);
+          playerToGame.remove(leavingGame);
+          sessionToPlayer.remove(playerToSession.get(leavingGame));
+          playerToSession.get(leavingGame).close();
+          sessions.remove(playerToSession.get(leavingGame));
+          playerToSession.remove(leavingGame);
+        }
+        matchIdToClass.remove(UUID.fromString(game.getId()));
+        matches.remove(game);
       }
     }
 

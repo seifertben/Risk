@@ -8,7 +8,7 @@
     </div>
     <textarea name="message" value="" id="messageField"
      placeholder="Enter Message!"></textarea>
-    <Button id = "chatButton">Send</Button>
+    <Button id = "chatButton" class="regbtn">Send</Button>
 
 
     </div>
@@ -51,7 +51,7 @@
     <p id = "loser" style = "text-decoration: none"></p>
     <div class ="modal-footer">
   		<div class="col-sm-offset-5 col-sm-2 text-center">
-  			<button type="button" id="loserMain">Back to Main Menu?</button>
+  			<button type="button" id="loserMain" class="regbtn">Back to Main Menu?</button>
   		</div>
     </div>
   </div>
@@ -65,7 +65,7 @@
     <p id = "winner" style = "text-decoration: none"></p>
     <div class ="modal-footer">
     	<div class="col-sm-offset-5 col-sm-2 text-center">
-  			<button type="button" id="winnerMain">Go to Main Menu</button>
+  			<button type="button" id="winnerMain" class="regbtn">Go to Main Menu</button>
   		</div>
     </div>
   </div>

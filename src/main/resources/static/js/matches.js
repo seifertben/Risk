@@ -120,13 +120,9 @@ const setup_matches = () => {
 
       // Create a lobby
       case MESSAGE_TYPE.CREATE:
-        let game = document.createElement("BUTTON");
-        game.id = data.gameId;
-        game.name = data.matchName;
-        document.getElementById("matches").appendChild(game);
-        document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-        document.getElementById(game.id).value = data.lobbySize;
-        game.onclick = join_match;
+        $("#matches").append($("<button id="+ data.gameId +" name="+ data.matchName + " value=" + data.lobbySize + " class='regbtn'>" 
+        		+ data.matchName + ": " + data.playerNum + "/" + data.lobbySize + "</button>"));
+        document.getElementById(data.gameId).onclick = join_match;
         break;
 
       // Start a game
