@@ -48,13 +48,13 @@ import edu.brown.cs.jhbgbssg.tuple.Pair;
  * @author sarahgilmore
  *
  */
-public class MessageAPI {
+public class RiskMessageAPI {
   private static final Gson GSON = new Gson();
 
   /**
    * Constructor for MessageAPI.
    */
-  public MessageAPI() {
+  public RiskMessageAPI() {
 
   }
 
@@ -246,6 +246,8 @@ public class MessageAPI {
     List<JsonObject> messages = new ArrayList<>();
     if (update.getPrevMove() != null) {
       messages.add(this.prevActionToJson(update.getPrevMove()));
+    } else if (update.getSkipMove() != null) {
+      messages.add(this.prevSkipActionToJson(update.getSkipMove()));
     }
     if (update.getLoser() != null) {
       JsonObject obj = new JsonObject();
@@ -267,7 +269,6 @@ public class MessageAPI {
     }
 
     if (update.getCardHandOut() != null) {
-      System.out.println("need to handout card");
       JsonObject obj = new JsonObject();
       int card = update.getCardHandOut().getSecondElement();
       UUID player = update.getCardHandOut().getFirstElement();
@@ -287,6 +288,15 @@ public class MessageAPI {
       messages.add(obj);
     }
     return messages;
+  }
+
+  private JsonObject prevSkipActionToJson(Pair<UUID, MoveType> skip) {
+    JsonObject object = new JsonObject();
+    object.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
+    object.addProperty("moveType", MoveType.SKIP.ordinal());
+    object.addProperty("skipType", skip.getSecondElement().ordinal());
+    object.addProperty("movePlayer", skip.getFirstElement().toString());
+    return object;
   }
 
   private JsonObject prevActionToJson(Action prevAction) {
@@ -380,7 +390,6 @@ public class MessageAPI {
     jsonObject.addProperty("attackFrom", attackFrom.ordinal());
     jsonObject.addProperty("attackTo", attacking.ordinal());
     jsonObject.addProperty("roll", GSON.toJson(roll));
-    System.out.println("attacker " + move.getMovePlayer().getPlayerId());
     return jsonObject;
   }
 

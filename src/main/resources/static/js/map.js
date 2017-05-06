@@ -41,8 +41,9 @@ const SIBERIA = [67.160839,103.342985];
 const URAL = [66.666218,67.958187];
 const AFGHANISTAN = [37.768380, 66.896086];
 let terrToTerrToLine = [];
-// var planeSVG = d="M 1072.8956,639.08362 L 1561.5008,639.08362";
-var planeSVG = "m2,106h28l24,30h72l-44,-133h35l80,132h98c21,0 21,34 0,34l-98,0 -80,134h-35l43,-133h-71l-24,30h-28l15,-47";
+let attackableLines = [];
+let attackLine;
+
 
 var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
 let idToData = {};
@@ -1282,7 +1283,7 @@ let SEU_RUSSIA = {
 };
 const ALASKAADJACENT = {"7": ALBERTA_ALASKA, "6": NWTERRITORIES_ALASKA, "31": ALASKA_INF};
 terrToTerrToLine.push(ALASKAADJACENT);
-const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND};
+const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND, "1":EUS_ONTARIO};
 terrToTerrToLine.push(ONTARIOADJACENT);
 const CENTRALAMERICAADJACENT = {"3": EUS_CA, "9": VZ_CA, "4": WUS_CA}; 
 terrToTerrToLine.push(CENTRALAMERICAADJACENT);
@@ -1323,7 +1324,7 @@ terrToTerrToLine.push(ICELANDADJACENT);
 const GBADJACENT = {"19": ICELAND_GB, "23": SCANDINAVIA_GB, "22": NEU_GB, "21":WEU_GB};
 terrToTerrToLine.push(GBADJACENT);
 const WEUADJACENT = {"20": WEU_GB, "13": WEU_NAF, "24": WEU_SEU, "22": WEU_NEU};
-terrToTerrToLine.push(WEUDATA);
+terrToTerrToLine.push(WEUADJACENT);
 const NEUADJACENT = {"20": NEU_GB, "25": NEU_RUSSIA, "23": SCANDINAVIA_NEU, "21": WEU_NEU};
 terrToTerrToLine.push(NEUADJACENT);
 const SCANDINAVIAADJACENT = {"20": SCANDINAVIA_GB, "19": SCANDINAVIA_ICELAND, "22":SCANDINAVIA_NEU, "25": SCANDINAVIA_RUSSIA};
@@ -1385,7 +1386,7 @@ let map = AmCharts.makeChart( "mapdiv", {
     "arc": -0.7, // this makes lines curved. Use value from -1 to 1
     color: "white",
   	  "dashLength": 1,
-	  "thickness": 0.5,
+	  "thickness": 1,
 	  "selectable": false
   },
   "dataProvider": {
@@ -1501,15 +1502,36 @@ function select_territory(event) {
       if (event.mapObject.id != attackFrom) {
         $("#attack").disabled = true;
         $("#attack").addClass('disabled');
+        reset_line_color();
+
         attackFrom = event.mapObject.id;
         attackTo = null;
+        attackables = [];
         attackables = terToTar[attackFrom];
-        document.getElementById("attacking").style.display = "inline";
+        let outer = terrToTerrToLine[attackFrom.toString()];
+        console.log(attackables.toString());
+        for (let i = 0; i<attackables.length; i++) {
+          let currLine = outer[attackables[i].toString()];
+          console.log(currLine);
+          changeLines(colors[myId], currLine);
+          attackableLines.push(currLine);
+        }
+        map.dataProvider.zoomLevel = map.zoomLevel();
+        map.dataProvider.zoomLatitude = map.zoomLatitude();
+        map.dataProvider.zoomLongitude = map.zoomLongitude();
+        map.validateData();
+        document.getElementById("available").innerHTML = "You Can Attack:";
+        $("#clickList").empty();              
+        selectTerritoriesInformation(attackables);
+        $("#clickList").show();
+        $("#available").show();
+        $("#simSel").show();
+        document.getElementById("attacking").style.display = "inline-block";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-         addBlink($("#attacking"));
-               setTimeout(function() {
-                   removeBlink($("#attacking")); 
-                }, 4000);
+        addBlink($("#attacking"));
+        setTimeout(function() {
+          removeBlink($("#attacking")); 
+        }, 4000);
         $("#attackerNumberDie").empty();
         for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
           if (index == terToDie[attackFrom.toString()]) {
@@ -1522,18 +1544,36 @@ function select_territory(event) {
         }
       }
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
-       addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+      addBlink($("#bolsters"));
+      setTimeout(function() {
+        removeBlink($("#bolsters")); 
+      }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
+      let outer = terrToTerrToLine[attackFrom.toString()];
+      let currLine = outer[attackTo.toString()];
+      for (let i = 0; i<attackableLines.length; i++) {
+        if (attackableLines[i] !==currLine) {
+          changeLines("black", attackableLines[i]);
+        }
+        else {
+          attackLine = attackableLines[i];
+          changeLines(colors[myId], attackLine);
+        }
+      }
+      map.dataProvider.zoomLevel = map.zoomLevel();
+      map.dataProvider.zoomLatitude = map.zoomLatitude();
+      map.dataProvider.zoomLongitude = map.zoomLongitude();
+      map.validateData();
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-         addBlink($("#attacking"));
-               setTimeout(function() {
-                   removeBlink($("#attacking")); 
-                }, 4000);
+      addBlink($("#attacking"));
+      setTimeout(function() {
+        removeBlink($("#attacking")); 
+      }, 4000);
+      $("#clickList").hide();
+      $("#available").hide();
+      $("#simSel").hide();
       $("#attack").disabled = false;
       $("#attack").removeClass('disabled');
     }
@@ -1542,6 +1582,10 @@ function select_territory(event) {
         if (moveFrom == null) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
+          document.getElementById("available").innerHTML = "You Can Move Troops To:";
+          document.getElementById("bolsters").innerHTML = "Select A Territory To Move Troops To";
+          $("#clickList").empty();              
+          selectTerritoriesInformation(moveables);
           $("#moveTroopsNumber").empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
@@ -1569,22 +1613,63 @@ function select_territory(event) {
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
-   addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+  document.getElementById("available").innerHTML = "You Can Attack From:";
+  $("#clickList").empty();              
+  selectTerritoriesInformation(availableForClaim);
+  $("#clickList").show();
+  $("#available").show();
+  $("#simSel").show();
+  addBlink($("#bolsters"));
+  setTimeout(function() {
+    removeBlink($("#bolsters")); 
+  }, 4000);
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
+  document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
+  document.getElementById("attacking").style.display = "none";
+  
   $("#attackerNumberDie").empty();
+  if (attackLine !=null) {
+    let outer = terrToTerrToLine[attackFrom.toString()];
+    if (outer != null) {
+      if (outer[attackTo.toString()].id === attackLine.id) {
+        attackLine.color = "black";
+        map.dataProvider.zoomLevel = map.zoomLevel();
+        map.dataProvider.zoomLatitude = map.zoomLatitude();
+        map.dataProvider.zoomLongitude = map.zoomLongitude();
+        map.validateData();
+      }
+    }
+  }
+  reset_line_color();
+  attackLine = null;
   attackFrom = null;
   attackTo = null;
-  attackables = null;
+  attackables = [];
+}
+
+function reset_line_color() {
+  for (let i = 0; i<attackableLines.length; i++) {
+    let currLine = attackableLines[i];
+    changeLines("black", currLine);
+  }
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
 }
 
 function reset_move_troops() {
   $("#moveTroops").disabled = true;
   $("#moveTroops").addClass('disabled');
   $("#moveTroopsNumber").empty();
+  document.getElementById("available").innerHTML = "You Can Move Troops From:";
+  document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops";
+  $("#clickList").empty();              
+  selectTerritoriesInformation(availableForClaim);
+  $("#clickList").show();
+  $("#available").show();
+  $("#simSel").show();
   moveFrom = null;
   moveTo = null;
   moveables = [];
@@ -1700,7 +1785,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
 }
 
 function changeLines(color, line) {
-  console.log()
+  console.log(line);
   if (line === ALASKA_INF) {
       KAMCHATKA_INF.color = color;
   }

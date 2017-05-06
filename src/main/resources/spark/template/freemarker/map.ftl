@@ -1,3 +1,4 @@
+<div id="gameField">
 <div class="container-fluid text-center">
   <div class="row content">
 
@@ -8,9 +9,8 @@
     <textarea name="message" value="" id="messageField"
      placeholder="Enter Message!"></textarea>
     <Button id = "chatButton">Send</Button>
-    <button type = 'button' id = 'gameMute' class='btn btn-success'> Mute</button>
-    <p>Match Log</p>
-    <div id="lastTurn" class="list-group"></div>
+
+
     </div>
   	<div id="centerDiv" class="col-sm-8 text-left">
 
@@ -23,6 +23,8 @@
   	  <div id="mapdiv" style="width: 100%; height: 500px;"></div></div>
   <div class="col-sm-2 sidenav" id="n">
   <div id="playerList"></div>
+  <p>Match Log</p>
+  <div id="lastTurn" class="list-group"></div>
   <div id="gameUpdates"></div>
   <div id="endSection"></div>
   </div>
@@ -86,4 +88,15 @@
 
 </div>
 
-
+<footer class="container-fluid text-center" id="bottom">
+<ul id="cards">
+</ul>
+</footer>
+</div></div>
+<div id="muter">
+      <label class="switch">
+      <input id="mute" type="checkbox">
+      <div class="slider round"></div>
+      <span class="slider-inner"></span>
+    </label>
+    </div>

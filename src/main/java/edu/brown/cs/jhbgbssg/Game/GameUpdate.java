@@ -3,6 +3,7 @@ package edu.brown.cs.jhbgbssg.Game;
 import java.util.UUID;
 
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssg.tuple.Pair;
 
@@ -23,6 +24,7 @@ public class GameUpdate {
   private Pair<UUID, Integer> handout = null;
   private boolean cardsLeft = true;
   private UUID errorPlayer;
+  private Pair<UUID, MoveType> skipMove = null;
 
   /**
    * Constructor of GameUpdate.
@@ -86,13 +88,19 @@ public class GameUpdate {
    *
    * @param validMoves - valid moves
    * @param previousMove - previous move
+   * @throws IllegalArgumentException if the skip move is not null
    */
-  public void setValidMoves(ValidAction validMoves, Action previousMove) {
+  public void setValidMoves(ValidAction validMoves, Action previousMove)
+      throws IllegalArgumentException {
     if (validMoves != null) {
       assert (validMoves.actionAvailable());
     }
     if (previousMove != null) {
       assert (previousMove.isActionExecuted());
+    }
+    if (skipMove != null && previousMove != null) {
+      throw new IllegalArgumentException(
+          "ERROR: ski pmove must be null to set a previous move");
     }
     this.availableMoves = validMoves;
     this.prevMove = previousMove;
@@ -195,5 +203,33 @@ public class GameUpdate {
    */
   public UUID getErrorPlayer() {
     return this.errorPlayer;
+  }
+
+  /**
+   * Sets the player who skipped and the the move type that was skipped.
+   *
+   * @param move - type of move skipped
+   * @param skipPlayer - player who skipped
+   * @throws IllegalArgumentException if the previous move is not null
+   */
+  public void setSkipMoveType(MoveType move, UUID skipPlayer)
+      throws IllegalArgumentException {
+    if (move == null || skipPlayer == null) {
+      throw new IllegalArgumentException("ERROR: null input");
+    }
+    if (prevMove != null) {
+      throw new IllegalArgumentException(
+          "ERROR: previous move must be null to set a skip move");
+    }
+    this.skipMove = new Pair<>(skipPlayer, move);
+  }
+
+  /**
+   * Returns the skip pair.
+   *
+   * @return skipMove - player id who skipped and move type skipped
+   */
+  public Pair<UUID, MoveType> getSkipMove() {
+    return skipMove;
   }
 }
