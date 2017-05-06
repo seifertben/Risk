@@ -20,7 +20,7 @@
   	  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/ammap.css" type="text/css" media="all" />
   	  <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
   	  <script src="https://www.amcharts.com/lib/3/maps/js/continentsLow.js"></script>
-  	  <div id="mapdiv" style="width: 100%; height: 462px;"></div></div>
+  	  <div id="mapdiv" style="width: 100%; height: 540px;"></div></div>
   <div class="col-sm-2 sidenav" id="n">
   <div id="playerList"></div>
   <p>Match Log</p>
@@ -44,7 +44,7 @@
 </div>
 
 
-  <div class = "footer-content" id = "card-footer">
+<div class = "footer-content" id = "card-footer">
   <div class = "card-footer">
   <button type="button" id="hideCards" class='regbtnblue'>Hide</button>
   <h3>Your Cards:</h3>

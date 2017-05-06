@@ -82,14 +82,14 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
 
   conn.onclose = function(e) {
-	console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+	console.log(e.reason);
     setTimeout(function() {
        setup_matches;
     }, 1000)
@@ -708,7 +708,7 @@ function updateLog(string) {
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
-}, 60000);
+}, 1000);
 
 function clickOnCard(element) {
   console.log("here");

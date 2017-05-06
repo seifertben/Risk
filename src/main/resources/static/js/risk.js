@@ -68,7 +68,7 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')", "url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
 ,"url('https://fthmb.tqn.com/toprD0AfngOnFREScDpSg-5bl-g=/1172x796/filters:no_upscale():fill(FFCC00,1)/about/battle-of-ascalon-large-56a61c243df78cf7728b63a7.jpg')", 
 "url('https://s-media-cache-ak0.pinimg.com/originals/cc/f0/11/ccf011df7a8f59a31efc28e35ec0a655.jpg')",
- "url('http://www.museumofthecity.org/wp-content/uploads/2013/07/history_timeline_photo_09_1.jpg')", "url('http://www.imgbase.info/images/safe-wallpapers/miscellaneous/historical/42834_historical_medieval_battle.jpg')",
+ "url('http://www.museumofthecity.org/wp-content/uploads/2013/07/history_timeline_photo_09_1.jpg')", "url('http://www.realmofhistory.com/wp-content/uploads/2016/06/10-facts-imperial-roman-legionary-770x437.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/736x/4f/3f/49/4f3f49b4b8945fe107d68163df14be7a.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/7e/5d/a8/7e5da8f7f966ec2e946e205fcdfe5d02.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/91/c2/ad/91c2adff774b415f4cd3f7204efff1a9.jpg')", 
 "url('http://www.rmg.co.uk/sites/default/files/styles/slider/public/Loutherbourg-Spanish_Armada.jpg?itok=_-MaaV38')", "url('https://i.ytimg.com/vi/GvPXCnrAtMo/maxresdefault.jpg')", 
 "url('http://s3.amazonaws.com/mtv-main-assets/files/resources/surrender_of_lord_cornwallis-capitol-web.jpg')", "url('http://www.hms-victory.com/sites/default/files/images/D.jpg')",
@@ -205,7 +205,6 @@ function setUp () {
     hideAll();
 
     $('#card-footer').css({"display":"none"});
-
 }
 
 function hideAll() {
