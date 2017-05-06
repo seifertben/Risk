@@ -421,7 +421,7 @@ const setup_matches = () => {
               
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
-          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Select A Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -464,7 +464,7 @@ const setup_matches = () => {
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
-          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn To Reinforce 1 Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -488,7 +488,7 @@ const setup_matches = () => {
               phase = "turnin";
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Hand in Cards";
              
            }
            break;
@@ -536,7 +536,7 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
         	} else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -581,7 +581,7 @@ const setup_matches = () => {
               document.getElementById("attack").onclick = attack_territory;
               map.addListener("clickMapObject", select_territory);
             } else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Attack";
            	}
             break;
 
@@ -670,6 +670,8 @@ const setup_matches = () => {
               selectTerritoriesInformation(availableForClaim);
               $("#clickList").show();
               $("#simSel").show();
+            } else {
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Transfer Troops";
             }
             break;
           }

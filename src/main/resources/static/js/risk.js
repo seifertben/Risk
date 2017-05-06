@@ -177,6 +177,7 @@ function setUp () {
   $sideNav.append($("<select id='attackerNumberDie'> </select>"));
   $sideNav.append($("<select id='defenderNumberDie'> </select>"));
   $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
+
   let reinforcer = document.createElement("BUTTON");
   let deinforcer = document.createElement("BUTTON");
   let confirm = document.createElement("BUTTON");
@@ -322,9 +323,8 @@ function createPlayer(number) {
 
       document.getElementById('myModal').style.display = "block";
     }
-
     document.getElementById("closer").onclick = function() {
-      document.getElementById('myModal').style.display = "none";
+    document.getElementById('myModal').style.display = "none";
     }
   }
 }
@@ -343,7 +343,6 @@ function blink(selector){
 
 function getMessage(player, message) {
   //assign color to message box.
-   
 
   let string; 
   if (player === myId) {
