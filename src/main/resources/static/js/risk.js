@@ -42,6 +42,19 @@ const TerritoryEnum = {
   NEW_GUINEA: 40,
   WESTERN_AUSTRALIA: 41
 };
+
+const terrToName = {
+  0: "Alaska", 1: "Ontario", 2: "Central America", 3: "Eastern US", 4: "Western US",
+  5: "Greenland", 6: "Northwest Territory", 7: "Alberta", 8: "Quebec", 9: "Venezuela",
+  10: "Peru", 11: "Brazil", 12: "Argentina", 13: "North Africa", 14: "Egypt", 15: "East Africa",
+  16: "Central Africa", 17: "South Africa", 18: "Madagascar", 19: "Iceland", 20: "Great Britian",
+  21: "Western Europe", 22: "Northern Europe", 23: "Scandinavia", 24: "Southern Europe",
+  25: "Russia", 26: "Afghanistan", 27: "China", 28: "India", 29: "Irkutsk", 30: "Japan",
+  31: "Kamachatka", 32: "Middle East", 33: "Mongolia", 34: "Southeast Asia", 35: "Siberia",
+  36: "Ural", 37: "Yakutsk", 38: "Eastern Australia", 39: "Indonesia", 40: "New Guinea",
+  41: "Western Australia"};
+
+
 let cardID = 0;
 let start = false;
 let prevMessage = undefined;
