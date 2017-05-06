@@ -383,6 +383,9 @@ $("#hideCards").click(
   }
 );
 
+window.onbeforeunload = function() {
+  return "Leaving will end the game for everyone.";
+};
 
 
 
