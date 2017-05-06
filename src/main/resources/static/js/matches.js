@@ -167,6 +167,9 @@ const setup_matches = () => {
 
         // Start the game
         start = true;
+        // Set name message for header.
+        let h1 = document.getElementById("inGame");
+        h1.innerHTML += ", " + myName + "<br>";
         $('#background').css('background-image', 'none');
         createPlayer(data.playerNum);
     	setUp();
@@ -175,10 +178,6 @@ const setup_matches = () => {
         for(i=0; i<players.length; i++){
           colorMap.set(players[i], colors[players[i]]);
         }
-
-        // Set name message for header.
-        let h1 = document.getElementById("inGame");
-        h1.innerHTML += ", " + myName;
 
         // The initial phase is the setup phase
     	phase = "setup";
@@ -385,6 +384,7 @@ const setup_matches = () => {
             } else {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> skipping moving troops!");
             }
+            hideAll();
             break;
         }
         break;
@@ -590,7 +590,7 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("phase").innerHTML = "Defend Yourself!";
               defending = data.defendTerritory;
-              document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
+              document.getElementById("attacking").innerHTML = "You Are Under Attack!<br> Select Dice Number to Defend With!<br>";
               $("#attacking").show();
               $("#defenderNumberDie").empty();
               for (let index = 1; index <= data.maxDieRoll; index++) {
@@ -701,7 +701,7 @@ function updateLog(string) {
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
-}, 1000);
+}, 60000);
 
 function clickOnCard(element) {
   if (canClick) {
@@ -785,6 +785,7 @@ function move_troops() {
     document.getElementById("moveTroops").style.display = "none";
     document.getElementById("resetMoveTroops").style.display = "none";
     $("#moveTroopsNumber").hide();
+    $("#bolsters").hide();
     $("#skip").hide();
     availableForClaim = [];
     moveables = [];

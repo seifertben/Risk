@@ -1283,7 +1283,7 @@ let SEU_RUSSIA = {
 };
 const ALASKAADJACENT = {"7": ALBERTA_ALASKA, "6": NWTERRITORIES_ALASKA, "31": ALASKA_INF};
 terrToTerrToLine.push(ALASKAADJACENT);
-const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND};
+const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND, "1":EUS_ONTARIO};
 terrToTerrToLine.push(ONTARIOADJACENT);
 const CENTRALAMERICAADJACENT = {"3": EUS_CA, "9": VZ_CA, "4": WUS_CA}; 
 terrToTerrToLine.push(CENTRALAMERICAADJACENT);
@@ -1509,8 +1509,10 @@ function select_territory(event) {
         attackables = [];
         attackables = terToTar[attackFrom];
         let outer = terrToTerrToLine[attackFrom.toString()];
+        console.log(attackables.toString());
         for (let i = 0; i<attackables.length; i++) {
           let currLine = outer[attackables[i].toString()];
+          console.log(currLine);
           changeLines(colors[myId], currLine);
           map.dataProvider.zoomLevel = map.zoomLevel();
           map.dataProvider.zoomLatitude = map.zoomLatitude();

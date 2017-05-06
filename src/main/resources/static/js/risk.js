@@ -163,8 +163,9 @@ $("#playerNum").keypress(function (evt) {
 function setUp () {
   $sideNav = $('#gameUpdates');
   $endNav = $('#endSection');
-  $sideNav.append($("<p id = 'phase'></p>"));
-  $sideNav.append($("<p id = 'turn' c></p>"));
+  $topNav = $("#inGame");
+  $topNav.append($("<p id = 'phase'></p>"));
+  $topNav.append($("<p id = 'turn' c></p>"));
   $sideNav.append($("<p id = 'bolsters'></p>"));
   $sideNav.append($("<p id = 'selecting'></p>"));
   $sideNav.append($("<p id = 'attacking'></p>"));
@@ -190,16 +191,14 @@ function setUp () {
   document.getElementById("gameUpdates").appendChild(deinforcer);
   document.getElementById("gameUpdates").appendChild(confirm);
 
-  $sideNav.append($("<p id = 'available'></p>"));
-  $sideNav.append($("<select id='clickList'></select>"));
-  $sideNav.append($("<button type='button' id = 'simSel' class='btn btn-danger'>Select From List</button>"));
+
   reinforcer.onclick = place_troop;
   deinforcer.onclick = remove_troop;
   confirm.onclick = confirm_move;
   document.getElementById("resetAttackMove").onclick = reset_attack;
   document.getElementById("skip").onclick = skip_phase;
   document.getElementById("resetMoveTroops").onclick = reset_move_troops;
-  document.getElementById("simSel").onclick = simClick;
+
   let claim = document.createElement("BUTTON");
   claim.id = "claimTerritory";
   claim.innerHTML = "Claim Territory!";
@@ -210,7 +209,11 @@ function setUp () {
   moveTroops.innerHTML = "Confirm Troop Movements";
   moveTroops.onclick = move_troops;
   document.getElementById("gameUpdates").appendChild(moveTroops);
-  $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+  $sideNav.append($("<p id = 'available'></p>"));
+  $sideNav.append($("<select id='clickList'></select>"));
+  $sideNav.append($("<button type='button' id = 'simSel' class='btn btn-danger'>Select From List</button>"));
+  document.getElementById("simSel").onclick = simClick;
+  $endNav.append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
 }
