@@ -1386,7 +1386,7 @@ let map = AmCharts.makeChart( "mapdiv", {
     "arc": -0.7, // this makes lines curved. Use value from -1 to 1
     color: "white",
   	  "dashLength": 1,
-	  "thickness": 0.5,
+	  "thickness": 1,
 	  "selectable": false
   },
   "dataProvider": {

@@ -273,7 +273,9 @@ input:checked + .slider:before {
       margin: 0% 30%;
   }
   div[id="playerList"] {
+  	  wdith: 100%;
       display: inline-block;
+      border-bottom: solid black;
   }
   div[id="gameField"] {
       display: none;

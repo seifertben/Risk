@@ -81,8 +81,8 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -231,26 +231,30 @@ const setup_matches = () => {
 
           // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
+
+            $("#available").hide();
             color_reset();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
-          hideAll();
+            hideAll();
             break;
 
           // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
+            $("#available").hide();
             color_reset();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
             document.getElementById("bolsters").innerHTML = "Waiting to Place More Troops";
-          hideAll();
+            hideAll();
             break;
 
           // For a normal reinforcement move
           case MOVE_TYPES.REINFORCE:
+            $("#available").hide();
             color_reset();
-          $("#bolsters").hide();
-          $("#selecting").hide();
+            $("#bolsters").hide();
+            $("#selecting").hide();
             let parsedTers = JSON.parse(data.territories);
             let bolts = "<b>" + idToName[data.movePlayer] + "</b> has Bolstered ";
             for (ter in parsedTers) {
@@ -258,9 +262,9 @@ const setup_matches = () => {
             }
             bolts += "With More Troops!";
             updateLog(bolts);
-          make_bolster(data.movePlayer, JSON.parse(data.territories));
+            make_bolster(data.movePlayer, JSON.parse(data.territories));
             hideAll();
-          break;
+            break;
 
           // For a card turn in move
           case MOVE_TYPES.TURN_IN_CARD:
@@ -297,6 +301,7 @@ const setup_matches = () => {
 
           // For an attack move
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
+            $("#available").hide();
             color_reset();
             let result = " ";
             let roll = JSON.parse(data.roll);
@@ -402,6 +407,7 @@ const setup_matches = () => {
 
           // For moving troops
           case MOVE_TYPES.MOVE_TROOPS:
+            $("#available").hide();
             color_reset();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Moved " + data.numberTroops 
               + " Troops from <b>" + idToData[data.moveFrom].name + "</b> to <b>" + idToData[data.moveTo].name + "</b>!");
@@ -440,6 +446,7 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";
+              //$("#available").show();
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -470,6 +477,8 @@ const setup_matches = () => {
             if (data.playerId == myId) {
               $("#"+data.playerId).css("border-color", "black");
               $("#"+data.playerId).css("border-width", "2px");
+
+            //  $("#available").show();
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";
               addBlink($("#turn"));
@@ -526,6 +535,8 @@ const setup_matches = () => {
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
           if (data.playerId == myId) {
+
+           //   $("#available").show();
               $("#"+data.playerId).css("border-color", "black");
               $("#"+data.playerId).css("border-width", "2px");
               document.getElementById("turn").style.fontWeight = "bold";
@@ -573,6 +584,7 @@ const setup_matches = () => {
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
 
+           //   $("#available").show();
               $("#"+data.playerId).css("border-color", "black");
               $("#"+data.playerId).css("border-width", "2px");
               phase = "attacking";
@@ -581,7 +593,7 @@ const setup_matches = () => {
               attackFrom = null;
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn";       
-            $("#bolsters").show();
+              $("#bolsters").show();
               document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
               terToDie = JSON.parse(data.maxDieRoll);
               terToTar = JSON.parse(data.whoCanAttack);
@@ -607,6 +619,7 @@ const setup_matches = () => {
 
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
+
               document.getElementById("phase").innerHTML = "Defend Yourself!";
               defending = data.defendTerritory;
               document.getElementById("attacking").innerHTML = "You Are Under Attack! Select Dice Number to Defend With!<br>";
@@ -661,6 +674,8 @@ const setup_matches = () => {
           case MOVE_TYPES.MOVE_TROOPS:
            document.getElementById("phase").innerHTML = "Prepare for Battle!";
            if (data.playerId == myId) {
+
+           //    $("#available").show();
                $("#"+data.playerId).css("border-color", "black");
                $("#"+data.playerId).css("border-width", "2px");
                phase = "move_troops";
@@ -885,9 +900,13 @@ window.onkeyup = function(e) {
   let key = e.keyCode ? e.keyCode : e.which;
     if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
       if (document.getElementById("nameInput").value.trim().length != 0) {
-      myName = document.getElementById("nameInput").value;
-      document.getElementById("nameField").style.display = "none";
-      document.getElementById("menuField").style.display = "inline";
+   	    let  tempName = document.getElementById("nameInput").value;
+   	    if (tempName.toLowerCase().includes("<script>") || tempName.toLowerCase().includes("</script>")) {
+   	    	tempName = "HAXORZ";
+  	    }
+        myName = tempName;
+        document.getElementById("nameField").style.display = "none";
+        document.getElementById("menuField").style.display = "inline";
     }
   }
 }
@@ -896,8 +915,13 @@ const create_match = event => {
   event.preventDefault();
   let name = document.getElementById("name").value;
   if (name.trim().length != 0) {
+    let  tempName = document.getElementById("name").value;
+    if (tempName.toLowerCase().includes("<script>") || tempName.toLowerCase().includes("</script>")) {
+   	  tempName = "HAXORZ";
+  	}
+    lobbyTitle = tempName;
     let mess = {"type" : MESSAGE_TYPE.CREATE, "gameId" : guid(),
-        "lobbySize" : document.getElementById("playerNum").value, "matchName" : document.getElementById("name").value}
+        "lobbySize" : document.getElementById("playerNum").value, "matchName" : lobbyTitle}
     document.getElementById("name").value = "";
     conn.send(JSON.stringify(mess));
   }
