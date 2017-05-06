@@ -139,7 +139,7 @@
       background-color: #f1f1f1;
   }
   select {
-   padding: 5px;
+   padding: 5px 0px 2px;
    margin: 5px 0px 0px;
    font-size: 14px;
    line-height: 1;
@@ -307,25 +307,75 @@ input:checked + .slider:before {
   }
   button[id="maker"] {
       margin: 5px 0px;
+      padding: 15px 30px;
   }
-  button {
+  div[id="endNav"] {
+      border: 2px solid black;
+  }
+  .regbtn {
       display: inline-block;
       margin: 5px;
-      background-color: #4CAF50; /* Green */
+      background-color: #4CAF50;
       color: white;
       border: 2px solid black;
       border-style: groove;
-      padding: 15px 32px;
+      padding: 5px 5px;
       text-align: center;
       text-decoration: none;
       font-size: 16px;
       border-radius: 10px;
       cursor: pointer;
   }
-
-  button:hover:enabled {
+    .regbtnblue {
+      display: inline-block;
+      margin: 5px;
+      background-color: lightseagreen;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+    .regbtnlarge {
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+  .attackbtn{
+      display: inline-block;
+      margin: 5px;
+      background-color: red;
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+  .regbtn:hover:enabled {
     
       background-color: #377a39;
+    
+  }
+  .attackbtn:hover:enabled {
+    
+      background-color: Crimson;
     
   }
 

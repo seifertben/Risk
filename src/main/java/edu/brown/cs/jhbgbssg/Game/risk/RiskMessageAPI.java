@@ -41,9 +41,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
 import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
- *
- * Message API for Risk. It constructs the different messages sent to the
- * frontend and translates messages recieived from the frontend.
+ * RiskMessageAPI is used to translate messages sent to and from the frontend
+ * and sent to and from the backend.
  *
  * @author sarahgilmore
  *

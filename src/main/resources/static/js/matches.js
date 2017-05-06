@@ -120,13 +120,9 @@ const setup_matches = () => {
 
       // Create a lobby
       case MESSAGE_TYPE.CREATE:
-        let game = document.createElement("BUTTON");
-        game.id = data.gameId;
-        game.name = data.matchName;
-        document.getElementById("matches").appendChild(game);
-        document.getElementById(game.id).innerHTML = data.matchName + ": " + data.playerNum + "/" + data.lobbySize;
-        document.getElementById(game.id).value = data.lobbySize;
-        game.onclick = join_match;
+        $("#matches").append($("<button id="+ data.gameId +" name="+ data.matchName + " value=" + data.lobbySize + " class='regbtnlarge'>" 
+        		+ data.matchName + ": " + data.playerNum + "/" + data.lobbySize + "</button>"));
+        document.getElementById(data.gameId).onclick = join_match;
         break;
 
       // Start a game
@@ -228,6 +224,9 @@ const setup_matches = () => {
           // If someone selected a territory in setup
           case MOVE_TYPES.SETUP:
             color_reset();
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
@@ -235,6 +234,9 @@ const setup_matches = () => {
 
           // For a setup reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
+          	$("#available").hide();
+        	$("#clickList").hide();
+        	$("#simSel").hide();
             color_reset();
             document.getElementById("bolsters").innerHTML = "Waiting to Place More Troops";
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Reinforced <b>" + idToData[data.territoryId].name + "</b>!");
@@ -330,12 +332,10 @@ const setup_matches = () => {
               	string = "<b>You</b> Have Lost the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-
-
-                    if (outer[data.defendTerritory] === attackLine) {
-                        attackLine.color = "black";
-                      }
+                  if (outer[data.defendTerritory] === attackLine) {
+                    attackLine.color = "black";
                   }
+                }
               } else {
                 string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
               }
@@ -415,9 +415,9 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-              conn.send(JSON.stringify(mess));
-              availableForClaim = [];
+//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+//              conn.send(JSON.stringify(mess));
+//              availableForClaim = [];
               // AUTOPLAY
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -452,15 +452,15 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-              if (data.troopsToPlace > 0) {
-                let mess = {"type": MESSAGE_TYPE.MOVE,
-                  "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                  "playerId": myId, 
-                  "territoryId": availableForClaim[0]
-                };  
-                conn.send(JSON.stringify(mess));
-                availableForClaim = [];
-              }
+//              if (data.troopsToPlace > 0) {
+//                let mess = {"type": MESSAGE_TYPE.MOVE,
+//                  "moveType": MOVE_TYPES.SETUP_REINFORCE,
+//                  "playerId": myId, 
+//                  "territoryId": availableForClaim[0]
+//                };  
+//                conn.send(JSON.stringify(mess));
+//                availableForClaim = [];
+//              }
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";

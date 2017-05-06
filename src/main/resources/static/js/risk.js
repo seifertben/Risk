@@ -65,13 +65,13 @@ let body = $('#background');
 
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/53/2c/22/532c224459ada029dfb2db7be6165cde.jpg')",
-"url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')","url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
+"url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')", "url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
 ,"url('https://fthmb.tqn.com/toprD0AfngOnFREScDpSg-5bl-g=/1172x796/filters:no_upscale():fill(FFCC00,1)/about/battle-of-ascalon-large-56a61c243df78cf7728b63a7.jpg')", 
 "url('https://s-media-cache-ak0.pinimg.com/originals/cc/f0/11/ccf011df7a8f59a31efc28e35ec0a655.jpg')",
  "url('http://www.museumofthecity.org/wp-content/uploads/2013/07/history_timeline_photo_09_1.jpg')", "url('http://www.realmofhistory.com/wp-content/uploads/2016/06/10-facts-imperial-roman-legionary-770x437.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/736x/4f/3f/49/4f3f49b4b8945fe107d68163df14be7a.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/7e/5d/a8/7e5da8f7f966ec2e946e205fcdfe5d02.jpg')", "url('https://s-media-cache-ak0.pinimg.com/originals/91/c2/ad/91c2adff774b415f4cd3f7204efff1a9.jpg')", 
 "url('http://www.rmg.co.uk/sites/default/files/styles/slider/public/Loutherbourg-Spanish_Armada.jpg?itok=_-MaaV38')", "url('https://i.ytimg.com/vi/GvPXCnrAtMo/maxresdefault.jpg')", 
-"url('http://s3.amazonaws.com/mtv-main-assets/files/resources/surrender_of_lord_cornwallis-capitol-web.jpg')",  "url('http://www.hms-victory.com/sites/default/files/images/D.jpg')",
+"url('http://s3.amazonaws.com/mtv-main-assets/files/resources/surrender_of_lord_cornwallis-capitol-web.jpg')", "url('http://www.hms-victory.com/sites/default/files/images/D.jpg')",
 "url('http://www.britishbattles.com/wp-content/uploads/2017/02/Charge_of_the_French_Cuirassiers_at_Waterloo-Henri-F%C3%A9lix-Emmanuel-Philippoteaux.jpg')", 
 "url('https://userscontent2.emaze.com/images/7518df8e-7872-4fa4-87ce-0264c2418005/9293405ab76210dc084d21b92bac733a.jpg')", "url('http://www.toledomuseum.org/wordpress/wp-content/uploads/Civil-War_1.jpg')","url('https://weaponsandwarfare.files.wordpress.com/2016/10/1280px-ljb9_-_zimmer.jpg')", "url('http://www.historyonthenet.com/wp-content/uploads/2016/12/135151-004-0D4D550E.jpg')", 
 "url('http://i.imgur.com/raE3EQw.jpg')", "url('http://cdn.thedailybeast.com/content/dailybeast/articles/2013/05/12/world-war-ii-s-strangest-battle-when-americans-and-germans-fought-together/jcr:content/image.img.2000.jpg/1380849710571.cached.jpg')"
@@ -92,7 +92,7 @@ const sendMessage = event => {
     if (message.toLowerCase().includes("shit")) {
       message = "Mommy says I shouldn't say swears...";
     }
-    if (message.toLowerCase().includes("ass")) {
+    if (message.toLowerCase().includes("ass ")) {
       message = "Wow! GG.";
     }
     if (message.toLowerCase().includes("dick")) {
@@ -169,52 +169,38 @@ function setUp () {
   $sideNav.append($("<p id = 'bolsters'></p>"));
   $sideNav.append($("<p id = 'selecting'></p>"));
   $sideNav.append($("<p id = 'attacking'></p>"));
-  $sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
-  $sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
-  $sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
-  $endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
-  $sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
+  $endNav.append($("<button type='button' id = 'resetAttackMove' class='attackbtn'>Reset Attack Move</button>"));
+  $sideNav.append($("<button type='button' id = 'attack' class='attackbtn'>Attack!</button>"));
+  $sideNav.append($("<button type='button' id = 'defend' class='attackbtn'>Defend!</button>"));
+  $endNav.append($("<button type='button' id = 'skip' class='attackbtn'>End Turn</button>"));
+  $sideNav.append($("<button type='button' id = 'resetMoveTroops' class='regbtn'>Reset Move Troops</button>"));
   $sideNav.append($("<select id='attackerNumberDie'> </select>"));
   $sideNav.append($("<select id='defenderNumberDie'> </select>"));
   $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
+  $sideNav.append($("<button id='reinforcer' class='regbtn'>Place a Troop</button>"));
+  $sideNav.append($("<button id='deinforcer' class='regbtn'>Recall a Troop</button>"));
+  $sideNav.append($("<button id='confirm' class='regbtn'>Confirm Placements</button>"));
 
-  let reinforcer = document.createElement("BUTTON");
-  let deinforcer = document.createElement("BUTTON");
-  let confirm = document.createElement("BUTTON");
   selecting.innerHTML = "Select A Territory to Reinforce";
-  reinforcer.id = "reinforcer";
-  deinforcer.id = "deinforcer";
-  reinforcer.innerHTML = "Place a Troop";
-  deinforcer.innerHTML = "Recall a Troop";
-  confirm.id = "confirm";
-  confirm.innerHTML = "Confirm Placements";
-  document.getElementById("gameUpdates").appendChild(reinforcer);
-  document.getElementById("gameUpdates").appendChild(deinforcer);
-  document.getElementById("gameUpdates").appendChild(confirm);
 
-
-  reinforcer.onclick = place_troop;
-  deinforcer.onclick = remove_troop;
-  confirm.onclick = confirm_move;
+  document.getElementById("reinforcer").onclick = place_troop;
+  document.getElementById("deinforcer").onclick = remove_troop;
+  document.getElementById("confirm").onclick = confirm_move;
   document.getElementById("resetAttackMove").onclick = reset_attack;
   document.getElementById("skip").onclick = skip_phase;
   document.getElementById("resetMoveTroops").onclick = reset_move_troops;
 
-  let claim = document.createElement("BUTTON");
-  claim.id = "claimTerritory";
-  claim.innerHTML = "Claim Territory!";
-  claim.onclick = claim_terr;
-  document.getElementById("gameUpdates").appendChild(claim);
-  let moveTroops = document.createElement("BUTTON");
-  moveTroops.id = "moveTroops";
-  moveTroops.innerHTML = "Confirm Troop Movements";
-  moveTroops.onclick = move_troops;
-  document.getElementById("gameUpdates").appendChild(moveTroops);
+  $sideNav.append($("<button id='claimTerritory' class='regbtn'>Claim Territory</button>"));
+  document.getElementById("claimTerritory").onclick = claim_terr;
+  
+  $sideNav.append($("<button id='moveTroops' class='regbtn'>Confirm Troops Movements</button>"));
+  document.getElementById("moveTroops").onclick = move_troops;
+
   $sideNav.append($("<p id = 'available'></p>"));
   $sideNav.append($("<select id='clickList'></select>"));
-  $sideNav.append($("<button type='button' id = 'simSel' class='btn btn-danger'>Select From List</button>"));
+  $sideNav.append($("<button type='button' id = 'simSel' class='regbtn'>Select From List</button>"));
   document.getElementById("simSel").onclick = simClick;
-  $endNav.append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+  $endNav.append($("<button type='button' id = 'turnInCards' class='regbtn'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
 

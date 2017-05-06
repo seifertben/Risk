@@ -15,7 +15,7 @@
         <h2>Enter a Match Name and a Number of Players</h2><br>
         <input id="name" type="text" autocomplete="off" placeholder = " Enter a Match Name"></input>
         <input id="playerNum" type="number" min="2" max="6" value="2"></input>
-        <button id="maker">Make a game</button>
+        <button id="maker" class="regbtn">Make a game</button>
       </div>
     <div id="matches" class="list-group">
     </div>
