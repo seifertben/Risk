@@ -805,7 +805,7 @@ const skip_phase = event => {
           changeLines("black", attackableLines[i]);
       }
     if (attackLine != null) {
-      chageLines("black", attackLine);
+      changeLines("black", attackLine);
     }
     map.dataProvider.zoomLevel = map.zoomLevel();
     map.dataProvider.zoomLatitude = map.zoomLatitude();
