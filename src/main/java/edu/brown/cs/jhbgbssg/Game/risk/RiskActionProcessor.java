@@ -241,9 +241,7 @@ public class RiskActionProcessor {
       return update;
     }
     boolean isValidMove = referee.validateDefendMove(action);
-    System.out.println(isValidMove);
     if (!isValidMove) { // defend move is not valid
-      System.out.println("here not valid move");
       ValidAction validMove = referee.getValidMove();
       update.setValidMoves(validMove, null);
       update.setError(action.getMovePlayer().getPlayerId());

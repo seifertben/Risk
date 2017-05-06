@@ -409,6 +409,7 @@ const setup_matches = () => {
 
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
+
               $("#available").show();
               document.getElementById("available").innerHTML = "You can Select:";
               $("#clickList").empty();
@@ -420,10 +421,9 @@ const setup_matches = () => {
               conn.send(JSON.stringify(mess));
               availableForClaim = [];
               // AUTOPLAY
-              
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
-          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Select A Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -466,7 +466,7 @@ const setup_matches = () => {
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
-          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+          	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn To Reinforce 1 Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -478,6 +478,7 @@ const setup_matches = () => {
               $("#"+data.playerId).css("border-color", "black");
               $("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
+              document.getElementById(myId).style.borderColor = 'black';
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
@@ -490,7 +491,7 @@ const setup_matches = () => {
               phase = "turnin";
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Hand in Cards";
              
            }
            break;
@@ -538,7 +539,7 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
         	} else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -583,7 +584,7 @@ const setup_matches = () => {
               document.getElementById("attack").onclick = attack_territory;
               map.addListener("clickMapObject", select_territory);
             } else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Attack";
            	}
             break;
 
@@ -672,6 +673,8 @@ const setup_matches = () => {
               selectTerritoriesInformation(availableForClaim);
               $("#clickList").show();
               $("#simSel").show();
+            } else {
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Transfer Troops";
             }
             break;
           }
@@ -807,7 +810,7 @@ const skip_phase = event => {
           changeLines("black", attackableLines[i]);
       }
     if (attackLine != null) {
-      chageLines("black", attackLine);
+      changeLines("black", attackLine);
     }
     map.dataProvider.zoomLevel = map.zoomLevel();
     map.dataProvider.zoomLatitude = map.zoomLatitude();

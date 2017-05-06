@@ -27,6 +27,7 @@
   <div id="lastTurn" class="list-group"></div>
   <div id="gameUpdates"></div>
   <div id="endSection"></div>
+  <button type="button" id="showcards">Show my Cards!</button>
   </div>
 
   <!-- The Modal -->
@@ -41,6 +42,20 @@
     <p id = "totaltroops"></p><br />
   </div>
 </div>
+
+
+  <div class = "footer-content" id = "card-footer">
+  <div class = "card-footer">
+  <button type="button" id="hideCards">Hide</button>
+  <h3>Your Cards:</h3>
+  <ul id="cards">
+  </ul>
+  </div>
+  </div>
+</div>
+
+
+
 
   <!-- The Modal -->
 <div id="loserModal" class="modal">
@@ -71,8 +86,8 @@
   </div>
 </div>
 
-
 </div>
+
 <footer class="container-fluid text-center" id="bottom">
 <ul id="cards">
 </ul>

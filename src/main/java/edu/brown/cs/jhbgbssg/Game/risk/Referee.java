@@ -393,7 +393,6 @@ public class Referee {
     }
     ValidAttackAction validAttack = new ValidAttackAction(currPlayer, board);
     if (validAttack.actionAvailable()) {
-      System.out.println("attack again");
       lastAttack = null;
       validMove = validAttack;
       return validMove;
