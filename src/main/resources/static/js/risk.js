@@ -249,14 +249,15 @@ function addcard(number) {
 	if (number ===1) {
 		card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1 id='cardtitle'>Card</h1></header><div class='w3-container'><p id = 'star'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'></p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 		card.attr("id", cardID.toString());
-		cardID++;		
 	  $('#cards').append(card);
+    cardID++;   
+
     }
     if (number ===2) {
       card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1 id='cardtitle'>Card</h1></header><div class='w3-container'><p id = 'star'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'><img src='https://img.clipartfest.com/c1754dbc38b0148860fbeef2e3833c6c_stars-clipart-on-transparent-star-clipart-transparent-background_800-766.png' alt='Star Icon' style='width:30px;height:30px;'></p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
 	  card.attr("id", cardID.toString());
-	  cardID++;  
 	  $('#cards').append(card);
+    cardID++;   
     }
 }
 
@@ -361,15 +362,6 @@ document.querySelector("#messageField").addEventListener("keyup", function (e) {
     }
 });
 
-
-// $(window).bind('mousewheel DOMMouseScroll', function (event) {           
-//      if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-//       document.getElementById("card-footer").style.display = 'none';
-//      }
-//      else {
-//       document.getElementById("card-footer").style.display = 'block';
-//      }
-// });
 
 
 $("#showcards").click(

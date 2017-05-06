@@ -415,9 +415,9 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-//              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-//              conn.send(JSON.stringify(mess));
-//              availableForClaim = [];
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+             conn.send(JSON.stringify(mess));
+             availableForClaim = [];
               // AUTOPLAY
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -452,15 +452,15 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-//              if (data.troopsToPlace > 0) {
-//                let mess = {"type": MESSAGE_TYPE.MOVE,
-//                  "moveType": MOVE_TYPES.SETUP_REINFORCE,
-//                  "playerId": myId, 
-//                  "territoryId": availableForClaim[0]
-//                };  
-//                conn.send(JSON.stringify(mess));
-//                availableForClaim = [];
-//              }
+              if (data.troopsToPlace > 0) {
+               let mess = {"type": MESSAGE_TYPE.MOVE,
+                 "moveType": MOVE_TYPES.SETUP_REINFORCE,
+                 "playerId": myId, 
+                 "territoryId": availableForClaim[0]
+               };  
+               conn.send(JSON.stringify(mess));
+               availableForClaim = [];
+             }
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -473,9 +473,12 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-              $("#"+data.playerId).css("border-color", "black");
-              $("#"+data.playerId).css("border-width", "2px");
+            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
+              $('#cards li').each(function() {
+                this.style.borderStyle = "none";
+              });
               document.getElementById(myId).style.borderColor = 'black';
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
@@ -507,35 +510,35 @@ const setup_matches = () => {
                 removeBlink($("#turn")); 
               }, 4000);
 
-              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
+            document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
         	  document.getElementById("bolsters").style.display = "inline-block";  
-              document.getElementById("phase").innerHTML = "Prepare for Battle!";
+            document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	  document.getElementById("reinforcer").disabled = true;
-              document.getElementById("deinforcer").disabled = true;
-              document.getElementById("confirm").disabled = true;
-              $("#reinforcer").addClass('disabled');
-              $("#deinforcer").addClass('disabled');
-              $("#confirm").addClass('disabled');
-              document.getElementById("deinforcer").style.display = "inline";
-              document.getElementById("confirm").style.display = "inline"; 
-              document.getElementById("reinforcer").style.display = "inline";
-              document.getElementById("deinforcer").style.display = "inline";
-              document.getElementById("confirm").style.display = "inline"; 
+            document.getElementById("deinforcer").disabled = true;
+            document.getElementById("confirm").disabled = true;
+            $("#reinforcer").addClass('disabled');
+            $("#deinforcer").addClass('disabled');
+            $("#confirm").addClass('disabled');
+            document.getElementById("deinforcer").style.display = "inline";
+            document.getElementById("confirm").style.display = "inline"; 
+            document.getElementById("reinforcer").style.display = "inline";
+            document.getElementById("deinforcer").style.display = "inline";
+            document.getElementById("confirm").style.display = "inline"; 
         	  $("#selecting").show();
         	  document.getElementById("selecting").innerHTML = "Select A Territory to Reinforce";
-              terToPlace = new Map();
-              placeMax = data.troopsToPlace;
-              placed = 0;
+            terToPlace = new Map();
+            placeMax = data.troopsToPlace;
+            placed = 0;
         	  bolstering = null;
-              phase = "reinforce";
-              availableForClaim = JSON.parse(data.territories);
-              map.addListener("clickMapObject", select_territory);
-              $("#available").show();
-              document.getElementById("available").innerHTML = "You can Reinforce:";
-              $("#clickList").empty();
-              selectTerritoriesInformation(availableForClaim);
-              $("#clickList").show();
-              $("#simSel").show();
+            phase = "reinforce";
+            availableForClaim = JSON.parse(data.territories);
+            map.addListener("clickMapObject", select_territory);
+            $("#available").show();
+            document.getElementById("available").innerHTML = "You can Reinforce:";
+            $("#clickList").empty();
+            selectTerritoriesInformation(availableForClaim);
+            $("#clickList").show();
+            $("#simSel").show();
         	} else {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
               addBlink($("#turn"));
@@ -708,6 +711,8 @@ window.setInterval(function(){
 }, 60000);
 
 function clickOnCard(element) {
+  console.log("here");
+  console.log(canClick);
   if (canClick) {
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
