@@ -1563,7 +1563,6 @@ function select_territory(event) {
       map.dataProvider.zoomLatitude = map.zoomLatitude();
       map.dataProvider.zoomLongitude = map.zoomLongitude();
       map.validateData();
-      //attackableLines = [];
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
       addBlink($("#attacking"));
