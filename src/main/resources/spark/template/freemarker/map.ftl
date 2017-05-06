@@ -40,13 +40,20 @@
   </div>
 </div>
 
-  <div class = "footer-content">
-  <div class = "card-footer" id = "card-footer">
+
+  <div class = "footer-content" id = "card-footer">
+  <div class = "card-footer">
+  <button type="button" id="hideCards">Hide</button>
+  <h3>Your Cards:</h3>
   <ul id="cards">
   </ul>
   </div>
   </div>
 </div>
+
+<button type="button" id="showcards">Show my Cards!</button>
+
+
 
   <!-- The Modal -->
 <div id="loserModal" class="modal">

@@ -299,12 +299,7 @@ function createPlayer(number) {
       }
       document.getElementById('territories').innerHTML = territoryString;
       document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
-<<<<<<< HEAD
       document.getElementById('totaltroops').innerHTML = "Has this many troops in total: " + currPlayerInfo.totalNumberTroops;
-=======
-      document.getElementById('totaltroops').innerHTML = "Has this many troop in total: " + currPlayerInfo.totalNumberTroops;
-
->>>>>>> b13298d81a39c3f067c0026a63ace97064b5fd2a
       document.getElementById('myModal').style.display = "block";
     }
 
@@ -360,17 +355,27 @@ document.querySelector("#messageField").addEventListener("keyup", function (e) {
 });
 
 
-$(window).bind('mousewheel DOMMouseScroll', function (event) {           
-     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-      document.getElementById("card-footer").style.display = 'none';
-     }
-     else {
-      document.getElementById("card-footer").style.display = 'block';
-     }
-});
+// $(window).bind('mousewheel DOMMouseScroll', function (event) {           
+//      if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+//       document.getElementById("card-footer").style.display = 'none';
+//      }
+//      else {
+//       document.getElementById("card-footer").style.display = 'block';
+//      }
+// });
 
 
 $("#showcards").click(
+  function() {
+    if (document.getElementById("card-footer").style.display === 'none') {
+        document.getElementById("card-footer").style.display = 'block';
+    } else {
+        document.getElementById("card-footer").style.display = 'none';
+    }
+  }
+);
+
+$("#hideCards").click(
   function() {
     if (document.getElementById("card-footer").style.display === 'none') {
         document.getElementById("card-footer").style.display = 'block';
