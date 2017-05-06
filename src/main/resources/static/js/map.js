@@ -1514,11 +1514,6 @@ function select_territory(event) {
           let currLine = outer[attackables[i].toString()];
           console.log(currLine);
           changeLines(colors[myId], currLine);
-          map.dataProvider.zoomLevel = map.zoomLevel();
-          map.dataProvider.zoomLatitude = map.zoomLatitude();
-          map.dataProvider.zoomLongitude = map.zoomLongitude();
-          map.validateData();
-
           attackableLines.push(currLine);
         }
         map.dataProvider.zoomLevel = map.zoomLevel();
@@ -1560,16 +1555,17 @@ function select_territory(event) {
       for (let i = 0; i<attackableLines.length; i++) {
         if (attackableLines[i] !==currLine) {
           changeLines("black", attackableLines[i]);
-           map.dataProvider.zoomLevel = map.zoomLevel();
-          map.dataProvider.zoomLatitude = map.zoomLatitude();
-          map.dataProvider.zoomLongitude = map.zoomLongitude();
-          map.validateData();
         }
         else {
           attackLine = attackableLines[i];
+          changeLines(colors[myId], attackLine);
         }
       }
-      attackableLines = [];
+      map.dataProvider.zoomLevel = map.zoomLevel();
+      map.dataProvider.zoomLatitude = map.zoomLatitude();
+      map.dataProvider.zoomLongitude = map.zoomLongitude();
+      map.validateData();
+      //attackableLines = [];
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
       addBlink($("#attacking"));
@@ -1588,7 +1584,6 @@ function select_territory(event) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
           document.getElementById("available").innerHTML = "You Can Move Troops To:";
-
           document.getElementById("bolsters").innerHTML = "Select A Territory To Move Troops To";
           $("#clickList").empty();              
           selectTerritoriesInformation(moveables);
@@ -1651,7 +1646,7 @@ function reset_attack() {
   attackLine = null;
   attackFrom = null;
   attackTo = null;
-  attackables = null;
+  attackables = [];
 }
 
 function reset_line_color() {
@@ -1791,6 +1786,7 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
 }
 
 function changeLines(color, line) {
+  console.log(line);
   if (line === ALASKA_INF) {
       KAMCHATKA_INF.color = color;
   }
