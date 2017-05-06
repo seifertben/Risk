@@ -764,10 +764,10 @@ function updateLog(string) {
 
 	$("#lastTurn").append($li);
 
-	$("li:last-child").css("border", "1px solid black");
-    $("li:last-child").css("border-left", "6px solid black");
+	$li.css("border", "1px solid black");
+    $li.css("border-left", "6px solid black");
     count = 0;
-    blink("li:last-child");
+    blink($li);
     prevMove = $li;
 
     $("#lastTurn").scrollTop($("#lastTurn")[0].scrollHeight);
