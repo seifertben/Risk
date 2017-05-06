@@ -23,9 +23,18 @@
 
    }
    #turnInCards {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50; /* Green */
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
    }
   /* #messageForm {
     position: absolute;
@@ -123,6 +132,7 @@
   }
   select {
    padding: 5px;
+   margin: 5px 0px 0px;
    font-size: 14px;
    line-height: 1;
   }
@@ -141,7 +151,7 @@
       padding: 10px;
       border: 2px solid black;
       width: 100%;
-      height: 60%;
+      height: 70%;
       overflow-y: scroll;
       float: center;
       left: 0;
@@ -227,6 +237,7 @@ input:checked + .slider:before {
   p{
       font-size: 12pt;
       text-align: center;
+      margin: 0em 0;
       text-decoration: underline;
   }
 
@@ -387,7 +398,7 @@ input:checked + .slider:before {
     background-color: #000000;
     color: white;
     margin-top: 0px;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-bottom: 10px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
