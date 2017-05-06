@@ -44,7 +44,7 @@
 </div>
 
 
-  <div class = "footer-content" id = "card-footer">
+<div class = "footer-content" id = "card-footer">
   <div class = "card-footer">
   <button type="button" id="hideCards">Hide</button>
   <h3>Your Cards:</h3>
