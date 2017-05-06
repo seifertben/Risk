@@ -79,9 +79,9 @@ let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f
 , "url('http://pop.h-cdn.co/assets/16/01/980x490/landscape-1452205198-gettyimages-107900765.jpg')"];
 slideshow();
 const sendMessage = event => {
-	if (event !==undefined) {
-	event.preventDefault();
-}
+  if (event !==undefined) {
+    event.preventDefault();
+  }
     let  message = $('#messageField').val();
     if (message.toLowerCase().includes("<script>") || message.toLowerCase().includes("</script>")) {
       message = "HAXORZ";
@@ -95,60 +95,58 @@ const sendMessage = event => {
     if (message.toLowerCase().includes("ass")) {
       message = "Wow! GG.";
     }
+    if (message.toLowerCase().includes("dick")) {
+      message = "Catan is a pretty cool game.";
+    }
+    if (message.toLowerCase().includes("crap")) {
+      message = "Lolwut?!11!?";
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
 }
+let isplaying = false;
 document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
 
-	$("#transferconfirm").on("click", confirmTransfer);
+  $("#transferconfirm").on("click", confirmTransfer);
 
-	defaultPause();
-	$("#homeMute").on("click", changeMusicStatus);
-	$("#menuMute").on("click", changeMusicStatus);
-	$("#gameMute").on("click", changeMusicStatus);
-	$("#diceconfirm").on("click", confirmDice);
+  defaultPause();
+  $("#mute").on("click", changeMusicStatus);
+  $("#diceconfirm").on("click", confirmDice);
 
  function changeMusicStatus() {
- 	if ($("#homeMute").text() == "Mute") {
- 		$("#homeMute").text("Unmute");
- 		$("#menuMute").text("Unmute"); 		
- 		$("#gameMute").text("Unmute");
- 		document.getElementById('mainMenuMusic').pause();
- 	}
- 	else {
- 		$("#homeMute").text("Mute");
- 		$("#gameMute").text("Mute");
- 		$("#menuMute").text("Mute");
- 		document.getElementById('mainMenuMusic').play();	
- 	}
+   if (isplaying) {
+     document.getElementById('mainMenuMusic').pause();
+     isplaying = !isplaying;
+   }
+   else {
+     document.getElementById('mainMenuMusic').play();
+     isplaying = !isplaying;
+   }
  }
 
-	
+  
 function confirmTransfer() {
-	if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
-		$("#transfergroup").hide();
+  if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
+    $("#transfergroup").hide();
 
-	}
+  }
 }
 function confirmDice() {
-	if ($("#dropdown").text() !== "Select the amount of dice to roll") {
-		$("#dropdowngroup").hide();
+  if ($("#dropdown").text() !== "Select the amount of dice to roll") {
+    $("#dropdowngroup").hide();
 
-	}
+  }
 }
 
 function defaultPause() {
-	$("#gameMute").text("Unmute");
-	$("#homeMute").text("Unmute");
-	$("#menuMute").text("Unmute");
- 	document.getElementById('mainMenuMusic').pause();
+   document.getElementById('mainMenuMusic').pause();
 }
 
 function slideshow() {
-	if (!start) {
-	  now = (now+1) % (imageList.length) ;
+  if (!start) {
+    now = (now+1) % (imageList.length) ;
       body.css('background-image', imageList[now]);
       body.fadeIn(1000);
       setTimeout(function(){body.fadeOut(1000)}, 5000);
@@ -160,21 +158,22 @@ $("#playerNum").keypress(function (evt) {
 });
 
 function setUp () {
-	$sideNav = $('#gameUpdates');
-	$endNav = $('#endSection');
-	$sideNav.append($("<p id = 'phase'></p>"));
-	$sideNav.append($("<p id = 'turn' c></p>"));
-	$sideNav.append($("<p id = 'bolsters'></p>"));
-	$sideNav.append($("<p id = 'selecting'></p>"));
-	$sideNav.append($("<p id = 'attacking'></p>"));
-	$sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
-	$sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
-	$sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
-	$endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
-	$sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
-	$sideNav.append($("<select id='attackerNumberDie'> </select>"));
-	$sideNav.append($("<select id='defenderNumberDie'> </select>"));
-	$sideNav.append($("<select id='moveTroopsNumber'> </select>"));
+  $sideNav = $('#gameUpdates');
+  $endNav = $('#endSection');
+  $sideNav.append($("<p id = 'phase'></p>"));
+  $sideNav.append($("<p id = 'turn' c></p>"));
+  $sideNav.append($("<p id = 'bolsters'></p>"));
+  $sideNav.append($("<p id = 'selecting'></p>"));
+  $sideNav.append($("<p id = 'attacking'>Available Territories:</p>"));
+  $sideNav.append($("<p id = 'available'></p>"));
+  $sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
+  $sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
+  $sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
+  $endNav.append($("<button type='button' id = 'skip' class='btn btn-danger'>End Turn</button>"));
+  $sideNav.append($("<button type='button' id = 'resetMoveTroops'class='btn btn-danger'>Reset Move Troops</button>"));
+  $sideNav.append($("<select id='attackerNumberDie'> </select>"));
+  $sideNav.append($("<select id='defenderNumberDie'> </select>"));
+  $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
   let reinforcer = document.createElement("BUTTON");
   let deinforcer = document.createElement("BUTTON");
   let confirm = document.createElement("BUTTON");
@@ -185,16 +184,15 @@ function setUp () {
   deinforcer.innerHTML = "Recall a Troop";
   confirm.id = "confirm";
   confirm.innerHTML = "Confirm Placements";
-  //document.getElementById("gameUpdates").appendChild(selecting);
-	document.getElementById("gameUpdates").appendChild(reinforcer);
+  document.getElementById("gameUpdates").appendChild(reinforcer);
   document.getElementById("gameUpdates").appendChild(deinforcer);
   document.getElementById("gameUpdates").appendChild(confirm);
   reinforcer.onclick = place_troop;
   deinforcer.onclick = remove_troop;
   confirm.onclick = confirm_move;
-	document.getElementById("resetAttackMove").onclick = reset_attack;
-	document.getElementById("skip").onclick = skip_phase;
-	document.getElementById("resetMoveTroops").onclick = reset_move_troops;
+  document.getElementById("resetAttackMove").onclick = reset_attack;
+  document.getElementById("skip").onclick = skip_phase;
+  document.getElementById("resetMoveTroops").onclick = reset_move_troops;
   let claim = document.createElement("BUTTON");
   claim.id = "claimTerritory";
   claim.innerHTML = "Claim Territory!";
@@ -205,39 +203,40 @@ function setUp () {
   moveTroops.innerHTML = "Confirm Troop Movements";
   moveTroops.onclick = move_troops;
   document.getElementById("gameUpdates").appendChild(moveTroops);
-	$('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
+  $('#bottom').append($("<button type='button' id = 'turnInCards' class='btn btn-success'>Turn In Cards</button>"));
     $("#turnInCards").on( "click", turnInCards);   
     hideAll();
 }
 
 function hideAll() {
-	$("#attack").hide();
-	$("#defend").hide();
-	$("#skip").hide();
- 	$("#attackerRollText").hide();
-	$("#defenderRollText").hide();
- 	$("#blackRoll").hide();
- 	$("#redRoll").hide();
-	$("#attackLoss").hide();
- 	$("#defendLoss").hide();
- 	$("#attackingWho").hide();
- 	$("#defenderStatus").hide();
- 	$("#attackerStatus").hide();
- 	$("#dropdownbutton").hide();
- 	$("#soldierOptions").hide();
- 	$("#transfergroup").hide();
- 	$("#dropdowngroup").hide();
- 	$("#resetTransfer").hide();
- 	$("#resetAttackMove").hide();
- 	$("#resetMoveTroops").hide();
- 	$("#attackerNumberDie").hide();
- 	$("#defenderNumberDie").hide();
- 	$("#moveTroopsNumber").hide();
- 	$("#selecting").hide();
- 	$("#turnInCards").hide();
+  $("#attack").hide();
+  $("#defend").hide();
+  $("#skip").hide();
+   $("#attackerRollText").hide();
+  $("#defenderRollText").hide();
+   $("#blackRoll").hide();
+   $("#redRoll").hide();
+  $("#attackLoss").hide();
+   $("#defendLoss").hide();
+   $("#attackingWho").hide();
+   $("#defenderStatus").hide();
+   $("#attackerStatus").hide();
+   $("#dropdownbutton").hide();
+   $("#soldierOptions").hide();
+   $("#transfergroup").hide();
+   $("#dropdowngroup").hide();
+   $("#resetTransfer").hide();
+   $("#resetAttackMove").hide();
+   $("#resetMoveTroops").hide();
+   $("#attackerNumberDie").hide();
+   $("#defenderNumberDie").hide();
+   $("#moveTroopsNumber").hide();
+   $("#available").hide();
+   $("#selecting").hide();
+   $("#turnInCards").hide();
   document.getElementById("reinforcer").style.display = "none";
   document.getElementById("deinforcer").style.display = "none";
-  document.getElementById("confirm").style.display = "none"; 	
+  document.getElementById("confirm").style.display = "none";   
   document.getElementById("attacking").style.display = "none";
   document.getElementById("claimTerritory").style.display = "none";
   document.getElementById("moveTroops").style.display = "none";
@@ -245,37 +244,37 @@ function hideAll() {
 }
 
 function addcard(number) {
-	let card;
-	if (number ===1) {
-		card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
-		card.attr("id", cardID.toString());
-		cardID++;		
-	  $('#cards').append(card);
+  let card;
+  if (number ===1) {
+    card = $("<li class ='card one' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>*</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
+    card.attr("id", cardID.toString());
+    cardID++;    
+    $('#cards').append(card);
     }
     if (number ===2) {
       card = $("<li class ='card two' onclick = 'clickOnCard(this)'><div class='w3-card-4'><header class='w3-container-w3-blue'><h1>Card</h1></header><div class='w3-container'><p id = 'star'>**</p></div><footer class='w3-container-w3-blue'>  <h5>Turn in this card for reinforcements!</h5></footer></div></li>");
-	  card.attr("id", cardID.toString());
-	  cardID++;  
-	  $('#cards').append(card);
+    card.attr("id", cardID.toString());
+    cardID++;  
+    $('#cards').append(card);
     }
 }
 
 function createPlayer(number) {
-	for (let i = 0; i < number; i++) {
-		let currDiv = $("<div id = 'names'></div>");
-		let text =  $("<span id = 'name'></span>");
-		currDiv.attr("class", "well well-sm");
-		const player = i+1;
-		let string = players[i];
-		text.html(idToName[players[i]]);
-		currDiv.attr("id", string);
-		currDiv.append(text);
-		$("#playerList").append(currDiv);
-		let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
-		playerInfo[string] = currPlayerInfo ;
+  for (let i = 0; i < number; i++) {
+    let currDiv = $("<div id = 'names'></div>");
+    let text =  $("<span id = 'name'></span>");
+    currDiv.attr("class", "well well-sm");
+    const player = i+1;
+    let string = players[i];
+    text.html(idToName[players[i]]);
+    currDiv.attr("id", string);
+    currDiv.append(text);
+    $("#playerList").append(currDiv);
+    let currPlayerInfo = {playerName: idToName[players[i]], totalNumberTroops: undefined, continents: undefined, terrsTroops: undefined};
+    playerInfo[string] = currPlayerInfo ;
 
 
-		document.getElementById(string).style.backgroundColor = colors[players[i]];
+    document.getElementById(string).style.backgroundColor = colors[players[i]];
     document.getElementById(string).style.font = "bold 12px/30px Georgia, serif";
     document.getElementById(string).style.color = "white";
     document.getElementById(string).style.cursor = "pointer";
@@ -287,24 +286,24 @@ function createPlayer(number) {
     document.getElementById(string).onmouseout = function() {
       document.getElementById(string).style.backgroundColor = colors[players[i]];
       document.getElementById(string).style.transition = "all 1s";
-	 }
+   }
 
     document.getElementById(string).onclick = function() {
       document.getElementById('datadump').innerHTML = "PLAYER PROFILE FOR: " + idToName[string];
       let territoryString = "Occupies these territories: <br>";
-     	let currPlayerInfo  = playerInfo[string];
-     	let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
+       let currPlayerInfo  = playerInfo[string];
+       let territoryTroopInfo = JSON.parse(currPlayerInfo.terrsTroops);
       for (let key in territoryTroopInfo) {
-      	territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
+        territoryString += (key +  " " + territoryTroopInfo[key] + "<br>");
 
       }
       let continentInfo = JSON.parse(currPlayerInfo.continents);
       let continentString = "";
       for (let i = 0; i <continentInfo.length; i ++) {
-      		continentString += ( "<br> " + continentInfo[i]);
+          continentString += ( "<br> " + continentInfo[i]);
       }
       if (continentInfo.length ===0) {
-      	continentString = " none";
+        continentString = " none";
       }
       document.getElementById('territories').innerHTML = territoryString;
       document.getElementById('continents').innerHTML = "Possesses these continents:" + continentString;
@@ -321,36 +320,36 @@ function createPlayer(number) {
 
 let count = 0;
 function blink(selector){
-	while(count<6) {
-	$(selector).fadeOut('slow', function(){
-	    $(this).fadeIn('slow', function(){
-	        blink(this);
-	    });
-	});
-	count++;
+  while(count<6) {
+  $(selector).fadeOut('slow', function(){
+      $(this).fadeIn('slow', function(){
+          blink(this);
+      });
+  });
+  count++;
   }
 }
 
 function getMessage(player, message) {
-	//assign color to message box.
+  //assign color to message box.
    
 
-	let string; 
-	if (player === myId) {
-		string = "Me: " + message;
-	}
-	else {
-		string = idToName[player] + ": " + message;
-	}
-	$li = $("<li class = 'chat'></li>");
-	$li.html(string);
+  let string; 
+  if (player === myId) {
+    string = "Me: " + message;
+  }
+  else {
+    string = idToName[player] + ": " + message;
+  }
+  $li = $("<li class = 'chat'></li>");
+  $li.html(string);
 
-	$("#chatting").append($li);
+  $("#chatting").append($li);
 
-	$("li:last-child").css("border", "1px solid " + colorMap.get(player).toString());
-    $("li:last-child").css("border-left", "6px solid " + colorMap.get(player).toString());
+  $li.css("border", "1px solid " + colorMap.get(player).toString());
+    $li.css("border-left", "6px solid " + colorMap.get(player).toString());
     count = 0;
-    blink("li:last-child");
+    blink($li);
     prevMessage = $li;
 
     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);

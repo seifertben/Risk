@@ -903,7 +903,6 @@ function attackTerritoryInformation(playerAttackInfo) {
         }
       }
     }
-    console.log(s);
 }
 
 /**
