@@ -101,6 +101,9 @@ const sendMessage = event => {
     if (message.toLowerCase().includes("crap")) {
       message = "Lolwut?!11!?";
     }
+    if (message.toLowerCase().includes("cunt")) {
+      message = "MEMEZ!!!";
+    }
     $('#messageField').val("");
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
@@ -164,8 +167,7 @@ function setUp () {
   $sideNav.append($("<p id = 'turn' c></p>"));
   $sideNav.append($("<p id = 'bolsters'></p>"));
   $sideNav.append($("<p id = 'selecting'></p>"));
-  $sideNav.append($("<p id = 'attacking'>Available Territories:</p>"));
-  $sideNav.append($("<p id = 'available'></p>"));
+  $sideNav.append($("<p id = 'attacking'></p>"));
   $sideNav.append($("<button type='button' id = 'resetAttackMove' class='btn btn-danger'>Reset Attack Move</button>"));
   $sideNav.append($("<button type='button' id = 'attack' class='btn btn-danger'>Attack!</button>"));
   $sideNav.append($("<button type='button' id = 'defend' class='btn btn-danger'>Defend!</button>"));
@@ -187,12 +189,17 @@ function setUp () {
   document.getElementById("gameUpdates").appendChild(reinforcer);
   document.getElementById("gameUpdates").appendChild(deinforcer);
   document.getElementById("gameUpdates").appendChild(confirm);
+
+  $sideNav.append($("<p id = 'available'></p>"));
+  $sideNav.append($("<select id='clickList'></select>"));
+  $sideNav.append($("<button type='button' id = 'simSel' class='btn btn-danger'>Select From List</button>"));
   reinforcer.onclick = place_troop;
   deinforcer.onclick = remove_troop;
   confirm.onclick = confirm_move;
   document.getElementById("resetAttackMove").onclick = reset_attack;
   document.getElementById("skip").onclick = skip_phase;
   document.getElementById("resetMoveTroops").onclick = reset_move_troops;
+  document.getElementById("simSel").onclick = simClick;
   let claim = document.createElement("BUTTON");
   claim.id = "claimTerritory";
   claim.innerHTML = "Claim Territory!";
@@ -211,36 +218,37 @@ function setUp () {
 function hideAll() {
   $("#attack").hide();
   $("#defend").hide();
+  $("#clickList").hide();
+  $("#simSel").hide();
   $("#skip").hide();
-   $("#attackerRollText").hide();
+  $("#attackerRollText").hide();
   $("#defenderRollText").hide();
-   $("#blackRoll").hide();
-   $("#redRoll").hide();
+  $("#blackRoll").hide();
+  $("#redRoll").hide();
   $("#attackLoss").hide();
-   $("#defendLoss").hide();
-   $("#attackingWho").hide();
-   $("#defenderStatus").hide();
-   $("#attackerStatus").hide();
-   $("#dropdownbutton").hide();
-   $("#soldierOptions").hide();
-   $("#transfergroup").hide();
-   $("#dropdowngroup").hide();
-   $("#resetTransfer").hide();
-   $("#resetAttackMove").hide();
-   $("#resetMoveTroops").hide();
-   $("#attackerNumberDie").hide();
-   $("#defenderNumberDie").hide();
-   $("#moveTroopsNumber").hide();
-   $("#available").hide();
-   $("#selecting").hide();
-   $("#turnInCards").hide();
+  $("#defendLoss").hide();
+  $("#attackingWho").hide();
+  $("#defenderStatus").hide();
+  $("#attackerStatus").hide();
+  $("#dropdownbutton").hide();
+  $("#soldierOptions").hide();
+  $("#transfergroup").hide();
+  $("#dropdowngroup").hide();
+  $("#resetTransfer").hide();
+  $("#resetAttackMove").hide();
+  $("#resetMoveTroops").hide();
+  $("#attackerNumberDie").hide();
+  $("#defenderNumberDie").hide();
+  $("#moveTroopsNumber").hide();
+  $("#available").hide();
+  $("#selecting").hide();
+  $("#turnInCards").hide();
   document.getElementById("reinforcer").style.display = "none";
   document.getElementById("deinforcer").style.display = "none";
   document.getElementById("confirm").style.display = "none";   
   document.getElementById("attacking").style.display = "none";
   document.getElementById("claimTerritory").style.display = "none";
   document.getElementById("moveTroops").style.display = "none";
-
 }
 
 function addcard(number) {

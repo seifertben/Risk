@@ -1503,15 +1503,16 @@ function select_territory(event) {
         $("#attack").disabled = true;
         $("#attack").addClass('disabled');
         reset_line_color();
-        
+
         attackFrom = event.mapObject.id;
         attackTo = null;
+        attackables = [];
         attackables = terToTar[attackFrom];
         let outer = terrToTerrToLine[attackFrom.toString()];
         for (let i = 0; i<attackables.length; i++) {
           let currLine = outer[attackables[i].toString()];
           changeLines(colors[myId], currLine);
-           map.dataProvider.zoomLevel = map.zoomLevel();
+          map.dataProvider.zoomLevel = map.zoomLevel();
           map.dataProvider.zoomLatitude = map.zoomLatitude();
           map.dataProvider.zoomLongitude = map.zoomLongitude();
           map.validateData();
@@ -1522,12 +1523,18 @@ function select_territory(event) {
         map.dataProvider.zoomLatitude = map.zoomLatitude();
         map.dataProvider.zoomLongitude = map.zoomLongitude();
         map.validateData();
-        document.getElementById("attacking").style.display = "inline";
+        document.getElementById("available").innerHTML = "You Can Attack:";
+        $("#clickList").empty();              
+        selectTerritoriesInformation(attackables);
+        $("#clickList").show();
+        $("#available").show();
+        $("#simSel").show();
+        document.getElementById("attacking").style.display = "inline-block";
         document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
-         addBlink($("#attacking"));
-               setTimeout(function() {
-                   removeBlink($("#attacking")); 
-                }, 4000);
+        addBlink($("#attacking"));
+        setTimeout(function() {
+          removeBlink($("#attacking")); 
+        }, 4000);
         $("#attackerNumberDie").empty();
         for (let index = 1; index <= terToDie[attackFrom.toString()]; index++) {
           if (index == terToDie[attackFrom.toString()]) {
@@ -1540,10 +1547,10 @@ function select_territory(event) {
         }
       }
       document.getElementById("bolsters").innerHTML = "Attacking from " + idToData[attackFrom].name + "!<br>";
-       addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+      addBlink($("#bolsters"));
+      setTimeout(function() {
+        removeBlink($("#bolsters")); 
+      }, 4000);
     } else if (attackFrom != null && attackables.includes(event.mapObject.id)) {
       attackTo = event.mapObject.id;
       let outer = terrToTerrToLine[attackFrom.toString()];
@@ -1563,10 +1570,13 @@ function select_territory(event) {
       attackableLines = [];
       document.getElementById("attacking").innerHTML = "Laying Seige to " + idToData[attackTo].name
         + "!<br> Select a Dice Number and Attack!<br>";
-         addBlink($("#attacking"));
-               setTimeout(function() {
-                   removeBlink($("#attacking")); 
-                }, 4000);
+      addBlink($("#attacking"));
+      setTimeout(function() {
+        removeBlink($("#attacking")); 
+      }, 4000);
+      $("#clickList").hide();
+      $("#available").hide();
+      $("#simSel").hide();
       $("#attack").disabled = false;
       $("#attack").removeClass('disabled');
     }
@@ -1575,6 +1585,11 @@ function select_territory(event) {
         if (moveFrom == null) {
           moveFrom = event.mapObject.id;
           moveables = terrToReachableTerrs[moveFrom];
+          document.getElementById("available").innerHTML = "You Can Move Troops To:";
+
+          document.getElementById("bolsters").innerHTML = "Select A Territory To Move Troops To";
+          $("#clickList").empty();              
+          selectTerritoriesInformation(moveables);
           $("#moveTroopsNumber").empty();
           for (let index = 1; index <= terrToMaxTroopsMove[moveFrom.toString()]; index++) {
             if (index == terrToMaxTroopsMove[moveFrom.toString()]) {
@@ -1602,10 +1617,16 @@ function select_territory(event) {
 
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
-   addBlink($("#bolsters"));
-               setTimeout(function() {
-                   removeBlink($("#bolsters")); 
-                }, 4000);
+  document.getElementById("available").innerHTML = "You Can Attack From:";
+  $("#clickList").empty();              
+  selectTerritoriesInformation(availableForClaim);
+  $("#clickList").show();
+  $("#available").show();
+  $("#simSel").show();
+  addBlink($("#bolsters"));
+  setTimeout(function() {
+    removeBlink($("#bolsters")); 
+  }, 4000);
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
@@ -1631,7 +1652,6 @@ function reset_attack() {
   attackables = null;
 }
 
-
 function reset_line_color() {
   for (let i = 0; i<attackableLines.length; i++) {
     let currLine = attackableLines[i];
@@ -1641,13 +1661,19 @@ function reset_line_color() {
   map.dataProvider.zoomLatitude = map.zoomLatitude();
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
-  attackables = [];
 }
 
 function reset_move_troops() {
   $("#moveTroops").disabled = true;
   $("#moveTroops").addClass('disabled');
   $("#moveTroopsNumber").empty();
+  document.getElementById("available").innerHTML = "You Can Move Troops From:";
+  document.getElementById("bolsters").innerHTML = "Select A Territory From Which to Move Troops";
+  $("#clickList").empty();              
+  selectTerritoriesInformation(availableForClaim);
+  $("#clickList").show();
+  $("#available").show();
+  $("#simSel").show();
   moveFrom = null;
   moveTo = null;
   moveables = [];
