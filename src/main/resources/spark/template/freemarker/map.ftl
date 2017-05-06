@@ -79,8 +79,9 @@
 </footer>
 </div></div>
 <div id="muter">
-        <label class="switch">
+      <label class="switch">
       <input id="mute" type="checkbox">
       <div class="slider round"></div>
+      <span class="slider-inner"></span>
     </label>
     </div>

@@ -301,7 +301,8 @@ const setup_matches = () => {
           			+ "</b> from <b>" + idToData[data.attackFrom].name + "</b>!");
           	result = "<b>" + idToName[data.movePlayer] + "</b> Rolled " + result;
           	updateLog(result);
-        	break;
+
+          break;
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
         	let def = " ";
         	let stall = JSON.parse(data.roll);
@@ -800,17 +801,19 @@ const skip_phase = event => {
   if (phase == "attacking") {
     
     for (let i = 0; i<attackableLines.length; i ++) {
-          
           changeLines("black", attackableLines[i]);
-          map.dataProvider.zoomLevel = map.zoomLevel();
-          map.dataProvider.zoomLatitude = map.zoomLatitude();
-          map.dataProvider.zoomLongitude = map.zoomLongitude();
-          map.validateData();
       }
+    if (attackLine != null) {
+      chageLines("black", attackLine);
+    }
+    map.dataProvider.zoomLevel = map.zoomLevel();
+    map.dataProvider.zoomLatitude = map.zoomLatitude();
+    map.dataProvider.zoomLongitude = map.zoomLongitude();
+    map.validateData();
   }
   
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
-	availableForClaim = [];
+	  availableForClaim = [];
     moveables = [];
     moveFrom = null;
     moveTo = null;
@@ -821,7 +824,6 @@ const skip_phase = event => {
     $("#skip").hide();
     $("#turnInCards").hide();
     $("#resetMoveTroops").hide();
-
     document.getElementById("attack").style.display = "none";
     document.getElementById("resetAttackMove").style.display = "none";
     document.getElementById("reinforcer").style.display = "none";

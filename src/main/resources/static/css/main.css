@@ -198,6 +198,8 @@
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
+  
+
 }
 
 input:checked + .slider {
