@@ -177,6 +177,7 @@ function setUp () {
   $sideNav.append($("<select id='attackerNumberDie'> </select>"));
   $sideNav.append($("<select id='defenderNumberDie'> </select>"));
   $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
+
   let reinforcer = document.createElement("BUTTON");
   let deinforcer = document.createElement("BUTTON");
   let confirm = document.createElement("BUTTON");
