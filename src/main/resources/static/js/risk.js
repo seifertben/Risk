@@ -92,7 +92,7 @@ const sendMessage = event => {
     if (message.toLowerCase().includes("shit")) {
       message = "Mommy says I shouldn't say swears...";
     }
-    if (message.toLowerCase().includes("ass")) {
+    if (message.toLowerCase().includes("ass ")) {
       message = "Wow! GG.";
     }
     if (message.toLowerCase().includes("dick")) {
