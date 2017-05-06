@@ -329,7 +329,7 @@ const setup_matches = () => {
                console.log(outer);
                 if (outer != null) {
                     if (outer[data.defendTerritory] === attackLine) {
-                        attackLine.color = "black";
+                        changeLines("black", attackLine);
                         map.dataProvider.zoomLevel = map.zoomLevel();
                     map.dataProvider.zoomLatitude = map.zoomLatitude();
                     map.dataProvider.zoomLongitude = map.zoomLongitude();
@@ -342,7 +342,7 @@ const setup_matches = () => {
                    let outer = terrToTerrToLine[data.attackTerritory];
                    console.log(outer);
                  if (outer != null) {
-                        outer[data.defendTerritory].color = "black";
+                        changeLines("black", outer[data.defendTerritory]);
                         console.log(outer[data.defendTerritory]);
                         map.dataProvider.zoomLevel = map.zoomLevel();
                         map.dataProvider.zoomLatitude = map.zoomLatitude();
@@ -359,7 +359,7 @@ const setup_matches = () => {
                 if (outer != null) {
 
                   if (outer[data.defendTerritory] === attackLine) {
-                    attackLine.color = "black";
+                    changeLines("black", outer[data.defendTerritory]);                    
                     map.dataProvider.zoomLevel = map.zoomLevel();
                     map.dataProvider.zoomLatitude = map.zoomLatitude();
                     map.dataProvider.zoomLongitude = map.zoomLongitude();
@@ -373,7 +373,7 @@ const setup_matches = () => {
 
 
                   
-                  outer[data.defendTerritory].color = "black";
+                  changeLines("black", outer[data.defendTerritory]);
                   map.dataProvider.zoomLevel = map.zoomLevel();
                   map.dataProvider.zoomLatitude = map.zoomLatitude();
                   map.dataProvider.zoomLongitude = map.zoomLongitude();
@@ -389,11 +389,11 @@ const setup_matches = () => {
 
 
                     if (outer[data.defendTerritory] === attackLine) {
-                        attackLine.color = "black";
-                        map.dataProvider.zoomLevel = map.zoomLevel();
-                        map.dataProvider.zoomLatitude = map.zoomLatitude();
-                        map.dataProvider.zoomLongitude = map.zoomLongitude();
-                        map.validateData();
+                      changeLines("black", outer[data.defendTerritory]);
+                      map.dataProvider.zoomLevel = map.zoomLevel();
+                      map.dataProvider.zoomLatitude = map.zoomLatitude();
+                      map.dataProvider.zoomLongitude = map.zoomLongitude();
+                      map.validateData();
                       }
                   }
 
@@ -401,7 +401,7 @@ const setup_matches = () => {
                 string = "<b>" + idToName[data.attacker] + "</b> Has Won the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-                      outer[data.defendTerritory].color = "black";
+                      changeLines("black", outer[data.defendTerritory]);
                       map.dataProvider.zoomLevel = map.zoomLevel();
                       map.dataProvider.zoomLatitude = map.zoomLatitude();
                       map.dataProvider.zoomLongitude = map.zoomLongitude();

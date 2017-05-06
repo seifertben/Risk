@@ -1640,8 +1640,8 @@ function reset_attack() {
   if (attackLine !=null) {
     let outer = terrToTerrToLine[attackFrom.toString()];
     if (outer != null) {
-      if (outer[attackTo.toString()].id === attackLine.id) {
-        attackLine.color = "black";
+      if (outer[attackTo.toString()]=== attackLine) {
+       changeLines("black", attackLine);
         map.dataProvider.zoomLevel = map.zoomLevel();
         map.dataProvider.zoomLatitude = map.zoomLatitude();
         map.dataProvider.zoomLongitude = map.zoomLongitude();
