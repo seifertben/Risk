@@ -205,7 +205,6 @@ function setUp () {
     hideAll();
 
     $('#card-footer').css({"display":"none"});
-
 }
 
 function hideAll() {
