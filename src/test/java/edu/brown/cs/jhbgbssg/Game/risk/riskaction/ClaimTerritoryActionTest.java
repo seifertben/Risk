@@ -19,7 +19,7 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ClaimTerritoryMoveTest {
+public class ClaimTerritoryActionTest {
 
   /**
    * Tests the constructor returns a non-null object.

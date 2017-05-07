@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.riskworld;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,9 +10,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
-import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
-import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for Territory.

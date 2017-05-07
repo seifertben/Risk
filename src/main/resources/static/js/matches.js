@@ -340,7 +340,6 @@ const setup_matches = () => {
                       }
                   }
               } else {
-                console.log("Here!!!");
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
                    let outer = terrToTerrToLine[data.attackTerritory];
                    console.log(outer);
@@ -350,10 +349,8 @@ const setup_matches = () => {
                         map.dataProvider.zoomLevel = map.zoomLevel();
                         map.dataProvider.zoomLatitude = map.zoomLatitude();
                         map.dataProvider.zoomLongitude = map.zoomLongitude();
-                        map.validateData();
-                    
+                        map.validateData();  
                  }
-               
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
@@ -374,8 +371,6 @@ const setup_matches = () => {
                  let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
-
-                  
                   changeLines("black", outer[data.defendTerritory]);
                   map.dataProvider.zoomLevel = map.zoomLevel();
                   map.dataProvider.zoomLatitude = map.zoomLatitude();

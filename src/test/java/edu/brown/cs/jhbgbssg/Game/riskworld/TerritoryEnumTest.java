@@ -1,11 +1,8 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.riskworld;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
-import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for TerritoryEnum.

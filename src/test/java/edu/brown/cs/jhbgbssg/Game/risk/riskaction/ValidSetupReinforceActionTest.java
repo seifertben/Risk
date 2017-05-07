@@ -108,8 +108,8 @@ public class ValidSetupReinforceActionTest {
     this.initializeRandomGame(player1, player2, board);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     TerritoryEnum terr = (TerritoryEnum) player1.getTerritories().toArray()[0];
-    SetupReinforceAction reinforce = new SetupReinforceAction(player1, board,
-        terr);
+    SetupReinforceAction reinforce =
+        new SetupReinforceAction(player1, board, terr);
     assertTrue(action.validSetupReinforceMove(reinforce));
   }
 
@@ -125,8 +125,8 @@ public class ValidSetupReinforceActionTest {
     this.initializeRandomGame(player1, player2, board);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     TerritoryEnum terr = (TerritoryEnum) player2.getTerritories().toArray()[0];
-    SetupReinforceAction reinforce = new SetupReinforceAction(player1, board,
-        terr);
+    SetupReinforceAction reinforce =
+        new SetupReinforceAction(player1, board, terr);
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
@@ -142,8 +142,8 @@ public class ValidSetupReinforceActionTest {
     this.initializeRandomGame(player1, player2, board);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     TerritoryEnum terr = (TerritoryEnum) player1.getTerritories().toArray()[0];
-    SetupReinforceAction reinforce = new SetupReinforceAction(player2, board,
-        terr);
+    SetupReinforceAction reinforce =
+        new SetupReinforceAction(player2, board, terr);
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
@@ -158,8 +158,8 @@ public class ValidSetupReinforceActionTest {
     RiskBoard board = new RiskBoard();
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     assertFalse(action.actionAvailable());
-    SetupReinforceAction reinforce = new SetupReinforceAction(player1, board,
-        TerritoryEnum.ALASKA);
+    SetupReinforceAction reinforce =
+        new SetupReinforceAction(player1, board, TerritoryEnum.ALASKA);
     assertFalse(action.validSetupReinforceMove(reinforce));
     assertFalse(action.actionAvailable());
   }
@@ -176,8 +176,8 @@ public class ValidSetupReinforceActionTest {
     board.getTerritory(TerritoryEnum.YAKUTSK).changePlayer(player1, 2);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     assertFalse(action.actionAvailable());
-    SetupReinforceAction reinforce = new SetupReinforceAction(player1, board,
-        TerritoryEnum.YAKUTSK);
+    SetupReinforceAction reinforce =
+        new SetupReinforceAction(player1, board, TerritoryEnum.YAKUTSK);
     assertFalse(action.validSetupReinforceMove(reinforce));
   }
 
@@ -192,17 +192,19 @@ public class ValidSetupReinforceActionTest {
     this.initializeRandomGame(player1, player2, board);
     ValidSetupReinforceAction action = new ValidSetupReinforceAction(player1);
     for (TerritoryEnum terr : player1.getTerritories()) {
-      SetupReinforceAction reinforce = new SetupReinforceAction(player1, board,
-          terr);
+      SetupReinforceAction reinforce =
+          new SetupReinforceAction(player1, board, terr);
       assertTrue(action.validSetupReinforceMove(reinforce));
     }
   }
 
   /**
    *
-   * @param player1
-   * @param player2
-   * @param board
+   * Initializes a random board for testing.
+   *
+   * @param player1 - player 1
+   * @param player2 - player 2
+   * @param board - game board
    */
   private void initializeRandomGame(RiskPlayer player1, RiskPlayer player2,
       RiskBoard board) {
