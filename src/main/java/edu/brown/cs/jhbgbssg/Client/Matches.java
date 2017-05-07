@@ -215,7 +215,9 @@ public class Matches {
       remove.addProperty("lobbySize", game.lobbySize());
       remove.addProperty("matchName", game.matchName());
       for (Session player : sessions) {
-        player.getRemote().sendString(remove.toString());
+        if (player.isOpen()) {
+          player.getRemote().sendString(remove.toString());
+        }
       }
       playerToGame.put(playerUUID, null);
       return;
@@ -255,7 +257,9 @@ public class Matches {
 
     // Send that message to all players
     for (Session player : sessions) {
-      player.getRemote().sendString(change.toString());
+      if (player.isOpen()) {
+        player.getRemote().sendString(change.toString());
+      }
     }
 
     // Update the lobby map
@@ -306,7 +310,9 @@ public class Matches {
 
     // Send this message to all players
     for (Session player : sessions) {
-      player.getRemote().sendString(update.toString());
+      if (player.isOpen()) {
+        player.getRemote().sendString(update.toString());
+      }
     }
 
     for (int index = 0; index < initials.size(); index++) {
@@ -355,7 +361,9 @@ public class Matches {
     update.addProperty("matchName", matchName);
 
     for (Session player : sessions) {
-      player.getRemote().sendString(update.toString());
+      if (player.isOpen()) {
+        player.getRemote().sendString(update.toString());
+      }
     }
   }
 
@@ -390,14 +398,14 @@ public class Matches {
             player.getRemote().sendString(remove.toString());
           }
         }
-      } else {
+      }
+      else {
         List<UUID> remaining = game.getPlayers();
         JsonObject leaver = new JsonObject();
         leaver.addProperty("type", RiskMessageType.LEAVER.ordinal());
         for (UUID player : remaining) {
           Session currSession = playerToSession.get(player);
           if (currSession != session) {
-            System.out.println(player);
             currSession.getRemote().sendString(leaver.toString());
           }
         }

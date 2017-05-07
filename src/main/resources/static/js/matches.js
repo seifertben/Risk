@@ -106,7 +106,6 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.LEAVER:
-        console.log("LEAVER");
         playerLeftGameModal();
     	break;
 
@@ -324,12 +323,12 @@ const setup_matches = () => {
           	let defRoll = "<b>" + idToName[data.defender] + "</b> Rolled " + def;
           	updateLog(defRoll);
 
-            let string = "";
+            let string = "<b>" + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost
+              + ", and <b>" + idToName[data.deffender] + "</b> Lost " + data.defenderTroopsLost + "!";
             if (data.defenderLostTerritory) {
               if (data.attacker == myId) {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-               let outer = terrToTerrToLine[data.attackTerritory];
-               console.log(outer);
+                let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
                     if (outer[data.defendTerritory] === attackLine) {
                         changeLines("black", attackLine);
@@ -341,8 +340,7 @@ const setup_matches = () => {
                   }
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-                   let outer = terrToTerrToLine[data.attackTerritory];
-                   console.log(outer);
+                 let outer = terrToTerrToLine[data.attackTerritory];
                  if (outer != null) {
                         changeLines("black", outer[data.defendTerritory]);
                         console.log(outer[data.defendTerritory]);
@@ -354,7 +352,6 @@ const setup_matches = () => {
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
-              	string = "<b>You</b> Have Lost the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
@@ -367,7 +364,6 @@ const setup_matches = () => {
                   }
                 }
               } else {
-                string = "<b>" + idToName[data.attacker] + "</b> Has Lost the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
                  let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
@@ -381,7 +377,6 @@ const setup_matches = () => {
               }
             } else {
               if (data.attacker == myId) {
-                string = "<b>You</b> Have Won the Battle at <b>" + idToData[data.defendTerritory].name + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
@@ -396,7 +391,6 @@ const setup_matches = () => {
                   }
 
               } else {
-                string = "<b>" + idToName[data.attacker] + "</b> Has Won the Battle at <b>" + idToData[data.defendTerritory].name  + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
                       changeLines("black", outer[data.defendTerritory]);
@@ -459,7 +453,7 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP:
           	document.getElementById("phase").innerHTML = "Select Territories";
 
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
           	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
@@ -496,7 +490,7 @@ const setup_matches = () => {
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
 
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
           	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
@@ -537,7 +531,7 @@ const setup_matches = () => {
             break;
 
           case MOVE_TYPES.TURN_IN_CARD:
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
             if (data.playerId == myId) {
               $('#cards li').each(function() {
@@ -564,7 +558,7 @@ const setup_matches = () => {
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
         	if (data.playerId == myId) {
               document.getElementById("turn").style.fontWeight = "bold";
@@ -615,7 +609,7 @@ const setup_matches = () => {
 
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
@@ -680,7 +674,7 @@ const setup_matches = () => {
 
           case MOVE_TYPES.CLAIM_TERRITORY:
 
-              $("#"+data.playerId).css("border-color", "black");
+              $("#"+data.playerId).css("border-color", "gold");
               $("#"+data.playerId).css("border-width", "2px");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
@@ -709,7 +703,7 @@ const setup_matches = () => {
 
           case MOVE_TYPES.MOVE_TROOPS:
 
-            $("#"+data.playerId).css("border-color", "black");
+            $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
             if (data.playerId == myId) {
@@ -1064,7 +1058,6 @@ function simClick() {
 }
 
 function playerLeftGameModal() {
-  console.log("HIIIIIIII");
   document.getElementById('gameOverModal').style.display = "block";
   document.getElementById('gameOverModal').onclick = function () {
     window.location = "/risk";

@@ -249,9 +249,7 @@ public class Match {
             break;
           case SKIP:
             RiskPlayer player = this.getSkipPlayer(received);
-            System.out.println("here");
             update = actionProcessor.processSkipAction(player);
-            System.out.println("here");
             break;
           default:
             MoveTroopsAction moveAction = this.createMoveTroopsAction(received);

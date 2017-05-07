@@ -172,8 +172,8 @@ function setUp () {
   $endNav.append($("<button type='button' id = 'resetAttackMove' class='attackbtn'>Reset Attack Move</button>"));
   $sideNav.append($("<button type='button' id = 'attack' class='attackbtn'>Attack!</button>"));
   $sideNav.append($("<button type='button' id = 'defend' class='attackbtn'>Defend!</button>"));
+  $endNav.append($("<button type='button' id = 'resetMoveTroops' class='attackbtn'>Reset Move Troops</button>"));
   $endNav.append($("<button type='button' id = 'skip' class='attackbtn'>End Turn</button>"));
-  $sideNav.append($("<button type='button' id = 'resetMoveTroops' class='regbtn'>Reset Move Troops</button>"));
   $sideNav.append($("<select id='attackerNumberDie'> </select>"));
   $sideNav.append($("<select id='defenderNumberDie'> </select>"));
   $sideNav.append($("<select id='moveTroopsNumber'> </select>"));
@@ -193,7 +193,7 @@ function setUp () {
   $sideNav.append($("<button id='claimTerritory' class='regbtn'>Claim Territory</button>"));
   document.getElementById("claimTerritory").onclick = claim_terr;
   
-  $sideNav.append($("<button id='moveTroops' class='regbtn'>Confirm Troops Movements</button>"));
+  $sideNav.append($("<button id='moveTroops' class='regbtn'>Confirm Movement</button>"));
   document.getElementById("moveTroops").onclick = move_troops;
 
   $sideNav.append($("<p id = 'available'></p>"));
