@@ -337,6 +337,8 @@ function createPlayer(number) {
       document.getElementById('myModal').style.display = "block";
     }
     document.getElementById("closer").onclick = function() {
+    let color = document.getElementById(string).style.backgroundColor;
+    document.getElementById(string).style.backgroundColor = color;
     document.getElementById('myModal').style.display = "none";
     }
   }
