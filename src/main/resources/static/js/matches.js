@@ -223,7 +223,10 @@ const setup_matches = () => {
         loserModal(data);
     	break;
 
-      // Handle previous moves
+      /**
+       * Previous Action messages displays to all players what just happened
+       * in the game and updates the game view.
+       */
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         
         switch(data.moveType){
@@ -267,7 +270,8 @@ const setup_matches = () => {
           	hideAll();
         	break;
 
-          // When someone turns in a card
+          // When someone turns in cards, remove the cards card modal.
+          // only removes cards that are selected and in the list of cards to remove
           case MOVE_TYPES.TURN_IN_CARD:
             color_reset();
             let cards = [];
@@ -454,7 +458,10 @@ const setup_matches = () => {
         }
         break;
 
-      // Handle what actions are now available
+      /**
+       * Handle what actions are now available. If the playerId sent is a player's Id,
+       * the frontend enables the functionality needed to execute the action.
+       */ 
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:
@@ -494,6 +501,7 @@ const setup_matches = () => {
           	}
             break;
 
+           //initial reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
 
@@ -537,6 +545,7 @@ const setup_matches = () => {
           	}
             break;
 
+          //turning in cards
           case MOVE_TYPES.TURN_IN_CARD:
             $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
@@ -562,6 +571,7 @@ const setup_matches = () => {
            }
            break;
 
+           //reinforcing territories
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
@@ -614,6 +624,7 @@ const setup_matches = () => {
         	}
             break;
 
+          //attacking
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -654,6 +665,7 @@ const setup_matches = () => {
            	}
             break;
 
+          //defending
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
 
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
@@ -679,6 +691,7 @@ const setup_matches = () => {
             }
         	break;
 
+          //claiming a territory
           case MOVE_TYPES.CLAIM_TERRITORY:
 
               $("#"+data.playerId).css("border-color", "gold");
@@ -708,6 +721,7 @@ const setup_matches = () => {
             }
             break;
 
+          //transfering troops
           case MOVE_TYPES.MOVE_TROOPS:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -986,14 +1000,26 @@ function removeBlink(element) {
 
 }
 
+/**
+ * Displays the loser modal. for the player that lost, it says "YOU LOST!"
+ * For everyone else, the modal displays a message indicating who lost the game.
+ */
 function loserModal() {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
   } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
   }
+  document.getElementById("closeLoser").onclick = function() {
+     document.getElementById('loserModal').style.display = "none";
+  }
 }
 
+/**
+ * Displays the winner modal. For the player that won the game, the modal says
+ * "YOU WON!" Everyone else sees a message indicating who won the game. It
+ * has a button that allows players to return to the home page.
+ */
 function winnerModal() {
   if (data.loser == myId) {
     document.getElementById('winner').innerHTML = "YOU WON!"; 
@@ -1061,6 +1087,11 @@ function simClick() {
   map.clickMapObject(idToData[sel.options[sel.selectedIndex].value]);
 }
 
+/**
+ * Displays the modal indicating a player has left the game, which ends 
+ * the game. It also sets up the button that when clicked, returns players
+ * to the main menu.
+ */
 function playerLeftGameModal() {
   document.getElementById('gameOverModal').style.display = "block";
   document.getElementById('gameOverModal').onclick = function () {

@@ -84,7 +84,7 @@ public class Matches {
 
   /**
    * Handle a player disconnect or reload.
-   * 
+   *
    * @param session The disconnecting player.
    * @param statusCode Exit code.
    * @param reason Exit reason.
@@ -146,7 +146,7 @@ public class Matches {
       List<JsonObject> response = game.getUpdate(received);
 
       boolean destroy = false;
-     // Send the response messages to all players in that match
+      // Send the response messages to all players in that match
       for (int index = 0; index < response.size(); index++) {
         List<UUID> playerList = game.getPlayers();
         for (int looper = 0; looper < game.playerNum(); looper++) {
@@ -154,7 +154,8 @@ public class Matches {
           playerToSession.get(toAlert).getRemote()
               .sendString(response.get(index).toString());
         }
-        if (response.get(index).get("type").getAsInt() == RiskMessageType.WINNER.ordinal()) {
+        if (response.get(index).get("type").getAsInt() == RiskMessageType.WINNER
+            .ordinal()) {
           destroy = true;
         }
       }
@@ -369,7 +370,7 @@ public class Matches {
 
   /**
    * Remove a player from any lobbies they are in.
-   * 
+   *
    * @param session Player who has disconnected.
    * @throws IOException When there is an error sending update messages to
    *           players.
@@ -398,8 +399,7 @@ public class Matches {
             player.getRemote().sendString(remove.toString());
           }
         }
-      }
-      else {
+      } else {
         List<UUID> remaining = game.getPlayers();
         JsonObject leaver = new JsonObject();
         leaver.addProperty("type", RiskMessageType.LEAVER.ordinal());
