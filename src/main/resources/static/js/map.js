@@ -1862,9 +1862,6 @@ function changeLines(color, line) {
   }
 
   line.color = color;
-  map.dataProvider.zoomLevel = map.zoomLevel();
-  map.dataProvider.zoomLatitude = map.zoomLatitude();
-  map.dataProvider.zoomLongitude = map.zoomLongitude();
-  map.validateData();
+ 
 
 }
