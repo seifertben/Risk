@@ -129,4 +129,7 @@ All the player icons except the winner’s will have a red x indicating they los
 _A link to your design presentation/document will go here!_
 
 ## How to Build and Run
-_A necessary part of any README!_
+To build and run the project locally in Matches.js comment out line 86 and uncomment 87 to direct the project to the localhost::4567/risk. In the main project directory, term-project-bgabinet-bseifert-jhuang11-sagilmor, and run mvn package.
+Once the project is compiled, ./run --gui from the command line (in the same directory) to run the project. To run the project over the server, go to http://107.170.49.223/risk. The server will be running all the time.
+
+To run the JUnit tests, from the main directory, run mvn test. Becuase the project has no commands that can be run from the command line, there are no system tests for the project. 
