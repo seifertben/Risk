@@ -321,7 +321,7 @@ let WEUDATA =  {
       "scale": 1.5,
       "type": "circle",
       "bringForwardOnHover": true,
-      "label": "W EU",
+      "label": "W. EU",
       "selectable": true,
       "labelShiftY": 10,
       "labelShiftX": -50,
@@ -340,7 +340,7 @@ let NEUDATA = {
       "scale": 1.5,
       "type": "circle",
       "bringForwardOnHover": true,
-      "label": "N EU",
+      "label": "N. EU",
       "labelShiftY": 2,
       "name": "Northern Europe",
       "title": "Northern Europe: Occupied by No One",
@@ -357,7 +357,7 @@ let SEUDATA =    {
       "scale": 1.5,
       "type": "circle",
       "bringForwardOnHover": true,
-      "label": "S EU",
+      "label": "S. EU",
       "labelShiftY": 2,
       "name": "Southern Europe",
       "title": "Southern Europe: Occupied by No One",
@@ -600,7 +600,7 @@ let INDIADATA =  {
       "bringForwardOnHover": true,
       "label": "India",
       "name": "India",
-      "labelShiftY": -2,
+      "labelShiftY": -6,
       "selectable": true,
       "title": "India: Occupied by No One",
       "id": 28,
@@ -1290,7 +1290,7 @@ let SEU_RUSSIA = {
 //object mapping the enum to a line that will be appended by terrToTerrToLines
 const ALASKAADJACENT = {"7": ALBERTA_ALASKA, "6": NWTERRITORIES_ALASKA, "31": ALASKA_INF};
 terrToTerrToLine.push(ALASKAADJACENT);
-const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND, "1":EUS_ONTARIO};
+const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND, "3":EUS_ONTARIO};
 terrToTerrToLine.push(ONTARIOADJACENT);
 const CENTRALAMERICAADJACENT = {"3": EUS_CA, "9": VZ_CA, "4": WUS_CA}; 
 terrToTerrToLine.push(CENTRALAMERICAADJACENT);
@@ -1314,7 +1314,7 @@ const BRAZILADJACENT = {"10": BRAZIL_PERU, "9": BRAZIL_VZ, "12": ARGENTINA_BRAZI
 terrToTerrToLine.push(BRAZILADJACENT);
 const ARGENTINAADJACENT = {"11": ARGENTINA_BRAZIL, "10": ARGENTINA_PERU};
 terrToTerrToLine.push(ARGENTINAADJACENT);
-const NAFADJACENT = {"12": NAF_BRAZIL, "24":NAF_SEU, "14": NAF_EGYPT, "16": NAF_CAF, "21": WEU_NAF,"15": NAF_EAF};
+const NAFADJACENT = {"11": NAF_BRAZIL, "24":NAF_SEU, "14": NAF_EGYPT, "16": NAF_CAF, "21": WEU_NAF,"15": NAF_EAF};
 terrToTerrToLine.push(NAFADJACENT);
 const EGYPTADJACENT = {"24": EGYPT_SEU, "15": EGYPT_EAF, "32":EGYPT_ME, "13": NAF_EGYPT};
 terrToTerrToLine.push(EGYPTADJACENT);
@@ -1862,9 +1862,6 @@ function changeLines(color, line) {
   }
 
   line.color = color;
-  map.dataProvider.zoomLevel = map.zoomLevel();
-  map.dataProvider.zoomLatitude = map.zoomLatitude();
-  map.dataProvider.zoomLongitude = map.zoomLongitude();
-  map.validateData();
+ 
 
 }

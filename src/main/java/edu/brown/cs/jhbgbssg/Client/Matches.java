@@ -52,7 +52,7 @@ public class Matches {
    * @param session Player session.
    */
   @OnWebSocketConnect
-  public void connected(Session session) {
+  public synchronized void connected(Session session) {
 
     try {
       // Add session to queue, generate id,
@@ -94,7 +94,7 @@ public class Matches {
    * @param reason Exit reason.
    */
   @OnWebSocketClose
-  public void closed(Session session, int statusCode, String reason) {
+  public synchronized void closed(Session session, int statusCode, String reason) {
     // Update the lobbies and remove
     // this player from our list
     removePlayer(session);
@@ -111,7 +111,7 @@ public class Matches {
    *           players.
    */
   @OnWebSocketMessage
-  public void message(Session session, String message) throws IOException {
+  public synchronized void message(Session session, String message) throws IOException {
 
     try {
       // Get received message
@@ -203,7 +203,7 @@ public class Matches {
    * @param message Stringified JsonObject with info on the player and the lobby
    *          being joined.
    */
-  private void joinPlayer(Session session, String message) {
+  private synchronized void joinPlayer(Session session, String message) {
 
     try {
       // Get received message
@@ -294,7 +294,7 @@ public class Matches {
    *
    * @param match - game match.
    */
-  private void startGame(Match toStart) {
+  private synchronized void startGame(Match toStart) {
 
     try {
       List<JsonObject> initials = toStart.start();
@@ -353,7 +353,7 @@ public class Matches {
    * @param message Stringified JsonObject about the lobby the player wanted to
    *          make.
    */
-  private void createLobby(Session session, String message) {
+  private synchronized void createLobby(Session session, String message) {
 
     try {
       // Get received message
@@ -395,7 +395,7 @@ public class Matches {
    *
    * @param session Player who has disconnected.
    */
-  private void removePlayer(Session session) {
+  private synchronized void removePlayer(Session session) {
 
     try {
       // If this player was in a lobby...
