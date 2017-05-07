@@ -693,6 +693,10 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
               changeLines("black", attackLine);
+              map.dataProvider.zoomLevel = map.zoomLevel();
+              map.dataProvider.zoomLatitude = map.zoomLatitude();
+              map.dataProvider.zoomLongitude = map.zoomLongitude();
+              map.validateData();
               attackLine = null;
 
               $("#moveTroopsNumber").empty();
