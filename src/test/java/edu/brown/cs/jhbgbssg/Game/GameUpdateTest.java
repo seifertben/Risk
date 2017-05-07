@@ -9,12 +9,12 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for GameUpdate.

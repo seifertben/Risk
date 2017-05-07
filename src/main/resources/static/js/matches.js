@@ -82,8 +82,8 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  conn = new WebSocket("ws://107.170.49.223/matches");
-  //conn = new WebSocket("ws://localhost:4567/matches");
+  //conn = new WebSocket("ws://107.170.49.223/matches");
+  conn = new WebSocket("ws://localhost:4567/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -415,9 +415,9 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-             //  let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-             // conn.send(JSON.stringify(mess));
-             // availableForClaim = [];
+              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
+             conn.send(JSON.stringify(mess));
+             availableForClaim = [];
               // AUTOPLAY
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -452,15 +452,15 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
               // AUTOPLAY
-             //  if (data.troopsToPlace > 0) {
-             //   let mess = {"type": MESSAGE_TYPE.MOVE,
-             //     "moveType": MOVE_TYPES.SETUP_REINFORCE,
-             //     "playerId": myId, 
-             //     "territoryId": availableForClaim[0]
-             //   };  
-             //   conn.send(JSON.stringify(mess));
-             //   availableForClaim = [];
-             // }
+              if (data.troopsToPlace > 0) {
+               let mess = {"type": MESSAGE_TYPE.MOVE,
+                 "moveType": MOVE_TYPES.SETUP_REINFORCE,
+                 "playerId": myId, 
+                 "territoryId": availableForClaim[0]
+               };  
+               conn.send(JSON.stringify(mess));
+               availableForClaim = [];
+             }
                   // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
@@ -485,7 +485,7 @@ const setup_matches = () => {
               document.getElementById("phase").innerHTML = "Hand in Cards";             
               $("#skip").text("Skip Handing in Cards?");
               $("#skip").show();
-              $("#turnInCards").disabled = true;
+              document.getElementById("turnInCards").disabled = true;
               $("#turnInCards").addClass('disabled');
               $("#turnInCards").show();
               canClick = true;
@@ -718,14 +718,14 @@ function clickOnCard(element) {
         element.style.borderStyle = "solid";
         element.style.borderColor = "black";
         cardsClicked++;
-        ("#turnInCards").disabled = false;
+        document.getElementById("turnInCards").disabled = false;
         $("#turnInCards").removeClass('disabled');
       } else {
         element.style.borderStyle = "none";
         element.style.borderColor = "none";
         cardsClicked--;
         if (cardsClicked == 0) {
-          $("#turnInCards").disabled = true;
+          document.getElementById("turnInCards").disabled = true;
           $("#turnInCards").addClass('disabled');
         }
       }
@@ -996,4 +996,11 @@ function selectTerritoriesInformation(selectableTerrs) {
 function simClick() {
   let sel = document.getElementById("clickList");
   map.clickMapObject(idToData[sel.options[sel.selectedIndex].value]);
+}
+
+function playerLeftGameModal() {
+  document.getElementById('gameOverModal').style.display = "block";
+  document.getElementById('gameOverModal').onclick = function () {
+    window.location = "/risk";
+  }
 }

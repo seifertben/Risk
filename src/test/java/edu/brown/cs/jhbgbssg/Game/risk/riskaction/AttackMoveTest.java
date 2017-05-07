@@ -10,8 +10,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for AttackMove.

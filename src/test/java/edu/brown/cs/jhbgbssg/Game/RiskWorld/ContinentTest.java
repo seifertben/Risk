@@ -1,4 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.RiskWorld;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,7 +6,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for ContinentEnum.

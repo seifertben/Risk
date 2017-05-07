@@ -1,14 +1,13 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld.continent;
+package edu.brown.cs.jhbgbssg.Game.riskworld;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-
 /**
- * Each continent has a unique id represented by an Enum.
+ * Each continent has a unique id represented by an Enum, a bonus value and a
+ * set of territories it contains.
  *
  * @author sarah gilmore
  *
@@ -48,7 +47,7 @@ public enum ContinentEnum {
   }
 
   /**
-   * Returns the set of Territories that are within the Continent.
+   * Returns the set of Territories that are contained within this Continent.
    *
    * @return set of territories.
    */

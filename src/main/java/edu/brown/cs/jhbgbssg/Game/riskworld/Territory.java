@@ -1,8 +1,7 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld;
+package edu.brown.cs.jhbgbssg.Game.riskworld;
 
 import com.google.common.base.Objects;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
@@ -20,7 +19,9 @@ public class Territory {
   private ContinentEnum contId;
 
   /**
-   * Constructs a territory and assigns it an id.
+   * Constructs a territory and assigns it an id. The continent is assigned
+   * internally by calling the getContinent() method of TerritoryEnum on hte id
+   * given.
    *
    * @param id - id of territory
    * @throws IllegalArgumentException thrown if id is null
@@ -53,7 +54,9 @@ public class Territory {
   }
 
   /**
-   * Adds troops to territory.
+   * Adds troops to territory if a player owns the territory. If no player owns
+   * the territory and the number of troops is zero, false is returned and no
+   * troops are added.
    *
    * @param troopsToAdd - number of troops to add
    * @return boolean - true if the troops were added; false otherwise
@@ -70,9 +73,9 @@ public class Territory {
   }
 
   /**
-   * Changes the player that controls the territory. It only executes if there
-   * are no troops on the territory and if no player currently owns the
-   * territory.
+   * Changes the player that controls the territory and sets the number of
+   * troops to the given amount. It only executes if there are no troops on the
+   * territory and if no player currently owns the territory.
    *
    * @param newPlayer - player to control the territory
    * @param numTroops - number of troops to put on the territory
@@ -147,7 +150,7 @@ public class Territory {
   /**
    * Gets the player that owns the territory.
    *
-   * @return id of the player
+   * @return player who owns the territory
    */
   public RiskPlayer getOwner() {
     return player;

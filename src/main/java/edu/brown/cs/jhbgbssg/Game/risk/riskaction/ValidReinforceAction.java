@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * Represents a Valid Reinforce Move.

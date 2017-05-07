@@ -17,8 +17,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.Action;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -38,6 +36,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidMoveTroopsAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
@@ -289,6 +289,12 @@ public class RiskMessageAPI {
     return messages;
   }
 
+  /**
+   * Used to construct a json object detailing which move a player skipped.
+   *
+   * @param skip the player id and the move type skipped
+   * @return json object
+   */
   private JsonObject prevSkipActionToJson(Pair<UUID, MoveType> skip) {
     JsonObject object = new JsonObject();
     object.addProperty("type", RiskMessageType.PREVIOUS_ACTION.ordinal());
@@ -298,6 +304,12 @@ public class RiskMessageAPI {
     return object;
   }
 
+  /**
+   * Used to construct the json object representing the previous action.
+   *
+   * @param move - previous move
+   * @return json representation of the move.
+   */
   private JsonObject prevActionToJson(Action prevAction) {
     MoveType type = prevAction.getMoveType();
     switch (type) {
@@ -337,6 +349,12 @@ public class RiskMessageAPI {
     return jsonObject;
   }
 
+  /**
+   * Constructs the JsonObject representing a previous setup reinforce move.
+   *
+   * @param move - card turn in move
+   * @return json representation of the move.
+   */
   private JsonObject prevSetupReinforce(SetupReinforceAction action) {
     TerritoryEnum selected = action.getSelectedTerritory();
     JsonObject jsonObject = new JsonObject();
@@ -366,6 +384,12 @@ public class RiskMessageAPI {
     return jsonObject;
   }
 
+  /**
+   * Constructs the JsonObject representing a previous card turn in move.
+   *
+   * @param move - card turn in move
+   * @return json representation of the move.
+   */
   private JsonObject prevCardMove(CardTurnInAction move) {
     List<Integer> cards = new ArrayList<>(move.getCards());
     JsonObject jsonObject = new JsonObject();
@@ -377,6 +401,12 @@ public class RiskMessageAPI {
     return jsonObject;
   }
 
+  /**
+   * Constructs the JsonObject representing a previous attack move.
+   *
+   * @param move - attack move
+   * @return json representation of the move.
+   */
   private JsonObject prevAttackMove(AttackAction move) {
     TerritoryEnum attackFrom = move.getAttackingTerritory();
     TerritoryEnum attacking = move.getDefendingTerritory();
@@ -465,6 +495,12 @@ public class RiskMessageAPI {
     return jsonObject;
   }
 
+  /**
+   * Returns the JsonObject that represents the next valid action.
+   *
+   * @param action - action to translate into a json object
+   * @return json object
+   */
   private JsonObject validJsonMove(ValidAction action) {
     MoveType type = action.getMoveType();
     switch (type) {

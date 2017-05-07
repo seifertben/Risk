@@ -19,9 +19,6 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableSet;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
@@ -35,6 +32,9 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * JUnit tests for referee.

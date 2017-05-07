@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * Represents a ValidAttackMove. Object is used to convey to the frontend what

@@ -85,6 +85,21 @@
   </div>
 </div>
 
+ <!-- The Modal -->
+<div id="gameOverModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p style = "text-decoration: none">A Player Has Left the Game!</p>
+    <p style = "text-decoration: none">Game Over!</p>
+    <div class ="modal-footer">
+    	<div class="col-sm-offset-5 col-sm-2 text-center">
+  			<button type="button" id="winnerMain" class="regbtnlarge">Go to Main Menu</button>
+  		</div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <footer class="container-fluid text-center" id="bottom">

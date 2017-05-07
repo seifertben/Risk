@@ -16,8 +16,8 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.ImmutableGraph;
 import com.google.common.graph.MutableGraph;
 
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.Territory;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * Represents a Risk game board.
@@ -28,17 +28,19 @@ import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
 public class RiskBoard {
   private Graph<TerritoryEnum> board;
   private Map<TerritoryEnum, Territory> territoryMap;
-  // private Map<ContinentEnum, ContinentInterface> continentMap;
 
   /**
    * Constructor for RiskBoard.
    */
   public RiskBoard() {
     this.buildBoard();
-    // this.setUpContinents();
     this.setUpTerritories();
   }
 
+  /**
+   * Builds the graph of TerritoryEnums that is used to represent neigbhoring
+   * territories.
+   */
   private void buildBoard() {
     MutableGraph<TerritoryEnum> builder = GraphBuilder.undirected().build();
     builder.putEdge(TerritoryEnum.ALASKA, TerritoryEnum.ALBERTA);
@@ -215,8 +217,10 @@ public class RiskBoard {
   }
 
   /**
-   * Returns the multimap of territories representing which territories are
-   * reachable from another territories. and
+   * Returns the multimap of territories representing which territories can
+   * transfer troops and where they can transfer troops. Troops can be
+   * transferred if they can be moved along a path such that the player
+   * transferring owns each territory in the path.
    *
    * @param player - player
    * @return multimap

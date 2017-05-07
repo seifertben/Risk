@@ -1,6 +1,4 @@
-package edu.brown.cs.jhbgbssg.Game.RiskWorld;
-
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
+package edu.brown.cs.jhbgbssg.Game.riskworld;
 
 /**
  * Each territory is given a unique id represented by a specific TerritoryEnum.
@@ -19,9 +17,9 @@ public enum TerritoryEnum {
   EASTERN_AUSTRALIA, INDONESIA, NEW_GUINEA, WESTERN_AUSTRALIA;
 
   /**
-   * Returns the Continent that the territory is a part of.
+   * Returns the Continent to which this territory belongs.
    *
-   * @return the continent the territory belongs to.
+   * @return continent that the territory belongs to
    */
   public ContinentEnum getContinent() {
     for (ContinentEnum cont : ContinentEnum.values()) {

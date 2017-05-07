@@ -10,8 +10,8 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 import edu.brown.cs.jhbgbssg.Game.Player;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.continent.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
  * Represents a RiskPlayer. A RiskPlayer knows the cards it owns, the

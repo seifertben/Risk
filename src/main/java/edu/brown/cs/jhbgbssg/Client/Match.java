@@ -15,11 +15,10 @@ import java.util.UUID;
 import com.google.gson.JsonObject;
 
 import edu.brown.cs.jhbgbssg.Game.GameUpdate;
-import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.Referee;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskMessageAPI;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
@@ -30,6 +29,7 @@ import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 import edu.brown.cs.jhbgbssg.tuple.Pair;
 
 /**
@@ -177,9 +177,9 @@ public class Match {
   }
 
   /**
-   * Initiate this match and create our risk game.
+   * Initiates the risk match.
    *
-   * @return
+   * @return list of json objects representing messages to send to the players
    */
   public List<JsonObject> start() {
     synchronized (this) {
@@ -200,10 +200,15 @@ public class Match {
   }
 
   /**
-   * Given a move made by a player in this match, return a
+   * This method takes in a jsono bject representing a player action during the
+   * game. The action is then translated, validated and executed (if valid). The
+   * method returns a list of json objects representing messages to send to the
+   * game players, such as the action that was undertaken and the next valid
+   * action for a player whose turn it is. Any information the game players need
+   * are sent by this method in the list of json object
    *
-   * @param received
-   * @return
+   * @param received - json objec representing a risk action
+   * @return messages to send to the players
    */
   public List<JsonObject> getUpdate(JsonObject received) {
     synchronized (this) {

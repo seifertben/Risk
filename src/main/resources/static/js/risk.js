@@ -202,9 +202,8 @@ function setUp () {
   document.getElementById("simSel").onclick = simClick;
   $endNav.append($("<button type='button' id = 'turnInCards' class='regbtn'>Turn In Cards</button>"));
   $("#turnInCards").on( "click", turnInCards);   
-    hideAll();
-
-    $('#card-footer').css({"display":"none"});
+  hideAll();
+  $('#card-footer').css({"display":"none"});
 }
 
 function hideAll() {
