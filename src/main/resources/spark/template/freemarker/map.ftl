@@ -90,7 +90,7 @@
 
   <!-- Modal content -->
   <div class="modal-content">
-    <p style = "text-decoration: none">Someone Flipped the Table and Left the Game! For Shame!</p>
+    <p style = "text-decoration: none">The Match has Ended!</p>
     <p style = "text-decoration: none">Game Over!</p>
     <div class ="modal-footer">
     	<div class="col-sm-offset-5 col-sm-2 text-center">

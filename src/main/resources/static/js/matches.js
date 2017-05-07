@@ -454,7 +454,7 @@ const setup_matches = () => {
             } else if (skip === MOVE_TYPES.CHOOSE_ATTACK_DIE) {
               updateLog("<b>" + idToName[data.movePlayer] + "</b> is done attacking!");
             } else {
-              updateLog("<b>" + idToName[data.movePlayer] + "</b> skipping moving troops!");
+              updateLog("<b>" + idToName[data.movePlayer] + "</b> has skipped moving troops!");
             }
             hideAll();
             break;
@@ -543,7 +543,7 @@ const setup_matches = () => {
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
-              $("#skip").text("Skip Handing in Cards?");
+              $("#skip").text("Skip Handing in Cards");
               $("#skip").show();
               document.getElementById("turnInCards").disabled = true;
               $("#turnInCards").addClass('disabled');
