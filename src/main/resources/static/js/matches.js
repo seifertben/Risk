@@ -26,7 +26,8 @@ const MESSAGE_TYPE = {
   MOVE: 14,
   MESSAGE: 15,
   PLAYER_INFORMATION: 16,
-  PING: 17
+  PING: 17,
+  LEAVER: 18,
 };
 
 // Different move types
@@ -89,10 +90,7 @@ const setup_matches = () => {
   };
 
   conn.onclose = function(e) {
-	console.log(e.reason);
-    setTimeout(function() {
-       setup_matches;
-    }, 1000)
+    playerLeftGameModal();
   };
 
   conn.onmessage = msg => {
@@ -106,6 +104,11 @@ const setup_matches = () => {
       case MESSAGE_TYPE.CONNECT:
         myId = data.id;
         break;
+
+      case MESSAGE_TYPE.LEAVER:
+        console.log("LEAVER");
+        playerLeftGameModal();
+    	break;
 
       // Update when a player switches lobbies
       case MESSAGE_TYPE.CHANGE:
@@ -210,11 +213,11 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.WINNER:
-    	  winnerModal(data);
+    	winnerModal(data);
         break;
       case MESSAGE_TYPE.LOSER:
-      document.getElementById(data.loser).style.backgroundColor = "grey";
-      loserModal(data);
+        document.getElementById(data.loser).style.backgroundColor = "grey";
+        loserModal(data);
     	break;
       // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
@@ -1066,6 +1069,7 @@ function simClick() {
 }
 
 function playerLeftGameModal() {
+  console.log("HIIIIIIII");
   document.getElementById('gameOverModal').style.display = "block";
   document.getElementById('gameOverModal').onclick = function () {
     window.location = "/risk";

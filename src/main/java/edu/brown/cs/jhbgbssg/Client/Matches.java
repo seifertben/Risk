@@ -95,7 +95,6 @@ public class Matches {
       throws IOException {
     // Update the lobbies and remove
     // this player from our list
-    System.out.println("DISCONNECT");
     remove_player(session);
     sessions.remove(session);
   }
@@ -389,6 +388,17 @@ public class Matches {
         for (Session player : sessions) {
           if (player != session) {
             player.getRemote().sendString(remove.toString());
+          }
+        }
+      } else {
+        List<UUID> remaining = game.getPlayers();
+        JsonObject leaver = new JsonObject();
+        leaver.addProperty("type", RiskMessageType.LEAVER.ordinal());
+        for (UUID player : remaining) {
+          Session currSession = playerToSession.get(player);
+          if (currSession != session) {
+            System.out.println(player);
+            currSession.getRemote().sendString(leaver.toString());
           }
         }
       }
