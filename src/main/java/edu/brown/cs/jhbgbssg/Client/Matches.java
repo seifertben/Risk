@@ -88,6 +88,10 @@ public class Matches {
 
   /**
    * Handle a player disconnect or reload.
+<<<<<<< HEAD
+=======
+   *
+>>>>>>> a3dc2162fc556efbef0d487ffb6a667a97c66825
    * @param session The disconnecting player.
    * @param statusCode Exit code.
    * @param reason Exit reason.
@@ -388,6 +392,10 @@ public class Matches {
 
   /**
    * Remove a player from any lobbies they are in.
+<<<<<<< HEAD
+=======
+   *
+>>>>>>> a3dc2162fc556efbef0d487ffb6a667a97c66825
    * @param session Player who has disconnected.
    */
   private void removePlayer(Session session) {
