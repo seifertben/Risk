@@ -203,7 +203,7 @@ const setup_matches = () => {
         break;
 
       case MESSAGE_TYPE.PING:
-        seconds++;
+        seconds += 5;
         break;
 
       // Update player info ingame
@@ -600,7 +600,7 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
         	} else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s to Place Reinforcements";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
@@ -768,7 +768,7 @@ const setup_matches = () => {
 function color_reset() {
   for (index in players) {
     $("#"+players[index]).css("border-color", "white");
-    $("#"+players[index]).css("border-width", "0px");
+    $("#"+players[index]).css("border-width", "2px");
   }
 }
 /**
@@ -791,7 +791,7 @@ function updateLog(string) {
 window.setInterval(function(){
   let mess = {"type": MESSAGE_TYPE.PING, "playerId": myId};
   conn.send(JSON.stringify(mess));
-}, 1000);
+}, 5000);
 
 /**
 if card is clicked highlight/unhighlight border depending onwether it's already highlighted or not
