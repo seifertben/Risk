@@ -343,7 +343,6 @@ const setup_matches = () => {
                  let outer = terrToTerrToLine[data.attackTerritory];
                  if (outer != null) {
                         changeLines("black", outer[data.defendTerritory]);
-                        console.log(outer[data.defendTerritory]);
                         map.dataProvider.zoomLevel = map.zoomLevel();
                         map.dataProvider.zoomLatitude = map.zoomLatitude();
                         map.dataProvider.zoomLongitude = map.zoomLongitude();
@@ -770,8 +769,7 @@ window.setInterval(function(){
 }, 1000);
 
 function clickOnCard(element) {
-  console.log("here");
-  console.log(canClick);
+
   if (canClick) {
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
@@ -865,7 +863,6 @@ function move_troops() {
 
 const skip_phase = event => {
   event.preventDefault();
-  console.log(phase);
   if (phase == "attacking") {
     
     for (let i = 0; i<attackableLines.length; i ++) {
@@ -1038,7 +1035,6 @@ function moveTroopsInformation(playerMoveTroopsInformation) {
       }
     }
   }
-  console.log(s);
 }
 
 /**

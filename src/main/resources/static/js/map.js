@@ -1,3 +1,4 @@
+// each const here is an array of lat/long coordiantes for each territory
 const EUS = [38.392017, -85.047551];
 const WUS = [41.187449, -114.449540];
 const QUEBEC = [50.206416, -75.586515];
@@ -40,13 +41,16 @@ const IRKUSTK = [58.664724, 127.776577];
 const SIBERIA = [67.160839,103.342985];
 const URAL = [66.666218,67.958187];
 const AFGHANISTAN = [37.768380, 66.896086];
+//each index is the territory enum which is mapped to its adjacent territory enum mapped to the line object connecting the two territorys 
 let terrToTerrToLine = [];
 let attackableLines = [];
 let attackLine;
 
 
 var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
+//enum mapped to the map image of each territory
 let idToData = {};
+//example of a territroy object
 let EUSDATA = {
       "latitude": EUS[0], 
       "longitude": EUS[1],
@@ -780,7 +784,7 @@ let EUS_WUS = {
       "color": "black",
       "bringForwardOnHover": false,
     };
-
+//example of a  line object
 let EUS_QUEBEC = { "latitudes": [ EUS[0], QUEBEC[0]],
       "longitudes": [ EUS[1], QUEBEC[1] ],
       "color": "black",
@@ -1263,6 +1267,8 @@ let INDONESIA_WAU =  {
        "color": "black",
        "bringForwardOnHover": false,
     };
+//since the map doesn't wrap around, the best that can be done is have the line from Alaska stretch to infinity and 
+//have the line from Kamchatka stretch to infinity. That means we need two lines
 let ALASKA_INF = {
    "latitudes": [ALASKA[0], KAMCHATKA[0]],
       "longitudes": [ALASKA[1], -9999],
@@ -1281,6 +1287,7 @@ let SEU_RUSSIA = {
     "color": "black",
     "bringForwardOnHover": false,
 };
+//object mapping the enum to a line that will be appended by terrToTerrToLines
 const ALASKAADJACENT = {"7": ALBERTA_ALASKA, "6": NWTERRITORIES_ALASKA, "31": ALASKA_INF};
 terrToTerrToLine.push(ALASKAADJACENT);
 const ONTARIOADJACENT = {"8": ONTARIO_QUEBEC, "6": ONTARIO_NWTERRITORIES, "7":ALBERTA_ONTARIO, "4":WUS_ONTARIO, "5": ONTARIO_GREENLAND, "1":EUS_ONTARIO};
@@ -1365,7 +1372,7 @@ const NEWGUINEA_ADJACENT = {"39": NEWGUINEA_INDONESIA, "38": NEWGUINEA_EAU, "41"
 terrToTerrToLine.push(NEWGUINEA_ADJACENT);
 const WAUADJACENT = {"38": WAU_EAU, "40": NEWGUINEA_WAU, "39": INDONESIA_WAU};
 terrToTerrToLine.push(WAUADJACENT);
-console.log(terrToTerrToLine[12]);
+//each line object is put in an array that will be put in the map
 let lines  =  [EAF_ME, EUS_WUS, EUS_QUEBEC, EUS_CA,EUS_ONTARIO,WUS_CA, WUS_ALBERTA, WUS_ONTARIO, ALBERTA_ONTARIO, ALBERTA_NWTERRITORIES, ALBERTA_ALASKA, ONTARIO_QUEBEC,
 ONTARIO_NWTERRITORIES, ONTARIO_GREENLAND, NWTERRITORIES_ALASKA,NWTERRITORIES_GREENLAND, GREENLAND_ICELAND, GREENLAND_QUEBEC, ICELAND_GB, SCANDINAVIA_ICELAND, 
 SCANDINAVIA_GB, NEU_GB, WEU_GB,WEU_SEU, WEU_NAF,WEU_NEU, NEU_RUSSIA,NEU_SEU,SCANDINAVIA_NEU,SCANDINAVIA_RUSSIA,EGYPT_SEU,ME_SEU,NAF_SEU,NAF_EGYPT,NAF_CAF,NAF_EAF,
@@ -1374,7 +1381,7 @@ AFGHANISTAN_ME,ME_INDIA,URAL_RUSSIA,AFGHANISTAN_RUSSIA,AFGHANISTAN_URAL,URAL_CHI
 CHINA_MONGOLIA,CHINA_SEASIA,IRKUSTK_MONGOLIA,JAPAN_MONGOLIA,KAMCHATKA_MONGOLIA,YAKUTSK_IRKUSTK,IRKUSTK_SIBERIA,KAMCHATKA_JAPAN,IRKUSTK_KAMCHATKRA, YAKUTSK_SIBERIA,
 KAMCHATKA_YAKUTSK,SIBERIA_CHINA,SIBERIA_MONGOLIA,INDONESIA_SEASIA, NEWGUINEA_INDONESIA,NEWGUINEA_WAU,NEWGUINEA_EAU,WAU_EAU,INDONESIA_WAU, ALASKA_INF, KAMCHATKA_INF, SEU_RUSSIA];
 
-
+//each territory object is put in an array that will be put in the map
 let game = [EUSDATA, WUSDATA, QUEBECDATA,ONTARIODATA,ALBERTADATA, NWTERRITORIESDATA,ALASKADATA,GREENLANDDATA,CADATA,VZDATA,PERUDATA,BRAZILDATA,ARGENTINADATA,ICELANDDATA,
     GBDATA,WEUDATA,NEUDATA, SEUDATA,SCANDINAVIADATA,RUSSIADATA,  NAFDATA, EGYPTDATA,CAFDATA,EAFDATA, SAFDATA,MADAGASCARDATA, WAUDATA,EAUDATA,INDONESIADATA, NEWGUINEADATA, 
   MEDATA, INDIADATA,SEASIADATA, CHINADATA, MONGOLIADATA, JAPANDATA, KAMCHATKADATA, YAKUTSKDATA, IRKUSTKDATA, SIBERIADATA, URALDATA,AFGHANISTANDATA ];
@@ -1392,7 +1399,9 @@ let map = AmCharts.makeChart( "mapdiv", {
   },
   "dataProvider": {
       "map": "continentsLow",
+      // this is where the lines are set to makes the lines show up
       "lines": lines,
+      //this is where the territories are set so the territories show up
       images:game,
       "zoomLatitude": 0,
       "zoomLongitude": 0,
@@ -1457,7 +1466,9 @@ let map = AmCharts.makeChart( "mapdiv", {
 
   "largeMap": {}
 } );
-
+/**
+handles every case when a territory is click on in the map and what gets sendt back to the backend
+**/
 function select_territory(event) {
   if (phase == "setup") {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": event.mapObject.id};
@@ -1508,20 +1519,11 @@ function select_territory(event) {
         attackFrom = event.mapObject.id;
         attackTo = null;
         attackables = [];
-        console.log(attackFrom);
         attackables = terToTar[attackFrom];
         let outer = terrToTerrToLine[attackFrom];
-        console.log(terrToTerrToLine[attackFrom]);
-
-        console.log(attackFrom);
-        console.log(outer);
         for (let i = 0; i<attackables.length; i++) {
-          console.log(attackables[i]);
           let currLine = outer[attackables[i]];
-          console.log(currLine);
-          console.log(colors[myId]);
           changeLines(colors[myId], currLine);
-          console.log(currLine);
           attackableLines.push(currLine);
         }
         map.dataProvider.zoomLevel = map.zoomLevel();
@@ -1618,28 +1620,35 @@ function select_territory(event) {
     }
   }
 
-
+/**
+when a player wants to reset the attack process all of the elements and text that need to show up 
+when a player starts to attack will show up again
+/**/
 function reset_attack() {
   document.getElementById("bolsters").innerHTML = "Which of your Territories is going to Attack?<br>";
   document.getElementById("available").innerHTML = "You Can Attack From:";
-  $("#clickList").empty();              
+  $("#clickList").empty();         
+  //resets the dropdown list of  lines to attack from     
   selectTerritoriesInformation(availableForClaim);
   $("#clickList").show();
   $("#available").show();
   $("#simSel").show();
+  //message that deals wiith bolster will flash for 2.4 seconds
   addBlink($("#bolsters"));
   setTimeout(function() {
     removeBlink($("#bolsters")); 
-  }, 4000);
+  }, 2400);
   $("#attack").disabled = true;
   $("#attack").addClass('disabled');
   document.getElementById("attacking").innerHTML = "What territory are you attacking?<br>";
   document.getElementById("attacking").style.display = "none";
   
   $("#attackerNumberDie").empty();
+  //lines that were changed will be reset to black 
+  //if attackline is null then there were no terrtories that were selected to attackfrom or attack to 
   if (attackLine !=null) {
     let outer = terrToTerrToLine[attackFrom.toString()];
-    if (outer != null) {
+    if (outer != null && attackTo != null) {
       if (outer[attackTo.toString()]=== attackLine) {
        changeLines("black", attackLine);
         map.dataProvider.zoomLevel = map.zoomLevel();
@@ -1655,7 +1664,10 @@ function reset_attack() {
   attackTo = null;
   attackables = [];
 }
-
+/**
+resets the lines color of each line that has been changed when a player click on a territory to attack from
+the lines will be reset ot black
+**/
 function reset_line_color() {
   for (let i = 0; i<attackableLines.length; i++) {
     let currLine = attackableLines[i];
@@ -1666,7 +1678,10 @@ function reset_line_color() {
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
 }
-
+/**
+during the end of the turn when a player can move troops from one territory to another. If player wants to restart the process
+//this function will be called 
+**/
 function reset_move_troops() {
   $("#moveTroops").disabled = true;
   $("#moveTroops").addClass('disabled');
@@ -1728,7 +1743,9 @@ const remove_troop = event => {
     }
   }
 }
-
+/**
+when a player choose a territory in the beginning of the game
+**/
 function make_selection(player, territory) {
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player]);
 }
@@ -1751,7 +1768,9 @@ function make_bolster(player, territories) {
     }
   }
 }
-
+/**
+changes the labels and titles of each territory on the map
+**/
 function changeTerritoryStatus(player, numSoldier, territory, color) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
@@ -1791,9 +1810,9 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
 }
+//changes the lines color
 function changeLines(color, line) {
-  console.log(line);
-  console.log(color);
+ //edge case where if Alask or Kamchataka rare selected and the two lines need to be changed
   if (line === ALASKA_INF) {
       KAMCHATKA_INF.color = color;
   }

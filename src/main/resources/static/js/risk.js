@@ -1,3 +1,4 @@
+//ceach number represents a territory 
 const TerritoryEnum = {
   ALASKA: 0,
   ONTARIO: 1,
@@ -42,7 +43,7 @@ const TerritoryEnum = {
   NEW_GUINEA: 40,
   WESTERN_AUSTRALIA: 41
 };
-
+//maps an int ot a name
 const terrToName = {
   0: "Alaska", 1: "Ontario", 2: "Central America", 3: "Eastern US", 4: "Western US",
   5: "Greenland", 6: "Northwest Territory", 7: "Alberta", 8: "Quebec", 9: "Venezuela",
@@ -54,15 +55,17 @@ const terrToName = {
   36: "Ural", 37: "Yakutsk", 38: "Eastern Australia", 39: "Indonesia", 40: "New Guinea",
   41: "Western Australia"};
 
-
+//gives each card a card id by incrementing this variable
 let cardID = 0;
+//whether the game has started 
 let start = false;
 let prevMessage = undefined;
 let prevMove = undefined;
+//background div
 let body = $('#background');
 
  let now = -1;
-
+//array of image urls for hte slideshow on the hompage and slideshow
 let imageList = ["url('https://s-media-cache-ak0.pinimg.com/originals/f6/ee/d2/f6eed2fd34fd0d5d8e17fe417c288dba.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/53/2c/22/532c224459ada029dfb2db7be6165cde.jpg')",
 "url('https://s-media-cache-ak0.pinimg.com/originals/15/d0/41/15d041870d416ac9647203e96b4ab78b.jpg')", "url('https://www.dal.ca/content/dam/dalhousie/images/fass/classics/Rome%20battle.jpg')", "url('http://i.imgur.com/yG3BO.jpg')"
@@ -83,9 +86,11 @@ const sendMessage = event => {
     event.preventDefault();
   }
     let  message = $('#messageField').val();
+    //filters out script text 
     if (message.toLowerCase().includes("<script>") || message.toLowerCase().includes("</script>")) {
       message = "HAXORZ";
     }
+    //if statements that filters out swera
     if (message.toLowerCase().includes("fuck")) {
       message = "Wishing you the best!";
     }
@@ -104,20 +109,25 @@ const sendMessage = event => {
     if (message.toLowerCase().includes("cunt")) {
       message = "MEMEZ!!!";
     }
+    //emptys message field
     $('#messageField').val("");
+    //sends message to the backend
     let mess = {"type" : MESSAGE_TYPE.MESSAGE, "message": message, "playerId": myId};
     conn.send(JSON.stringify(mess));
 }
+// if music is playing 
 let isplaying = false;
 document.getElementById("chatButton").onclick = sendMessage;
 setInterval(slideshow, 6000);
-
+  
   $("#transferconfirm").on("click", confirmTransfer);
-
+  //music is off by default
   defaultPause();
   $("#mute").on("click", changeMusicStatus);
   $("#diceconfirm").on("click", confirmDice);
-
+/**
+pauses/plays music based on whether the isPlaying variable is true/false
+**/
  function changeMusicStatus() {
    if (isplaying) {
      document.getElementById('mainMenuMusic').pause();
@@ -129,13 +139,18 @@ setInterval(slideshow, 6000);
    }
  }
 
-  
+/**
+if moving troops to conquered territory is finished, the entire div is hidden
+**/
 function confirmTransfer() {
   if ($("#transferDropDownText").text() !== "Select troops to move to conquered territory") {
     $("#transfergroup").hide();
 
   }
 }
+/**
+if selecting dice is finished, the entire div is hidden
+**/
 function confirmDice() {
   if ($("#dropdown").text() !== "Select the amount of dice to roll") {
     $("#dropdowngroup").hide();
@@ -146,7 +161,9 @@ function confirmDice() {
 function defaultPause() {
    document.getElementById('mainMenuMusic').pause();
 }
-
+/**
+changes background image in home/lobby every 5 seconds
+**/
 function slideshow() {
   if (!start) {
     now = (now+1) % (imageList.length) ;
@@ -159,7 +176,9 @@ function slideshow() {
 $("#playerNum").keypress(function (evt) {
     evt.preventDefault();
 });
-
+/**
+this functions creates all of the html tags needed for the game and hddes all of the tags not needed
+**/
 function setUp () {
   $sideNav = $('#gameUpdates');
   $endNav = $('#endSection');
@@ -205,7 +224,9 @@ function setUp () {
   hideAll();
   $('#card-footer').css({"display":"none"});
 }
-
+/**
+hides all of the tags below
+**/
 function hideAll() {
   $("#attack").hide();
   $("#defend").hide();
@@ -241,6 +262,9 @@ function hideAll() {
   document.getElementById("claimTerritory").style.display = "none";
   document.getElementById("moveTroops").style.display = "none";
 }
+/**
+based on wether a card is a 2 star card or 1 star card, a ard will be created with those attributes
+**/
 
 function addcard(number) {
 	let card;
@@ -258,7 +282,9 @@ function addcard(number) {
     cardID++;   
     }
 }
-
+/**
+creates player buttons with names and sets up data for player info when player clicks on a specific player name 
+**/
 function createPlayer(number) {
   for (let i = 0; i < number; i++) {
     let currDiv = $("<div id = 'names'></div>");
@@ -317,6 +343,7 @@ function createPlayer(number) {
 }
 
 let count = 0;
+//used to flash message
 function blink(selector){
   while(count<6) {
   $(selector).fadeOut('slow', function(){
@@ -327,7 +354,9 @@ function blink(selector){
   count++;
   }
 }
-
+/**
+this emits the message to every single mplayer
+**/
 function getMessage(player, message) {
   //assign color to message box.
 
@@ -361,7 +390,7 @@ document.querySelector("#messageField").addEventListener("keyup", function (e) {
 });
 
 
-
+//two click functions below hide/show cards depending on whether the div containing the cards is displayed or not
 $("#showcards").click(
   function() {
     if (document.getElementById("card-footer").style.display === 'none') {
@@ -381,7 +410,7 @@ $("#hideCards").click(
     }
   }
 );
-
+//gives player a chance to stay in game if they accidentally 
 window.onbeforeunload = function() {
   return "Leaving will end the game for everyone.";
 };
