@@ -8,6 +8,9 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
+ * This class defines all of the valid setup reinforce actions a player can make
+ * at the beginning of the game when all of the territories have been selected
+ * and each player has leftover troops to place.
  *
  * @author sarahgilmore
  *

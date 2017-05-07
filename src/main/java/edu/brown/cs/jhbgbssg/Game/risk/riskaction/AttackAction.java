@@ -9,7 +9,9 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents an Attack Action in Risk.
+ * Represents an Attack Action in Risk. It knows which player is attacking, the
+ * territory attacking and territory being attacked as well as the number of
+ * dice rolled.
  *
  * @author sarahgilmore
  *

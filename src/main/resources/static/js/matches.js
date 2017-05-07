@@ -84,6 +84,9 @@ let playerInfo = {};
 const setup_matches = () => {
 
   conn = new WebSocket("ws://107.170.49.223/matches");
+  //conn = new WebSocket("ws://localhost:4567/matches");
+  // SWAP THESE TWO TO GO FROM LOCAL VERSION TO SERVER VERSION
+
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -605,6 +608,7 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";
         	}
             break;
+
           //player chooses attack die
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
@@ -645,10 +649,13 @@ const setup_matches = () => {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Attack";
            	}
             break;
-            //player choose defend die
+
+          // Player choose defend die
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
 
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
+
+            // If I'm being attacked
             if (data.playerId == myId) {
               document.getElementById("phase").innerHTML = "Defend Yourself!";
               defending = data.defendTerritory;
@@ -657,56 +664,66 @@ const setup_matches = () => {
               $("#attacking").show();
               $("#defenderNumberDie").empty();
               for (let index = 1; index <= data.maxDieRoll; index++) {
-            	 if (index == data.maxDieRoll) {
-                   $("#defenderNumberDie").append("<option value=" + 
-                      index.toString() + " selected='selected'>" + index.toString() + "</option>");
-            	 } else {
-                   $("#defenderNumberDie").append("<option value=" + 
-                      index.toString() + ">" + index.toString() + "</option>");
-            	   }
+                if (index == data.maxDieRoll) {
+                  $("#defenderNumberDie").append("<option value=" + 
+                     index.toString() + " selected='selected'>" + index.toString() + "</option>");
+            	} else {
+                  $("#defenderNumberDie").append("<option value=" + 
+                     index.toString() + ">" + index.toString() + "</option>");
+                }
               }
               $("#defenderNumberDie").show();
               document.getElementById("defend").style.display = "inline-block";
               document.getElementById("defend").onclick = defend_territory;
             }
         	break;
-          //player claims territory
+
+          // Player claims territory
           case MOVE_TYPES.CLAIM_TERRITORY:
 
-              $("#"+data.playerId).css("border-color", "gold");
-              $("#"+data.playerId).css("border-width", "2px");
+        	// Update player trun border and phase
+            $("#"+data.playerId).css("border-color", "gold");
+            $("#"+data.playerId).css("border-width", "2px");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
+
+            // If it's my turn,
             if (data.playerId == myId) {
+
+              // Setup controls for claiming a territory
               document.getElementById("bolsters").innerHTML = "Select troops to move from " 
             	  + idToData[data.territoryClaimingFrom].name + " to " + idToData[data.territoryToClaim].name;
-                changeLines("black", attackLine);
-                attackLine = null;
-              
+              changeLines("black", attackLine);
+              attackLine = null;
+
               $("#moveTroopsNumber").empty();
               claimed = data.territoryToClaim;
               claimedFrom = data.territoryClaimingFrom;
               for (let index = 1; index <= data.maxNumberTroops; index++) {
-            	 if (index == data.maxNumberTroops) {
-                $("#moveTroopsNumber").append("<option value=" + index.toString()
-                  + " selected='selected'>" + index.toString() + "</option>");
-            	 } else {
-            	   $("#moveTroopsNumber").append("<option value=" + index.toString()
-                  + ">" + index.toString() + "</option>");
-            	 }
+                if (index == data.maxNumberTroops) {
+                  $("#moveTroopsNumber").append("<option value=" + index.toString()
+                    + " selected='selected'>" + index.toString() + "</option>");
+            	} else {
+            	  $("#moveTroopsNumber").append("<option value=" + index.toString()
+                    + ">" + index.toString() + "</option>");
+            	}
               }
               $("#moveTroopsNumber").show()
               document.getElementById("claimTerritory").style.display = "inline-block";
-              
             }
             break;
-            //player is moving troops at end of turn
+
+          //player is moving troops at end of turn
           case MOVE_TYPES.MOVE_TROOPS:
 
+        	// Update player turn border and phase
             $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
+
+            // If it's my turn
             if (data.playerId == myId) {
 
+              // Setup MoveTroops Controls
               phase = "move_troops";
               moveFrom = null;
               moveTo = null;
@@ -886,6 +903,7 @@ function move_troops() {
     conn.send(JSON.stringify(mess));
   }
 }
+
 /**
 when skip phase button is clicked depending on the phase variables are reset 
 **/
@@ -908,7 +926,7 @@ const skip_phase = event => {
   }
   //if its these three phases, reset everything 
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
-	  availableForClaim = [];
+	availableForClaim = [];
     moveables = [];
     moveFrom = null;
     moveTo = null;
@@ -942,6 +960,7 @@ const skip_phase = event => {
     conn.send(JSON.stringify(mess));
   }
 }
+
 /**
 when confirm move has been clicked the information is sent to the backend
 **/
@@ -958,6 +977,7 @@ const confirm_move = event => {
     conn.send(JSON.stringify(mess));
   }
 }
+
 /**
 creates a unique game id when a game is created
 **/
@@ -970,6 +990,7 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
 /**
 checks if enter has been fired when entering a name.
 **/
@@ -985,6 +1006,9 @@ window.onkeyup = function(e) {
   }
 }
 
+/**
+Ask the back end to create a lobby.
+**/
 const create_match = event => {
   event.preventDefault();
   let name = document.getElementById("name").value;
@@ -996,6 +1020,7 @@ const create_match = event => {
     conn.send(JSON.stringify(mess));
   }
 }
+
 /**
 sends player information to the backend when a player joins the match
 **/
@@ -1010,6 +1035,7 @@ $(document).ready(function() {
   //setups socket connection on load
   setup_matches();
 });
+
 /**
 creates match when create match button is clicked
 **/

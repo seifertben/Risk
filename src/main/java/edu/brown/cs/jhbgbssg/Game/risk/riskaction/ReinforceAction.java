@@ -9,7 +9,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Defines a ReinforceMove.
+ * Defines a ReinforceAction, in which a player adds troops to his or her
+ * territories.
  *
  * @author sarahgilmore
  *

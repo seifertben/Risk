@@ -6,7 +6,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents a SetupMove.
+ * Represents a Setup Action in which a player selects an unoccupied territory
+ * to claim at the beginning of the game.
  *
  * @author sarahgilmore
  *

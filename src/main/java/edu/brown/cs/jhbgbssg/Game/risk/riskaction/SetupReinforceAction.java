@@ -5,6 +5,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
+ * Represents a SetupReinforce Action, in which a player places one troop on a
+ * territory during the initial setup phase.
  *
  * @author sarahgilmore
  *

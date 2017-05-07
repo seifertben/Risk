@@ -8,6 +8,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
+ * This class defines the valid defend actions a player can make to defend his
+ * or her territory being attacked.
  *
  * @author sarahgilmore
  *
