@@ -1062,6 +1062,10 @@ function loserModal(data) {
   } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
   }
+    document.getElementById('loserModal').style.display = "block";
+    document.getElementById('loserMain').onclick = function () {
+      window.location = "/risk";
+    }
 }
 /**
 modal that shows up when the game is over  
