@@ -410,13 +410,8 @@ $("#hideCards").click(
     }
   }
 );
+
 //gives player a chance to stay in game if they accidentally 
 window.onbeforeunload = function() {
   return "Leaving will end the game for everyone.";
 };
-
-
-
-
-
-

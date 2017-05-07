@@ -83,8 +83,7 @@ let playerInfo = {};
 // Set up socket connections
 const setup_matches = () => {
 
-  //conn = new WebSocket("ws://107.170.49.223/matches");
-  conn = new WebSocket("ws://localhost:4567/matches");
+  conn = new WebSocket("ws://107.170.49.223/matches");
   conn.onerror = err => {
     console.log('Connection error:', err);
   };
@@ -223,10 +222,7 @@ const setup_matches = () => {
         loserModal(data);
     	break;
 
-      /**
-       * Previous Action messages displays to all players what just happened
-       * in the game and updates the game view.
-       */
+      // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         
         switch(data.moveType){
@@ -238,6 +234,7 @@ const setup_matches = () => {
         	$("#clickList").hide();
         	$("#simSel").hide();
             updateLog("<b>" + idToName[data.movePlayer] + "</b> has Selected <b>" + idToData[data.territoryId].name + "</b>!");
+            document.getElementById("bolsters").innerHTML = "Waiting to Select More Territories";
             make_selection(data.movePlayer, data.territoryId);
         	hideAll();
             break;
@@ -270,8 +267,7 @@ const setup_matches = () => {
           	hideAll();
         	break;
 
-          // When someone turns in cards, remove the cards card modal.
-          // only removes cards that are selected and in the list of cards to remove
+          // When someone turns in a card
           case MOVE_TYPES.TURN_IN_CARD:
             color_reset();
             let cards = [];
@@ -337,7 +333,7 @@ const setup_matches = () => {
           	updateLog(defRoll);
 
             let string = "<b>" + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost
-              + ", and <b>" + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + "!";
+              + " Troops, and <b>" + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + " Troops!";
             if (data.defenderLostTerritory) {
               if (data.attacker == myId) {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
@@ -458,24 +454,24 @@ const setup_matches = () => {
         }
         break;
 
-      /**
-       * Handle what actions are now available. If the playerId sent is a player's Id,
-       * the frontend enables the functionality needed to execute the action.
-       */ 
+      // Handle what actions are now available
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:
           	document.getElementById("phase").innerHTML = "Select Territories";
 
+            document.getElementById("bolsters").innerHTML = "Waiting to Select More Territories";
             $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
           	if (data.playerId == myId) {
+
+              document.getElementById("bolsters").innerHTML = "Select a Territory";
               document.getElementById("turn").style.fontWeight = "bold";
           	  document.getElementById("turn").innerHTML = "Your Turn";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
 
               availableForClaim = JSON.parse(data.selectable);
               map.addListener("clickMapObject", select_territory);
@@ -486,22 +482,17 @@ const setup_matches = () => {
               selectTerritoriesInformation(availableForClaim);
               $("#clickList").show();
               $("#simSel").show();
-              // AUTOPLAY
-              let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SETUP, "playerId": myId, "territoryId": availableForClaim[0]};
-             conn.send(JSON.stringify(mess));
-             availableForClaim = [];
-              // AUTOPLAY
+
           	} else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Select A Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
           	}
             break;
 
-           //initial reinforcement
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
 
@@ -513,7 +504,7 @@ const setup_matches = () => {
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
               phase = "setup_reinforce";
               document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
               availableForClaim = JSON.parse(data.territories);
@@ -524,28 +515,16 @@ const setup_matches = () => {
               selectTerritoriesInformation(availableForClaim);
               $("#clickList").show();
               $("#simSel").show();
-              // AUTOPLAY
-              if (data.troopsToPlace > 0) {
-               let mess = {"type": MESSAGE_TYPE.MOVE,
-                 "moveType": MOVE_TYPES.SETUP_REINFORCE,
-                 "playerId": myId, 
-                 "territoryId": availableForClaim[0]
-               };  
-               conn.send(JSON.stringify(mess));
-               availableForClaim = [];
-             }
-                  // AUTOPLAY
             } else {
               document.getElementById("turn").style.fontWeight = "normal";
           	  document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn To Reinforce 1 Territory";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
           	}
             break;
 
-          //turning in cards
           case MOVE_TYPES.TURN_IN_CARD:
             $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
@@ -571,7 +550,6 @@ const setup_matches = () => {
            }
            break;
 
-           //reinforcing territories
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
@@ -583,48 +561,47 @@ const setup_matches = () => {
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
 
-            document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
+              document.getElementById("bolsters").innerHTML = data.troopsToPlace + " Troops Left to Place";  
         	  document.getElementById("bolsters").style.display = "inline-block";  
-            document.getElementById("phase").innerHTML = "Prepare for Battle!";
+              document.getElementById("phase").innerHTML = "Prepare for Battle!";
         	  document.getElementById("reinforcer").disabled = true;
-            document.getElementById("deinforcer").disabled = true;
-            document.getElementById("confirm").disabled = true;
-            $("#reinforcer").addClass('disabled');
-            $("#deinforcer").addClass('disabled');
-            $("#confirm").addClass('disabled');
-            document.getElementById("deinforcer").style.display = "inline";
-            document.getElementById("confirm").style.display = "inline"; 
-            document.getElementById("reinforcer").style.display = "inline";
-            document.getElementById("deinforcer").style.display = "inline";
-            document.getElementById("confirm").style.display = "inline"; 
+              document.getElementById("deinforcer").disabled = true;
+              document.getElementById("confirm").disabled = true;
+              $("#reinforcer").addClass('disabled');
+              $("#deinforcer").addClass('disabled');
+              $("#confirm").addClass('disabled');
+              document.getElementById("deinforcer").style.display = "inline";
+              document.getElementById("confirm").style.display = "inline"; 
+              document.getElementById("reinforcer").style.display = "inline";
+              document.getElementById("deinforcer").style.display = "inline";
+              document.getElementById("confirm").style.display = "inline"; 
         	  $("#selecting").show();
         	  document.getElementById("selecting").innerHTML = "Select A Territory to Reinforce";
-            terToPlace = new Map();
-            placeMax = data.troopsToPlace;
-            placed = 0;
+              terToPlace = new Map();
+              placeMax = data.troopsToPlace;
+              placed = 0;
         	  bolstering = null;
-            phase = "reinforce";
-            availableForClaim = JSON.parse(data.territories);
-            map.addListener("clickMapObject", select_territory);
-            $("#available").show();
-            document.getElementById("available").innerHTML = "You can Reinforce:";
-            $("#clickList").empty();
-            selectTerritoriesInformation(availableForClaim);
-            $("#clickList").show();
-            $("#simSel").show();
+              phase = "reinforce";
+              availableForClaim = JSON.parse(data.territories);
+              map.addListener("clickMapObject", select_territory);
+              $("#available").show();
+              document.getElementById("available").innerHTML = "You can Reinforce:";
+              $("#clickList").empty();
+              selectTerritoriesInformation(availableForClaim);
+              $("#clickList").show();
+              $("#simSel").show();
         	} else {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn is Reinforcing";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
-              }, 4000);
+              }, 2400);
               document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";
         	}
             break;
 
-          //attacking
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -665,7 +642,6 @@ const setup_matches = () => {
            	}
             break;
 
-          //defending
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
 
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
@@ -691,7 +667,6 @@ const setup_matches = () => {
             }
         	break;
 
-          //claiming a territory
           case MOVE_TYPES.CLAIM_TERRITORY:
 
               $("#"+data.playerId).css("border-color", "gold");
@@ -721,7 +696,6 @@ const setup_matches = () => {
             }
             break;
 
-          //transfering troops
           case MOVE_TYPES.MOVE_TROOPS:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -995,18 +969,16 @@ checks if enter has been fired when entering a name.
 **/
 window.onkeyup = function(e) {
   var key = e.keyCode ? e.keyCode : e.which;
-  //also checkis if name is empty
-     if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
-       if (document.getElementById("nameInput").value.trim().length != 0) {
-        myName = document.getElementById("nameInput").value;
-        document.getElementById("nameField").style.display = "none";
-        document.getElementById("menuField").style.display = "inline";
-      }
+
+  if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
+    if (document.getElementById("nameInput").value.trim().length != 0) {
+      myName = document.getElementById("nameInput").value;
+      document.getElementById("nameField").style.display = "none";
+      document.getElementById("menuField").style.display = "inline";
     }
   }
-/**
-creates a match and sends the information to hte backend
-**/
+}
+
 const create_match = event => {
   event.preventDefault();
   let name = document.getElementById("name").value;
@@ -1046,26 +1018,14 @@ function removeBlink(element) {
 
 }
 
-/**
- * Displays the loser modal. for the player that lost, it says "YOU LOST!"
- * For everyone else, the modal displays a message indicating who lost the game.
- */
 function loserModal() {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
   } else {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
   }
-  document.getElementById("closeLoser").onclick = function() {
-     document.getElementById('loserModal').style.display = "none";
-  }
 }
 
-/**
- * Displays the winner modal. For the player that won the game, the modal says
- * "YOU WON!" Everyone else sees a message indicating who won the game. It
- * has a button that allows players to return to the home page.
- */
 function winnerModal() {
   if (data.loser == myId) {
     document.getElementById('winner').innerHTML = "YOU WON!"; 
@@ -1133,11 +1093,6 @@ function simClick() {
   map.clickMapObject(idToData[sel.options[sel.selectedIndex].value]);
 }
 
-/**
- * Displays the modal indicating a player has left the game, which ends 
- * the game. It also sets up the button that when clicked, returns players
- * to the main menu.
- */
 function playerLeftGameModal() {
   document.getElementById('gameOverModal').style.display = "block";
   document.getElementById('gameOverModal').onclick = function () {

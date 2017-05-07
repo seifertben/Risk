@@ -36,7 +36,7 @@ import edu.brown.cs.jhbgbssg.tuple.Pair;
  * Handles players and game updates for an individual match. Acts as a proxy for
  * the actual Risk Game.
  *
- * @author user
+ * @author bgabinet
  */
 public class Match {
 
@@ -112,9 +112,12 @@ public class Match {
    * @param name Player name.
    */
   public void addPlayer(UUID playerId, String name) {
-    if (players.size() < lobbySize && !players.contains(playerId) && !started) {
-      players.add(playerId);
-      names.put(playerId, name);
+    synchronized (this) {
+      if (players.size() < lobbySize
+          && !players.contains(playerId) && !started) {
+        players.add(playerId);
+        names.put(playerId, name);
+      }
     }
   }
 
@@ -173,7 +176,9 @@ public class Match {
    * @return True if the match has begun, false otherwise.
    */
   public boolean started() {
-    return started;
+    synchronized (this) {
+      return started;
+    }
   }
 
   /**

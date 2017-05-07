@@ -35,16 +35,11 @@
       border-radius: 10px;
       cursor: pointer;
    }
-  /* #messageForm {
-    position: absolute;
-    bottom: 0;
-    width: 50%;
-    display: block;
-   }*/
+
    #messageField {
-   position: relative;
-   display: inline-block;
-   width: 100%;
+     position: relative;
+     display: inline-block;
+     width: 100%;
    }
 
     .w3-container-w3-blue {
@@ -92,11 +87,8 @@
       background-color: #f1f1f1;
       height: 100%;
     }
-  /* #messageField {
-      width: 30%;
-      text-indent: -100px;
-    }
-*/    /* Set black background color, white text and some padding */
+
+    /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
@@ -105,10 +97,6 @@
     }
     .well-sm{
       float: left;
-    }
-
-    .well.well-sm {
-      border-radius: 10px;
     }
 
   #dropdownbutton {
@@ -254,6 +242,7 @@ input:checked + .slider:before {
   div [id="gameUpdates"] {
      text-align: center;
      display: inline-block;
+     margin-bottom: 10px;
   }
   #centerDiv {
     background-color: #6495ED;
