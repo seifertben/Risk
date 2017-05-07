@@ -1305,7 +1305,7 @@ const PERUADJACENT = {"9": VZ_PERU, "11": BRAZIL_PERU, "12":ARGENTINA_PERU};
 terrToTerrToLine.push(PERUADJACENT);
 const BRAZILADJACENT = {"10": BRAZIL_PERU, "9": BRAZIL_VZ, "12": ARGENTINA_BRAZIL, "13": NAF_BRAZIL};
 terrToTerrToLine.push(BRAZILADJACENT);
-const ARGENTINAADJACENT = {"12": ARGENTINA_BRAZIL, "10": ARGENTINA_PERU};
+const ARGENTINAADJACENT = {"11": ARGENTINA_BRAZIL, "10": ARGENTINA_PERU};
 terrToTerrToLine.push(ARGENTINAADJACENT);
 const NAFADJACENT = {"12": NAF_BRAZIL, "24":NAF_SEU, "14": NAF_EGYPT, "16": NAF_CAF, "21": WEU_NAF,"15": NAF_EAF};
 terrToTerrToLine.push(NAFADJACENT);
@@ -1345,7 +1345,7 @@ const JAPANADJACENT = {"33":JAPAN_MONGOLIA, "31": KAMCHATKA_JAPAN};
 terrToTerrToLine.push(JAPANADJACENT);
 const KAMCHATKAADJACENT = {"0":ALASKA_INF, "30": KAMCHATKA_JAPAN, "37": KAMCHATKA_YAKUTSK, "33":KAMCHATKA_MONGOLIA, "29": IRKUSTK_KAMCHATKRA};
 terrToTerrToLine.push(KAMCHATKAADJACENT);
-const MEADJACENT = {"28":ME_INDIA, "24": ME_SEU,"25":  ME_RUSSIA, "26": AFGHANISTAN_ME, "15": EAF_ME};
+const MEADJACENT = {"28":ME_INDIA, "24": ME_SEU,"25":  ME_RUSSIA, "26": AFGHANISTAN_ME, "15": EAF_ME, "14", EGYPT_ME};
 terrToTerrToLine.push(MEADJACENT);
 const MONGOLIAADJACENT = {"31": KAMCHATKA_MONGOLIA, "30": JAPAN_MONGOLIA, "27": CHINA_MONGOLIA, "29": IRKUSTK_MONGOLIA, "35":SIBERIA_MONGOLIA};
 terrToTerrToLine.push(MONGOLIAADJACENT);
@@ -1365,6 +1365,7 @@ const NEWGUINEA_ADJACENT = {"39": NEWGUINEA_INDONESIA, "38": NEWGUINEA_EAU, "41"
 terrToTerrToLine.push(NEWGUINEA_ADJACENT);
 const WAUADJACENT = {"38": WAU_EAU, "40": NEWGUINEA_WAU, "39": INDONESIA_WAU};
 terrToTerrToLine.push(WAUADJACENT);
+console.log(terrToTerrToLine[12]);
 let lines  =  [EAF_ME, EUS_WUS, EUS_QUEBEC, EUS_CA,EUS_ONTARIO,WUS_CA, WUS_ALBERTA, WUS_ONTARIO, ALBERTA_ONTARIO, ALBERTA_NWTERRITORIES, ALBERTA_ALASKA, ONTARIO_QUEBEC,
 ONTARIO_NWTERRITORIES, ONTARIO_GREENLAND, NWTERRITORIES_ALASKA,NWTERRITORIES_GREENLAND, GREENLAND_ICELAND, GREENLAND_QUEBEC, ICELAND_GB, SCANDINAVIA_ICELAND, 
 SCANDINAVIA_GB, NEU_GB, WEU_GB,WEU_SEU, WEU_NAF,WEU_NEU, NEU_RUSSIA,NEU_SEU,SCANDINAVIA_NEU,SCANDINAVIA_RUSSIA,EGYPT_SEU,ME_SEU,NAF_SEU,NAF_EGYPT,NAF_CAF,NAF_EAF,
@@ -1507,6 +1508,7 @@ function select_territory(event) {
         attackFrom = event.mapObject.id;
         attackTo = null;
         attackables = [];
+        console.log(attackFrom);
         attackables = terToTar[attackFrom];
         let outer = terrToTerrToLine[attackFrom];
         console.log(terrToTerrToLine[attackFrom]);
@@ -1517,7 +1519,9 @@ function select_territory(event) {
           console.log(attackables[i]);
           let currLine = outer[attackables[i]];
           console.log(currLine);
+          console.log(colors[myId]);
           changeLines(colors[myId], currLine);
+          console.log(currLine);
           attackableLines.push(currLine);
         }
         map.dataProvider.zoomLevel = map.zoomLevel();
@@ -1636,8 +1640,8 @@ function reset_attack() {
   if (attackLine !=null) {
     let outer = terrToTerrToLine[attackFrom.toString()];
     if (outer != null) {
-      if (outer[attackTo.toString()].id === attackLine.id) {
-        attackLine.color = "black";
+      if (outer[attackTo.toString()]=== attackLine) {
+       changeLines("black", attackLine);
         map.dataProvider.zoomLevel = map.zoomLevel();
         map.dataProvider.zoomLatitude = map.zoomLatitude();
         map.dataProvider.zoomLongitude = map.zoomLongitude();
@@ -1787,11 +1791,17 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
   map.dataProvider.zoomLongitude = map.zoomLongitude();
   map.validateData();
 }
-
 function changeLines(color, line) {
   console.log(line);
+  console.log(color);
   if (line === ALASKA_INF) {
       KAMCHATKA_INF.color = color;
   }
+
   line.color = color;
+  map.dataProvider.zoomLevel = map.zoomLevel();
+  map.dataProvider.zoomLatitude = map.zoomLatitude();
+  map.dataProvider.zoomLongitude = map.zoomLongitude();
+  map.validateData();
+
 }
