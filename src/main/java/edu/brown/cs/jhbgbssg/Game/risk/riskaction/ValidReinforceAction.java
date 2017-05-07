@@ -11,7 +11,9 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.ContinentEnum;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents a Valid Reinforce Move.
+ * This class defines all of the possible ReinforceActions a player can make
+ * when reinforcing his or her territories and the total number of troops the
+ * player must reinforce with.
  *
  * @author sarahgilmore
  *

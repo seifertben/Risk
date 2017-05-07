@@ -8,7 +8,8 @@ import com.google.common.collect.Multiset;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
- * Represents a Card turn in action.
+ * Represents a Card turn in action. It knows the multiset of cards being turned
+ * in and which player is turning in the cards.
  *
  * @author sarahgilmore
  *

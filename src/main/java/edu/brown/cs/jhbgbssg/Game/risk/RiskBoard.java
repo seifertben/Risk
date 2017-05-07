@@ -20,7 +20,9 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents a Risk game board.
+ * Represents a Risk game board. The board knows the territories on the board
+ * and the continents on the board. The actual Territory objects are stored by
+ * the RiskBoard.
  *
  * @author sarahgilmore
  *

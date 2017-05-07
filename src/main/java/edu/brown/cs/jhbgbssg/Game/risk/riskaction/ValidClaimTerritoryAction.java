@@ -8,7 +8,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Defines ValidClaimTerritoryMove.
+ * This class defines all of the possible claim territory action a player can
+ * make to claim a territory he or she defeated in battle.
  *
  * @author sarahgilmore
  *

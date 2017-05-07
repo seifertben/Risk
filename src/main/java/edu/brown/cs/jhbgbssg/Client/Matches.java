@@ -81,17 +81,14 @@ public class Matches {
         }
       }
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while connecting session.");
+      System.out
+          .println("ERROR: IOexception caught" + " while connecting session.");
     }
   }
 
   /**
    * Handle a player disconnect or reload.
-<<<<<<< HEAD
-=======
    *
->>>>>>> a3dc2162fc556efbef0d487ffb6a667a97c66825
    * @param session The disconnecting player.
    * @param statusCode Exit code.
    * @param reason Exit reason.
@@ -131,8 +128,8 @@ public class Matches {
       }
 
       // Handle a chat message
-      if (received.get("type").getAsInt()
-          == RiskMessageType.MESSAGE.ordinal()) {
+      if (received.get("type").getAsInt() == RiskMessageType.MESSAGE
+          .ordinal()) {
 
         String idString = received.get("playerId").getAsString();
         UUID playerUUID = UUID.fromString(idString);
@@ -158,7 +155,7 @@ public class Matches {
         List<JsonObject> response = game.getUpdate(received);
 
         boolean destroy = false;
-       // Send the response messages to all players in that match
+        // Send the response messages to all players in that match
         for (int index = 0; index < response.size(); index++) {
           List<UUID> playerList = game.getPlayers();
           for (int looper = 0; looper < game.playerNum(); looper++) {
@@ -166,8 +163,8 @@ public class Matches {
             playerToSession.get(toAlert).getRemote()
                 .sendString(response.get(index).toString());
           }
-          if (response.get(index).get("type").getAsInt()
-              == RiskMessageType.WINNER.ordinal()) {
+          if (response.get(index).get("type")
+              .getAsInt() == RiskMessageType.WINNER.ordinal()) {
             destroy = true;
           }
         }
@@ -194,13 +191,14 @@ public class Matches {
         playerSess.getRemote().sendString(response.toString());
       }
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while responding to message.");
+      System.out.println(
+          "ERROR: IOexception caught" + " while responding to message.");
     }
   }
 
   /**
    * Add a player to a game lobby.
+   *
    * @param session The player joining a lobby.
    * @param message Stringified JsonObject with info on the player and the lobby
    *          being joined.
@@ -286,13 +284,14 @@ public class Matches {
         startGame(toAdd);
       }
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while placing player in lobby.");
+      System.out.println(
+          "ERROR: IOexception caught" + " while placing player in lobby.");
     }
   }
 
   /**
    * Starts the match that a given player is in.
+   *
    * @param match - game match.
    */
   private void startGame(Match toStart) {
@@ -342,13 +341,14 @@ public class Matches {
         }
       }
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while starting a game.");
+      System.out
+          .println("ERROR: IOexception caught" + " while starting a game.");
     }
   }
 
   /**
    * Create a new lobby on the menu.
+   *
    * @param session Player who requested a new lobby.
    * @param message Stringified JsonObject about the lobby the player wanted to
    *          make.
@@ -385,17 +385,14 @@ public class Matches {
         }
       }
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while creating lobby.");
+      System.out
+          .println("ERROR: IOexception caught" + " while creating lobby.");
     }
   }
 
   /**
    * Remove a player from any lobbies they are in.
-<<<<<<< HEAD
-=======
    *
->>>>>>> a3dc2162fc556efbef0d487ffb6a667a97c66825
    * @param session Player who has disconnected.
    */
   private void removePlayer(Session session) {
@@ -443,8 +440,8 @@ public class Matches {
       playerToSession.remove(playerId);
       sessionToPlayer.remove(session);
     } catch (IOException ex) {
-      System.out.println("ERROR: IOexception caught"
-          + " while removing player.");
+      System.out
+          .println("ERROR: IOexception caught" + " while removing player.");
     }
   }
 }

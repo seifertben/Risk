@@ -12,7 +12,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents a Valid MoveTroops move.
+ * This class defines all of the possible MoveTroopsAction a player can make at
+ * the end of his or her turn.
  *
  * @author sarahgilmore
  *

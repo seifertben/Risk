@@ -9,6 +9,8 @@ import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 
 /**
  *
+ * Represents a ValidCardAction, which defines which cards a player can turn in.
+ *
  * @author sarahgilmore
  *
  */

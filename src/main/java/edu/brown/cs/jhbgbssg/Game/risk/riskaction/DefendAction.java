@@ -11,7 +11,9 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents a Defend Action.
+ * Represents a Defend Action. It knows which territory is attacking, the
+ * defending territory, the number of die the defender rolled and the results of
+ * the attack and defend actions.
  *
  * @author sarahgilmore
  *

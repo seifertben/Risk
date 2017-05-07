@@ -12,6 +12,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
+ * This class defines all of the possible select actions a player can make at
+ * the beginning of the game when each player chooses territories to occupy.
  *
  * @author sarahgilmore
  *
@@ -24,12 +26,9 @@ public class ValidSetupAction implements ValidAction {
   /**
    * Constructor.
    *
-   * @param player
-   *          - player
-   * @param board
-   *          - board
-   * @throws IllegalArgumentException
-   *           if the input is null
+   * @param player - player
+   * @param board - board
+   * @throws IllegalArgumentException if the input is null
    */
   public ValidSetupAction(RiskPlayer player, RiskBoard board)
       throws IllegalArgumentException {
@@ -53,11 +52,9 @@ public class ValidSetupAction implements ValidAction {
   /**
    * Determines of the setup move is valid.
    *
-   * @param move
-   *          - move to validate
+   * @param move - move to validate
    * @return true if it is valid; false otherwise
-   * @throws IllegalArgumentException
-   *           if the input is null
+   * @throws IllegalArgumentException if the input is null
    */
   public boolean validSetupMove(SetupAction move)
       throws IllegalArgumentException {
