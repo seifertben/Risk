@@ -1056,7 +1056,7 @@ function removeBlink(element) {
 /**
 mopdal that shows up if a player loses
 **/
-function loserModal() {
+function loserModal(data) {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
   } else {
@@ -1066,8 +1066,8 @@ function loserModal() {
 /**
 modal that shows up when the game is over  
 **/
-function winnerModal() {
-  if (data.loser == myId) {
+function winnerModal(data) {
+  if (data.winner == myId) {
     document.getElementById('winner').innerHTML = "YOU WON!"; 
   } else {
     document.getElementById('winner').innerHTML = idToName[myId].toString() + " WON!";
