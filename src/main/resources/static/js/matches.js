@@ -600,7 +600,7 @@ const setup_matches = () => {
               $("#clickList").show();
               $("#simSel").show();
         	} else {
-              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s to Place Reinforcements";
+              document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Place Reinforcements";
               addBlink($("#turn"));
               setTimeout(function() {
                 removeBlink($("#turn")); 
