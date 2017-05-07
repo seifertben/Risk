@@ -275,6 +275,7 @@ const setup_matches = () => {
             for (i in data.cards) {
               cards.push(i);
             }
+              // checks which cards have been selected 
             $('#cards li').each(function() {
               if (this.style.borderStyle === "solid") {
                 let arr = this.className.split(" ");
@@ -314,6 +315,7 @@ const setup_matches = () => {
           	result = "<b>" + idToName[data.movePlayer] + "</b> Rolled " + result;
             let outer = terrToTerrToLine[data.attackFrom.toString()];
             let currLine = outer[data.attackTo.toString()];
+            //line showing where player is attacking is changed to the attacking player's color
             changeLines(colors[data.movePlayer], currLine);
             map.dataProvider.zoomLevel = map.zoomLevel();
             map.dataProvider.zoomLatitude = map.zoomLatitude();
@@ -361,6 +363,7 @@ const setup_matches = () => {
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
+                //resets line color to black
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
 
@@ -373,6 +376,7 @@ const setup_matches = () => {
                   }
                 }
               } else {
+                //resets lines color to black
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
                   changeLines("black", outer[data.defendTerritory]);
@@ -493,7 +497,7 @@ const setup_matches = () => {
               }, 2400);
           	}
             break;
-
+            // when someone reinforces territory after all territories are claimed during setup
           case MOVE_TYPES.SETUP_REINFORCE:
             document.getElementById("phase").innerHTML = "Bolster Territories";
 
@@ -525,7 +529,7 @@ const setup_matches = () => {
               }, 2400);
           	}
             break;
-
+            //turn in card phase
           case MOVE_TYPES.TURN_IN_CARD:
             $("#"+data.playerId).css("border-color", "gold");
             $("#"+data.playerId).css("border-width", "2px");
@@ -550,7 +554,7 @@ const setup_matches = () => {
              
            }
            break;
-
+           //reinforce phase
           case MOVE_TYPES.REINFORCE:
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
 
@@ -602,7 +606,7 @@ const setup_matches = () => {
               document.getElementById("bolsters").innerHTML = idToName[data.playerId] + " is Placing Reinforcements";
         	}
             break;
-
+          //player chooses attack die
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -642,7 +646,7 @@ const setup_matches = () => {
               document.getElementById("turn").innerHTML = idToName[data.playerId] + "'s Turn to Attack";
            	}
             break;
-
+            //player choose defend die
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
 
             document.getElementById("phase").innerHTML = "Prepare for Battle!";
@@ -667,7 +671,7 @@ const setup_matches = () => {
               document.getElementById("defend").onclick = defend_territory;
             }
         	break;
-
+          //player claims territory
           case MOVE_TYPES.CLAIM_TERRITORY:
 
               $("#"+data.playerId).css("border-color", "gold");
@@ -696,7 +700,7 @@ const setup_matches = () => {
               
             }
             break;
-
+            //player is moving troops at end of turn
           case MOVE_TYPES.MOVE_TROOPS:
 
             $("#"+data.playerId).css("border-color", "gold");
@@ -738,14 +742,18 @@ const setup_matches = () => {
     }
   };
 }
+/**
 
+**/
 function color_reset() {
   for (index in players) {
     $("#"+players[index]).css("border-color", "white");
     $("#"+players[index]).css("border-width", "0px");
   }
 }
-
+/**
+adds a new message to the update log showing the history of moves made
+**/
 function updateLog(string) {
 	$li = $("<li class = 'chat'></li>");
 	$li.html(string);
@@ -765,9 +773,14 @@ window.setInterval(function(){
   conn.send(JSON.stringify(mess));
 }, 1000);
 
-function clickOnCard(element) {
+/**
+if card is clicked highlight/unhighlight border depending onwether it's already highlighted or not
+**/
 
+function clickOnCard(element) {
+// if card can be clicked
   if (canClick) {
+    // if card isn't hightlighted
     if (element.style.borderStyle !== "solid") {
         element.style.borderStyle = "solid";
         element.style.borderColor = "black";
@@ -785,13 +798,17 @@ function clickOnCard(element) {
       }
     }
 }
-
+/**
+turns in cards and makes cards disappears if the border is highlighted
+**/
 function turnInCards() {
   canClick = false;
   $("#turnInCards").hide();
+  //checks each card if its highlighted 
   $('#cards li').each(function() {
     if (this.style.borderStyle === "solid") {
       let arr = this.className.split(" ");
+      // if one star card
       if (arr[1] == "one") {
         myCards.push(1);
       } else {
@@ -799,21 +816,26 @@ function turnInCards() {
       }
     }
   });
+  //sends cards info back to backend
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.TURN_IN_CARD,
       "playerId": myId, "cards": myCards}; 
      conn.send(JSON.stringify(mess));
 }
 
 function claim_terr() {
+  //sends message to backend
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CLAIM_TERRITORY,
 		  "playerId": myId, "troopsToMove": document.getElementById("moveTroopsNumber").value,
 		  "claimTerritory": claimed, "attackTerritory": claimedFrom};
   document.getElementById("claimTerritory").style.display = "none";
+  //hides elements dealing with moving troops
   $("#moveTroopsNumber").hide();
   $("#moveTroopsNumber").empty();
   conn.send(JSON.stringify(mess));
 }
-
+/**
+sends message to the backend once the attacker select a territory to attack
+**/
 function defend_territory() {
   let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_DEFEND_DIE,
 		  "playerId": myId, "numberDieToRoll": document.getElementById("defenderNumberDie").value};
@@ -822,7 +844,9 @@ function defend_territory() {
   document.getElementById("attacking").style.display = "none";
   conn.send(JSON.stringify(mess));
 }
-
+/**
+sends information to backend that a player has attacked 
+**/
 function attack_territory() {
   if (attackFrom != null && attackTo != null) {
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.CHOOSE_ATTACK_DIE, 
@@ -833,13 +857,17 @@ function attack_territory() {
     document.getElementById("resetAttackMove").style.display = "none";
     $("#attackerNumberDie").hide();
     $("#skip").hide();
+    //resets attack from and attack to
     availableForClaim = [];
     attackFrom = null;
     attackTo = null;
     conn.send(JSON.stringify(mess));
   }
 }
-
+/**
+when player moves troops from one territory to another 
+message is sent to the backend
+**/
 function move_troops() {
   if (moveFrom != null && moveTo != null) {
     let mess = {"type":MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.MOVE_TROOPS,
@@ -847,24 +875,30 @@ function move_troops() {
       "troopsToMove": document.getElementById("moveTroopsNumber").value};
     document.getElementById("moveTroops").style.display = "none";
     document.getElementById("resetMoveTroops").style.display = "none";
+    //all elements dealing with moving troops are hidden
     $("#moveTroopsNumber").hide();
     $("#bolsters").hide();
     $("#skip").hide();
     availableForClaim = [];
     moveables = [];
+    //variables are reset 
     moveFrom = null;
     moveTo = null;
     conn.send(JSON.stringify(mess));
   }
 }
-
+/**
+when skip phase button is clicked depending on the phase variables are reset 
+**/
 const skip_phase = event => {
   event.preventDefault();
+  // attacking phase
   if (phase == "attacking") {
-    
+      //resets line color to black
     for (let i = 0; i<attackableLines.length; i ++) {
           changeLines("black", attackableLines[i]);
       }
+      //reset attackLine color to black
     if (attackLine != null) {
       changeLines("black", attackLine);
     }
@@ -873,7 +907,7 @@ const skip_phase = event => {
     map.dataProvider.zoomLongitude = map.zoomLongitude();
     map.validateData();
   }
-  
+  //if its these three phases, reset everything 
   if (phase == "turnin" || phase == "move_troops" || phase == "attacking") {
 	availableForClaim = [];
     moveables = [];
@@ -882,6 +916,7 @@ const skip_phase = event => {
     attackFrom = null;
     attackTo = null;
     attackLine = null;
+    // tells backend player has reset 
     let mess = {"type": MESSAGE_TYPE.MOVE, "moveType": MOVE_TYPES.SKIP, "playerId": myId};
     $("#skip").hide();
     $("#turnInCards").hide();
@@ -899,6 +934,7 @@ const skip_phase = event => {
     $("#attackerNumberDie").hide();
     $("#defenderNumberDie").hide();
     $("#moveTroopsNumber").hide();
+    // resets card border to none
     $('#cards li').each(function() {
       if (this.style.borderStyle === "solid") {
         this.style.borderStyle = "none";
@@ -907,7 +943,9 @@ const skip_phase = event => {
     conn.send(JSON.stringify(mess));
   }
 }
-
+/**
+when confirm move has been clicked the information is sent to the backend
+**/
 const confirm_move = event => {
   event.preventDefault();
   if (phase == "reinforce" && placed == placeMax) {
@@ -921,7 +959,9 @@ const confirm_move = event => {
     conn.send(JSON.stringify(mess));
   }
 }
-
+/**
+creates a unique game id when a game is created
+**/
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -931,9 +971,12 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
+/**
+checks if enter has been fired when entering a name.
+**/
 window.onkeyup = function(e) {
   var key = e.keyCode ? e.keyCode : e.which;
+
   if (key == 13 && myName == null && document.getElementById("nameInput").value != "") {
     if (document.getElementById("nameInput").value.trim().length != 0) {
       myName = document.getElementById("nameInput").value;
@@ -954,7 +997,9 @@ const create_match = event => {
     conn.send(JSON.stringify(mess));
   }
 }
-
+/**
+sends player information to the backend when a player joins the match
+**/
 const join_match = event => {
   event.preventDefault();
   let game = event.target;
@@ -963,18 +1008,25 @@ const join_match = event => {
 }
 
 $(document).ready(function() {
+  //setups socket connection on load
   setup_matches();
 });
-
+/**
+creates match when create match button is clicked
+**/
 $maker.click(create_match);
+//adds blink class
 function addBlink(element) {
   element.addClass("blink");
 }
+//removes blink class
 function removeBlink(element) {
   element.removeClass("blink");
 
 }
-
+/**
+mopdal that shows up if a player loses
+**/
 function loserModal() {
   if (data.loser == myId) {
     document.getElementById('loser').innerHTML = "YOU LOST!"; 
@@ -982,7 +1034,9 @@ function loserModal() {
     document.getElementById('loser').innerHTML = idToName[myId].toString() + " HAS BEEN DEFEATED";
   }
 }
-
+/**
+modal that shows up when the game is over  
+**/
 function winnerModal() {
   if (data.loser == myId) {
     document.getElementById('winner').innerHTML = "YOU WON!"; 
@@ -1049,7 +1103,9 @@ function simClick() {
   let sel = document.getElementById("clickList");
   map.clickMapObject(idToData[sel.options[sel.selectedIndex].value]);
 }
-
+/**
+if player leaves game after its over the player will be redirected 
+**/
 function playerLeftGameModal() {
   document.getElementById('gameOverModal').style.display = "block";
   document.getElementById('gameOverModal').onclick = function () {

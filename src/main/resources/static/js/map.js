@@ -1713,9 +1713,13 @@ function reset_move_troops() {
   moveables = [];
 }
 
-
+/**
+when a player places reenforcements the three buttons that show up change based on how many
+troops are placed
+**/
 const place_troop = event => {
   event.preventDefault();
+  // if not all of the troops have been placed
   if (phase == "reinforce" && bolstering != null && placed < placeMax) {
     if (terToPlace.get(bolstering) == null) {
       terToPlace.set(bolstering, 0);
@@ -1723,36 +1727,51 @@ const place_troop = event => {
     terToPlace.set(bolstering, terToPlace.get(bolstering) + 1);
     placed++;
     document.getElementById("deinforcer").disabled = false;
+    //removes troops button is now green 
     $("#deinforcer").removeClass('disabled');
+    //updates player with amount of troops to be placed
     document.getElementById("bolsters").innerHTML = (placeMax - placed) + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], 1, idToData[bolstering], colors[myId]);
     if (placed === placeMax) {
+      //add troops button is grey
       document.getElementById("reinforcer").disabled = true;
       $("#reinforcer").addClass('disabled');
+       //remove troops button is green
       document.getElementById("confirm").disabled = false; 
       $("#confirm").removeClass('disabled');
     }
   }
 }
-
+/**
+when a player removes reenforment the three buttons that show up change based on how many
+troops are placed
+**/
 const remove_troop = event => {
   event.preventDefault();
   if (phase == "reinforce" && bolstering != null && placed > 0) {
+    // if this is the first time clicking on territory to reinforce
+    //set initial value
     if (terToPlace.get(bolstering) == null) {
       terToPlace.set(bolstering, 0);
     } 
+    // if territory has added no reinforcements
     if (terToPlace.get(bolstering) == 0) {
       return;
     }
+
     terToPlace.set(bolstering, terToPlace.get(bolstering) - 1);
     placed--;
+    //updates message
     document.getElementById("bolsters").innerHTML = placeMax - placed + " Troops Left to Place";
     changeTerritoryStatus(idToName[myId], -1, idToData[bolstering], colors[myId]);
+    //reinforce button is green
     document.getElementById("reinforcer").disabled = false;
     $("#reinforcer").removeClass('disabled');
     document.getElementById("confirm").disabled = true;
     $("#confirm").addClass('disabled');
+    // confirm button is great 
     if (terToPlace.get(bolstering) == 0) {
+      // if no territories have been placed rmeove troops button is greyed out 
        document.getElementById("deinforcer").disabled = true;
        $("#deinforcer").addClass('disabled');
     }
@@ -1764,7 +1783,9 @@ when a player choose a territory in the beginning of the game
 function make_selection(player, territory) {
   changeTerritoryStatus(idToName[player], 1, idToData[territory], colors[player]);
 }
-
+/**
+removes zero entries from a map
+**/
 function sparcify() {
   let placements = terToPlace.entries();
   let currPlace = placements.next().value;
@@ -1775,7 +1796,9 @@ function sparcify() {
     currPlace = placements.next().value;
   }
 }
-
+/**
+when player reinforces a territory the map labels and titles reflect it
+**/
 function make_bolster(player, territories) {
   if (myId != player) {
     for (x in territories) {
@@ -1789,6 +1812,7 @@ changes the labels and titles of each territory on the map
 function changeTerritoryStatus(player, numSoldier, territory, color) {
   let originalTitle = territory.title.split(":");
   let originalLabel = territory.label.split(" ");
+  // initializes value of territory soldiers to 0
   if (terToSol[territory.id] == null) {
     terToSol[territory.id] = 0;
   }
@@ -1796,7 +1820,9 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
   
   territory.title = territory.name + " Occupied by " + player + " Soldiers: " + terToSol[territory.id];
   let string = "";
+  // if label doesn't contain troop info
   if (isNaN(parseInt(originalLabel[originalLabel.length-1]))) {
+    // adds string of territroy name and adds colon at the end of for loop
     for (let i = 0; i <originalLabel.length; i++) {
       if (i + 1 !=originalLabel.length) {
         string += originalLabel[i] + " ";
@@ -1805,14 +1831,17 @@ function changeTerritoryStatus(player, numSoldier, territory, color) {
         string = string + originalLabel[i] + ": "
       }
     }
+    //adds solider num at end
     string += terToSol[territory.id];
   }
+  //already a number at end so split the string and add soldier number at end
   else {
     let modified = territory.label.split(":");
     string = modified[0] + ": " + terToSol[territory.id];
   } 
 
   territory.label = string;
+  // if there are no soldiers in terriotry it is now black
   if (terToSol[territory.id] == 0) {
     territory.color = "black";
     territory.labelRollOverColor = "black";
