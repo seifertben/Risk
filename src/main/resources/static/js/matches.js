@@ -539,7 +539,7 @@ const setup_matches = () => {
               $('#cards li').each(function() {
                 this.style.borderStyle = "none";
               });
-              document.getElementById(myId).style.borderColor = 'black';
+              document.getElementById(myId).style.borderColor = 'gold';
               document.getElementById("turn").style.fontWeight = "bold";
               document.getElementById("turn").innerHTML = "Your Turn"; 
               document.getElementById("phase").innerHTML = "Hand in Cards";             
@@ -740,7 +740,7 @@ const setup_matches = () => {
               document.getElementById("moveTroops").style.display = "inline-block";
               $("#moveTroopsNumber").show();
               $("#resetMoveTroops").show();
-              $("#skip").text("Skip Moving Troops?");
+              $("#skip").text("Skip Moving Troops");
               $("#skip").show();
               terrToReachableTerrs = JSON.parse(data.canMove);
               terrToMaxTroopsMove = JSON.parse(data.maxTroopsMove);
