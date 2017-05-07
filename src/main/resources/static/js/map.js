@@ -600,7 +600,7 @@ let INDIADATA =  {
       "bringForwardOnHover": true,
       "label": "India",
       "name": "India",
-      "labelShiftY": -2,
+      "labelShiftY": -6,
       "selectable": true,
       "title": "India: Occupied by No One",
       "id": 28,
