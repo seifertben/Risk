@@ -6,7 +6,8 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.Territory;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
 
 /**
- * Represents MoveTroopsMove.
+ * Represents a MoveTroopsAction in which a player transfer troops from one
+ * territory to another.
  *
  * @author sarahgilmore
  *

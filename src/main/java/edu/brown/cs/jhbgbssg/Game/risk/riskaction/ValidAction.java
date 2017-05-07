@@ -3,6 +3,7 @@ package edu.brown.cs.jhbgbssg.Game.risk.riskaction;
 import java.util.UUID;
 
 /**
+ * Classes that define valid actions implement this interface.
  *
  * @author sarahgilmore
  *
