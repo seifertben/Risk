@@ -1,144 +1,126 @@
-// package edu.brown.cs.jhbgbssg.Game.risk;
-//
-// import static org.junit.Assert.assertNotNull;
-// import static org.junit.Assert.assertTrue;
-// import static org.junit.Assert.assertFalse;
-// import static org.junit.Assert.assertNull;
-//
-// import java.util.ArrayList;
-// import java.util.Collection;
-// import java.util.List;
-// import java.util.Map;
-//
-// import org.junit.Test;
-//
-// import com.google.common.collect.HashMultimap;
-// import com.google.common.collect.Multimap;
-// import com.google.common.reflect.TypeToken;
-// import com.google.gson.Gson;
-// import com.google.gson.JsonObject;
-//
-// import edu.brown.cs.jhbgbssg.Game.GameUpdate;
-// import edu.brown.cs.jhbgbssg.Game.RiskWorld.TerritoryEnum;
-// import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
-// import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
-// import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
-// import edu.brown.cs.jhbgbssg.Game.risk.riskaction.*;
-//
-// import java.util.UUID;
-//
-// public class ActionProcessorTest {
-//
-// private RiskActionProcessor processor;
-// private RiskPlayer player;
-// private RiskBoard board;
-//
-// /**
-// * Construct the ActionProcessorTest.
-// */
-// public ActionProcessorTest() {
-// processor = new RiskActionProcessor();
-// board = new RiskBoard();
-// UUID id = new UUID(0, 1);
-// player = new RiskPlayer(id);
-// }
-//
-// @Test
-// public void testSetupAction() {
-// SetupAction action =
-// new SetupAction(player, board, TerritoryEnum.NORTHWEST_TERRITORY);
-// ValidSetupAction validAction = new ValidSetupAction(player, board);
-// GameUpdate update = processor.processSetupAction(action);
-// boolean test = validAction.validSetupMove(action);
-// assertTrue(test);
-// SetupAction actionAfter =
-// new SetupAction(player, board, TerritoryEnum.NORTHWEST_TERRITORY);
-// boolean test = validAction.validSetupMove(actionAfter);
-// assertFalse(test);
-// assertNotNull(update.getPrevMove());
-// }
-//
-// @Test
-// public void testSetupReinforceAction() {
-// SetupReinforceAction action = new SetupReinforceAction(player, board,
-// TerritoryEnum.NORTHWEST_TERRITORY);
-// ValidSetupReinforceAction validAction = new SetupReinforceAction(player);
-// boolean test = validAction.validSetupReinforceMove(action);
-// assertTrue(test);
-// GameUpdate update = processor.processSetupReinforceAction(action);
-// assertNull(update.getPrevMove());
-// actionAfter = new SetupReinforceAction(player, board,
-// TerritoryEnum.NORTHWEST_TERRITORY);
-// test = validAction.validSetupReinforceMove(actionAfter);
-// assertFalse(test);
-// }
-//
-// @Test
-// public void testReinforceAction() {
-// Map<TerritoryEnum, Integer> reinforcedTerritories = new HashMap<>();
-// reinforcedTerritories.put(TerritoryEnum.ARGENTINA, 1);
-// ReinforceAction action =
-// new ReinforceAction(player, board, reinforcedTerritories);
-// ValidReinforceAction validAction =
-// new ValidReinforceAction(player, board, null);
-// boolean test = validAction.validReinforceMove(action);
-// assertTrue(test);
-// GameUpdate update = processor.processReinforceAction(action);
-// }
-//
-// @Test
-// public void testCardTurnIn() {
-// Map<TerritoryEnum, Integer> territoriesReinforced = new HashMap<>();
-// territoriesReinforced.put(TerritoryEnum.ALASKA, 1);
-// CardTurnInAction action =
-// new CardTurnInAction(player, board, 1, territories);
-// ValidCardAction validAction = new ValidCardAction(player);
-// boolean test = validAction.validateCardMove(action);
-// assertTrue(test);
-// GameUpdate update = processor.processCardTurnInAction(action);
-// }
-//
-// @Test
-// public void testAttackAction() {
-// AttackAction action =
-// new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
-// ValidAttackAction validAttack = new ValidAttackAction(player, board);
-// boolean test = validAttack.validAttackMove(action);
-// assertTrue(test);
-// GameUpdate update = processor.processAttackAction(action);
-// }
-//
-// @Test
-// public void testDefendAction() {
-// AttackAction attack =
-// new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
-// DefendAction action = new DefendAction(player, board, attack, 2);
-// ValidAttackAction validAttack = new ValidAttackAction(player, board);
-// ValidDieDefendAction validDefend =
-// new ValidDieDefendAction(player, board, TerritoryEnum.MONGOLIA);
-// GameUpdate update = processor.processDefendAction(action);
-// }
-//
-// @Test
-// public void testClaimTerritory() {
-// AttackAction attack =
-// new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
-// ClaimTerritoryAction action = new ClaimTerritoryAction(player, board,
-// TerritoryEnum.BRAZIL, TerritoryEnum.CENTRAL_AMERICA, 1);
-// ValidCalimTerritoryAction validAction =
-// new ValidClaimTerritoryAction(player, board, attack);
-// GameUpdate update = processor.processClaimTerritoryAction(action);
-// }
-//
-// @Test
-// public void testMoveTroops() {
-// MoveTroopsAction action = new MoveTroopsAction(player, board,
-// TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 1);
-// GameUpdate update = processor.processMoveTroopsAction(action);
-// }
-//
-// @Test
-// public void testSkipAction() {
-// processor.processSkipAction(player);
-// }
-// }
+package edu.brown.cs.jhbgbssg.Game.risk;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.junit.Test;
+
+import edu.brown.cs.jhbgbssg.Game.GameUpdate;
+import edu.brown.cs.jhbgbssg.Game.risk.Referee;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskActionProcessor;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
+import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.AttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.CardTurnInAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.DefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveTroopsAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidAttackAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidDieDefendAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidReinforceAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
+import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
+
+public class ActionProcessorTest {
+
+ private RiskActionProcessor processor;
+ private RiskPlayer player;
+ private RiskBoard board;
+ private Referee referee;
+ private RiskPlayer one;
+ private RiskPlayer two;
+
+
+ /**
+ * Construct the ActionProcessorTest.
+ */
+ public ActionProcessorTest() {
+ board = new RiskBoard();
+ UUID id = new UUID(0, 1);
+ player = new RiskPlayer(id);
+ one =  new RiskPlayer(UUID.randomUUID());
+ two =  new RiskPlayer(UUID.randomUUID());
+ Set<RiskPlayer> originalPlayers = new HashSet<>();
+ originalPlayers.add(one);
+ originalPlayers.add(two);
+ referee = new Referee(board, originalPlayers);
+ processor = new RiskActionProcessor(referee);
+ }
+
+ @Test
+ public void testSetupAction() {
+ SetupAction action =
+ new SetupAction(one, board, TerritoryEnum.NORTHWEST_TERRITORY);
+ ValidSetupAction validAction = new ValidSetupAction(one, board);
+ GameUpdate update = processor.processSetupAction(action);
+ boolean test = validAction.validSetupMove(action);
+ assertTrue(test);
+ }
+
+ @Test
+ public void testReinforceAction() {
+ Map<TerritoryEnum, Integer> reinforcedTerritories = new HashMap<>();
+ reinforcedTerritories.put(TerritoryEnum.ARGENTINA, 1);
+ one.setIntialReinforcement(15);
+ board.getTerritory(TerritoryEnum.ARGENTINA).changePlayer(one, 3);
+ one.conqueredTerritory(TerritoryEnum.ARGENTINA);
+ ReinforceAction action =
+ new ReinforceAction(one, board, reinforcedTerritories);
+ ValidReinforceAction validAction =
+ new ValidReinforceAction(one, new ArrayList());
+ boolean test = validAction.validReinforceMove(action);
+ assertFalse(test);
+ GameUpdate update = processor.processReinforceAction(action);
+ }
+
+ @Test
+ public void testCardTurnIn() {
+ Map<TerritoryEnum, Integer> territoriesReinforced = new HashMap<>();
+ territoriesReinforced.put(TerritoryEnum.ALASKA, 1);
+CardTurnInAction action =
+ new CardTurnInAction(new ArrayList(), player);
+ ValidCardAction validAction = new ValidCardAction(player);
+ boolean test = validAction.validateCardMove(action);
+ assertTrue(test);
+ GameUpdate update = processor.processCardTurnInAction(action);
+ }
+
+
+ @Test
+ public void testDefendAction() {
+ RiskBoard board = new RiskBoard();
+ board.getTerritory(TerritoryEnum.CHINA).changePlayer(player, 3);
+ player.conqueredTerritory(TerritoryEnum.CHINA);
+ AttackAction attack =
+ new AttackAction(player, TerritoryEnum.CHINA, TerritoryEnum.JAPAN, 1);
+ ValidAttackAction validAttack = new ValidAttackAction(player, board);
+ RiskPlayer defender = new RiskPlayer(UUID.randomUUID());
+ board.getTerritory(TerritoryEnum.JAPAN).changePlayer(defender, 3);
+ DefendAction action = new DefendAction(defender, board, attack, 2);
+ defender.conqueredTerritory(TerritoryEnum.JAPAN);
+ ValidDieDefendAction validDefend =
+ new ValidDieDefendAction(defender, board, TerritoryEnum.JAPAN);
+ boolean test = validDefend.validateDefendMove(action);
+ assertTrue(test);
+ GameUpdate update = processor.processDefendAction(action);
+ }
+
+ @Test
+ public void testMoveTroops() {
+ MoveTroopsAction action = new MoveTroopsAction(player, board,
+ TerritoryEnum.ICELAND, TerritoryEnum.GREENLAND, 1);
+ GameUpdate update = processor.processMoveTroopsAction(action);
+ assertNotNull(update);
+ }
+
+ }

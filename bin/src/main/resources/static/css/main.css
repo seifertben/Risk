@@ -1,0 +1,618 @@
+.drop{
+      position: relative;
+      float: left;  
+      padding-right: 10px;  
+      padding-left: 0; 
+      text-decoration: none;
+      /*background-color: blue;*/
+    }
+    .card {
+      position: relative;
+      float: left;  
+      padding-right: 10px;  
+      padding-left: 0; 
+      text-decoration: none;
+      background-color: blue;
+      margin: 20px;
+    }
+
+   #leftContainer {
+      width: 200px;
+      height: 600px;
+
+   }
+   #turnInCards {
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50; /* Green */
+      color: white;
+      border: 2px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+   }
+
+   #messageField {
+     position: relative;
+     display: inline-block;
+     width: 100%;
+   }
+
+    .w3-container-w3-blue {
+      background-color: blue;
+      border-radius: 5px;
+    }
+    #chat {
+      left: 0;
+    }
+    #bottom {
+      position:fixed;
+    left:0px;
+    bottom:0px;
+    height:100px;
+    width:100%;
+    display:none;
+
+    }
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .black {
+      float: left;
+    }
+    .red {
+      float: left;
+    }
+    #soldierOption {
+      height: 40px;
+    }
+    ul {
+      list-style-type: none;
+    }
+    /*.star {
+      font-size: x-large;
+    }
+    */
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 600px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+      width:100%;
+    }
+    .well-sm{
+      float: left;
+    }
+
+  #dropdownbutton {
+    width: 180px;
+    height: 40px;
+    float: left;
+  }
+  #dropdown {
+    font-size: 8pt;
+  }
+  #transferbutton {
+    width: 180px;
+    height: 40px;
+    float: left; 
+  }
+  #transferDropDownText{
+   font-size: 8pt; 
+  }
+  div[id="muter"] {
+    margin: 0% 47%;
+    width: 10%;
+    padding: 10px;
+  }
+  div[id="leftNav"] {
+      padding: 10px;
+      height: 113%;
+      border: 2px solid black;
+      background-color: #f1f1f1;
+  }
+  select {
+   padding: 5px 0px 2px;
+   margin: 5px 0px 0px;
+   font-size: 14px;
+   line-height: 1;
+  }
+  #leftInner {
+    position: relative;
+  }
+  div[id="n"] {
+    position: relative;
+    
+      height: 113%;
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      overflow-y: scroll;
+  }
+  div[id="chatting"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 100%;
+      height: 70%;
+      overflow-y: scroll;
+      float: center;
+      left: 0;
+      list-style-type: none;
+      background-color: #848988;
+      overflow:auto;
+
+  }
+  div[id="lastTurn"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 100%;
+      height: 20%;
+      overflow-y: scroll;
+      float: center;
+      left: 0;
+      list-style-type: none;
+      background-color: #848988;
+      overflow:auto;
+
+  }
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  
+
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+  p{
+      font-size: 12pt;
+      text-align: center;
+      margin: 0em 0;
+      text-decoration: underline;
+  }
+
+  div [id="gameUpdates"] {
+     text-align: center;
+     display: inline-block;
+     margin-bottom: 10px;
+  }
+  #centerDiv {
+    background-color: #6495ED;
+}
+  h2[id="nameH"] {
+      color: white;
+      border-bottom: 2px solid #000;
+      background:#000;
+  }
+
+  div[id="matches"] {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 320px;
+      height: 500px;
+      float: left;
+      overflow-y: scroll;
+      /*position: absolute;*/
+  }
+  div[id="enter"] {
+      position: relative;
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      width: 320px;
+      height: 500px;
+      margin-right: 50px;
+      float: left;
+  }
+  div[id="nameField"] {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+      margin: 0% 40%;
+  }
+  div[id="wrapper"] {
+      /*display: inline-block;*/
+      width: 100%;
+      margin: 0% 30%;
+  }
+  div[id="playerList"] {
+  	  wdith: 100%;
+      display: inline-block;
+      border-bottom: solid black;
+  }
+  div[id="gameField"] {
+      display: none;
+      width: 100%;
+  }
+  div[id="menuField"] {
+  	  display: none;
+  }
+  button[id="maker"] {
+      margin: 5px 0px;
+      padding: 15px 30px;
+  }
+  div[id="endNav"] {
+      border: 2px solid black;
+  }
+  .regbtn {
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: 1px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+  }
+    .regbtnblue {
+      display: inline-block;
+      margin: 5px;
+      background-color: lightseagreen;
+      color: white;
+      border: 1px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+  }
+    .regbtnlarge {
+      display: inline-block;
+      margin: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: 1px solid black;
+      border-style: groove;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+  }
+  .attackbtn{
+      display: inline-block;
+      margin: 5px;
+      background-color: red;
+      color: white;
+      border: 1px solid black;
+      border-style: groove;
+      padding: 5px 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+  }
+  .regbtn:hover:enabled {
+    
+      background-color: #377a39;
+    
+  }
+  .attackbtn:hover:enabled {
+    
+      background-color: Crimson;
+    
+  }
+
+  button:focus {
+    outline:none;
+  }
+  
+  div[id="#n"] {
+      border: 2px solid black;
+      position: relative;
+  }
+
+  input:focus {
+    outline:none;
+  }
+
+  input {
+      margin: 5px 0px;
+      display: inline-block;
+      background-color: white;
+      color: black;
+      border: 2px solid black;
+      padding: 15px 50px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 10px;
+  }
+
+  input:hover:enabled { 
+      background-color: #f5f5f0;
+  }
+
+  input:focus { 
+      background-color: #f5f5f0;
+  }
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+
+  #messageField {
+    outline:none;
+    border:1px solid #216288;
+    border-left: 6px solid #216288;
+  }
+
+  #chatButton {
+     /*position: absolute;*/
+     display: inline-block;
+     width: 50%;
+     bottom: 10%;
+      -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+      box-shadow: inset 0px 1px 0px 0px #3985B1;
+      background-color: #216288;
+      border: 1px solid #17445E;
+      display: inline-block;
+      cursor: pointer;
+      color: #FFFFFF;
+      padding: 8px 18px;
+      text-decoration: none;
+      font: 12px Arial, Helvetica, sans-serif;
+      border-radius: 0px;
+   }
+
+   #chatButton:hover {
+     /*position: absolute;*/
+      outline:none;
+      background-color: #0d293a;
+   }
+
+   h1 {
+    background-color: #000000;
+    color: white;
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+    font-size: 30px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+    text-align: center;
+   }
+
+   .chat {
+    background-color: white;
+    margin-bottom: 5px;
+    }
+     .blink {
+    animation-name: blink;
+    animation-direction: alternate;
+    animation-duration: 1200ms;
+    animation-iteration-count: infinite;
+    -webkit-animation:blink 1200ms infinite; /* Safari and Chrome */
+}
+@keyframes blink {
+    from {
+        color:black;
+    }
+    to {
+        color:white;
+    }
+}
+@-webkit-keyframes blink {
+    from {
+        color:black;
+    }
+    to {
+        color:white;
+    }
+}
+p[id="phase"] {
+  display: inline-block;
+}
+#background {
+
+  background-size: cover;
+  background-repeat: no-repeat;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 100%;
+    width: 100%;
+    overflow:hidden;
+    z-index:-1;
+}
+
+
+}
+
+
+#namePrompt {
+  color: white;
+  background-color: black;
+}
+/*Customize the scrollbars*/
+
+::-webkit-scrollbar
+{
+  width: 10px;  /* for vertical scrollbars */
+  height: 10px; /* for horizontal scrollbars */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+z-indexwebkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#nameField {
+    position:relative;
+    z-index:1;
+    opacity: 1;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/*  Sets background of disabled buttons to grey */
+.disabled {
+  background-color: #999;
+}
+
+#cardtitle {
+  background-color: blue;
+}
+
+/* Modal Footer */
+.card-footer {
+    position: relative;
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+
+}
+
+.footer-content {
+    position: absolute;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+#cards {
+  position: relative;
+  align-content: center;
+}
+
+
