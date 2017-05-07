@@ -18,7 +18,7 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class CardTurnInMoveTest {
+public class CardTurnInActionTest {
 
   /**
    * Tests constructor returns a non-null object.

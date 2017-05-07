@@ -12,6 +12,8 @@ import org.junit.Test;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskBoard;
 import edu.brown.cs.jhbgbssg.Game.risk.RiskPlayer;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ClaimTerritoryAction;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.MoveType;
+import edu.brown.cs.jhbgbssg.Game.risk.riskaction.SetupAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidCardAction;
 import edu.brown.cs.jhbgbssg.Game.risk.riskaction.ValidSetupAction;
 import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
@@ -266,4 +268,68 @@ public class GameUpdateTest {
     update.setLostGame(null);
   }
 
+  /**
+   * Tests setSkipMove returns the correct MoveType and player id.
+   */
+  @Test
+  public void testSetSkipMove() {
+    GameUpdate update = new GameUpdate();
+    UUID id = UUID.randomUUID();
+    update.setSkipMoveType(MoveType.TURN_IN_CARD, id);
+    assertTrue(
+        update.getSkipMove().getSecondElement() == MoveType.TURN_IN_CARD);
+    assertTrue(update.getSkipMove().getFirstElement().equals(id));
+  }
+
+  /**
+   * Tests setSkipMoveType throws an IllegalArgumentException if the MoveType
+   * given is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetSkipMoveNullMoveType() {
+    GameUpdate update = new GameUpdate();
+    UUID id = UUID.randomUUID();
+    update.setSkipMoveType(null, id);
+  }
+
+  /**
+   * Tests setSkipMoveType throws an IllegalArgumentException if the player id
+   * given is null.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetSkipMoveNullPlayerId() {
+    GameUpdate update = new GameUpdate();
+    update.setSkipMoveType(MoveType.CHOOSE_ATTACK_DIE, null);
+  }
+
+  /**
+   * Tests that setSkipMove throws an IllegalArgumentException if the previous
+   * move field has already been set.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetSkipMovePrevNotNull() {
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    RiskBoard board = new RiskBoard();
+    SetupAction action = new SetupAction(player, board, TerritoryEnum.ALASKA);
+    action.executeAction();
+    GameUpdate update = new GameUpdate();
+    update.setValidMoves(null, action);
+    update.setSkipMoveType(MoveType.SETUP_REINFORCE, player.getPlayerId());
+  }
+
+  /**
+   * Tests that setValidMoves throws an IllegalArgumentException if the skip
+   * field has already been set.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetPreviousMoveSkipNotNull() {
+    GameUpdate update = new GameUpdate();
+    RiskPlayer player = new RiskPlayer(UUID.randomUUID());
+    update.setSkipMoveType(MoveType.SETUP_REINFORCE, player.getPlayerId());
+    RiskBoard board = new RiskBoard();
+    SetupAction action = new SetupAction(player, board, TerritoryEnum.ALASKA);
+    action.executeAction();
+    update.setValidMoves(null, action);
+
+  }
 }

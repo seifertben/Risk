@@ -20,7 +20,7 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class ReinforceMoveTest {
+public class ReinforceActionTest {
   private static final int NUMBER_TROOPS = 8;
 
   /**

@@ -20,7 +20,7 @@ import edu.brown.cs.jhbgbssg.Game.riskworld.TerritoryEnum;
  * @author sarahgilmore
  *
  */
-public class DefendMoveTest {
+public class DefendActionTest {
   private static final int ITERATE = 100;
 
   /**
