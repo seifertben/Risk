@@ -40,7 +40,6 @@ public class ValidClaimTerritoryAction implements ValidAction {
     this.fromTerritory = attack.getAttackingTerritory();
     this.territoryToClaim = attack.getDefendingTerritory();
     Territory attacking = board.getTerritory(fromTerritory);
-    System.out.println(attacking.getNumberTroops());
     maxNumberTroops = attacking.getNumberTroops() - 1;
     assert (maxNumberTroops >= 1);
   }

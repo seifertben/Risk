@@ -102,10 +102,8 @@ public class MoveTroopsAction implements Action {
     if (!actionExecuted) {
       Territory fromTerr = board.getTerritory(fromTerritory);
       Territory toTerr = board.getTerritory(toTerritory);
-      System.out.println("troops before " + fromTerr.getNumberTroops());
       fromTerr.removeTroops(numberTroops);
       toTerr.addTroops(numberTroops);
-      System.out.println("troops after " + fromTerr.getNumberTroops());
       actionExecuted = true;
       return actionExecuted;
     }

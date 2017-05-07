@@ -43,9 +43,9 @@ const MOVE_TYPES = {
   SKIP: 8
 };
 
-let seconds = 0;
 // Datastructures, buttons,
 // ids, and names
+let seconds = 0;
 let conn;
 let myId;
 let myName;
@@ -89,6 +89,7 @@ const setup_matches = () => {
     console.log('Connection error:', err);
   };
 
+  // Display leaver message
   conn.onclose = function(e) {
     playerLeftGameModal();
   };
@@ -105,6 +106,7 @@ const setup_matches = () => {
         myId = data.id;
         break;
 
+      // If someone leaves the game
       case MESSAGE_TYPE.LEAVER:
         playerLeftGameModal();
     	break;
@@ -123,7 +125,7 @@ const setup_matches = () => {
       // Create a lobby
       case MESSAGE_TYPE.CREATE:
         $("#matches").append($("<button id="+ data.gameId +" name="+ data.matchName + " value=" + data.lobbySize + " class='regbtnlarge'>" 
-        		+ data.matchName + ": " + data.playerNum + "/" + data.lobbySize + "</button>"));
+          + data.matchName + ": " + data.playerNum + "/" + data.lobbySize + "</button>"));
         document.getElementById(data.gameId).onclick = join_match;
         break;
 
@@ -165,7 +167,6 @@ const setup_matches = () => {
 
         // Start the game
         start = true;
-        // Set name message for header.
         let h1 = document.getElementById("inGame");
         h1.innerHTML += ", " + myName + "<br>";
         $('#background').css('background-image', 'none');
@@ -211,13 +212,17 @@ const setup_matches = () => {
         currPlayer.continents = data.continents;
         break;
 
+      // When someone wins
       case MESSAGE_TYPE.WINNER:
     	winnerModal(data);
         break;
+
+      // When someone loses
       case MESSAGE_TYPE.LOSER:
         document.getElementById(data.loser).style.backgroundColor = "grey";
         loserModal(data);
     	break;
+
       // Handle previous moves
       case MESSAGE_TYPE.PREVIOUS_ACTION:
         
@@ -261,6 +266,8 @@ const setup_matches = () => {
         	make_bolster(data.movePlayer, JSON.parse(data.territories));
           	hideAll();
         	break;
+
+          // When someone turns in a card
           case MOVE_TYPES.TURN_IN_CARD:
             color_reset();
             let cards = [];
@@ -293,6 +300,7 @@ const setup_matches = () => {
             hideAll();
             break;
 
+          // When someone attacks
           case MOVE_TYPES.CHOOSE_ATTACK_DIE:
             color_reset();
           	let result = " ";
@@ -301,7 +309,7 @@ const setup_matches = () => {
           	  result += roll[index] + " ";
           	}
           	updateLog("<b>" + idToName[data.movePlayer] + "</b> is Attacking <b>" + idToData[data.attackTo].name
-          			+ "</b> from <b>" + idToData[data.attackFrom].name + "</b>!");
+          	  + "</b> from <b>" + idToData[data.attackFrom].name + "</b>!");
           	result = "<b>" + idToName[data.movePlayer] + "</b> Rolled " + result;
             let outer = terrToTerrToLine[data.attackFrom.toString()];
             let currLine = outer[data.attackTo.toString()];
@@ -311,8 +319,9 @@ const setup_matches = () => {
             map.dataProvider.zoomLongitude = map.zoomLongitude();
             map.validateData();
           	updateLog(result);
+            break;
 
-          break;
+          // When someone defends
           case MOVE_TYPES.CHOOSE_DEFEND_DIE:
         	let def = " ";
         	let stall = JSON.parse(data.roll);
@@ -324,30 +333,30 @@ const setup_matches = () => {
           	updateLog(defRoll);
 
             let string = "<b>" + idToName[data.attacker] + "</b> Lost " + data.attackerTroopsLost
-              + ", and <b>" + idToName[data.deffender] + "</b> Lost " + data.defenderTroopsLost + "!";
+              + ", and <b>" + idToName[data.defender] + "</b> Lost " + data.defenderTroopsLost + "!";
             if (data.defenderLostTerritory) {
               if (data.attacker == myId) {
             	string = "<b>You</b> Have Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-                    if (outer[data.defendTerritory] === attackLine) {
-                        changeLines("black", attackLine);
-                        map.dataProvider.zoomLevel = map.zoomLevel();
+                  if (outer[data.defendTerritory] === attackLine) {
+                    changeLines("black", attackLine);
+                    map.dataProvider.zoomLevel = map.zoomLevel();
                     map.dataProvider.zoomLatitude = map.zoomLatitude();
                     map.dataProvider.zoomLongitude = map.zoomLongitude();
                     map.validateData();
-                      }
                   }
+                }
               } else {
               	string = "<b>" + idToName[data.attacker] + "</b> Has Conquered <b>" + idToData[data.defendTerritory].name + "</b>!";
-                 let outer = terrToTerrToLine[data.attackTerritory];
-                 if (outer != null) {
-                        changeLines("black", outer[data.defendTerritory]);
-                        map.dataProvider.zoomLevel = map.zoomLevel();
-                        map.dataProvider.zoomLatitude = map.zoomLatitude();
-                        map.dataProvider.zoomLongitude = map.zoomLongitude();
-                        map.validateData();  
-                 }
+                let outer = terrToTerrToLine[data.attackTerritory];
+                if (outer != null) {
+                  changeLines("black", outer[data.defendTerritory]);
+                  map.dataProvider.zoomLevel = map.zoomLevel();
+                  map.dataProvider.zoomLatitude = map.zoomLatitude();
+                  map.dataProvider.zoomLongitude = map.zoomLongitude();
+                  map.validateData();  
+                }
               }
             } else if (data.attackerTroopsLost > data.defenderTroopsLost) {
               if (data.attacker == myId) {
@@ -363,42 +372,36 @@ const setup_matches = () => {
                   }
                 }
               } else {
-                 let outer = terrToTerrToLine[data.attackTerritory];
+                let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-
                   changeLines("black", outer[data.defendTerritory]);
                   map.dataProvider.zoomLevel = map.zoomLevel();
                   map.dataProvider.zoomLatitude = map.zoomLatitude();
                   map.dataProvider.zoomLongitude = map.zoomLongitude();
                   map.validateData();
-                      
-                  }
+                }
               }
             } else {
               if (data.attacker == myId) {
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-
-
-                    if (outer[data.defendTerritory] === attackLine) {
-                      changeLines("black", outer[data.defendTerritory]);
-                      map.dataProvider.zoomLevel = map.zoomLevel();
-                      map.dataProvider.zoomLatitude = map.zoomLatitude();
-                      map.dataProvider.zoomLongitude = map.zoomLongitude();
-                      map.validateData();
-                      }
+                  if (outer[data.defendTerritory] === attackLine) {
+                    changeLines("black", outer[data.defendTerritory]);
+                    map.dataProvider.zoomLevel = map.zoomLevel();
+                    map.dataProvider.zoomLatitude = map.zoomLatitude();
+                    map.dataProvider.zoomLongitude = map.zoomLongitude();
+                    map.validateData();
                   }
-
+                }
               } else {
                 let outer = terrToTerrToLine[data.attackTerritory];
                 if (outer != null) {
-                      changeLines("black", outer[data.defendTerritory]);
-                      map.dataProvider.zoomLevel = map.zoomLevel();
-                      map.dataProvider.zoomLatitude = map.zoomLatitude();
-                      map.dataProvider.zoomLongitude = map.zoomLongitude();
-                      map.validateData();
-                    
-                  }
+                  changeLines("black", outer[data.defendTerritory]);
+                  map.dataProvider.zoomLevel = map.zoomLevel();
+                  map.dataProvider.zoomLatitude = map.zoomLatitude();
+                  map.dataProvider.zoomLongitude = map.zoomLongitude();
+                  map.validateData();
+                }
               }
             }
 
@@ -410,11 +413,11 @@ const setup_matches = () => {
         	hideAll();
             break;
 
+          // When someone claims a territory
           case MOVE_TYPES.CLAIM_TERRITORY:
             color_reset();
         	updateLog("<b>" + idToName[data.movePlayer] + "</b> has Placed " + data.numberTroops 
         			+ " Troops at <b>" + idToData[data.claimedTerritory].name + "</b>!");
-         
           	changeTerritoryStatus(idToName[data.movePlayer], data.numberTroops, 
         			idToData[data.claimedTerritory], colors[data.movePlayer]);
         	changeTerritoryStatus(idToName[data.movePlayer], -1 * data.numberTroops, 
@@ -422,6 +425,8 @@ const setup_matches = () => {
 
         	hideAll();
         	break;
+
+          // When someone moves troops
           case MOVE_TYPES.MOVE_TROOPS:
             color_reset();
           	updateLog("<b>" + idToName[data.movePlayer] + "</b> has Moved " + data.numberTroops 
@@ -432,6 +437,8 @@ const setup_matches = () => {
               idToData[data.moveTo], colors[data.movePlayer]);
         	hideAll();
             break;
+
+          // When someone skips a phase
           case MOVE_TYPES.SKIP:
             color_reset();
             let skip = data.skipType;
@@ -447,6 +454,7 @@ const setup_matches = () => {
         }
         break;
 
+      // Handle what actions are now available
       case MESSAGE_TYPE.VALID_ACTIONS:
         switch(data.moveType) {
           case MOVE_TYPES.SETUP:

@@ -623,7 +623,6 @@ public class RiskMessageAPI {
     jsonObject.addProperty("playerId", move.getMovePlayer().toString());
     jsonObject.addProperty("defendTerritory", toDefend.ordinal());
     jsonObject.addProperty("maxDieRoll", maxDie);
-    System.out.println(move.getMovePlayer().toString());
     return jsonObject;
   }
 
